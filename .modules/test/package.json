@@ -1,0 +1,36 @@
+{
+    "name": "@syls/string",
+    "files": [
+        "./export.mjs",
+        "./class.mjs",
+        "./config.mjs",
+        "./module.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "0.1.0",
+    "license": "Apache-2.0",
+    "exports": {
+        ".": {
+            "types": "./export.mjs",
+            "import": "./export.mjs"
+        }
+    },
+    "keywords": [
+        "y",
+        "lib",
+        "test"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "dependencies": {
+       "@syls/ject": "^0.4.4"
+    },
+    "description": "Library for testing and analytics."
+}

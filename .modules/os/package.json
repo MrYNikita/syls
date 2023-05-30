@@ -1,0 +1,47 @@
+{
+    "name": "@syls/os",
+    "type": "module",
+    "types": "./type.d.ts",
+    "files": [
+        "./cmd",
+        "./dir",
+        "./net",
+        "./path",
+        "./file",
+        "./object",
+        "./windows",
+        "./dispatcher",
+        "./export.mjs",
+        "./class.mjs",
+        "./config.mjs",
+        "./module.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "0.1.1",
+    "license": "Apache-2.0",
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "keywords": [
+        "y",
+        "os",
+        "lib"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "dependencies": {
+       "@syls/ject": "*"
+    },
+    "description": "Модуль оперирования операционной системой."
+}

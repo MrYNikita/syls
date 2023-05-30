@@ -1,0 +1,50 @@
+{
+    "name": "syls",
+    "type": "commonjs",
+    "types": "./type.d.ts",
+    "files": [
+        "./vscode",
+        "./license",
+        "./type.d.ts",
+        "./package.json",
+        "./jsconfig.json"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "0.0.0",
+    "license": "Apache-2.0",
+    "keywords": [
+        "y",
+        "lib",
+        "syls"
+    ],
+    "homepage": "https://github.com/MrYNikita/syls#readme",
+    "repository": {
+        "url": "https://github.com/MrYNikita/syls.git",
+        "type": "git"
+    },
+    "description": "SYLS (Software Y Lib Solution) - библиотека, дающая доступ к функциональным и системным решениям, для разработки разнонаправленных приложений.",
+    "dependencies": {
+        "@syls/array": "*",
+        "@syls/bool": "*",
+        "@syls/class": "*",
+        "@syls/cond": "*",
+        "@syls/cursor": "*",
+        "@syls/date": "*",
+        "@syls/entity": "*",
+        "@syls/error": "*",
+        "@syls/func": "*",
+        "@syls/ject": "*",
+        "@syls/list": "*",
+        "@syls/many": "*",
+        "@syls/number": "*",
+        "@syls/os": "*",
+        "@syls/position": "*",
+        "@syls/regexp": "*",
+        "@syls/string": "*",
+        "@syls/web": "*",
+        "@syls/y": "*"
+    }
+}

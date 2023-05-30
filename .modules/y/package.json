@@ -1,0 +1,40 @@
+{
+    "name": "@syls/y",
+    "type": "module",
+    "types": "./type.d.ts",
+    "files": [
+        "./class.mjs",
+        "./error.mjs",
+        "./type.d.ts",
+        "./config.mjs",
+        "./export.mjs",
+        "./module.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "0.0.3",
+    "license": "Apache-2.0",
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "keywords": [
+        "y",
+        "syls"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/syls.git",
+        "type": "git"
+    },
+    "description": "Модуль с набором инструментов Y для управления проектом.",
+    "dependencies": {
+        "@syls/y": "^0.0.2"
+    }
+}

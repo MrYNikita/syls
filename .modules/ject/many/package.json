@@ -1,0 +1,44 @@
+{
+    "name": "@syls/many",
+    "type": "module",
+    "types": "./type.d.ts",
+    "files": [
+        "./type.d.ts",
+        "./class.mjs",
+        "./config.mjs",
+        "./module.mjs",
+        "./export.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "version": "0.0.8",
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "license": "Apache-2.0",
+    "keywords": [
+        "y",
+        "lib",
+        "syls",
+        "many",
+        "basic"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "Модуль для работы с множествами.",
+    "dependencies": {
+        "@syls/ject": "*",
+        "@syls/cursor": "*",
+        "@syls/position": "*"
+    }
+}

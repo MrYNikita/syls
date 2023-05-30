@@ -1,0 +1,48 @@
+{
+    "name": "@syls/entity",
+    "type": "module",
+    "types": "./type.d.ts",
+    "files": [
+        "./log",
+        "./rept",
+        "./handler",
+        "./type.d.ts",
+        "./class.mjs",
+        "./config.mjs",
+        "./module.mjs",
+        "./export.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "version": "0.0.14",
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "license": "Apache-2.0",
+    "keywords": [
+        "y",
+        "lib",
+        "syls",
+        "entity"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "Модуль для создания продвинутых объектов YEntity.",
+    "dependencies": {
+        "@syls/date": "*",
+        "@syls/ject": "*",
+        "@syls/ansi": "*",
+        "@syls/class": "*",
+        "@syls/string": "*"
+    }
+}

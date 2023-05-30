@@ -1,0 +1,40 @@
+{
+    "name": "@syls/error",
+    "type": "module",
+    "types": "./type.d.ts",
+    "files": [
+        "./type.d.ts",
+        "./class.mjs",
+        "./export.mjs",
+        "./config.mjs",
+        "./module.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "0.0.2",
+    "license": "Apache-2.0",
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "keywords": [
+        "y",
+        "lib",
+        "error"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "Модуль ошибок.",
+    "dependencies": {
+       "@syls/ject": "*"
+    }
+}

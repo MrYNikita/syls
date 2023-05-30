@@ -1,0 +1,41 @@
+{
+    "name": "@syls/corr",
+    "type": "module",
+    "types": "./type.d.ts",
+    "files": [
+        "./class.mjs",
+        "./type.d.ts",
+        "./export.mjs",
+        "./config.mjs",
+        "./module.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "0.0.1",
+    "license": "Apache-2.0",
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "keywords": [
+        "y",
+        "lib",
+        "syls",
+        "corr"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "dependencies": {
+       "@syls/cond": "*"
+    },
+    "description": "Модуль корректоров."
+}
