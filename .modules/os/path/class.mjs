@@ -1,8 +1,10 @@
 //#region YI
 
-import { condIsString } from '../../bool/cond/module.mjs';
-import { YJect } from '../../ject/class.mjs';
-import { pathBack, pathBackByName, pathExists, pathConcat, pathDecompose, pathGet, pathGetIn, pathGetProject, pathNormilize as pathNormalize } from './module.mjs';
+import { YJect } from '@syls/ject';
+import { existsSync } from "fs";
+import { condIsString } from '@syls/cond';
+import { stringUnifyBySymbol } from '@syls/string';
+import { pathBack, pathBackByName, pathExists, pathConcat, pathDecompose, pathGet, pathGetIn, pathGetProject, pathNormalize } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -433,7 +435,7 @@ export class YPath extends FPath {
     };
 
     /**
-     * ### normilaze
+     * ### normalize
      * - Версия `0.0.0`
      * - Модуль `YPath`
      * ***
@@ -444,7 +446,7 @@ export class YPath extends FPath {
      *
      * @public
     */
-    normilaze() {
+    normalize() {
 
         this.value = pathNormalize(this.value);
 

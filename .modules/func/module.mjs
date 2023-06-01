@@ -49,6 +49,106 @@ await import('./error.mjs')
 
 //#endregion
 
+//#region repeat 0.0.0
+
+/** ### funcTFRepeat
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * Результирующие параметры функции `repeat`.
+ * 
+ * @typedef {funcTFURepeat&funcT} funcTFRepeat
+ * 
+*/
+/** ### funcTFURepeat
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * 
+ * Уникальные параметры функции `repeat`.
+ * 
+ * @typedef funcTFURepeat
+ * @prop {any} _
+*/
+
+/** @arg {funcTFRepeat} t */
+function repeatDeceit(t) {
+    
+    try {
+        
+        return repeatVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {funcTFRepeat} t */
+function repeatVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return repeatHandle(t);
+   
+};
+/** @arg {funcTFRepeat} t */
+function repeatHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return repeatComply(t);
+   
+};
+/** @arg {funcTFRepeat} t */
+function repeatComply(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+    
+    
+    
+};
+
+/**
+ * ### funcRepeat
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * 
+*/
+export function funcRepeat() {
+
+    return repeatDeceit({});
+
+};
+
+//#endregion
 //#region bypass 0.0.0
 
 /** ### funcTFbypass

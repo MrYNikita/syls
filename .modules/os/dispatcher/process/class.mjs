@@ -1,10 +1,9 @@
 //#region YI
 
-import { condIsString } from '../../../bool/cond/module.mjs';
-import { YJect } from '../../../ject/class.mjs';
-import { YEntity } from '../../../ject/entity/class.mjs';
-import { YPath } from '../../path/class.mjs';
-import { ChildProcess, fork, spawn } from 'child_process';
+import { YPath } from '@syls/path';
+import { YEntity } from '@syls/entity';
+import { condIsString } from '@syls/cond';
+import { ChildProcess, fork } from 'child_process';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

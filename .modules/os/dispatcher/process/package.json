@@ -1,5 +1,5 @@
 {
-    "name": "@syls/os",
+    "name": "@syls/process",
     "type": "module",
     "types": "./type.d.ts",
     "files": [
@@ -15,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.1.3",
+    "version": "0.0.1",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -27,14 +27,19 @@
     "keywords": [
         "y",
         "os",
-        "lib"
+        "lib",
+        "syls",
+        "process"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
     "dependencies": {
-       "@syls/ject": "*"
+        "@syls/y": "*",
+        "@syls/path": "*",
+        "@syls/cond": "*",
+        "@syls/entity": "*"
     },
-    "description": "Модуль оперирования операционной системой."
+    "description": "Модуль процессов."
 }

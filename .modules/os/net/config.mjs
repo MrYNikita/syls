@@ -17,3 +17,9 @@ export const configNet = {
 };
 
 export default configNet;
+
+/**
+ * @file config.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

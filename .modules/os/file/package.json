@@ -1,8 +1,10 @@
 {
-    "name": "@syls/os",
+    "name": "@syls/file",
     "type": "module",
     "types": "./type.d.ts",
     "files": [
+        "./csv",
+        "./json",
         "./type.d.ts",
         "./export.mjs",
         "./class.mjs",
@@ -15,7 +17,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.1.3",
+    "version": "0.0.0",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -27,14 +29,18 @@
     "keywords": [
         "y",
         "os",
-        "lib"
+        "lib",
+        "syls",
+        "file"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
     "dependencies": {
-       "@syls/ject": "*"
+        "@syls/os": "*",
+        "@syls/cond": "*",
+        "@syls/object": "*"
     },
-    "description": "Модуль оперирования операционной системой."
+    "description": "Модуль файлов."
 }

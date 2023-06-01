@@ -8,6 +8,7 @@ import { condIsNumberLimit, condIsStringValid } from '@syls/cond';
 import { YLayout } from './layout/class.mjs';
 import { YTemplate } from './template/class.mjs';
 import { stringFilter, stringFormatReport, stringGetMatrix, stringGetRow, stringGetRows, stringPad, stringPadColumn, stringPadRow, stringPadToPosition, stringPaste, stringPasteWrap, stringRemove, stringRemoveEnd, stringRemoveStart, stringSetRow, stringSubstringByPosition, stringTrim } from './module.mjs';
+import { stringReflect } from '@syls/string';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -328,7 +329,7 @@ class FString extends MString {
 /**
  * ### YString
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `0.14.0`
  * - Модуль `string`
  * - Цепочка `BDVHC`
  * ***
@@ -846,6 +847,25 @@ export class YString extends FString {
     filter(...filters) {
         
         this.values = stringFilter(this.values, ...filters);
+
+        return this;
+        
+    };
+
+    /**
+     * ### reflect
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод зекркального отражения.
+     * 
+     * ***
+     * @arg {...[string|[string, string]]} mirrors `Отражения`
+     * @public
+    */
+    reflect(...mirrors) {
+        
+        this.values = stringReflect(this.values, ...mirrors);
 
         return this;
         

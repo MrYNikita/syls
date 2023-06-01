@@ -1,12 +1,39 @@
-/** ### configY
- * 
- * Конфигуратор модуля `y`.
- * 
-*/
 export const configY = {
-    
-    
-    
+
+    /**
+     * ### local
+     *
+     * Локаль.
+     *
+     * ***
+     * @type {string}
+     * @public
+    */
+    local: "ru",
+    /**
+     * ### locales
+     * 
+     * Локали.
+     * 
+     * *** 
+     * @type {string[]} 
+     * @public
+    */
+    locales: [
+        "ru",
+        "en",
+    ],
+    /**
+     * ### modeStrict
+     *
+     * Режим строгости.
+     *
+     * ***
+     * @type {boolean}
+     * @public
+    */
+    strictMode: true,
+
 };
 
 export default configY;

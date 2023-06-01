@@ -1,8 +1,8 @@
 //#region YI
 
-import { stringUnifyBySymbol } from "../../string/module.mjs";
+import { stringUnifyBySymbol } from "@syls/string";
 import { existsSync, lstatSync, readdirSync, } from "fs";
-import { fileReadJson, fileWriteJson } from "../file/module.mjs";
+import { fileReadJson, fileWriteJson } from "@syls/file";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -170,7 +170,7 @@ function getHandle(t) {
 
     } = t;
 
-    t.fragment = pathNormilize(t.fragment);
+    t.fragment = pathNormalize(t.fragment);
 
     if (!t.paths || !t.paths.length) {
 
@@ -1187,7 +1187,7 @@ function concatHandle(t) {
 
     } = t;
 
-    [t.path, t.concat] = [t.path, t.concat].map(p => pathNormilize(p));
+    [t.path, t.concat] = [t.path, t.concat].map(p => pathNormalize(p));
 
     return concatComply(t);
 
@@ -1314,7 +1314,7 @@ function normalizeComply(t) {
 };
 
 /**
- * ### pathNormilize
+ * ### pathNormalize
  * - Версия `0.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `path`
@@ -1327,7 +1327,7 @@ function normalizeComply(t) {
  * ***
  * @arg {string} path `Путь`
 */
-export function pathNormilize(path) {
+export function pathNormalize(path) {
 
     return normalizeDeceit({ path, });
 

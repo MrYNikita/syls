@@ -1,9 +1,8 @@
 //#region YI
 
-import { YCond } from '../../bool/cond/class.mjs';
-import { YEntity } from '../../ject/entity/class.mjs';
-import { YPath } from '../path/class.mjs';
-import { pathExists } from '../path/module.mjs';
+import { YCond } from '@syls/cond';
+import { YEntity } from '@syls/entity';
+import { YPath, pathExists } from '@syls/path';
 import { objectExists, objectDelete, objectMove, objectRename } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */

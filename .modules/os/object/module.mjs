@@ -1,8 +1,7 @@
 //#region YI
 
-import { YError } from '../../error/class.mjs';
+import { pathExists, pathGet } from '@syls/path';
 import { unlinkSync, statSync, renameSync, } from 'fs';
-import { pathExists, pathGet } from '../path/module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

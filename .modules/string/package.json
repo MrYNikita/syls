@@ -5,6 +5,7 @@
     "files": [
         "./layout",
         "./template",
+        "./type.d.ts",
         "./export.mjs",
         "./class.mjs",
         "./config.mjs",
@@ -16,7 +17,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.13.11",
+    "version": "0.13.13",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -28,6 +29,7 @@
     "keywords": [
         "y",
         "lib",
+        "syls",
         "string"
     ],
     "repository": {

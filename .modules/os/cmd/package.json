@@ -1,5 +1,5 @@
 {
-    "name": "@syls/os",
+    "name": "@syls/cmd",
     "type": "module",
     "types": "./type.d.ts",
     "files": [
@@ -15,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.1.3",
+    "version": "0.0.0",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -27,14 +27,19 @@
     "keywords": [
         "y",
         "os",
-        "lib"
+        "lib",
+        "cmd",
+        "process"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
     "dependencies": {
-       "@syls/ject": "*"
+        "@syls/y": "*",
+        "@syls/os": "*",
+        "@syls/path": "*",
+        "@syls/process": "*"
     },
-    "description": "Модуль оперирования операционной системой."
+    "description": "Модуль терминала CMD."
 }

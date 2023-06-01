@@ -1,6 +1,6 @@
 //#region YI
 
-import { YObject } from '../object/class.mjs';
+import { YObject } from '@syls/object';
 import { fileRead, fileWrite } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */

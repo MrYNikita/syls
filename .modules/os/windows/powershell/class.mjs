@@ -1,8 +1,7 @@
 //#region YI
 
-import { YJect } from '../../../ject/class.mjs';
 import { spawn } from 'child_process';
-import { YProcess } from '../../dispatcher/process/class.mjs';
+import { YProcess } from '@syls/process';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

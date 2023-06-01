@@ -1,8 +1,8 @@
 //#region YI
 
-import { YEntity } from '../../ject/entity/class.mjs';
-import { YPath } from '../path/class.mjs';
-import { YProcess } from './process/class.mjs';
+import { YPath } from '@syls/path';
+import { YEntity } from '@syls/entity';
+import { YProcess } from '@syls/process';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

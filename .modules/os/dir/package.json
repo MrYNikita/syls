@@ -1,5 +1,5 @@
 {
-    "name": "@syls/os",
+    "name": "@syls/dir",
     "type": "module",
     "types": "./type.d.ts",
     "files": [
@@ -15,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.1.3",
+    "version": "0.0.1",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -34,7 +34,10 @@
         "type": "git"
     },
     "dependencies": {
-       "@syls/ject": "*"
+        "@syls/y": "*",
+        "@syls/os": "*",
+        "@syls/path": "*",
+        "@syls/object": "*"
     },
-    "description": "Модуль оперирования операционной системой."
+    "description": "Модуль директорий."
 }

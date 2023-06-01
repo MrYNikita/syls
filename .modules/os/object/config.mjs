@@ -1,4 +1,4 @@
-import { YString } from "../../string/class.mjs";
+import { YString } from "@syls/string";
 
 /** ### configObject
  * - Модуль `os\object`

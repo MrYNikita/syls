@@ -1,8 +1,8 @@
 //#region YI
 
-import { condIsString } from '../../bool/cond/module.mjs';
-import { YJect } from '../../ject/class.mjs';
-import { YPath } from '../path/class.mjs';
+import { YPath } from '@syls/path';
+import { YProcess } from '@syls/process';
+import { condIsString } from '@syls/cond';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -57,7 +57,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SCMD extends YJect {
+class SCMD extends YProcess {
     
     /**
      * ### config

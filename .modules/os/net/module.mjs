@@ -1,9 +1,7 @@
 //#region YI
 
 import os from 'os';
-import net from 'net';
-import { YError } from '../../error/class.mjs';
-import configY from '../../config.mjs';
+import { configY } from '@syls/y';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

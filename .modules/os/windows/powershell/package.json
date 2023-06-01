@@ -1,5 +1,5 @@
 {
-    "name": "@syls/os",
+    "name": "@syls/powershell",
     "type": "module",
     "types": "./type.d.ts",
     "files": [
@@ -15,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.1.3",
+    "version": "0.0.0",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -27,14 +27,15 @@
     "keywords": [
         "y",
         "os",
-        "lib"
+        "lib",
+        "powershell"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
     "dependencies": {
-       "@syls/ject": "*"
+       "@syls/process": "*"
     },
-    "description": "Модуль оперирования операционной системой."
+    "description": "Модуль PowerShell."
 }
