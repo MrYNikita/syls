@@ -67,7 +67,15 @@ class DJect extends SJect {
 };
 class IJect extends DJect {
 
-
+    /**
+     * ### _y
+     * 
+     * Контекст.
+     * 
+     * ***
+     * @protected
+    */
+    _y = {};
 
 };
 class MJect extends IJect {
@@ -346,6 +354,21 @@ export class YJect extends FJect {
 
         return result;
 
+    };
+    /**
+     * ### getContext
+     * - Версия `0.0.0`
+     * ***
+     * 
+     * Метод получения контекста.
+     * 
+     * ***
+     * @public
+    */
+    getContext() {
+        
+        return this._y;
+        
     };
     /**
      * ### getProperty

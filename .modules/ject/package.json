@@ -12,7 +12,7 @@
         "./package.json",
         "./changelog.md"
     ],
-    "version": "0.4.17",
+    "version": "0.5.0",
     "exports": {
         ".": {
             "types": "./type.d.ts",
@@ -37,5 +37,5 @@
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
-    "description": "Модуль объектов. Базовый модуль syls."
+    "description": "Объектный модуль."
 }
