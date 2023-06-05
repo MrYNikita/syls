@@ -1,19 +1,18 @@
 //#region YI
 
-import { YString } from '../../../string/class.mjs';
+import { YTimer } from '@syls/timer';
+import { YConsole } from '@syls/console';
+import { YFileJson } from '@syls/file';
+import { arrayUnite } from '@syls/array';
+import { condIsString } from '@syls/cond';
+import { YString, structureFrame } from '@syls/string';
 import { YListener } from './listener/class.mjs';
 import { YReceiver } from './receiver/class.mjs';
 import { YInterface } from './interface/class.mjs';
-import { YConsole } from '../console/class.mjs';
 import { YResponse } from './receiver/response/class.mjs';
 import { YElement } from './element/class.mjs';
-import { arrayUnite } from '../../../array/module.mjs';
-import { YFileJson } from '../../../os/file/json/class.mjs';
-import { condIsNumber, condIsString } from '../../../bool/cond/module.mjs';
 import { YComb } from './listener/comb/class.mjs';
-import { YTimer } from '../timer/class.mjs';
 import { YStyle } from './style/class.mjs';
-import { structureFrame } from '../../../string/structure/module.mjs';
 import configStyle from './style/config.mjs';
 import { YKey } from './listener/key/class.mjs';
 import { YSwitch } from './element/interact/switch/class.mjs';

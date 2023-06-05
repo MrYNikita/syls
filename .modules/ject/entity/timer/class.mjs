@@ -1,6 +1,6 @@
 //#region YI
 
-import { YEntity } from '@syls/ject';
+import { YEntity } from '@syls/entity';
 import { YEvent } from './event/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */

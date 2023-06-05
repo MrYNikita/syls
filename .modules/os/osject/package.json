@@ -1,10 +1,8 @@
 {
-    "name": "@syls/file",
+    "name": "@syls/osject",
     "type": "module",
     "types": "./type.d.ts",
     "files": [
-        "./csv",
-        "./json",
         "./type.d.ts",
         "./export.mjs",
         "./class.mjs",
@@ -17,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.0.1",
+    "version": "0.0.0",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -30,8 +28,8 @@
         "y",
         "os",
         "lib",
-        "syls",
-        "file"
+        "basic",
+        "object"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
@@ -39,8 +37,9 @@
     },
     "dependencies": {
         "@syls/os": "*",
-        "@syls/cond": "*",
-        "@syls/osject": "*"
+        "@syls/path": "*",
+        "@syls/entity": "*",
+        "@syls/string": "*"
     },
-    "description": "Модуль файлов."
+    "description": "Модуль объектов файловой системы."
 }

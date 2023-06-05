@@ -1,7 +1,7 @@
 //#region YI
 
-import { YOsject } from '@syls/osject';
-import { fileRead, fileWrite } from './module.mjs';
+import { YKey } from '../../key/class.mjs';
+import { YComb } from '../class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -22,87 +22,91 @@ await import('./error.mjs')
 //#endregion
 //#region YT
 
-/** ### YFileT
+/** ### YCombDigitT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `os\file`
  * 
- * Основной параметр модуля `YFile`.
+ * Основной параметр модуля `YCombDigit`.
  * 
- * @typedef {YFileTE&YFileTU} YFileT
+ * @typedef {YCombDigitTE&YCombDigitTU} YCombDigitT
  * 
 */
-/** ### YFileTE
+/** ### YCombDigitTE
  * - Тип `TE`
  * - Версия `0.0.0`
- * - Модуль `os\file`
  * 
- * Параметр наследования `YFile`.
+ * Параметр наследования `YCombDigit`.
  * 
- * @typedef {{[p in Exclude<keyof DFile,keyof SFile>|Exclude<keyof SFile,keyof DFile>]:(DFile[p]&SFile[p])}} YFileTE
+ * @typedef {{[p in Exclude<keyof DCombDigit,keyof SCombDigit>|Exclude<keyof SCombDigit,keyof DCombDigit>]:(DCombDigit[p]&SCombDigit[p])}} YCombDigitTE
  * 
 */
-/** ### YFileTU
+/** ### YCombDigitTU
  * - Тип `TU`
  * - Версия `0.0.0`
- * - Модуль `os\file`
  * 
- * Уникальные параметры `YFile`.
+ * Уникальные параметры `YCombDigit`.
  * 
- * @typedef YFileTU
+ * @typedef YCombDigitTU
  * @prop {any} _
  * 
 */
 
 //#endregion
 
-class SFile extends YOsject {
-    
-    
-    
-};
-class DFile extends SFile {
-    
-    
-
-};
-class IFile extends DFile {
-    
-    
-    
-};
-class MFile extends IFile {
-    
-    
-    
-};
-class FFile extends MFile {
+class SCombDigit extends YComb {
     
     /**
-     * ### YFile.constructor
+     * ### config
+     * 
+     * Конфигуратор.
+     * 
+     * ***
+     * @public
+    */
+    static config = config;
+    
+};
+class DCombDigit extends SCombDigit {
+    
+};
+class ICombDigit extends DCombDigit {
+    
+    /** @protected */
+    keys = null;
+    
+};
+class MCombDigit extends ICombDigit {
+    
+    
+    
+};
+class FCombDigit extends MCombDigit {
+    
+    /**
+     * ### YCombDigit.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YFileT} t
+     * @arg {YCombDigitT} t
     */
     constructor(t) {
         
         t = [...arguments];
         
-        super(Object.assign(t = FFile.#before(t), {}));
+        super(Object.assign(t = FCombDigit.#before(t), {}));
         
-        FFile.#deceit.apply(this, [t]);
+        FCombDigit.#deceit.apply(this, [t]);
         
     };
     
     /** @arg {any[]} t */
     static #before(t) {
         
-        /** @type {YFileT} */
+        /** @type {YCombDigitT} */
         let r = {};
         
-        if (t?.length === 1 && [Object, YFile].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
+        if (t?.length === 1 && [Object, YCombDigit].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
             
             r = t[0];
             
@@ -116,9 +120,8 @@ class FFile extends MFile {
             
             switch (t.length) {
                 
-                case 3: 
-                case 2: 
-                case 1: r.path = t[0];
+                default: r.funcs = t.slice(1);
+                case 1: r.response = t[0];
                 
             };
             
@@ -133,12 +136,12 @@ class FFile extends MFile {
         return r;
         
     };
-    /** @arg {YFileT} t @this {YFile} */
+    /** @arg {YCombDigitT} t @this {YCombDigit} */
     static #deceit(t) {
         
         try {
             
-            FFile.#verify.apply(this, [t]);
+            FCombDigit.#verify.apply(this, [t]);
             
         } catch (e) {
             
@@ -151,7 +154,7 @@ class FFile extends MFile {
         };
         
     };
-    /** @arg {YFileT} t @this {YFile} */
+    /** @arg {YCombDigitT} t @this {YCombDigit} */
     static #verify(t) {
         
         const {
@@ -160,16 +163,18 @@ class FFile extends MFile {
             
         } = t;
         
-        FFile.#handle.apply(this, [t]);
+        FCombDigit.#handle.apply(this, [t]);
         
     };
-    /** @arg {YFileT} t @this {YFile} */
+    /** @arg {YCombDigitT} t @this {YCombDigit} */
     static #handle(t) {
         
-        FFile.#create.apply(this, [t]);
+        
+        
+        FCombDigit.#create.apply(this, [t]);
         
     };
-    /** @arg {YFileT} t @this {YFile} */
+    /** @arg {YCombDigitT} t @this {YCombDigit} */
     static #create(t) {
         
         const {
@@ -191,10 +196,9 @@ class FFile extends MFile {
 };
 
 /**
- * ### YFile
+ * ### YCombDigit
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль `os\file`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -203,52 +207,37 @@ class FFile extends MFile {
  * ***
  * 
 */
-export class YFile extends FFile {
+export class YCombDigit extends FCombDigit {
     
     /**
-     * ### read
+     * ### check
      * - Версия `0.0.0`
-     * - Модуль `os\file`
      * ***
      * 
-     * Метод считывания данных из файла.
+     * Метод {@link YComb.check|проверки} клавиш на принадлежность к числам.
+     * 
+     * Данная комбинация сработает для чисел от 0 до 9.
      * 
      * ***
+     * @arg {...YKey} keys `Клавиши`
      * @public
     */
-    read() {
-
-        return fileRead(this.path.get());
+    check(...keys) {
         
-    };
-    /**
-     * ### write
-     * - Версия `0.0.0`
-     * - Модуль `os\file`
-     * ***
-     * 
-     * Метод записи в файл.
-     * 
-     * ***
-     * @arg {string} data `Данные`
-     * @public
-    */
-    write(data) {
+        if (keys.length) {
 
-        if (this.status) {
-            
-            fileWrite(this.path.get(), data);
+            const key = keys.at(-1);
+
+            if (key.name.match(/^\d$/) && !key.ctrl && !key.alt) {
+
+                return true;
+
+            };
 
         };
 
-        return this;
+        return false;
         
     };
     
 };
-
-/**
- * @file class.mjs
- * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
-*/

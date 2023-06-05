@@ -1,17 +1,12 @@
+/** ### configServer
+ * 
+ * Конфигуратор модуля `server`.
+ * 
+*/
 export const configServer = {
-
+    
     /**
-     * ### defaultName
-     * 
-     * Дефолт наименование.
-     * 
-     * *** 
-     * @type {string} 
-     * @public
-    */
-    defaultName: 'yserver',
-    /**
-     * ### defaultHost
+     * ### hostDefault
      * 
      * Дефолт хост.
      * 
@@ -19,58 +14,44 @@ export const configServer = {
      * @type {string} 
      * @public
     */
-    defaultHost: '127.0.0.1',
+    hostDefault: '127.0.0.1',
     /**
-     * ### defaultPort
+     * ### portDefault
      * 
      * Дефолт порт.
+     * 
+     * *** 
+     * @type {number} 
+     * @public
+    */
+    portDefault: 8000,
+    /**
+     * ### nameDefault
+     * 
+     * Дефолт наименование.
      * 
      * *** 
      * @type {string} 
      * @public
     */
-    defaultPort: '8000',
+    nameDefault: 'yserver',
     /**
-     * ### defaultValue
+     * ### labelDefault
      * 
-     * Дефолт значение.
+     * Дефолт метка.
      * 
      * *** 
-     * @type {null} 
+     * @type {string?} 
      * @public
     */
-    defaultValue: null,
-    /**
-     * ### defaultActive
-     * 
-     * Дефолт активность.
-     * 
-     * *** 
-     * @type {boolean} 
-     * @public
-    */
-    defaultActive: false,
-    /**
-     * ### defaultPingInterval
-     * 
-     * Дефолт интервал проверки соединений.
-     * 
-     * *** 
-     * @type {number?} 
-     * @public
-    */
-    defaultPingInterval: null,
-    /**
-     * ### defaultPingIntervalTime
-     * 
-     * Дефолт частота проверки соединений.
-     * 
-     * *** 
-     * @type {number?} 
-     * @public
-    */
-    defaultPingIntervalTime: null,
-
+    labelDefault: null,
+    
 };
 
 export default configServer;
+
+/**
+ * @file config.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @copyright Yakhin Nikita Artemovich 2023
+*/

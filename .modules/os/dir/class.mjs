@@ -1,7 +1,7 @@
 //#region YI
 
-import { YObject } from '../object/class.mjs';
-import { pathConcat, pathGet, pathGetAll } from '../path/module.mjs';
+import { YOsject } from '@syls/osject';
+import { pathConcat, pathGet, pathGetAll } from '@syls/path';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -67,7 +67,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SDir extends YObject {
+class SDir extends YOsject {
     
     /** ### config
      * 

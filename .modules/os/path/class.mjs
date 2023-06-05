@@ -453,40 +453,6 @@ export class YPath extends FPath {
         return this;
 
     };
-
-    /**
-     * ### castToDir
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод получения `YDir` (директории) на основе текущего пути.
-     *
-     * ***
-     * @public
-    */
-    castToDir() {
-
-
-
-    };
-    /**
-     * ### castToFile
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод получения `YFile` (файла) на основе текущего пути.
-     *
-     * ***
-     *
-     * @public
-    */
-    castToFile() {
-
-        return new YFile(this.get());
-
-    };
     
 };
 

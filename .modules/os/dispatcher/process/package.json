@@ -15,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.0.1",
+    "version": "0.0.4",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -41,5 +41,5 @@
         "@syls/cond": "*",
         "@syls/entity": "*"
     },
-    "description": "Модуль процессов."
+    "description": "Процессуальный модуль."
 }

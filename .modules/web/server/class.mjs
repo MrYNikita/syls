@@ -1,10 +1,9 @@
 //#region YI
 
-import { Duplex } from 'stream';
-import { YEntity } from '../../ject/entity/class.mjs';
-import { netGetIp } from '../../os/net/module.mjs';
-import { createHash } from 'crypto';
-import { createServer } from 'http';
+import { YFile } from '@syls/file';
+import { Duplex, Stream } from 'stream';
+import { YProcess } from '@syls/process';
+import { createSecureServer } from "http2";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -28,7 +27,6 @@ await import('./error.mjs')
 /** ### YServerT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `web\server`
  * 
  * Основной параметр модуля `YServer`.
  * 
@@ -38,7 +36,6 @@ await import('./error.mjs')
 /** ### YServerTE
  * - Тип `TE`
  * - Версия `0.0.0`
- * - Модуль `web\server`
  * 
  * Параметр наследования `YServer`.
  * 
@@ -48,7 +45,6 @@ await import('./error.mjs')
 /** ### YServerTU
  * - Тип `TU`
  * - Версия `0.0.0`
- * - Модуль `web\server`
  * 
  * Уникальные параметры `YServer`.
  * 
@@ -59,33 +55,31 @@ await import('./error.mjs')
 
 //#endregion
 
-class SServer extends YEntity {
-
-
-
+class SServer extends YProcess {
+    
+    /**
+     * ### config
+     * 
+     * Конфигуратор.
+     * 
+     * ***
+     * @public
+    */
+    static config = config;
+    
 };
 class DServer extends SServer {
-
+    
     /**
      * ### name
      * 
-     * Наименование сервера.
+     * Наименование.
      * 
      * *** 
-     * @type {string} 
+     * @type {string?} 
      * @public
     */
     name;
-    /**
-     * ### port
-     * 
-     * Порт.
-     * 
-     * *** 
-     * @type {string} 
-     * @public
-    */
-    port;
     /**
      * ### host
      * 
@@ -96,75 +90,59 @@ class DServer extends SServer {
      * @public
     */
     host;
-
-};
-class IServer extends DServer {
-
     /**
-     * ### value
+     * ### port
      * 
-     * Значение.
-     * 
-     * У данного класса выступает `http` сервером.
+     * Порт.
      * 
      * *** 
-     * @type {} 
-     * @protected
-    */
-    value;
-    /**
-     * ### active
-     * 
-     * Активность.
-     * 
-     * *** 
-     * @type {boolean} 
+     * @type {number} 
      * @public
     */
-    active;
+    port;
     /**
-     * ### connections
+     * ### label
+     * 
+     * Метка.
+     * 
+     * *** 
+     * @type {string?} 
+     * @public
+    */
+    label;
+    
+};
+class IServer extends DServer {
+    
+    /**
+     * ### sockets
      * 
      * Соединения.
      * 
-     * Здесь хранятся все соединения с данным сервером.
-     * 
      * *** 
-     * @type {Duplex[]}
-     * @protected
+     * @type {Duplex[]} 
+     * @public
     */
-    connections = [];
+    sockets = [];
     /**
-     * ### pingInterval
+     * ### process
      * 
-     * Интервал проверки соединений.
-     * 
-     * Хранит в себе индекс на существующий интервал.
+     * Процесс.
      * 
      * *** 
-     * @type {number} 
-     * @protected
+     * @type {import('http2').Http2SecureServer} 
+     * @public
     */
-    pingInterval;
-    /**
-     * ### pingIntervalTime
-     * 
-     * Интервалы проверки времени.
-     * 
-     * *** 
-     * @type {number} 
-     * @protected
-    */
-    pingIntervalTime;
-
+    process = null;
+    
 };
 class MServer extends IServer {
-
-
-
+    
+    
+    
 };
 class FServer extends MServer {
-
+    
     /**
      * ### YServer.constructor
      * 
@@ -174,126 +152,118 @@ class FServer extends MServer {
      * @arg {YServerT} t
     */
     constructor(t) {
-
+        
         t = [...arguments];
-
+        
         super(Object.assign(t = FServer.#before(t), {}));
-
+        
         FServer.#deceit.apply(this, [t]);
-
+        
+        return this.correlate();
+        
     };
-
+    
     /** @arg {any[]} t */
     static #before(t) {
-
+        
         /** @type {YServerT} */
         let r = {};
-
+        
         if (t?.length === 1 && [Object, YServer].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
+            
             r = t[0];
-
+            
         } else if (t?.length) {
-
+            
             if (t[0]?._ytp) {
-
+            
                 t = [...t[0]._ytp];
-
+            
             };
-
+            
             switch (t.length) {
-
-                case 3:
-                case 2:
-                case 1:
-
+                
+                default:
+                case 3: 
+                case 2: 
+                case 1: 
+                
             };
-
+            
             if (!Object.values(r).length) {
-
+                
                 r = { _ytp: t, };
-
+                
             };
-
+            
         };
-
+        
         return r;
-
+        
     };
     /** @arg {YServerT} t @this {YServer} */
     static #deceit(t) {
-
+        
         try {
-
+            
             FServer.#verify.apply(this, [t]);
-
+            
         } catch (e) {
-
+            
             throw e;
-
+            
         } finally {
-
-
-
+            
+            
+            
         };
-
+        
     };
     /** @arg {YServerT} t @this {YServer} */
     static #verify(t) {
-
+        
         const {
-
-
-
+            
+            
+            
         } = t;
-
+        
         FServer.#handle.apply(this, [t]);
-
+        
     };
     /** @arg {YServerT} t @this {YServer} */
     static #handle(t) {
-
-        if (!t.host) {
-
-            t.host = netGetIp();
-
-        };
-
+        
+        
+        
         FServer.#create.apply(this, [t]);
-
+        
     };
     /** @arg {YServerT} t @this {YServer} */
     static #create(t) {
-
+        
         const {
-
-
-
+            
+            
+            
         } = t;
-
+        
         this.adopt(t);
-
+        
         if (config) {
-
+            
             this.adoptDefault(config);
-
+            
         };
-
-        if (this.active) {
-
-            this.on();
-
-        };
-
+        
     };
-
+    
 };
 
 /**
  * ### YServer
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль `web\server`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -303,81 +273,67 @@ class FServer extends MServer {
  * 
 */
 export class YServer extends FServer {
-
+    
     /**
      * ### on
      * - Версия `0.0.0`
-     * - Модуль `web\server`
      * ***
      * 
-     * Метод запуска сервера.
+     * Метод активации сервера.
      * 
      * ***
      * @public
     */
     on() {
+        
+        this.process = createSecureServer({
 
-        this.active = true;
+            key: new YFile('server-key.pem').read(),
+            cert: new YFile('server-cert.pem').read()
 
-        this.value = createServer(async (req, res) => {
+        }).on('stream', (stream, headers) => {
 
+            if (headers[':method'] === 'GET' && headers[":path"] === '/websocket') {
 
+                stream.respond({
 
-        }).on('upgrade', async (req, socket) => {
+                    'content-type': 'text/plain, charset=utf-8',
+                    ':status': 200,
 
-            const k = createHash('sha1').update(req.headers['sec-websocket-key'] + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11').digest('base64');
+                });
 
-            socket.write([
+            };
 
-                'HTTP/1.1 101',
-                'upgrade: websocket',
-                'connection: upgrade',
-                `sec-webSocket-accept: ${k}\r\n`,
+        }).listen(this.port, this.host, () => {
 
-            ].join('\r\n'));
-
-            this.socks.push(socket);
-
-        }).on('connection', (req, res) => {
-
-
-
-        }).on('request', (req, res) => {
-
-
-
-        }).listen(this.port, this.host, async () => {
-
-
+            
 
         });
 
         return this;
-
+        
     };
     /**
      * ### off
      * - Версия `0.0.0`
-     * - Модуль `web\server`
      * ***
      * 
      * Метод отключения сервера.
      * 
      * ***
+     * 
      * @public
     */
     off() {
+        
+        if (this.process) {
 
-        this.active = false;
+            this.process.off();
 
-        this.serv.close(() => {
-
-
-
-        });
+        };
 
         return this;
-
+        
     };
-
+    
 };

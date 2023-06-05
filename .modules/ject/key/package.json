@@ -1,24 +1,18 @@
 {
-    "name": "@syls/file",
+    "name": "@syls/key",
     "type": "module",
     "types": "./type.d.ts",
     "files": [
-        "./csv",
-        "./json",
+        "./comb",
         "./type.d.ts",
-        "./export.mjs",
         "./class.mjs",
         "./config.mjs",
         "./module.mjs",
+        "./export.mjs",
         "./package.json",
         "./changelog.md"
     ],
-    "author": {
-        "name": "Yakhin Nikita Artemovich",
-        "email": "mr.y.nikita@gmail.com"
-    },
-    "version": "0.0.1",
-    "license": "Apache-2.0",
+    "version": "0.0.4",
     "exports": {
         ".": {
             "types": "./type.d.ts",
@@ -26,21 +20,24 @@
             "default": "./export.mjs"
         }
     },
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "license": "Apache-2.0",
     "keywords": [
         "y",
-        "os",
         "lib",
         "syls",
-        "file"
+        "listener"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
+    "description": "Модуль прослушивателя.",
     "dependencies": {
-        "@syls/os": "*",
-        "@syls/cond": "*",
-        "@syls/osject": "*"
-    },
-    "description": "Модуль файлов."
+        "@syls/y": "*",
+        "@syls/ject": "*"
+    }
 }

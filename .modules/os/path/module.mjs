@@ -2,7 +2,6 @@
 
 import { stringUnifyBySymbol } from "@syls/string";
 import { existsSync, lstatSync, readdirSync, } from "fs";
-import { fileReadJson, fileWriteJson } from "@syls/file";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -107,7 +106,7 @@ export const pathVRETempalte = /^(\w:|\.|\.\.)\/((\.|\.\.|(\d|\w| |\.|\,|\-)+)\/
 
 //#endregion
 
-//#region get 0.3.0
+//#region get 0.4.0
 
 /** ### pathTFGet
  * - Тип `TF`
@@ -195,8 +194,6 @@ function getComply(t) {
 
     } = t;
 
-    /** @type {{ paths: string[] }} */
-    const cache = modeCache ? fileReadJson('path/cache.json') : null;
     /** @type {string[]} */
     const results = [];
     /** @type {string[]} */
@@ -204,38 +201,17 @@ function getComply(t) {
 
     const pathProject = pathGetProject();
 
-
     if (limit === 1 && pathExists(fragment)) {
 
         results.push(fragment.startsWith(pathProject) ? fragment : pathConcat(pathProject, fragment));
 
     } else if (fragment && limit) {
 
-        if (cache) {
-
-            for (const path of cache.paths) {
-
-                if (results.length + resultsCache.length >= limit) {
-
-                    break;
-
-                };
-
-                if (path.match(fragment)) {
-
-                    resultsCache.push(path);
-                    
-                };
-
-            };
-
-        };
-
         while (paths.length && results.length < limit) {
 
             const p = paths.pop();
 
-            if (p.match(fragment) && !cache?.paths?.includes?.(p)) {
+            if (p.match(fragment)) {
 
                 results.push(p);
 
@@ -261,25 +237,11 @@ function getComply(t) {
 
     } else if (fragment && !limit) {
 
-        if (cache) {
-
-            for (const path of cache.paths) {
-
-                if (path.match(fragment)) {
-
-                    resultsCache.push(path);
-                    
-                };
-
-            };
-
-        };
-
         while (paths.length) {
 
             const p = paths.pop();
 
-            if (p.match(fragment) && !cache?.paths?.includes?.(p)) {
+            if (p.match(fragment)) {
 
                 results.push(p);
 
@@ -289,7 +251,7 @@ function getComply(t) {
 
             if (ps) {
 
-                paths.push(...ps.filter(p => !cache?.paths?.includes?.(p)));
+                paths.push(...ps);
 
             };
 
@@ -333,22 +295,6 @@ function getComply(t) {
             results.push(p);
 
         };
-
-    };
-
-    if (cache) {
-
-        results.forEach(result => {
-
-            if (!cache.paths.includes(result)) {
-                
-                cache.paths.push(result);
-
-            };
-
-        });
-
-        fileWriteJson('path/cache.json', cache);
 
     };
 
@@ -668,7 +614,10 @@ function getProjectComply(t) {
 
     } = t;
 
-    return import.meta.url.slice(8).split('/').slice(0, -3).join('/');
+    const fragments = import.meta.url.slice(8).split('/');
+    const index = fragments.findIndex(fragment => fragment === 'node_modules');
+
+    return fragments.slice(0, index ? index : -3).join('/');
 
 };
 

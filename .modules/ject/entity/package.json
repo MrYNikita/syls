@@ -3,8 +3,6 @@
     "type": "module",
     "types": "./type.d.ts",
     "files": [
-        "./log",
-        "./rept",
         "./handler",
         "./type.d.ts",
         "./class.mjs",
@@ -39,6 +37,8 @@
     },
     "description": "Модуль для создания продвинутых объектов YEntity.",
     "dependencies": {
+        "@syls/log": "*",
+        "@syls/rept": "*",
         "@syls/date": "*",
         "@syls/ject": "*",
         "@syls/ansi": "*",

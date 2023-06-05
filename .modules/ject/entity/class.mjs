@@ -1,13 +1,11 @@
 //#region YI
 
+import { YLog } from '@syls/log';
 import { YJect } from "@syls/ject";
 import { YDate } from '@syls/date';
-import { classGetChain } from '@syls/class';
-
-import { YLog } from './log/class.mjs';
-import { YRept } from './rept/class.mjs';
-import { YBlock } from './rept/block/class.mjs';
 import { YHandler } from './handler/class.mjs';
+import { YRept, YBlock } from '@syls/rept';
+import { classGetChain } from '@syls/class';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

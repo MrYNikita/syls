@@ -1,9 +1,8 @@
 //#region YI
 
-import { YEntity } from '../class.mjs';
-import { ansiBackspace, ansiClear, ansiResetColor, ansiSetColor, ansiSetCursorTo } from '../../../string/ansi/module.mjs';
-import { condIsNumber, condIsString } from '../../../bool/cond/module.mjs';
-import { stringGetRow, stringGetRows } from '../../../string/module.mjs';
+import { YEntity } from '@syls/entity';
+import { stringGetRows } from '@syls/string';
+import { ansiSetColor, ansiSetCursorTo } from '@syls/ansi';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
