@@ -15,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.57.9",
+    "version": "0.58.0",
     "license": "Apache-2.0",
     "keywords": [
         "y",
@@ -31,12 +31,14 @@
     "dependencies": {
         "@syls/y": "*",
         "@syls/os": "*",
+        "@syls/key": "*",
         "@syls/log": "*",
         "@syls/net": "*",
         "@syls/dir": "*",
         "@syls/web": "*",
         "@syls/bool": "*",
         "@syls/cond": "*",
+        "@syls/corr": "*",
         "@syls/date": "*",
         "@syls/path": "*",
         "@syls/func": "*",
@@ -48,16 +50,20 @@
         "@syls/class": "*",
         "@syls/array": "*",
         "@syls/error": "*",
+        "@syls/timer": "*",
         "@syls/string": "*",
         "@syls/entity": "*",
         "@syls/cursor": "*",
         "@syls/number": "*",
         "@syls/osject": "*",
+        "@syls/crypto": "*",
         "@syls/regexp": "*",
         "@syls/server": "*",
         "@syls/console": "*",
         "@syls/process": "*",
+        "@syls/terminal": "*",
         "@syls/position": "*",
+        "@syls/listener": "*",
         "@syls/dispatcher": "*"
     }
 }
