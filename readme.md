@@ -1,6 +1,6 @@
 # SYLS
 
-![Логотип SYLS](logo.png)
+![Логотип SYLS](https://github.com/MrYNikita/syls/raw/main/logo.png)
 
 ## Software Y Lib Solutions
 
