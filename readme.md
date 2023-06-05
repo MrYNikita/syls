@@ -1,4 +1,7 @@
 # SYLS
+
+![Логотип SYLS](logo.png)
+
 ## Software Y Lib Solutions
 
 [![npm version](https://img.shields.io/npm/v/syls.svg)](https://npmjs.org/package/syls)
