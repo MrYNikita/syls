@@ -15,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.1.8",
+    "version": "0.2.1",
     "license": "Apache-2.0",
     "exports": {
         ".": {
@@ -27,13 +27,14 @@
     "keywords": [
         "y",
         "lib",
+        "syls",
         "number"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
-    "description": "Модуль чисел.",
+    "description": "Числовой модуль.",
     "dependencies": {
         "@syls/ject": "*",
         "@syls/cond": "*"

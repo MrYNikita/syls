@@ -1,9 +1,10 @@
 //#region YI
 
-import { condIsNumber } from '@syls/cond';
 import { YJect } from '@syls/ject';
-import { YInsert } from './insert/class.mjs';
-import { YLine } from './line/class.mjs';
+import { YElement } from './element/class.mjs';
+import { condIsNumber } from '@syls/cond';
+import { stringAppend, stringGetRow, stringPaste, stringSetRow } from '../module.mjs';
+import { YANSI, ansiGetColorReset } from '@syls/ansi';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -26,7 +27,6 @@ await import('./error.mjs')
 
 /** ### YLayoutT
  * - Тип `T`
- * - Версия `0.0.0`
  * 
  * Основной параметр модуля `YLayout`.
  * 
@@ -35,7 +35,6 @@ await import('./error.mjs')
 */
 /** ### YLayoutTE
  * - Тип `TE`
- * - Версия `0.0.0`
  * 
  * Параметр наследования `YLayout`.
  * 
@@ -44,7 +43,6 @@ await import('./error.mjs')
 */
 /** ### YLayoutTU
  * - Тип `TU`
- * - Версия `0.0.0`
  * 
  * Уникальные параметры `YLayout`.
  * 
@@ -56,7 +54,7 @@ await import('./error.mjs')
 //#endregion
 
 class SLayout extends YJect {
-    
+
     /**
      * ### config
      * 
@@ -66,34 +64,44 @@ class SLayout extends YJect {
      * @public
     */
     static config = config;
-    
+
 };
 class DLayout extends SLayout {
-    
-    
-    
-};
-class ILayout extends DLayout {
-    
+
     /**
-     * ### lines
+     * ### ansi
      * 
-     * Линии.
+     * Ориентировочная ANSI вставка.
      * 
      * *** 
-     * @type {YLine[]} 
+     * @type {YANSI?} 
      * @public
     */
-    lines = [];
-    
+    ansi = null;
+    /**
+     * ### elements
+     * 
+     * Элементы.
+     * 
+     * *** 
+     * @type {YElement[][]?} 
+     * @public
+    */
+    elements = null;
+
+};
+class ILayout extends DLayout {
+
+
+
 };
 class MLayout extends ILayout {
-    
-    
-    
+
+
+
 };
 class FLayout extends MLayout {
-    
+
     /**
      * ### YLayout.constructor
      * 
@@ -103,115 +111,117 @@ class FLayout extends MLayout {
      * @arg {YLayoutT} t
     */
     constructor(t) {
-        
+
         t = [...arguments];
-        
+
         super(Object.assign(t = FLayout.#before(t), {}));
-        
+
         FLayout.#deceit.apply(this, [t]);
-        
+
         return this.correlate();
-        
+
     };
-    
+
     /** @arg {any[]} t */
     static #before(t) {
-        
+
         /** @type {YLayoutT} */
         let r = {};
-        
+
         if (t?.length === 1 && [Object, YLayout].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
+
             r = t[0];
-            
+
         } else if (t?.length) {
-            
+
             if (t[0]?._ytp) {
-            
+
                 t = [...t[0]._ytp];
-            
+
             };
-            
+
             switch (t.length) {
-                
-                case 3: 
-                case 2: 
-                case 1: 
-                
+
+                default:
+                case 3:
+                case 2:
+                case 1:
+
             };
-            
+
             if (!Object.values(r).length) {
-                
+
                 r = { _ytp: t, };
-                
+
             };
-            
+
         };
-        
+
         return r;
-        
+
     };
     /** @arg {YLayoutT} t @this {YLayout} */
     static #deceit(t) {
-        
+
         try {
-            
+
             FLayout.#verify.apply(this, [t]);
-            
+
         } catch (e) {
-            
+
             throw e;
-            
+
         } finally {
-            
-            
-            
+
+
+
         };
-        
+
     };
     /** @arg {YLayoutT} t @this {YLayout} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         FLayout.#handle.apply(this, [t]);
-        
+
     };
     /** @arg {YLayoutT} t @this {YLayout} */
     static #handle(t) {
-        
+
+
+
         FLayout.#create.apply(this, [t]);
-        
+
     };
     /** @arg {YLayoutT} t @this {YLayout} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         this.adopt(t);
-        
+
         if (config) {
-            
+
             this.adoptDefault(config);
-            
+
         };
-        
+
     };
-    
+
 };
 
 /**
  * ### YLayout
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -221,147 +231,205 @@ class FLayout extends MLayout {
  * 
 */
 export class YLayout extends FLayout {
+
+    /**
+     * ### get
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    get() {
+
+
+
+    };
+
+    /**
+     * ### set
+     * 
+     * ***
+     * 
+     * Метод установки элементов в разметке.
+     * 
+     * Если элемент существует, то он будет заменен, иначе - добавлен.
+     * 
+     * ***
+     * @arg {...[number, number, YElement]} elements `Элементы`
+     * 
+     * При необходимости установки одного элемента, можно описать его без использования остаточных параметров.
+     * 
+     * @public
+    */
+    set(...elements) {
+
+        if (condIsNumber(elements[0]) && condIsNumber(elements[1])) {
+
+            if (!(elements[2] instanceof YElement)) {
+
+                elements[2] = new YElement(elements[2]);
+
+            };
+
+            elements = [elements];
+
+        } else if (!elements.every(element => condIsNumber(element[0]) && condIsNumber(element[1] && element[1] instanceof YElement))) {
+
+            throw new Error('Неверный формат аргументов.');
+
+        };
+
+        for (const element of elements) {
+
+            const [y, x, e] = element;
+
+            if (!this.elements) {
+
+                this.elements = [];
+
+            };
+            if (!this.elements[y]) {
+
+                this.elements[y] = [];
+
+            };
+
+            const flow = this.elements.slice(0, y).flat().filter(e => e.flow).at(-1);
+
+            if (flow) {
+
+                if (!e.ansi.background) {
+
+                    e.ansi.background = flow.ansi.background;
     
-    /**
-     * ### getLine
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения линии по указанному индексу.
-     * 
-     * ***
-     * @arg {number} index `Индекс`
-     * @public
-     * @returns {YLine?}
-    */
-    getLine(index = 0) {
-        
-        return this.lines.find(line => line.index === index) ?? null;
-        
-    };
+                };
 
-    /**
-     * ### appendLine
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод добавления новой линии на указанную позицию.
-     * 
-     * ***
-     * @arg {number} index `Индекс`
-     * @public
-    */
-    appendLine(index = 0) {
-        
-        if (condIsNumber(index) && !this.lines.find(line => line.index === index)) {
+            };
 
-            this.lines.push(new YLine(index));
+            e.ansi.supplement(this.ansi);
+
+            this.elements[y][x] = e;
 
         };
 
         return this;
-        
+
     };
     /**
-     * ### appendInserts
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод добавления вставок в разметку.
+     * ### setAnsi
      * 
      * ***
-     * @arg {...([number, YInsert[]]|[number, [number, string, string, boolean][]])} inserts
+     * 
+     * Метод установки вставки-ориентира ANSI.
+     * 
+     * ***
+     * @arg {YANSI?} ansi `ANSI`
      * @public
     */
-    appendInserts(...inserts) {
+    setAnsi(ansi = null) {
         
-        for (let insert of inserts) {
-
-            this.appendLine(insert[0]).getLine(insert[0]).appendInserts(...insert.slice(1));
-
-        };
+        this.ansi = ansi;
 
         return this;
         
+    };
+
+    /**
+     * ### rem
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @public
+    */
+    rem() {
+
+
+
     };
 
     /**
      * ### apply
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * 
      * 
      * ***
      * 
+     * Метод применения шаблонов к указанной строке.
+     * 
+     * ***
+     * @arg {string} string `Строки`
      * @public
     */
-    apply() {
-        
-        return this;
-        
+    apply(string) {
+
+        let result = string;
+
+        if (!this.elements || !this.elements.length) {
+
+            return result;
+
+        };
+
+        for (let y = this.elements.length - 1; y >= 0; y--) {
+
+            const line = this.elements[y];
+
+            if (line) {
+
+                for (let x = line.length - 1; x >= 0; x--) {
+
+                    const element = line[x];
+
+                    if (element) {
+
+                        result = stringSetRow(result, stringAppend(stringGetRow(result, y), x, element.ansi.get() + element.value), y);
+
+                    };
+
+                };
+
+            };
+
+        };
+
+        return result;
+
     };
     /**
-     * ### merge
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * 
+     * ### applyMany
      * 
      * ***
      * 
+     * Метод применения шаблона к указанным строкам.
+     * 
+     * ***
+     * @arg {...string} strings `Строки`
      * @public
     */
-    merge() {
-        
-        return this;
-        
+    applyMany(...strings) {
+
+        const results = [];
+
+        if (!this.elements || !this.elements.length) {
+
+            return strings;
+
+        };
+
+        for (let string of strings) {
+
+            results.push(this.apply(string) + ansiGetColorReset());
+
+        };
+
+        return results;
+
     };
-    /**
-     * ### overlay
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * @public
-    */
-    overlay() {
-        
-        return this;
-        
-    };
-    /**
-     * ### regulate
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод регулирования разметки.
-     * 
-     * Данный метод позволяет:
-     * - Удалить пустые линии и вставки.
-     * - Упорядочить порядок элементов в линиях и сами линии.
-     * - Минимизировать линии, удалив неиспользуемые объекты и свойства вставок.
-     * 
-     * С его помощью разметка гарантирует минималистичность и целостность своей структуры.
-     * 
-     * ***
-     * @public
-    */
-    regulate() {
-        
-        this.lines = this.lines.filter(line => line instanceof YLine && line.inserts.length).map(line => {
 
-            line.inserts = line.inserts.filter(insert => insert instanceof YInsert).sort((p, c) => p.index - c.index);
-
-            return line;
-
-        }).sort((p, c) => p.index - c.index);
-
-        return this;
-        
-    };
-    
 };

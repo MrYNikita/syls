@@ -1,7 +1,5 @@
 //#region YI
 
-import { YError } from '../../../../error/class.mjs';
-
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
 

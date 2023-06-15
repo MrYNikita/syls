@@ -3,6 +3,7 @@
     "type": "module",
     "types": "./type.d.ts",
     "files": [
+        "./block",
         "./type.d.ts",
         "./class.mjs",
         "./config.mjs",
@@ -11,7 +12,7 @@
         "./package.json",
         "./changelog.md"
     ],
-    "version": "0.0.0",
+    "version": "0.0.4",
     "exports": {
         ".": {
             "types": "./type.d.ts",

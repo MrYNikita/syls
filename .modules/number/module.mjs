@@ -16,6 +16,14 @@ await import('./error.mjs')
     .then(i => error = i.default)
     .catch(e => e);
 
+/** @type {import('crypto')} */
+let crypto = null;
+
+await import('crypto')
+
+    .then(m => crypto = m)
+    .catch(e => e);
+
 //#endregion
 //#region YT
 
@@ -38,11 +46,10 @@ await import('./error.mjs')
 
 //#endregion
 
-//#region getRandom 0.0.0
+//#region getRandom
 
 /** ### numberTFGetRandom
  * - Тип `TF`
- * - Версия `0.0.0`
  * - Модуль `number`
  * ***
  *
@@ -53,7 +60,6 @@ await import('./error.mjs')
 */
 /** ### numberTFUGetRandom
  * - Тип `TFU`
- * - Версия `0.0.0`
  * - Модуль `number`
  *
  * Уникальные параметры функции `getRandom`.
@@ -168,11 +174,35 @@ function getRandomComply(t) {
 
     } else {
 
-        let result = (!frac) ? Math.floor(min + Math.random() * (max + 1 - min)) : min + Math.random() * (max - min);
+        let result = min;
 
-        if (frac && result > max) {
+        const range = max - min;
 
-            result = max;
+        if (crypto) {
+            
+            if (frac) {
+
+                const bytes = crypto.randomBytes(8);
+
+                result = (bytes.readUInt32BE(0) + bytes.readUInt32BE(4) * 2 ** 32 / (2 ** 32 - 1)) * range + min;
+
+            } else {
+
+                const bytesCount = Math.ceil(Math.log2(range) / 8);
+
+                result = ((crypto.randomBytes(bytesCount).readUIntBE(0, bytesCount) % range) + min);
+
+            };
+
+        } else {
+
+            result = (!frac) ? Math.floor(min + Math.random() * (range + 1)) : min + Math.random() * range;
+
+            if (frac && result > max) {
+
+                result = max;
+
+            };
 
         };
 
@@ -184,7 +214,6 @@ function getRandomComply(t) {
 
 /**
  * ### numberGetRandomReal
- * - Версия `0.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `number`
  * ***
@@ -202,7 +231,6 @@ export function numberGetRandomReal(min, max) {
 };
 /**
  * ### numberGetRandomFrac
- * - Версия `0.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `number`
  * ***
@@ -220,7 +248,6 @@ export function numberGetRandomFrac(min, max) {
 };
 /**
  * ### numberGetRandomRealMany
- * - Версия `0.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `number`
  * ***
@@ -240,7 +267,6 @@ export function numberGetRandomRealMany(count, min, max, unique) {
 };
 /**
  * ### numberGetRandomFracMany
- * - Версия `0.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `number`
  * ***
@@ -260,7 +286,7 @@ export function numberGetRandomFracMany(count, min, max, unique) {
 };
 
 //#endregion
-//#region getSequence 0.0.0
+//#region getSequence
 
 /** ### numberTFGetSequence
  * - Тип `TF`

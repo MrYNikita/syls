@@ -69,7 +69,7 @@ await import('./error.mjs')
  * @template {YCombTUG} G
 */
 class SComb extends YJect {
-    
+
     /** ### config
      * 
      * Конфигуратор.
@@ -78,24 +78,14 @@ class SComb extends YJect {
      * @public
     */
     static config = config;
-    
+
 };
 /**
  * @extends {SComb<G>}
  * @template {YCombTUG} G
 */
 class DComb extends SComb {
-    
-    /**
-     * ### label
-     * 
-     * Метка.
-     * 
-     * *** 
-     * @type {string?} 
-     * @public
-    */
-    label;
+
     /**
      * ### keys
      * 
@@ -109,6 +99,16 @@ class DComb extends SComb {
     */
     keys = [];
     /**
+     * ### label
+     * 
+     * Метка.
+     * 
+     * *** 
+     * @type {string?} 
+     * @public
+    */
+    label;
+    /**
      * ### funcs
      * 
      * Функции.
@@ -118,42 +118,32 @@ class DComb extends SComb {
      * @public
     */
     funcs = [];
-    /**
-     * ### response
-     * 
-     * Ответ.
-     * 
-     * *** 
-     * @type {combTTResponse} 
-     * @public
-    */
-    response = {};
-    
+
 };
 /**
  * @extends {DComb<G>}
  * @template {YCombTUG} G
 */
 class IComb extends DComb {
-    
-    
-    
+
+
+
 };
 /**
  * @extends {IComb<G>}
  * @template {YCombTUG} G
 */
 class MComb extends IComb {
-    
-    
-    
+
+
+
 };
 /**
  * @extends {MComb<G>}
  * @template {YCombTUG} G
 */
 class FComb extends MComb {
-    
+
     /**
      * ### YComb.constructor
      * 
@@ -163,35 +153,35 @@ class FComb extends MComb {
      * @arg {YCombT&G} t
     */
     constructor(t) {
-        
+
         t = [...arguments];
-        
+
         super(Object.assign(t = FComb.#before(t), {}));
-        
+
         FComb.#deceit.apply(this, [t]);
-        
+
     };
-    
+
     /** @arg {any[]} t */
     static #before(t) {
-        
+
         /** @type {YCombT} */
         let r = {};
-        
+
         if (t?.length === 1 && [Object, YComb].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
+
             r = t[0];
-            
+
         } else if (t?.length) {
-            
+
             if (t[0]?._ytp) {
-            
+
                 t = [...t[0]._ytp];
-            
+
             };
-            
+
             switch (t.length) {
-                
+
                 case 3: {
 
                     if ([t[0], t[1]].every(arg => arg instanceof Array) && typeof t[2] === 'object') {
@@ -218,53 +208,53 @@ class FComb extends MComb {
 
                 };
                 default: r.keys = t.slice();
-                
+
             };
-            
+
             if (!Object.values(r).length) {
-                
+
                 r = { _ytp: t, };
-                
+
             };
-            
+
         };
-        
+
         return r;
-        
+
     };
     /** @arg {YCombT} t @this {YComb} */
     static #deceit(t) {
-        
+
         try {
-            
+
             FComb.#verify.apply(this, [t]);
-            
+
         } catch (e) {
-            
+
             throw e;
-            
+
         } finally {
-            
-            
-            
+
+
+
         };
-        
+
     };
     /** @arg {YCombT} t @this {YComb} */
     static #verify(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         FComb.#handle.apply(this, [t]);
-        
+
     };
     /** @arg {YCombT} t @this {YComb} */
     static #handle(t) {
-        
+
         if (t.keys) {
 
             t.keys = t.keys.map(key => {
@@ -282,27 +272,27 @@ class FComb extends MComb {
         };
 
         FComb.#create.apply(this, [t]);
-        
+
     };
     /** @arg {YCombT} t @this {YComb} */
     static #create(t) {
-        
+
         const {
-            
-            
-            
+
+
+
         } = t;
-        
+
         this.adopt(t);
-        
+
         if (config) {
-            
+
             this.adoptDefault(config);
-            
+
         };
-        
+
     };
-    
+
 };
 
 /**
@@ -320,34 +310,31 @@ class FComb extends MComb {
  * @template {YCombTUG} G
 */
 export class YComb extends FComb {
-    
+
     /**
      * ### exec
      * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal\listener\comb`
      * ***
      * 
      * Метод выполнения комбинации.
      * 
      * ***
-     * @arg {any} recepient `Получатель`
      * @public
     */
-    exec(recepient) {
+    exec() {
 
         for (const func of this.funcs) {
 
-            func(recepient);
+            func();
 
         };
 
-        return this.response;
-        
+        return this;
+
     };
     /**
      * ### check
      * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal\listener\comb`
      * ***
      * 
      * Метод проверки указанных клавиш со связкой.
@@ -365,39 +352,58 @@ export class YComb extends FComb {
             if (this.keys.length === keys.length && this.keys.every((key, index) => key.compare(keys[index]))) {
 
                 return true;
-    
+
             };
 
         };
 
         return false;
-        
+
     };
     /**
      * ### apply
      * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal\listener\comb`
      * ***
      * 
      * Метод применения комбинации к указанным клавишам.
      * 
-     * ***
-     * @arg {any} recepient `Получатель` 
+     * *** 
      * @arg {...YKey} keys `Клавиши`
      * @public
     */
-    apply(recepient, ...keys) {
-        
+    apply(...keys) {
+
         if (this.check(...keys)) {
 
-            return this.exec(recepient);
+            this.exec();
+
+            return true;
 
         } else {
 
             return false;
 
         };
-        
+
     };
-    
+
+    /**
+     * ### appendFuncs
+     * 
+     * ***
+     * 
+     * Метод добавления функций.
+     * 
+     * ***
+     * @arg {...(() => void)} funcs `Функции`
+     * @public
+    */
+    appendFuncs(...funcs) {
+
+        this.funcs.push(...funcs.filter(func => !this.funcs.includes(func)));
+
+        return this;
+
+    };
+
 };

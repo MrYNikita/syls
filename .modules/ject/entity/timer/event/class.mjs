@@ -106,7 +106,7 @@ class DEvent extends SEvent {
      * @type {boolean} 
      * @public
     */
-    single = false;
+    single;
     /**
      * ### priority
      * 
@@ -127,7 +127,7 @@ class IEvent extends DEvent {
      * Накопитель.
      * 
      * *** 
-     * @type {number?} 
+     * @type {number} 
      * @protected
     */
     hoarder = 0;

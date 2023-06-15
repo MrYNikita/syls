@@ -1,0 +1,44 @@
+{
+    "name": "@syls/store",
+    "type": "module",
+    "types": "./type.d.ts",
+    "files": [
+        "./tag",
+        "./type.d.ts",
+        "./class.mjs",
+        "./readme.md",
+        "./config.mjs",
+        "./module.mjs",
+        "./export.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "version": "0.0.0",
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "license": "Apache-2.0",
+    "keywords": [
+        "y",
+        "lib",
+        "syls",
+        "store"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "Модуль хранилищ.",
+    "dependencies": {
+        "@syls/tag": "*",
+        "@syls/entity": "*"
+    }
+}

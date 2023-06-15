@@ -12,7 +12,7 @@
         "./package.json",
         "./changelog.md"
     ],
-    "version": "0.0.14",
+    "version": "0.0.15",
     "exports": {
         ".": {
             "types": "./type.d.ts",

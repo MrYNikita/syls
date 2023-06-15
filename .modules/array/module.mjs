@@ -1,6 +1,6 @@
 //#region YI
 
-import { condIsMany } from '@syls/cond';
+import { condIsMany, condIsNumber } from '@syls/cond';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -543,6 +543,121 @@ export function arrayGetDevideByCount(array, count) {
 
 //#endregion
 
+//#region push
+
+/** ### arrayTFPush
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `push`.
+ * 
+ * @typedef {arrayTFUPush&arrayT} arrayTFPush
+ * 
+*/
+/** ### arrayTFUPush
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `push`.
+ * 
+ * @typedef arrayTFUPush
+ * @prop {any} _
+*/
+
+/** @arg {arrayTFPush} t */
+function pushDeceit(t) {
+    
+    try {
+        
+        return pushVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {arrayTFPush} t */
+function pushVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return pushHandle(t);
+   
+};
+/** @arg {arrayTFPush} t */
+function pushHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return pushComply(t);
+   
+};
+/** @arg {arrayTFPush} t */
+function pushComply(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+    
+    
+    
+};
+
+/**
+ * ### arrayPush
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * Функция сдвига элементов указанного массива с указанной позции на указанную длину.
+ * 
+ * Не стоит путать данную функцию с нативной функцией `push`.
+ * Данная функция предназначена для преобразования массива, а не его дополнения новыми элементами.
+ * Если вас интересует дополнение массива, то ознакомьтесь с {@link arrayAppend|функцией дополнения}.
+ * 
+ * 
+ * 
+ * ***
+ * @arg {G} array `Массив`
+ * @arg {number} bias `Смещение`
+ * 
+ * Определяет длину, на которую необходимо сместить элементы.
+ * Может принимать отрицательные значения для смещения влево.
+ * 
+ * @arg {number} index `Индекс`
+ * 
+ * Определяет позицию, начиная с которой все элементы после будут смещены.
+ * 
+ * @return {G}
+ * @template {any[]} G
+*/
+export function arrayPush(array, index, bias) {
+
+    return pushDeceit({ array, index, bias, });
+
+};
+
+//#endregion
 //#region join 0.0.0
 
 /** ### arrayTFJoin
@@ -1113,6 +1228,123 @@ function uniqueComply(t) {
 export function arrayUnique(...arrays) {
 
     return uniqueDeceit({ arrays });
+
+};
+
+//#endregion
+
+//#region append
+
+/** ### arrayTFAppend
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `append`.
+ * 
+ * @typedef {arrayTFUAppend&arrayT} arrayTFAppend
+ * 
+*/
+/** ### arrayTFUAppend
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `append`.
+ * 
+ * @typedef arrayTFUAppend
+ * @prop {any[]} values
+ * @prop {number} index
+*/
+
+/** @arg {arrayTFAppend} t */
+function appendDeceit(t) {
+    
+    try {
+        
+        return appendVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {arrayTFAppend} t */
+function appendVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return appendHandle(t);
+   
+};
+/** @arg {arrayTFAppend} t */
+function appendHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+
+    if (!condIsNumber(t.index)) {
+
+        t.index = t.array.length;
+
+    };
+   
+    return appendComply(t);
+   
+};
+/** @arg {arrayTFAppend} t */
+function appendComply(t) {
+   
+    const {
+    
+        array,
+        index,
+        values,
+    
+    } = t;
+    
+    array.splice(index, 0, ...values);
+
+    return array;
+    
+};
+
+/**
+ * ### arrayAppend
+ * 
+ * ***
+ * 
+ * Функция добавления в указанное место массива новых значений.
+ * 
+ * ***
+ * @arg {G} array `Массив`
+ * @arg {number?} index `Индекс`
+ * 
+ * - Если не указан, то значения будут добавлены в конец массива.
+ * 
+ * @arg {...any} values `Значения`
+ * @return {G}
+ * @template {any[]} G
+*/
+export function arrayAppend(array, index, ...values) {
+
+    return appendDeceit({ array, index, values, });
 
 };
 

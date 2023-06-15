@@ -1572,6 +1572,127 @@ export function stringTrimRow(string, start, end = true) {
 
 //#endregion
 
+//#region markInsert
+
+/** ### stringTFMarkInsert
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `markInsert`.
+ * 
+ * @typedef {stringTFUMarkInsert&stringT} stringTFMarkInsert
+ * 
+*/
+/** ### stringTFUMarkInsert
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `markInsert`.
+ * 
+ * @typedef stringTFUMarkInsert
+ * @prop {[string][]} marks
+*/
+
+/** @arg {stringTFMarkInsert} t */
+function markInsertDeceit(t) {
+    
+    try {
+        
+        return markInsertVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFMarkInsert} t */
+function markInsertVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return markInsertHandle(t);
+   
+};
+/** @arg {stringTFMarkInsert} t */
+function markInsertHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return markInsertComply(t);
+   
+};
+/** @arg {stringTFMarkInsert} t */
+function markInsertComply(t) {
+   
+    const {
+    
+        marks,
+        string,
+    
+    } = t;
+    
+    const labels = [];
+    const fragments = [];
+
+    for (const mark of marks) {
+
+        if (!mark || !mark.length || !mark[0]) continue;
+
+        labels.push(mark.slice(1));
+        fragments.push(mark[0]);
+
+    };
+
+    const matches = string.matchAll(new RegExp(fragments.join('|'), 'gmsu'));
+
+    for (let match = matches.next(); !match.done; match = matches.next()) {
+
+        console.log(match, fragments);
+
+    };
+
+    return this;
+    
+};
+
+/**
+ * ### stringMarkInsert
+ * 
+ * ***
+ * 
+ * Функция маркировки вставок.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {...[string, string]} marks `Значения`
+*/
+export function stringMarkInsert(string, ...marks) {
+
+    return markInsertDeceit({ string, marks, });
+
+};
+
+//#endregion
+
 //#region split 0.0.0
 
 /** ### stringTFSplit
@@ -2957,7 +3078,7 @@ function insertHandle(t) {
 
         if (condIsString(e)) {
 
-            a[i] = stringSplit(e, config.spliterInsert, 1);
+            a[i] = stringSplit(e, config.insertSpliter, 1);
 
         };
 
@@ -3158,6 +3279,457 @@ function insertBypassComply(t) {
 export function stringInsertBypass(string, find, ...values) {
 
     return insertBypassDeceit({ string, values, find, });
+
+};
+
+//#endregion
+
+//#region match
+
+/** ### stringTFMatch
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `match`.
+ * 
+ * @typedef {stringTFUMatch&stringT} stringTFMatch
+ * 
+*/
+/** ### stringTFUMatch
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `match`.
+ * 
+ * @typedef stringTFUMatch
+ * @prop {(string|RegExp)[]} fragments `Фрагменты`
+*/
+
+/** @arg {stringTFMatch} t */
+function matchDeceit(t) {
+    
+    try {
+        
+        return matchVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFMatch} t */
+function matchVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return matchHandle(t);
+   
+};
+/** @arg {stringTFMatch} t */
+function matchHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return matchComply(t);
+   
+};
+/** @arg {stringTFMatch} t */
+function matchComply(t) {
+   
+    const {
+    
+        string,
+        fragments,
+    
+    } = t;
+    
+    const result = string.match(new RegExp(fragments.join('|'), 'msu'));
+
+    return result;
+    
+};
+
+/**
+ * ### stringMatch
+ * 
+ * ***
+ * 
+ * Функция поиска совпадения.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {...(RegExp|string)} fragments `Фрагменты`
+*/
+export function stringMatch(string, ...fragments) {
+
+    return matchDeceit({ string, fragments });
+
+};
+
+//#endregion
+//#region matchMany
+
+/** ### stringTFMatchMany
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `matchMany`.
+ * 
+ * @typedef {stringTFUMatchMany&stringT} stringTFMatchMany
+ * 
+*/
+/** ### stringTFUMatchMany
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `matchMany`.
+ * 
+ * @typedef stringTFUMatchMany
+ * @prop {number} count
+ * @prop {(RegExp|string)[]} fragments
+*/
+
+/** @arg {stringTFMatchMany} t */
+function matchManyDeceit(t) {
+    
+    try {
+        
+        return matchManyVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFMatchMany} t */
+function matchManyVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return matchManyHandle(t);
+   
+};
+/** @arg {stringTFMatchMany} t */
+function matchManyHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return matchManyComply(t);
+   
+};
+/** @arg {stringTFMatchMany} t */
+function matchManyComply(t) {
+   
+    const {
+    
+        count,
+        string,
+        fragments,
+    
+    } = t;
+    
+    const result = [];
+    const matches = string.matchAll(new RegExp(fragments.join("|"), "gmsu"));
+
+    for (let index = 0, match = matches.next(); count || count === 0 ? count === index : !match.done; index++, match = matches.next()) {
+
+        result.push(match.value);
+
+    };
+
+    return result;
+    
+};
+
+/**
+ * ### stringMatchMany
+ * 
+ * ***
+ * 
+ * Функция множественного поиска совпадений в строке.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {...(RegExp|string)} fragments `Фрагменты`
+*/
+export function stringMatchMany(string, ...fragments) {
+
+    return matchManyDeceit({ string, fragments });
+
+};
+/**
+ * ### stringMatchManyLimit
+ * 
+ * ***
+ * 
+ * Функция поиска указанного количества совпадений в строке.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {number} count `Количество`
+ * @arg {...(string|RegExp)} fragments `Фрагменты`
+*/
+export function stringMatchManyLimit(string, count, ...fragments) {
+
+    return matchManyDeceit({ string, fragments, count, });
+
+};
+
+//#endregion
+//#region matchCount
+
+/** ### stringTFMatchCount
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `matchCount`.
+ * 
+ * @typedef {stringTFUMatchCount&stringT} stringTFMatchCount
+ * 
+*/
+/** ### stringTFUMatchCount
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `matchCount`.
+ * 
+ * @typedef stringTFUMatchCount
+ * @prop {(string|RegExp)[]} fragments
+*/
+
+/** @arg {stringTFMatchCount} t */
+function matchCountDeceit(t) {
+    
+    try {
+        
+        return matchCountVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFMatchCount} t */
+function matchCountVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return matchCountHandle(t);
+   
+};
+/** @arg {stringTFMatchCount} t */
+function matchCountHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return matchCountComply(t);
+   
+};
+/** @arg {stringTFMatchCount} t */
+function matchCountComply(t) {
+   
+    const {
+    
+        string,
+        fragments,
+    
+    } = t;
+    
+    return Array.from(string.matchAll(new RegExp(fragments.join("|"), "gmsu"))).length;
+    
+};
+
+/**
+ * ### stringMatchCount
+ * 
+ * ***
+ * 
+ * Функция подсчёта всех совпадений в строке.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {...(RegExp|string)} fragments `Фрагменты`
+*/
+export function stringMatchCount(string, ...fragments) {
+
+    return matchCountDeceit({ string, fragments });
+
+};
+
+//#endregion
+//#region matchCountEquals 
+
+/** ### stringTFMatchCountEquals
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `matchCountEquals`.
+ * 
+ * @typedef {stringTFUMatchCountEquals&stringT} stringTFMatchCountEquals
+ * 
+*/
+/** ### stringTFUMatchCountEquals
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `matchCountEquals`.
+ * 
+ * @typedef stringTFUMatchCountEquals
+ * @prop {number} count
+ * @prop {(RegExp|string)[]} fragments
+*/
+
+/** @arg {stringTFMatchCountEquals} t */
+function matchCountEqualsDeceit(t) {
+    
+    try {
+        
+        return matchCountEqualsVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFMatchCountEquals} t */
+function matchCountEqualsVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return matchCountEqualsHandle(t);
+   
+};
+/** @arg {stringTFMatchCountEquals} t */
+function matchCountEqualsHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return matchCountEqualsComply(t);
+   
+};
+/** @arg {stringTFMatchCountEquals} t */
+function matchCountEqualsComply(t) {
+   
+    const {
+    
+        count,
+        string,
+        fragments,
+    
+    } = t;
+    
+    const matches = string.matchAll(new RegExp(fragments.join('|'), 'gmsu'));
+
+    let index = 0;
+    let match = matches.next();
+
+    while (index === count || !match.done) {
+
+        match = matches.next();
+
+        if (index++ === count) {
+
+            return true;
+
+        };
+
+    };
+
+    return false;
+    
+};
+
+/**
+ * ### stringMatchCountEquals
+ * 
+ * ***
+ * 
+ * Функция подсчёта совпадений в строке.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+ * @arg {number} count `Счётчик`
+ * @arg {...(RegExp|string)} fragments `Фрагменты`
+*/
+export function stringMatchCountEquals(string, count, ...fragments) {
+
+    return matchCountEqualsDeceit({ string, count, fragments, });
 
 };
 

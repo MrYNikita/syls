@@ -208,6 +208,23 @@ class FJect extends MJect {
 export class YJect extends FJect {
 
     /**
+     * ### print
+     * 
+     * ***
+     * 
+     * Метод отображения информации об объекте.
+     * 
+     * ***
+     * @public
+    */
+    print() {
+        
+        console.log(this);
+
+        return this;
+        
+    };
+    /**
      * ### clone
      * - Версия `0.0.0`
      * - Модуль `ject`
@@ -322,7 +339,7 @@ export class YJect extends FJect {
 
     /**
      * ### getShell
-     * - Версия `0.0.0`
+     * 
      * ***
      * 
      * Метод возвращающий оболочку.
@@ -340,7 +357,7 @@ export class YJect extends FJect {
 
         const prev = this;
 
-        const result = {
+        const shell = new Proxy({
 
             getPrev() {
 
@@ -348,11 +365,34 @@ export class YJect extends FJect {
 
             },
 
-        };
+        }, {
 
-        Object.setPrototypeOf(result, ject);
+            get(t, p) {
 
-        return result;
+                if (ject[p]) {
+
+                    return ject[p];
+
+                } else {
+
+                    return t[p];
+
+                };
+
+            },
+            set(t, p, v) {
+
+                ject[p] = v;
+
+                return true;
+
+            },
+
+        });
+
+        Object.setPrototypeOf(shell, ject);
+
+        return shell;
 
     };
     /**

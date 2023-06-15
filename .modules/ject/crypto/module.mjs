@@ -1,7 +1,6 @@
 //#region YI
 
 import { numberGetRandomReal } from '@syls/number';
-import { stringMesuare } from '@syls/string';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -126,11 +125,11 @@ function generatePasswordBlockComply(t) {
     } = t;
     
     const symbolsIndexLast = symbols.length - 1;
-    const result = new Array(blockCount + (includeBlockNumbers ? blockCount - 1 : 0)).fill(0).map((_, index) => {
+    const result = new Array(blockCount + (includeBlockNumbers ? blockCount - 1 : 0)).fill(0).map((_, blockIndex) => {
 
         const block = new Array(blockLength).fill(0);
 
-        if (includeBlockNumbers && index % 2 === 0) {
+        if (includeBlockNumbers && blockIndex % 2 === 1) {
 
             block.forEach((_, index) => block[index] = numberGetRandomReal(0, 9));
 
@@ -142,9 +141,9 @@ function generatePasswordBlockComply(t) {
 
         return block.join('');
 
-    }).join('');
+    }).join('_');
 
-    return stringMesuare(result, blockLength, '_');
+    return result;
     
 };
 

@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '../ject/class.mjs';
+import { YEntity } from '@syls/entity';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -52,7 +52,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class STest extends YJect {
+class STest extends YEntity {
     
     /**
      * ### config
@@ -67,7 +67,7 @@ class STest extends YJect {
 };
 class DTest extends STest {
     
-    prop = 0;
+    
     
 };
 class ITest extends DTest {

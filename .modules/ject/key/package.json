@@ -12,7 +12,7 @@
         "./package.json",
         "./changelog.md"
     ],
-    "version": "0.0.4",
+    "version": "0.1.0",
     "exports": {
         ".": {
             "types": "./type.d.ts",
@@ -27,17 +27,19 @@
     "license": "Apache-2.0",
     "keywords": [
         "y",
+        "key",
         "lib",
         "syls",
-        "listener"
+        "comb"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
-    "description": "Модуль прослушивателя.",
+    "description": "Клавишный модуль.",
     "dependencies": {
         "@syls/y": "*",
+        "@syls/arg": "*",
         "@syls/ject": "*"
     }
 }

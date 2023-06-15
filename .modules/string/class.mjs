@@ -483,11 +483,11 @@ export class YString extends FString {
 
         let result = this.values;
 
-        if (style) {
+        // if (style) {
 
-            result = this.layout.apply(result);
+        //     result = this.layout.apply(result);
 
-        };
+        // };
 
         return result;
 
@@ -545,19 +545,18 @@ export class YString extends FString {
 
     };
     /**
-     * ### getColor
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * 
+     * ### getLayout
      * 
      * ***
      * 
+     * Метод получения оболочки стилей.
+     * 
+     * ***
      * @public
     */
-    getColor() {
+    getLayout() {
         
-        return this.getShell(this.layout.color);
+        return this.getShell(this.layout);
         
     };
     /**
@@ -1027,6 +1026,7 @@ export class YString extends FString {
      * ***
      * @arg {[import('./ansi/module.mjs').ansiColorTMColors, import('./ansi/module.mjs').ansiColorTMColors, number, number][]} colors `Цвета`
      * @public
+     * @deprecated
     */
     appendColors(...colors) {
 

@@ -3,11 +3,6 @@
     "type": "module",
     "types": "./type.d.ts",
     "files": [
-        "./style",
-        "./switch",
-        "./element",
-        "./receiver",
-        "./interface",
         "./type.d.ts",
         "./class.mjs",
         "./config.mjs",
@@ -16,7 +11,7 @@
         "./package.json",
         "./changelog.md"
     ],
-    "version": "0.0.0",
+    "version": "0.0.3",
     "exports": {
         ".": {
             "types": "./type.d.ts",
@@ -41,13 +36,7 @@
     },
     "description": "Модуль терминалов.",
     "dependencies": {
-        "@syls/y": "*",
-        "@syls/file": "*",
-        "@syls/cond": "*",
-        "@syls/array": "*",
-        "@syls/timer": "*",
         "@syls/entity": "*",
-        "@syls/string": "*",
         "@syls/console": "*"
     }
 }

@@ -264,7 +264,7 @@ class FNumber extends MNumber {
         switch (to) {
 
             case 'string': return this.value.toString();
-            case 'number', 'default': return this.value;
+            case 'number': return this.value;
             case 'boolean': return true;
 
         };

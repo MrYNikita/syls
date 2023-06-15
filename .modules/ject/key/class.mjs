@@ -1,5 +1,6 @@
 //#region YI
 
+import { argClassify } from '@syls/arg';
 import { YJect } from '@syls/ject';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -200,11 +201,19 @@ class FKey extends MKey {
             
             switch (t.length) {
                 
-                case 5: r.shift = t[4];
-                case 4: r.ctrl = t[3];
-                case 3: r.alt = t[2];
-                case 2: r.code = t[1];
-                case 1: r.name = t[0];
+                default: {
+
+                    const arg = argClassify(t);
+
+                    r.name = arg.string[0]?.value;
+                    r.code = arg.string[1]?.value;
+                    
+                    r.alt = arg.bool[0]?.value;
+                    r.ctrl = arg.bool[1]?.value;
+                    r.shift = arg.bool[2]?.value;
+                    
+
+                };
                 
             };
             
@@ -270,6 +279,12 @@ class FKey extends MKey {
         switch (t.name) {
 
             case 'up': case 'left': case 'down': case 'right': case 'escape': case 'delete': case 'f1': case 'f2': case 'f3': case 'f4': case 'f5': case 'f6': case 'f7': case 'f8': case 'f9': case 'f10': case 'f11': case 'f12': t.alt = true; break;
+
+        };
+
+        if (/^\p{L}$/u.test(t.name) && t.name.toUpperCase() === t.name) {
+
+            t.shift = true;
 
         };
         

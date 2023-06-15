@@ -272,7 +272,7 @@ export class YANSI extends FANSI {
         const foreground = this.foreground ? `${config.codeColorForeground}${config.codeColor};${this.foreground}` : '';
         const background = this.background ? `${config.codeColorBackground}${config.codeColor};${this.background}` : '';
 
-        return `${config.code}${[underline, foreground, background].join(';')}m`;
+        return `${config.code}${[underline, foreground, background].filter(code => code).join(';')}m`;
         
     };
 

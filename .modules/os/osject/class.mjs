@@ -24,34 +24,34 @@ await import('./error.mjs')
 //#endregion
 //#region YT
 
-/** ### YObjectT
+/** ### YOsjectT
  * - Тип `T`
  * - Версия `0.0.0`
  * - Модуль `os\osject`
  * 
- * Основной параметр модуля `YObject`.
+ * Основной параметр модуля `YOsject`.
  * 
- * @typedef {YObjectTE&YObjectTU} YObjectT
+ * @typedef {YOsjectTE&YOsjectTU} YOsjectT
  * 
 */
-/** ### YObjectTE
+/** ### YOsjectTE
  * - Тип `TE`
  * - Версия `0.0.0`
  * - Модуль `os\osject`
  * 
- * Параметр наследования `YObject`.
+ * Параметр наследования `YOsject`.
  * 
- * @typedef {{[p in Exclude<keyof DObject,keyof SObject>|Exclude<keyof SObject,keyof DObject>]:(DObject[p]&SObject[p])}} YObjectTE
+ * @typedef {{[p in Exclude<keyof DOsject,keyof SOsject>|Exclude<keyof SOsject,keyof DOsject>]:(DOsject[p]&SOsject[p])}} YOsjectTE
  * 
 */
-/** ### YObjectTU
+/** ### YOsjectTU
  * - Тип `TU`
  * - Версия `0.0.0`
  * - Модуль `os\osject`
  * 
- * Уникальные параметры `YObject`.
+ * Уникальные параметры `YOsject`.
  * 
- * @typedef YObjectTU
+ * @typedef YOsjectTU
  * @prop {any} _
  * 
 */
@@ -106,30 +106,30 @@ class MOsject extends IOsject {
 class FOsject extends MOsject {
     
     /**
-     * ### YObject.constructor
+     * ### YOsject.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YObjectT} t
+     * @arg {YOsjectT} t
     */
     constructor(t) {
         
         t = [...arguments];
         
-        super(Object.assign(t = FObject.#before(t), {}));
+        super(Object.assign(t = FOsject.#before(t), {}));
         
-        FObject.#deceit.apply(this, [t]);
+        FOsject.#deceit.apply(this, [t]);
         
     };
     
     /** @arg {any[]} t */
     static #before(t) {
         
-        /** @type {YObjectT} */
+        /** @type {YOsjectT} */
         let r = {};
         
-        if (t?.length === 1 && [Object, YObject].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
+        if (t?.length === 1 && [Object, YOsject].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
             
             r = t[0];
             
@@ -160,12 +160,12 @@ class FOsject extends MOsject {
         return r;
         
     };
-    /** @arg {YObjectT} t @this {YObject} */
+    /** @arg {YOsjectT} t @this {YOsject} */
     static #deceit(t) {
         
         try {
             
-            FObject.#verify.apply(this, [t]);
+            FOsject.#verify.apply(this, [t]);
             
         } catch (e) {
             
@@ -178,7 +178,7 @@ class FOsject extends MOsject {
         };
         
     };
-    /** @arg {YObjectT} t @this {YObject} */
+    /** @arg {YOsjectT} t @this {YOsject} */
     static #verify(t) {
         
         const {
@@ -187,10 +187,10 @@ class FOsject extends MOsject {
             
         } = t;
         
-        FObject.#handle.apply(this, [t]);
+        FOsject.#handle.apply(this, [t]);
         
     };
-    /** @arg {YObjectT} t @this {YObject} */
+    /** @arg {YOsjectT} t @this {YOsject} */
     static #handle(t) {
         
         if (YCond.isString(t.path)) {
@@ -201,10 +201,10 @@ class FOsject extends MOsject {
 
         t.status = pathExists(t.path.get());
         
-        FObject.#create.apply(this, [t]);
+        FOsject.#create.apply(this, [t]);
         
     };
-    /** @arg {YObjectT} t @this {YObject} */
+    /** @arg {YOsjectT} t @this {YOsject} */
     static #create(t) {
         
         const {
@@ -226,7 +226,7 @@ class FOsject extends MOsject {
 };
 
 /**
- * ### YObject
+ * ### YOsject
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
  * - Модуль `os\osject`

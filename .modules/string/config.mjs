@@ -81,7 +81,57 @@ export const configString = {
     */
     spliterPart: '.',
     /**
-     * ### spliterInsert
+     * ### 
+     * 
+     * Конец маркировки.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    markEnd: "-#>",
+    /**
+     * ### markBegin
+     * 
+     * Начало маркировки.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    markBegin: '<#Y',
+    /**
+     * ### markDelimeter
+     * 
+     * Разделитель разметки.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    markDelimeter: '-',
+    /**
+     * ### insertEnd
+     * 
+     * Блок конца вставки.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    insertEnd: '-#>',
+    /**
+     * ### insertBegin
+     * 
+     * Блок начала вставки.
+     * 
+     * *** 
+     * @type {string} 
+     * @public
+    */
+    insertBegin: '<#YIns-',
+    /**
+     * ### insertSpliter
      * 
      * Разделитель частей вставок.
      * 
@@ -89,7 +139,7 @@ export const configString = {
      * @type {string} 
      * @public
     */
-    spliterInsert: '/',
+    insertSpliter: '/',
     /**
      * ### insertSymbolPosition
      * 

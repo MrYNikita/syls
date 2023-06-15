@@ -316,7 +316,17 @@ function getColorCodeComply(t) {
 
     } else {
 
-        return Object.entries(config.colors).find(c => c[0].match(new RegExp(color) || c[1] === color))[1];
+        const result = Object.entries(config.colors).find(c => c[0].match(new RegExp(color) || c[1] === color))[1];
+
+        if (result === -1) {
+
+            return null;
+
+        } else {
+
+            return result;
+
+        };
 
     };
     

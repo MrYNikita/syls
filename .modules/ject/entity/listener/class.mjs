@@ -213,7 +213,7 @@ class IListener extends DListener {
      * Комбинации.
      * 
      * *** 
-     * @type {[YComb, ()=>void][]} 
+     * @type {(YComb|YComb[])[]} 
      * @protected
     */
     combs = [];
@@ -364,7 +364,6 @@ class FListener extends MListener {
  * ### YListener
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль `ject\listener`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -400,13 +399,28 @@ export class YListener extends FListener {
         /** @arg {import("readline").Key} k `Данные клавиши` */
         this.callback = (c, k) => {
 
+            this.combs = this.combs.filter(comb => !(!comb || (comb instanceof Array && comb.length === 0)));
+
             const key = new YKey(k.name, k.sequence, false, k.ctrl, k.shift);
 
             this.appendKeys(key);
-            
+
             if (key.code === '\x1b') {
 
                 process.exit();
+
+            } else {
+
+                for (const comb of this.combs.flat()) {
+                    
+                    if (comb instanceof YComb && comb.apply(...this.keys)) {
+
+                        this.keys = [];
+                        break;
+
+                    };
+
+                };
 
             };
 
@@ -481,7 +495,7 @@ export class YListener extends FListener {
      * Метод добавления комбинаций.
      * 
      * ***
-     * @arg {...[YComb|string, ()=>void]} combs Комбинации
+     * @arg {...[YComb|[string, ()=>void]]} combs Комбинации
      * @public
     */
     appendCombs(...combs) { 

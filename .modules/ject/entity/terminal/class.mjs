@@ -1,23 +1,8 @@
 //#region YI
 
-import { YTimer } from '@syls/timer';
-import { YConsole } from '@syls/console';
-import { YFileJson } from '@syls/file';
-import { arrayUnite } from '@syls/array';
-import { condIsString } from '@syls/cond';
-import { YString, structureFrame } from '@syls/string';
-import { YListener } from './listener/class.mjs';
-import { YReceiver } from './receiver/class.mjs';
-import { YInterface } from './interface/class.mjs';
-import { YResponse } from './receiver/response/class.mjs';
-import { YElement } from './element/class.mjs';
-import { YComb } from './listener/comb/class.mjs';
-import { YStyle } from './style/class.mjs';
-import configStyle from './style/config.mjs';
-import { YKey } from './listener/key/class.mjs';
-import { YSwitch } from './element/interact/switch/class.mjs';
-import { YMenu } from './element/interact/menu/class.mjs';
-import { YInteract } from './element/interact/class.mjs';
+import { YEntity } from '@syls/entity';
+import { YComb, YKey } from '@syls/key';
+import { YListener } from '@syls/listener';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -40,8 +25,6 @@ await import('./error.mjs')
 
 /** ### YTerminalT
  * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\terminal`
  * 
  * Основной параметр модуля `YTerminal`.
  * 
@@ -50,8 +33,6 @@ await import('./error.mjs')
 */
 /** ### YTerminalTE
  * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\terminal`
  * 
  * Параметр наследования `YTerminal`.
  * 
@@ -60,32 +41,22 @@ await import('./error.mjs')
 */
 /** ### YTerminalTU
  * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\terminal`
  * 
  * Уникальные параметры `YTerminal`.
  * 
  * @typedef YTerminalTU
- * @prop {boolean} loadMode
+ * @prop {any} _
  * 
 */
 
 //#endregion
 
-class STerminal extends YReceiver {
+class STerminal extends YEntity {
 
-    /** ### config
-     * 
-     * Конфигуратор.
-     * 
-     * ***
-     * @public
-    */
-    static config = config;
     /**
      * ### combs
      * 
-     * Комбинации.
+     * Общие комбинации.
      * 
      * *** 
      * @type {YComb[]} 
@@ -149,136 +120,49 @@ class STerminal extends YReceiver {
             ],
 
         }),
+        new YComb({
+
+            keys: [
+
+                new YKey('c', false, true)
+
+            ],
+            funcs: [
+
+                y => console.clear(),
+
+            ],
+
+        }),
 
     ];
+    /**
+     * ### config
+     * 
+     * Конфигуратор.
+     * 
+     * ***
+     * @public
+    */
+    static config = config;
 
 };
 class DTerminal extends STerminal {
 
     /**
-     * ### file
+     * ### combs
      * 
-     * Файл.
-     * 
-     * *** 
-     * @type {YFileJson?} 
-     * @public
-    */
-    file;
-    /**
-     * ### sizeX
-     * 
-     * Ширина.
+     * Комбинации.
      * 
      * *** 
-     * @type {number} 
+     * @type {YComb[]} 
      * @public
     */
-    sizeX;
-    /**
-     * ### sizeY
-     * 
-     * Длина.
-     * 
-     * *** 
-     * @type {number} 
-     * @public
-    */
-    sizeY;
-    /**
-     * ### title
-     * 
-     * Заголовок.
-     * 
-     * *** 
-     * @type {string?} 
-     * @public
-    */
-    title;
-    /**
-     * ### style
-     * 
-     * Стиль.
-     * 
-     * *** 
-     * @type {YStyle} 
-     * @public
-    */
-    style = new YStyle();
-    /**
-     * ### layers
-     * 
-     * Слои.
-     * 
-     * *** 
-     * @type {any[]} 
-     * @public
-    */
-    layers = [];
-    /**
-     * ### layout
-     * 
-     * Разметка.
-     * 
-     * *** 
-     * @type {YString?} 
-     * @public
-    */
-    layout = null;
-    /**
-     * ### saveMode
-     * 
-     * Режим сохранения.
-     * 
-     * *** 
-     * @type {boolean} 
-     * @public
-    */
-    saveMode;
-    /**
-     * ### loadMode
-     * 
-     * Режим загрузки.
-     * 
-     * *** 
-     * @type {boolean} 
-     * @public
-    */
-    loadMode;
-    /**
-     * ### displayY
-     * 
-     * Координата области видимости по Y.
-     * 
-     * *** 
-     * @type {number} 
-     * @public
-    */
-    displayY;
-    /**
-     * ### displayX
-     * 
-     * Координата области видимости по X.
-     * 
-     * *** 
-     * @type {number} 
-     * @public
-    */
-    displayX;
+    combs = [];
 
 };
 class ITerminal extends DTerminal {
 
-    /**
-     * ### timer
-     * 
-     * Таймер.
-     * 
-     * *** 
-     * @type {YTimer} 
-     * @protected
-    */
-    timer = new YTimer();
     /**
      * ### listener
      * 
@@ -286,21 +170,9 @@ class ITerminal extends DTerminal {
      * 
      * *** 
      * @type {YListener} 
-     * @public
-    */
-    listener = new YListener(this);
-    /**
-     * ### transfers
-     * 
-     * Элементы для передачи.
-     * 
-     * *** 
-     * @type {YElement[]} 
      * @protected
     */
-    transfers = [];
-    /** @type {YInterface} */
-    recepient;
+    listener = new YListener();
 
 };
 class MTerminal extends ITerminal {
@@ -326,6 +198,8 @@ class FTerminal extends MTerminal {
 
         FTerminal.#deceit.apply(this, [t]);
 
+        return this.correlate();
+
     };
 
     /** @arg {any[]} t */
@@ -348,6 +222,7 @@ class FTerminal extends MTerminal {
 
             switch (t.length) {
 
+                default:
                 case 3:
                 case 2:
                 case 1:
@@ -398,15 +273,7 @@ class FTerminal extends MTerminal {
     /** @arg {YTerminalT} t @this {YTerminal} */
     static #handle(t) {
 
-        if (t.file) {
 
-            if (condIsString(t.file)) {
-
-                t.file = new YFileJson(t.file);
-
-            };
-
-        };
 
         FTerminal.#create.apply(this, [t]);
 
@@ -428,21 +295,7 @@ class FTerminal extends MTerminal {
 
         };
 
-        this.setInterface(this.recepient);
-
-        this.appendHandlers(
-
-            ['go'],
-            ['on'],
-            ['off'],
-            ['save'],
-            ['load'],
-            ['back'],
-            ['receive'],
-            ['restart'],
-            ['display'],
-
-        );
+        this.listener.appendCombs(this.combs, this.constructor.combs);
 
     };
 
@@ -451,8 +304,6 @@ class FTerminal extends MTerminal {
 /**
  * ### YTerminal
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\terminal`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -465,8 +316,7 @@ export class YTerminal extends FTerminal {
 
     /**
      * ### on
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
+     * 
      * ***
      * 
      * Метод активации терминала.
@@ -476,431 +326,61 @@ export class YTerminal extends FTerminal {
     */
     on() {
 
-        if (!this.listener.active) {
-
-            this.listener.on();
-            this.timer.on();
-
-        };
+        this.listener.on();
 
         return this;
 
     };
     /**
      * ### off
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * Метод отключения терминала.
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
      * @public
     */
     off() {
 
-        this.listener.off();
-        this.timer.off();
 
-        return this;
-
-    };
-    /**
-     * ### save
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * @public
-    */
-    save() {
-
-        try {
-
-            const data = this.file.read();
-
-            data.location = this.getLocation();
-            data.switch.index = this.recepient.recepient.index;
-
-            this.file.write(data);
-
-        } catch (e) {
-
-            
-
-        };
-
-        return this;
-
-    };
-    /**
-     * ### load
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * Метод загрузки состояния.
-     * 
-     * ***
-     * @public
-    */
-    load() {
-
-        if (this.file.exists()) {
-
-            const data = this.file.read();
-
-            this.go(...data.location);
-
-            const interactor = this.recepient.interactor;
-
-            if (interactor) {
-
-                switch (this.recepient.interactor.constructor) {
-
-                    case YMenu: {
-
-                        interactor.index = data.interact.index ?? 0;
-
-                    }; break;
-                    case YSwitch: {
-
-                        interactor.index = data.interactSwitch.index ?? 0;
-
-                    }; break;
-
-                };
-
-            };
-
-        };
-
-        return this;
-
-    };
-    /**
-     * ### restart
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * Метод перезапуска терминала.
-     * 
-     * ***
-     * 
-     * @public
-    */
-    restart() {
-
-        this.saveMode && this.save();
-
-        process.send('restart');
-
-        return this;
 
     };
 
     /**
-     * ### getKey
-     * - Версия `0.0.0`
+     * ### getListener
+     * 
      * ***
      * 
-     * Метод получения последней нажатой клавиши.
+     * Метод получения оболочки прослушивателя.
      * 
      * ***
      * @public
     */
-    getKey() {
+    getListener() {
 
-        return this.listener.keys.at(-1) ?? null;
+        return this.getShell(this.listener);
 
     };
+
     /**
-     * ### getLocation
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * Метод получения местоположения.
+     * ### appendCombs
      * 
      * ***
+     * 
+     * Комбинации.
+     * 
+     * ***
+     * @arg {...YComb} combs `Комбинации`
      * @public
     */
-    getLocation() {
-
-        const location = [this.recepient];
-
-        while (location.at(-1).interfaceOver) {
-
-            location.push(location.at(-1).interfaceOver);
-
-        };
-
-        return location.map(intf => intf.label).reverse().slice(1);
-
-    };
-    /**
-     * ### getElements
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения всех текущих активных элементов.
-     * 
-     * ***
-     * @public
-     * @return {(YElement|YInteract)[]}
-    */
-    getElements() {
+    appendCombs(...combs) {
         
-        const result = [];
+        this.combs.push(...combs);
 
-        result.push(...this.transfers);
-
-        if (this.recepient) {
-
-            if (this.recepient.elements) {
-
-                result.push(...this.recepient.elements);
-
-            };
-            if (this.recepient.switch) {
-
-                result.push(...this.recepient.switch.interacts);
-
-            };
-
-        };
-
-        return result;
+        return this;
         
-    };
-
-    /**
-     * ### go
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * Метод перехода к указанному интерфейсу.
-     * 
-     * ***
-     * @arg {...string} labels `Метки`
-     * @public
-    */
-    go(...labels) {
-
-        const labelLast = labels.at(-1);
-
-        if (this.recepient) {
-
-            labels = labels.filter(label => condIsString(label));
-
-            labels.forEach((label) => {
-
-                const intf = this.recepient.interfaces.find(i => i.label === label);
-                
-                if (intf) {
-
-                    this.transfers.push(...this.recepient.elements.filter(e => e.transfer && !this.transfers.includes(e)));
-                    
-                    this
-                    
-                        .setInterface(intf)
-                        .handle('go');
-                    
-                    if (intf.label === labelLast) {
-
-                        this.display();
-
-                    };
-
-                };
-
-            });
-
-        };
-
-        return this;
-
-    };
-    /**
-     * ### back
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * Метод перехода к предыдущему интерфейсу.
-     * 
-     * ***
-     * @public
-    */
-    back() {
-
-        if (this.recepient.interfaceOver) {
-
-            this.transfers = this.transfers.filter(e => !this.recepient.elements.includes(e));
-
-            this
-
-                .setInterface(this.recepient.interfaceOver)
-                .handle('back')
-                .display();
-
-        };
-
-        return this;
-
-    };
-
-    /**
-     * ### receive
-     * - Версия `0.0.0`
-     * - Модуль `ject\terminal`
-     * ***
-     *
-     * Метод принятия комбинаций.
-     *
-     * ***
-     * @arg {YComb} comb `Комбинация`
-     * @public
-    */
-    receive(comb) {
-
-        /** @type {YResponse?} */
-        const response = YReceiver.prototype.receive.apply(this, [comb]);
-
-        arrayUnite(this.recepient.elements, this.recepient.recepient.interacts, this.transfers).forEach(element => {
-
-            if (element.redraw) {
-
-                YConsole.setCursorTo(...element.coords);
-
-                element.display();
-
-            };
-
-        });
-
-        if (!response) {
-
-            return response;
-
-        };
-
-        return response;
-
-    };
-    /**
-     * ### display
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * Метод отображения терминала.
-     * 
-     * ***
-     * @public
-    */
-    display() {
-
-        YConsole
-
-            .resetColor()
-            .setCursorTo(0, 0)
-
-        if (this.recepient) {
-
-            YConsole
-
-                .setColor(this.recepient.style.colorF, this.recepient.style.colorB)
-
-        };
-
-        if (this.layout) {
-
-
-
-        } else {
-
-            new YString()
-
-                .paste(structureFrame(this.sizeY, this.sizeX, this.title ?? 'YTerminal', this.recepient?.style?.frameTypeTerminal ?? configStyle.frameTypeTerminal))
-                .display(true);
-
-        };
-
-        arrayUnite(this.transfers, this.recepient.recepient.interacts, this.recepient.elements).forEach(element => {
-
-            YConsole.setCursorTo(...element.coords);
-
-            element.display();
-
-        });
-
-        return this;
-
-    };
-    /**
-     * ### displayClear
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal`
-     * ***
-     * 
-     * Метод очистки дисплея терминала.
-     * 
-     * ***
-     * @public
-    */
-    displayClear() {
-
-        for (let y = 1; y < this.sizeY - 2; y++) {
-
-            YConsole
-
-                .setCursorTo(y, 1)
-                .write(' '.repeat(this.sizeX - 2))
-                .setCursorTo(1, 1)
-
-        };
-
-        return this;
-
-    };
-
-    /**
-     * ### setInterface
-     * - Версия `0.0.0`
-     * - Модуль `ject\terminal`
-     * ***
-     *
-     * Метод установки начального интерфейса.
-     *
-     * ***
-     * @arg {YInterface} intf `Интерфейс`
-     * @public
-    */
-    setInterface(intf) {
-
-        if (intf instanceof YInterface) {
-
-            this.recepient = intf;
-
-            this.recepient.setTerminal(this);
-
-            if (!intf.interfaceOver) {
-
-                Object.setPrototypeOf(intf.style, this.style);
-
-            };
-
-        };
-
-        return this;
-
     };
 
 };
