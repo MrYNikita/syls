@@ -1,5 +1,6 @@
 //#region YI
 
+import { Y } from "@syls/y";
 import { jectAdopt, jectAdoptDefault, jectClone, jectCorrelate, jectEqual, jectGetProperty, jectGetPropertyByPath, jectSupplement } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -55,9 +56,61 @@ await import('./error.mjs')
 
 //#endregion
 
-class SJect {
+class SJect extends Y {
 
+    /**
+     * ### config
+     * 
+     * Конфигуратор.
+     * 
+     * ***  
+     * @public
+    */
+    static config = config;
+    /**
+     * ### stock
+     * 
+     * Стек всех экземпляров данного класса.
+     * 
+     * *** 
+     * @type {YJect[]}
+     * @public
+    */
+    static stock = [];
 
+    /**
+     * ### create
+     * 
+     * ***
+     * 
+     * Метод для создания множества экземпляров класса.
+     * 
+     * ***
+     * @public
+     * @arg {...YJect} args `Аргументы`
+     * @returns {YJect[]}
+    */
+    static create(...args) {
+
+        const result = [];
+
+        for (const arg of args) {
+
+            if (arg instanceof Array) {
+
+                result.push(new this(...arg));
+
+            } else {
+
+                result.push(new this(arg));
+
+            };
+
+        };
+
+        return result;
+        
+    };
 
 };
 class DJect extends SJect {
@@ -187,6 +240,12 @@ class FJect extends MJect {
 
 
         } = t;
+
+        if (this.constructor.config?.stockMode) {
+
+            this.constructor.stock.push(this);
+
+        };
 
     };
 

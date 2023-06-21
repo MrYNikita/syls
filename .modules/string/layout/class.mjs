@@ -3,8 +3,9 @@
 import { YJect } from '@syls/ject';
 import { YElement } from './element/class.mjs';
 import { condIsNumber } from '@syls/cond';
-import { stringAppend, stringGetRow, stringPaste, stringSetRow } from '../module.mjs';
+import { stringAppend, stringGetRow, stringSetRow } from '../module.mjs';
 import { YANSI, ansiGetColorReset } from '@syls/ansi';
+import { argClassify } from '@syls/arg';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -38,7 +39,7 @@ await import('./error.mjs')
  * 
  * Параметр наследования `YLayout`.
  * 
- * @typedef {{[p in Exclude<keyof DLayout,keyof SLayout>|Exclude<keyof SLayout,keyof DLayout>]:(DLayout[p]&SLayout[p])}} YLayoutTE
+ * @typedef {Omit<DLayout, keyof SLayout>} YLayoutTE
  * 
 */
 /** ### YLayoutTU
@@ -47,7 +48,7 @@ await import('./error.mjs')
  * Уникальные параметры `YLayout`.
  * 
  * @typedef YLayoutTU
- * @prop {any} _
+ * @prop {string} string
  * 
 */
 
@@ -78,6 +79,10 @@ class DLayout extends SLayout {
      * @public
     */
     ansi = null;
+
+};
+class ILayout extends DLayout {
+
     /**
      * ### elements
      * 
@@ -85,14 +90,9 @@ class DLayout extends SLayout {
      * 
      * *** 
      * @type {YElement[][]?} 
-     * @public
+     * @protected
     */
     elements = null;
-
-};
-class ILayout extends DLayout {
-
-
 
 };
 class MLayout extends ILayout {
@@ -142,10 +142,13 @@ class FLayout extends MLayout {
 
             switch (t.length) {
 
-                default:
-                case 3:
-                case 2:
-                case 1:
+                default: {
+
+                    const arg = argClassify(t);
+
+                    r.string = arg.string[0];
+
+                };
 
             };
 

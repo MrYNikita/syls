@@ -150,6 +150,16 @@ class STerminal extends YEntity {
 class DTerminal extends STerminal {
 
     /**
+     * ### sizes
+     * 
+     * Размерность.
+     * 
+     * *** 
+     * @type {[number, number]} 
+     * @public
+    */
+    sizes;
+    /**
      * ### combs
      * 
      * Комбинации.
@@ -344,7 +354,7 @@ export class YTerminal extends FTerminal {
     */
     off() {
 
-
+        this.listener.off();
 
     };
 

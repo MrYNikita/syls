@@ -449,7 +449,11 @@ function adoptComply(t) {
 
     } = t;
 
-    Object.keys(ject).forEach(s => owner[s] !== undefined && (ject[s] = owner[s]));
+    for (const s of Object.keys(ject)) {
+
+        owner[s] !== undefined && (ject[s] = owner[s])
+
+    };
 
     return ject;
 
@@ -559,22 +563,29 @@ function adoptDefaultComply(t) {
 
     } = t;
 
-    Object.keys(ject).forEach(p => {
+    for (const p of Object.keys(ject)) {
 
-        const defaultProperty = 'default' + p[0].toUpperCase() + p.slice(1);
-        const propertyDefault = p + 'Default';
+        const properties = ['default' + p[0].toUpperCase() + p.slice(1), p + 'Default'];
 
-        if (!ject[p] && owner[defaultProperty] !== undefined) {
+        for (const property of properties) {
 
-            ject[p] = owner[defaultProperty];
+            if (!ject[p] && owner[property] !== undefined) {
 
-        } else if (!ject[p] && owner[propertyDefault] !== undefined) {
+                if (typeof owner[property] === 'object') {
 
-            ject[p] = owner[propertyDefault];
+                    ject[p] = jectClone(owner[property]);
+                    
+                } else {
+                    
+                    ject[p] = owner[property];
+    
+                };
+
+            };
 
         };
 
-    });
+    };
 
     return ject;
 

@@ -40,8 +40,17 @@ await import('./error.mjs')
  *
  *
  * @typedef condTValue
- * @prop {} value
+ * @prop {any} value
  *
+*/
+/** ### condTValues
+ * - Тип `T`
+ * 
+ * 
+ * 
+ * @typedef condTValues
+ * @prop {any[]} values
+ * 
 */
 
 //#endregion
@@ -51,7 +60,7 @@ await import('./error.mjs')
 
 //#endregion
 
-//#region isType 0.0.0
+//#region isType 0.0.1
 
 /** ### condTFIsType
  * - Тип `TF`
@@ -166,7 +175,7 @@ export function condIsType(value, type) {
 };
 
 //#endregion
-//#region isBool 0.0.0
+//#region isBool 0.0.1
 
 /** ### condTFIsBool
  * - Тип `TF`
@@ -243,19 +252,21 @@ function isBoolComply(t) {
 
     const {
 
-        value,
+        values,
 
     } = t;
 
-    if (value?.constructor === Boolean) {
+    for (const value of values) {
 
-        return true;
+        if (value?.constructor !== Boolean) {
 
-    } else {
+            return false;
 
-        return false;
+        };
 
     };
+
+    return true;
 
 };
 
@@ -266,19 +277,19 @@ function isBoolComply(t) {
  * - Модуль `bool\cond`
  * ***
  *
- * Функция проверки значения на принадлежнсоть к логическим значениям.
+ * Функция проверки значений на принадлежнсоть к логическим значениям.
  *
  * ***
- * @arg value
+ * @arg {...any} values
 */
-export function condIsBool(value) {
+export function condIsBool(...values) {
 
-    return isBoolDeceit({ value });
+    return isBoolDeceit({ values });
 
 };
 
 //#endregion
-//#region isMany 0.0.0
+//#region isMany 0.0.1
 
 /** ### condTFIsMany
  * - Тип `TF`
@@ -288,7 +299,7 @@ export function condIsBool(value) {
  *
  * Результирующие параметры функции `isMany`.
  *
- * @typedef {condTFUIsMany&condT&condTValue} condTFIsMany
+ * @typedef {condTFUIsMany&condT&condTValues} condTFIsMany
  *
 */
 /** ### condTFUIsMany
@@ -355,19 +366,21 @@ function isManyComply(t) {
 
     const {
 
-        value,
+        values,
 
     } = t;
 
-    return [
+    for (const value of values) {
 
-        Set,
-        Map,
-        YMany,
-        Array,
-        String,
+        if (![Set, Map, YMany, Array, String].some(type => value?.constructor === type || value instanceof type)) {
 
-    ].some(type => value?.constructor === type || value instanceof type);
+            return false;
+
+        };
+
+    };
+
+    return true;
 
 };
 
@@ -378,7 +391,7 @@ function isManyComply(t) {
  * - Модуль `bool\cond`
  * ***
  *
- * Функция проверки значения на принадлежность ко множествам.
+ * Функция проверки значений на принадлежность ко множествам.
  *
  * Ко множествам относятся:
  * - Set;
@@ -389,129 +402,17 @@ function isManyComply(t) {
  * - Наследуемые от них элементы;
  *
  * ***
- * @arg value `Значение`
+ * @arg values `Значения`
 */
-export function condIsMany(value) {
+export function condIsMany(...values) {
 
-    return isManyDeceit({ value });
-
-};
-
-//#endregion
-//#region isValid 0.0.0
-
-/** ### condTFIsValid
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- * ***
- *
- * Результирующие параметры функции `isValid`.
- *
- * @typedef {condTFUIsValid&condT&condTValue} condTFIsValid
- *
-*/
-/** ### condTFUIsValid
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isValid`.
- *
- * @typedef condTFUIsValid
- * @prop {} _
-*/
-
-/** @arg {condTFIsValid} t */
-function isValidDeceit(t) {
-
-    try {
-
-        return isValidVerify(t);
-
-    } catch (e) {
-
-        if (config?.strict) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {condTFIsValid} t */
-function isValidVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isValidHandle(t);
-
-};
-/** @arg {condTFIsValid} t */
-function isValidHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isValidComply(t);
-
-};
-/** @arg {condTFIsValid} t */
-function isValidComply(t) {
-
-    const {
-
-        value,
-
-    } = t;
-
-    if (value || value === 0) {
-
-        return true;
-
-    } else {
-
-        return false;
-
-    };
-
-};
-
-/**
- * ### condIsValid
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
- * ***
- *
- * Функция проверки валидности числа.
- *
- * ***
- * @arg value
-*/
-export function condIsValid(value) {
-
-    return isValidDeceit({ value });
+    return isManyDeceit({ values });
 
 };
 
 //#endregion
 
-//#region isString 0.0.0
+//#region isString 0.0.1
 
 /** ### condTFIsString
  * - Тип `TF`
@@ -521,7 +422,7 @@ export function condIsValid(value) {
  *
  * Результирующие параметры функции `isString`.
  *
- * @typedef {condTFUIsString&condT&condTValue} condTFIsString
+ * @typedef {condTFUIsString&condT&condTValues} condTFIsString
  *
 */
 /** ### condTFUIsString
@@ -588,19 +489,21 @@ function isStringComply(t) {
 
     const {
 
-        value,
+        values,
 
     } = t;
 
-    if (condIsType(value, String)) {
+    for (const value of values) {
 
-        return true;
+        if (!condIsType(value, String)) {
 
-    } else {
+            return false;
 
-        return false;
+        };
 
     };
+
+    return true;
 
 };
 
@@ -611,19 +514,19 @@ function isStringComply(t) {
  * - Модуль `bool\cond`
  * ***
  *
- * Функция проверки значения на принадлежность к строке.
+ * Функция проверки значений на принадлежность к строке.
  *
  * ***
- * @arg value
+ * @arg {...any} values `Значения`
 */
-export function condIsString(value) {
+export function condIsString(...values) {
 
-    return isStringDeceit({ value });
+    return isStringDeceit({ values, });
 
 };
 
 //#endregion
-//#region isStringValid 0.0.0
+//#region isStringValid 0.0.1
 
 /** ### condTFIsStringValid
  * - Тип `TF`
@@ -633,7 +536,7 @@ export function condIsString(value) {
  *
  * Результирующие параметры функции `isStringValid`.
  *
- * @typedef {condTFUIsStringValid&condT&condTValue} condTFIsStringValid
+ * @typedef {condTFUIsStringValid&condT&condTValues} condTFIsStringValid
  *
 */
 /** ### condTFUIsStringValid
@@ -700,19 +603,21 @@ function isStringValidComply(t) {
 
     const {
 
-        value,
+        values,
 
     } = t;
 
-    if (condIsValid(value) && condIsString(value)) {
+    for (const value of values) {
 
-        return true;
+        if (!(condIsValid(value) && condIsString(value))) {
 
-    } else {
+            return false;
 
-        return false;
+        };
 
     };
+
+    return true;
 
 };
 
@@ -723,20 +628,20 @@ function isStringValidComply(t) {
  * - Модуль `bool\cond`
  * ***
  *
- * Функция проверки значения на принадлежнсоть к валидным строкам.
+ * Функция проверки значений на принадлежнсоть к валидным строкам.
  *
  * ***
- * @arg value `Значение`
+ * @arg {...any} values `Значения`
 */
-export function condIsStringValid(value) {
+export function condIsStringValid(...values) {
 
-    return isStringValidDeceit({ value });
+    return isStringValidDeceit({ values });
 
 };
 
 //#endregion
 
-//#region isFloat 0.0.0
+//#region isFloat 0.0.1
 
 /** ### condTFIsFloat
  * - Тип `TF`
@@ -746,7 +651,7 @@ export function condIsStringValid(value) {
  *
  * Результирующие параметры функции `isFloat`.
  *
- * @typedef {condTFUIsFloat&condT&condTValue} condTFIsFloat
+ * @typedef {condTFUIsFloat&condT&condTValues} condTFIsFloat
  *
 */
 /** ### condTFUIsFloat
@@ -813,19 +718,21 @@ function isFloatComply(t) {
 
     const {
 
-        value,
+        values,
 
     } = t;
 
-    if (condIsNumber(value) && value % 1 !== 0) {
+    for (const value of values) {
 
-        return true;
+        if (!(condIsNumber(value) && value % 1 !== 0)) {
 
-    } else {
+            return false;
 
-        return false;
+        };
 
     };
+
+    return true;
 
 };
 
@@ -836,19 +743,19 @@ function isFloatComply(t) {
  * - Модуль `bool\cond`
  * ***
  *
- * Функция для проверки значения на принадлежность к дробным числам.
+ * Функция для проверки значениий на принадлежность к дробным числам.
  *
  * ***
- * @arg value `Значение`
+ * @arg {...any} values `Значения`
 */
-export function condIsFloat(value) {
+export function condIsFloat(values) {
 
-    return isFloatDeceit({ value });
+    return isFloatDeceit({ values });
 
 };
 
 //#endregion
-//#region isNumber 0.0.0
+//#region isNumber 0.0.1
 
 /** ### condTFIsNumber
  * - Тип `TF`
@@ -858,7 +765,7 @@ export function condIsFloat(value) {
  *
  * Результирующие параметры функции `isNumber`.
  *
- * @typedef {condTFUIsNumber&condT&condTValue} condTFIsNumber
+ * @typedef {condTFUIsNumber&condT&condTValues} condTFIsNumber
  *
 */
 /** ### condTFUIsNumber
@@ -925,42 +832,44 @@ function isNumberComply(t) {
 
     const {
 
-        value,
+        values,
 
     } = t;
 
-    if ((value && condIsType(value, Number)) || value === 0) {
+    for (const value of values) {
 
-        return true;
+        if (!((value && condIsType(value, Number)) || value === 0)) {
 
-    } else {
-
-        return false;
+            return false;
+    
+        };
 
     };
+
+    return true;
 
 };
 
 /**
  * ### condIsNumber
- * - Версия `0.0.0`
+ * - Версия `0.0.1`
  * - Цепочка `DVHCa`
  * - Модуль `bool\cond`
  * ***
  *
- * Функция проверки указанного значения на принадлежность к числам.
+ * Функция проверки указанных значений на принадлежность к числам.
  *
  * ***
- * @arg {} value `Значение`
+ * @arg {...any} values `Значения`
 */
-export function condIsNumber(value) {
+export function condIsNumber(...values) {
 
-    return isNumberDeceit({ value });
+    return isNumberDeceit({ values });
 
 };
 
 //#endregion
-//#region isNumberLimit 0.0.0
+//#region isNumberLimit 0.0.1
 
 /** ### condTFIsNumberLimit
  * - Тип `TF`
@@ -970,7 +879,7 @@ export function condIsNumber(value) {
  *
  * Результирующие параметры функции `isNumberLimit`.
  *
- * @typedef {condTFUIsNumberLimit&condT&condTValue} condTFIsNumberLimit
+ * @typedef {condTFUIsNumberLimit&condT&condTValues} condTFIsNumberLimit
  *
 */
 /** ### condTFUIsNumberLimit
@@ -1037,19 +946,21 @@ function isNumberLimitComply(t) {
 
     const {
 
-        value,
+        values,
 
     } = t;
 
-    if (condIsNumber(value) && Math.abs(value) !== Infinity) {
+    for (const value of values) {
 
-        return true;
+        if (!(condIsNumber(value) && Math.abs(value) !== Infinity)) {
 
-    } else {
+            return false;
 
-        return false;
+        };
 
     };
+
+    return true;
 
 };
 
@@ -1060,14 +971,14 @@ function isNumberLimitComply(t) {
  * - Модуль `bool\cond`
  * ***
  *
- * Функция проверки значения на принадлежность к конечным числам, отличным от бесконечности.
+ * Функция проверки значений на принадлежность к конечным числам, отличным от бесконечности.
  *
  * ***
- * @arg value `Значение`
+ * @arg values `Значения`
 */
-export function condIsNumberLimit(value) {
+export function condIsNumberLimit(values) {
 
-    return isNumberLimitDeceit({ value });
+    return isNumberLimitDeceit({ values });
 
 };
 

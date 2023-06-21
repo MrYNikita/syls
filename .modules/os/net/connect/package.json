@@ -1,18 +1,26 @@
 {
-    "name": "@syls/ject",
+    "name": "@syls/connect",
     "type": "module",
     "types": "./type.d.ts",
     "files": [
-        "./alias",
+        "./request",
+        "./readme.md",
+        "./future.md",
         "./type.d.ts",
+        "./error.mjs",
         "./class.mjs",
+        "./export.mjs",
         "./config.mjs",
         "./module.mjs",
-        "./export.mjs",
         "./package.json",
         "./changelog.md"
     ],
-    "version": "0.5.4",
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "0.0.0",
+    "license": "Apache-2.0",
     "exports": {
         ".": {
             "types": "./type.d.ts",
@@ -20,25 +28,23 @@
             "default": "./export.mjs"
         }
     },
-    "author": {
-        "name": "Yakhin Nikita Artemovich",
-        "email": "mr.y.nikita@gmail.com"
-    },
-    "license": "Apache-2.0",
     "keywords": [
         "y",
         "lib",
+        "net",
         "syls",
-        "ject",
-        "basic",
-        "object"
+        "connect"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
     "dependencies": {
-        "@syls/y": "*"
+        "@syls/net": "*",
+        "@syls/arg": "*",
+        "@syls/type": "*",
+        "@syls/ject": "*",
+        "@syls/cond": "*"
     },
-    "description": "Объектный модуль."
+    "description": "Модуль сетевых соединений."
 }

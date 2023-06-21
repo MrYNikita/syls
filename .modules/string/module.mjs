@@ -3735,6 +3735,104 @@ export function stringMatchCountEquals(string, count, ...fragments) {
 
 //#endregion
 
+//#region formatUrl
+
+/** ### stringTFFormatUrl
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `formatUrl`.
+ * 
+ * @typedef {stringTFUFormatUrl&stringT} stringTFFormatUrl
+ * 
+*/
+/** ### stringTFUFormatUrl
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `formatUrl`.
+ * 
+ * @typedef stringTFUFormatUrl
+ * @prop {any} _
+*/
+
+/** @arg {stringTFFormatUrl} t */
+function formatUrlDeceit(t) {
+    
+    try {
+        
+        return formatUrlVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFFormatUrl} t */
+function formatUrlVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return formatUrlHandle(t);
+   
+};
+/** @arg {stringTFFormatUrl} t */
+function formatUrlHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return formatUrlComply(t);
+   
+};
+/** @arg {stringTFFormatUrl} t */
+function formatUrlComply(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+    
+    
+    
+};
+
+/**
+ * ### stringFormatUrl
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * 
+*/
+export function stringFormatUrl() {
+
+    return formatUrlDeceit({});
+
+};
+
+//#endregion
 //#region formatDate 0.0.0
 
 /** ### stringTFFormatDate
@@ -3757,6 +3855,7 @@ export function stringMatchCountEquals(string, count, ...fragments) {
  * 
  * @typedef stringTFUFormatDate
  * @prop {Date} date
+ * @prop {number[]} mesuares
 */
 
 /** @arg {stringTFFormatDate} t */
@@ -3817,7 +3916,11 @@ function formatDateComply(t) {
 
     } = t;
 
-    const mesuares = dateGetMesuares(date).map(mesuare => mesuare.toString().padStart(2, '0'));
+    const mesuares = t.mesuares ?? dateGetMesuares(date);
+
+    mesuares.forEach((mesuare, index) => mesuares[index] = mesuare.toString().padStart(2, 0));
+
+    mesuares[mesuares.length - 1] = mesuares.at(-1).padStart(4, 0);
 
     let result = funcBypass(config.templatesDate[local ?? 'ru'],
 
@@ -3849,6 +3952,22 @@ function formatDateComply(t) {
 export function stringFormatDate(date = new Date(), local = 'ru') {
 
     return formatDateDeceit({ date, local, });
+
+};
+/**
+ * ### stringFormatDateByMesuares
+ * 
+ * ***
+ * 
+ * Функция получения формата даты, указанной в виде последовательности.
+ * 
+ * ***
+ * @arg {string} local `Локаль`
+ * @arg {...number} mesuares `Измерения`
+*/
+export function stringFormatDateByMesuares(local = 'ru', ...mesuares) {
+
+    return formatDateDeceit({ local, mesuares, });
 
 };
 

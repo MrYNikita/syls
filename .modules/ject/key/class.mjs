@@ -39,7 +39,7 @@ await import('./error.mjs')
  * 
  * Параметр наследования `YKey`.
  * 
- * @typedef {{[p in Exclude<keyof DKey,keyof SKey>|Exclude<keyof SKey,keyof DKey>]:(DKey[p]&SKey[p])}} YKeyTE
+ * @typedef {Omit<DKey, keyof SKey>} YKeyTE
  * 
 */
 /** ### YKeyTU
@@ -205,12 +205,12 @@ class FKey extends MKey {
 
                     const arg = argClassify(t);
 
-                    r.name = arg.string[0]?.value;
-                    r.code = arg.string[1]?.value;
+                    r.name = arg.string[0];
+                    r.code = arg.string[1];
                     
-                    r.alt = arg.bool[0]?.value;
-                    r.ctrl = arg.bool[1]?.value;
-                    r.shift = arg.bool[2]?.value;
+                    r.alt = arg.bool[0];
+                    r.ctrl = arg.bool[1];
+                    r.shift = arg.bool[2];
                     
 
                 };

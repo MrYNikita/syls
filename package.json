@@ -15,7 +15,7 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.58.0",
+    "version": "0.59.0",
     "license": "Apache-2.0",
     "keywords": [
         "y",
@@ -29,6 +29,7 @@
     },
     "description": "SYLS (Software Y Lib Solutions) - библиотека, дающая доступ к функциональным и системным решениям, для разработки разнонаправленных приложений.",
     "dependencies": {
+        "@syls/type": "*",
         "@syls/arg": "*",
         "@syls/string": "*",
         "@syls/array": "*",
@@ -66,6 +67,9 @@
         "@syls/terminal": "*",
         "@syls/timer": "*",
         "@syls/web": "*",
-        "@syls/y": "*"
+        "@syls/y": "*",
+        "@syls/connect": "*",
+        "@syls/url": "*",
+        "@syls/request": "*"
     }
 }

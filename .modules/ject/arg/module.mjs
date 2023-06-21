@@ -116,15 +116,25 @@ function classifyComply(t) {
 
     const result = {
 
-        nan: [],
+        /** @type {Date[]} */
+        date: [],
+        /** @type {Object[]} */
         ject: [],
+        /** @type {boolean[]} */
         bool: [],
+        /** @type {null[]} */
         null: [],
+        /** @type {any[][]} */
         array: [],
+        /** @type {number[]} */
         number: [],
+        /** @type {string[]} */
         string: [],
+        /** @type {RegExp[]} */
         regexp: [],
+        /** @type {bigint[]} */
         bigint: [],
+        /** @type {undefined[]} */
         undefined: [],
 
     };
@@ -141,6 +151,7 @@ function classifyComply(t) {
 
                 switch (value.constructor.name) {
 
+                    case "Date": segment = result.date; break;
                     case "Array":
                     case "YArray": segment = result.array; break;
                     case "RegExp":
@@ -160,7 +171,7 @@ function classifyComply(t) {
 
         if (segment) {
 
-            segment.push({ used: false, index: +index, value });
+            segment.push(value);
 
         };
 

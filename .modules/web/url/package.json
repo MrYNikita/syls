@@ -1,8 +1,14 @@
 {
-    "name": "@syls/test",
+    "name": "@syls/url",
+    "type": "module",
+    "types": "./type.d.ts",
     "files": [
-        "./export.mjs",
+        "./readme.md",
+        "./future.md",
+        "./type.d.ts",
+        "./error.mjs",
         "./class.mjs",
+        "./export.mjs",
         "./config.mjs",
         "./module.mjs",
         "./package.json",
@@ -12,25 +18,28 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.1.1",
+    "version": "0.0.0",
     "license": "Apache-2.0",
     "exports": {
         ".": {
-            "types": "./export.mjs",
-            "import": "./export.mjs"
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
         }
     },
     "keywords": [
         "y",
         "lib",
-        "test"
+        "web",
+        "url",
+        "syls"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
     "dependencies": {
-       "@syls/ject": "*"
+        "@syls/type": "*"
     },
-    "description": "Модуль тестирования."
+    "description": "Модуль работы с URL."
 }

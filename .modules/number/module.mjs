@@ -179,20 +179,28 @@ function getRandomComply(t) {
         const range = max - min;
 
         if (crypto) {
-            
+
             if (frac) {
 
                 const bytes = crypto.randomBytes(8);
 
-                result = (bytes.readUInt32BE(0) + bytes.readUInt32BE(4) * 2 ** 32 / (2 ** 32 - 1)) * range + min;
+                result = (bytes.readUInt32BE(0) + bytes.readUInt32BE(4) * 2 ** 32) / (2 ** 53) * range + min;
 
             } else {
 
-                const bytesCount = Math.ceil(Math.log2(range) / 8);
+                const bytesCount = Math.ceil(Math.log2(range + 1) / 8);
 
-                result = ((crypto.randomBytes(bytesCount).readUIntBE(0, bytesCount) % range) + min);
+                let randomBytes, randomValue;
 
-            };
+                do {
+
+                    randomBytes = crypto.randomBytes(bytesCount);
+                    randomValue = randomBytes.readUIntBE(0, bytesCount);
+
+                } while (randomValue > (2 ** (bytesCount * 8)) - (2 ** (bytesCount * 8)) % (range + 1));
+
+                result = (randomValue % (range + 1)) + min;
+            }
 
         } else {
 
@@ -223,6 +231,7 @@ function getRandomComply(t) {
  * ***
  * @arg {number} min `Минимум`
  * @arg {number} max `Максиуму`
+ * @returns {number}
 */
 export function numberGetRandomReal(min, max) {
 
@@ -240,6 +249,7 @@ export function numberGetRandomReal(min, max) {
  * ***
  * @arg {number} min `Минимум`
  * @arg {number} max `Максимум`
+ * @returns {number}
 */
 export function numberGetRandomFrac(min, max) {
 

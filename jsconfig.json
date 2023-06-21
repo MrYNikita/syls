@@ -1,5 +1,9 @@
 {
-    "include": ["./**/*", "./.modules/**/*"],
+    "include": [
+        "./**/*",
+        "./.apps/**/*",
+        "./.modules/**/*"
+    ],
     "typeAcquisition": {
         "include": [
             "node"

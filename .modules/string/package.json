@@ -1,7 +1,6 @@
 {
     "name": "@syls/string",
     "type": "module",
-    "types": "./type.d.ts",
     "files": [
         "./layout",
         "./template",

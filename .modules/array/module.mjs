@@ -1232,8 +1232,7 @@ export function arrayUnique(...arrays) {
 };
 
 //#endregion
-
-//#region append
+//#region append 0.0.0
 
 /** ### arrayTFAppend
  * - Тип `TF`
@@ -1345,6 +1344,133 @@ function appendComply(t) {
 export function arrayAppend(array, index, ...values) {
 
     return appendDeceit({ array, index, values, });
+
+};
+
+//#endregion
+//#region create 0.0.0
+
+/** ### arrayTFCreate
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `create`.
+ * 
+ * @typedef {arrayTFUCreate&arrayT} arrayTFCreate
+ * 
+*/
+/** ### arrayTFUCreate
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `create`.
+ * 
+ * @typedef arrayTFUCreate
+ * @prop {number[]} sizes
+*/
+
+/** @arg {arrayTFCreate} t */
+function createDeceit(t) {
+    
+    try {
+        
+        return createVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {arrayTFCreate} t */
+function createVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return createHandle(t);
+   
+};
+/** @arg {arrayTFCreate} t */
+function createHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return createComply(t);
+   
+};
+/** @arg {arrayTFCreate} t */
+function createComply(t) {
+   
+    const {
+    
+        sizes,
+    
+    } = t;
+    
+    const result = [];
+    
+    const lasts = [result];
+
+    for (const size of sizes) {
+
+        const lastsNext = [];
+
+        for (let index = lasts.length - 1; index >= 0; index--) {
+
+            const last = lasts.pop();
+
+            for (let count = 0; count < size; count++) {
+
+                const array = [];
+
+                last.push(array);
+                lastsNext.push(array);
+
+            };
+
+        };
+
+        lasts.push(...lastsNext);
+
+    };
+
+    return result;
+    
+};
+
+/**
+ * ### arrayCreate
+ * - Версия `0.0.0`
+ * ***
+ * 
+ * Функция для создания массива.
+ * 
+ * Позволяет создавать массив указанной размерности.
+ * 
+ * ***
+ * @arg {...number} sizes `Размеры`
+*/
+export function arrayCreate(...sizes) {
+
+    return createDeceit({ sizes, });
 
 };
 

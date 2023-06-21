@@ -1,7 +1,7 @@
 //#region YI
 
 import { YJect } from '@syls/ject';
-import { condIsBool, condIsFloat, condIsNumber, condIsString, condIsValid } from './module.mjs';
+import { condIsBool, condIsFloat, condIsNumber, condIsString } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -80,87 +80,70 @@ class SCond extends YJect {
 
     /**
      * ### isBool
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `bool\cond`
      * ***
      *
-     * Метод проверки значения на принадлежность к логическим значениям.
+     * Метод проверки значений на принадлежность к логическим значениям.
      *
      * ***
-     * @arg value
+     * @arg {...any} values `Значения`
      * @public
     */
-    static isBool(value) {
+    static isBool(...values) {
 
-        return condIsBool(value);
-
-    };
-    /**
-     * ### isValid
-     * - Версия `0.0.0`
-     * - Модуль `bool\cond`
-     * ***
-     *
-     * Метод проверки значения на валидность.
-     *
-     * ***
-     * @arg value
-     * @public
-    */
-    static isValid(value) {
-
-        return condIsValid(value);
+        return condIsBool(...values);
 
     };
     /**
      * ### isFloat
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `bool\cond`
      * ***
      *
-     * Метод проверки значения на принадлежность к дробным числам.
+     * Метод проверки значений на принадлежность к дробным числам.
      *
      * ***
-     * @arg value `Значение`
+     * @arg {...any} values `Значения`
      * @public
     */
-    static isFloat(value) {
+    static isFloat(...values) {
 
-        return condIsFloat(value);
+        return condIsFloat(...values);
 
     };
     /**
      * ### isNumber
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `bool\cond`
      * ***
      *
-     * Метод проверки значения на принадлежнсоть к числу.
+     * Метод проверки значений на принадлежнсоть к числу.
      *
      * ***
-     * @arg value
+     * @arg {...any} values `Значения`
      * @public
     */
-    static isNumber(value) {
+    static isNumber(...values) {
 
-        return condIsNumber(value);
+        return condIsNumber(...values);
 
     };
     /**
      * ### isString
-     * - Версия `0.0.0`
+     * - Версия `0.0.1`
      * - Модуль `bool\cond`
      * ***
      *
-     * Метод проверки значения на принадлежность к строкам.
+     * Метод проверки значений на принадлежность к строкам.
      *
      * ***
-     * @arg value
+     * @arg {...any} values `Значения`
      * @public
     */
-    static isString(value) {
+    static isString(...values) {
 
-        return condIsString(value);
+        return condIsString(...values);
 
     };
 

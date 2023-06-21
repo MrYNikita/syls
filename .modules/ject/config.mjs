@@ -19,6 +19,17 @@ export const configJect = {
 
 
     ],
+
+    /**
+     * ### stockMode
+     * 
+     * Режим хранения экземпляров класса.
+     * 
+     * *** 
+     * @type {boolean} 
+     * @public
+    */
+    stockMode: false,
     
 };
 

@@ -1,7 +1,5 @@
-class Y {
+export class Y {
 
     
 
 };
-
-export default Y;

@@ -1,9 +1,7 @@
 {
-    "name": "@syls/test",
+    "name": "@syls/type",
     "files": [
         "./export.mjs",
-        "./class.mjs",
-        "./config.mjs",
         "./module.mjs",
         "./package.json",
         "./changelog.md"
@@ -12,25 +10,27 @@
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.1.1",
+    "version": "0.0.0",
     "license": "Apache-2.0",
     "exports": {
         ".": {
-            "types": "./export.mjs",
-            "import": "./export.mjs"
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
         }
     },
     "keywords": [
         "y",
         "lib",
-        "test"
+        "type",
+        "basic"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
     "dependencies": {
-       "@syls/ject": "*"
+       
     },
-    "description": "Модуль тестирования."
+    "description": "Модуль типов SYLS."
 }

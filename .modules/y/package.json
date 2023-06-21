@@ -34,5 +34,5 @@
         "url": "https://github.com/MrYNikita/syls.git",
         "type": "git"
     },
-    "description": "Модуль с набором инструментов Y для управления проектом."
+    "description": "Корневой модуль SYLS."
 }
