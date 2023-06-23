@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { YInsert } from '../insert/class.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -53,7 +53,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SLine extends YJect {
+class SLine extends Y {
     
     /**
      * ### config

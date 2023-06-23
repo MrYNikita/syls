@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { ansiGetColorCode } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -63,7 +63,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SANSI extends YJect {
+class SANSI extends Y {
     
     /**
      * ### config

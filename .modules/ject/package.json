@@ -1,7 +1,6 @@
 {
     "name": "@syls/ject",
     "type": "module",
-    "types": "./type.d.ts",
     "files": [
         "./alias",
         "./type.d.ts",
@@ -12,7 +11,7 @@
         "./package.json",
         "./changelog.md"
     ],
-    "version": "0.5.4",
+    "version": "0.6.0",
     "exports": {
         ".": {
             "types": "./type.d.ts",

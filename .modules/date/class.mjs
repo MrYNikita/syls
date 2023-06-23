@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { stringFormatDate } from '@syls/string';
 import { dateChange, dateGetMesuares } from './module.mjs';
 
@@ -65,7 +65,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SDate extends YJect {
+class SDate extends Y {
 
 
 

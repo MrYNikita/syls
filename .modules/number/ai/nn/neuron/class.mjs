@@ -52,7 +52,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SNeuron extends YJect {
+class SNeuron extends Y {
     
     /**
      * ### config

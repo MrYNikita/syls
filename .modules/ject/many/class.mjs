@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { YCursor } from '@syls/cursor';
 import { positionCorrect } from '@syls/position';
 
@@ -63,7 +63,7 @@ await import('./error.mjs')
 /**
  * @template T
 */
-class SMany extends YJect {
+class SMany extends Y {
 
 
 

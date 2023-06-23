@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { condIsNumber } from '@syls/cond';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -56,7 +56,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SCursor extends YJect {
+class SCursor extends Y {
 
 
 

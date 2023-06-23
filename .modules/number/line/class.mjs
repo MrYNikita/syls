@@ -56,7 +56,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SLine extends YJect {
+class SLine extends Y {
 
 
 

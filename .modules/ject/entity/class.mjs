@@ -60,7 +60,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SEntity extends YJect {
+class SEntity extends Y {
 
     /**
      * ###  config

@@ -1,7 +1,7 @@
 //#region YI
 
 import http2 from "http2";
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { YConnect } from "../class.mjs";
 import { argClassify } from "@syls/arg";
 import { netHttp2HeaderContentType, netHttp2HeaderPath, netHttp2HeaderUserAgent } from "@syls/net";
@@ -70,7 +70,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SRequest extends YJect {
+class SRequest extends Y {
 
     /**
      * ### config

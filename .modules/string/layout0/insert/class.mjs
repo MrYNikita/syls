@@ -1,7 +1,7 @@
 //#region YI
 
 import { YANSI } from '@syls/ansi';
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -53,7 +53,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SInsert extends YJect {
+class SInsert extends Y {
     
     /**
      * ### config

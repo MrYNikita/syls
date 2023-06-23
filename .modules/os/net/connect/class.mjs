@@ -1,7 +1,7 @@
 //#region YI
 
 import http2 from 'http2';
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { YRequest } from '@syls/connect';
 import { argClassify } from '@syls/arg';
 import { condIsNumber } from '@syls/cond';
@@ -53,7 +53,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SConnect extends YJect {
+class SConnect extends Y {
     
     /**
      * ### config

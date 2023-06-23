@@ -52,7 +52,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SResponse extends YJect {
+class SResponse extends Y {
     
     /**
      * ### config

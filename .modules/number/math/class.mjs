@@ -56,7 +56,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SMath extends YJect {
+class SMath extends Y {
     
     /**
      * ### config

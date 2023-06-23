@@ -1,11 +1,10 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { YElement } from './element/class.mjs';
 import { condIsNumber } from '@syls/cond';
 import { stringAppend, stringGetRow, stringSetRow } from '../module.mjs';
 import { YANSI, ansiGetColorReset } from '@syls/ansi';
-import { argClassify } from '@syls/arg';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -54,7 +53,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SLayout extends YJect {
+class SLayout extends Y {
 
     /**
      * ### config

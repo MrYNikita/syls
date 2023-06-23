@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { condIsBool, condIsFloat, condIsNumber, condIsString } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -76,7 +76,7 @@ await import('./error.mjs')
 /**
  * @template {YCondTUG<G1,G2>} G
 */
-class SCond extends YJect {
+class SCond extends Y {
 
     /**
      * ### isBool

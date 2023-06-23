@@ -1,0 +1,43 @@
+{
+    "name": "@syls/key",
+    "type": "module",
+    "types": "./type.d.ts",
+    "files": [
+        "./comb",
+        "./type.d.ts",
+        "./class.mjs",
+        "./config.mjs",
+        "./module.mjs",
+        "./export.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "version": "0.1.0",
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "license": "Apache-2.0",
+    "keywords": [
+        "y",
+        "key",
+        "lib",
+        "syls",
+        "comb"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "Клавишный модуль.",
+    "dependencies": {
+        "@syls/y": "*"
+    }
+}

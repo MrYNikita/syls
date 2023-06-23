@@ -1,8 +1,10 @@
 {
     "name": "@syls/y",
     "type": "module",
-    "types": "./type.d.ts",
+    "main": "./export.mjs",
     "files": [
+        "./arg",
+        "./type",
         "./class.mjs",
         "./error.mjs",
         "./type.d.ts",
@@ -24,6 +26,9 @@
             "import": "./export.mjs",
             "default": "./export.mjs"
         }
+    },
+    "engines": {
+        "node": ">=18.0.0"
     },
     "keywords": [
         "y",

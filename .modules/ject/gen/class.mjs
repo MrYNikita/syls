@@ -56,7 +56,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SGen extends YJect {
+class SGen extends Y {
 
     /**
      * ### getString

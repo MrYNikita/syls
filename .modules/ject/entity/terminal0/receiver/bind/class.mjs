@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { YComb } from '@syls/key';
 import { YReceiver } from '../class.mjs';
 
@@ -69,7 +69,7 @@ await import('./error.mjs')
 /**
  * @template {YBindTUG} G
 */
-class SBind extends YJect {
+class SBind extends Y {
 
 
 

@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -55,7 +55,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SLang extends YJect {
+class SLang extends Y {
     
     /** ### config
      * 

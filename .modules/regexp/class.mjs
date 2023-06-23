@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { condIsStringValid } from '@syls/cond';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -56,7 +56,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SRegExp extends YJect {
+class SRegExp extends Y {
     
     /**
      * ### correctFlags

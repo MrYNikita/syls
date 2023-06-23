@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { YTerminal } from '../class.mjs';
 import { YInterface } from '../interface/class.mjs';
 
@@ -57,7 +57,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SElement extends YJect {
+class SElement extends Y {
     
     /**
      * ### config

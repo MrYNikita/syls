@@ -1,7 +1,7 @@
 //#region YI
 
 import { condIsNumber } from '@syls/cond';
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { YInsert } from './insert/class.mjs';
 import { YLine } from './line/class.mjs';
 
@@ -55,7 +55,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SLayout extends YJect {
+class SLayout extends Y {
     
     /**
      * ### config

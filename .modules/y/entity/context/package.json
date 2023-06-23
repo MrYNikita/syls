@@ -1,0 +1,44 @@
+{
+    "name": "@syls/context",
+    "type": "module",
+    "files": [
+        "./readme.md",
+        "./future.md",
+        "./type.d.ts",
+        "./error.mjs",
+        "./class.mjs",
+        "./export.mjs",
+        "./config.mjs",
+        "./module.mjs",
+        "./package.json",
+        "./changelog.md"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "exports": {
+        ".": {
+            "types": "./type.d.ts",
+            "import": "./export.mjs",
+            "default": "./export.mjs"
+        }
+    },
+    "version": "0.0.0",
+    "license": "Apache-2.0",
+    "keywords": [
+        "y",
+        "lib",
+        "syls"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "dependencies": {
+        "@syls/log": "*",
+        "@syls/date": "*",
+        "@syls/rept": "*"
+    },
+    "description": "Модуль контекстов."
+}

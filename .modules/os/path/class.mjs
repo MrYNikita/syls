@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import { existsSync } from "fs";
 import { condIsString } from '@syls/cond';
 import { stringUnifyBySymbol } from '@syls/string';
@@ -59,7 +59,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SPath extends YJect {
+class SPath extends Y {
     
     /**
      * ### getProject

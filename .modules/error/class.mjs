@@ -61,7 +61,7 @@ await import('./error.mjs')
 /**
  * @template T
 */
-class SError extends YJect {
+class SError extends Y {
 
     /**
      * ### throw

@@ -53,7 +53,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class SLayer extends YJect {
+class SLayer extends Y {
     
     /**
      * ### config

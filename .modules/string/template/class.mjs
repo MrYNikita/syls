@@ -1,6 +1,6 @@
 //#region YI
 
-import { YJect } from '@syls/ject';
+import { Y, argClassify } from '@syls/Y';
 import configString from '../config.mjs';
 import { stringInsertMany, stringPaste } from '../module.mjs';
 import { templateMark } from './module.mjs';
@@ -58,7 +58,7 @@ await import('./error.mjs')
 
 //#endregion
 
-class STemplate extends YJect {
+class STemplate extends Y {
 
     /**
      * ### config
