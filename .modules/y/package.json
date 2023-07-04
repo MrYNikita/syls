@@ -1,10 +1,12 @@
 {
     "name": "@syls/y",
     "type": "module",
-    "main": "./export.mjs",
     "files": [
         "./arg",
         "./type",
+        "./shell",
+        "./alias",
+        "./config",
         "./class.mjs",
         "./error.mjs",
         "./type.d.ts",

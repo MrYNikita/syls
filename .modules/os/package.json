@@ -1,7 +1,6 @@
 {
     "name": "@syls/os",
     "type": "module",
-    "types": "./type.d.ts",
     "files": [
         "./type.d.ts",
         "./export.mjs",

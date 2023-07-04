@@ -40,9 +40,7 @@
         "type": "git"
     },
     "dependencies": {
-        "@syls/arg": "*",
-        "@syls/type": "*",
-        "@syls/ject": "*"
+        "@syls/y": "*"
     },
     "description": ""
 }

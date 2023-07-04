@@ -40,10 +40,8 @@
         "type": "git"
     },
     "dependencies": {
+        "@syls/y": "*",
         "@syls/net": "*",
-        "@syls/arg": "*",
-        "@syls/type": "*",
-        "@syls/ject": "*",
         "@syls/cond": "*"
     },
     "description": "Модуль сетевых соединений."

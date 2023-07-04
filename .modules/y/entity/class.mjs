@@ -9,7 +9,7 @@ let config = null;
 
 await import('./config.mjs')
 
-    .then(i => config = i.default)
+    .then(i => config = i.default.value)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */

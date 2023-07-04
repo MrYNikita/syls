@@ -1,7 +1,6 @@
 {
     "name": "@syls/powershell",
     "type": "module",
-    "types": "./type.d.ts",
     "files": [
         "./type.d.ts",
         "./export.mjs",
@@ -28,6 +27,7 @@
         "y",
         "os",
         "lib",
+        "windows",
         "powershell"
     ],
     "repository": {

@@ -3,7 +3,6 @@
 import http2 from 'http2';
 import { Y, argClassify } from '@syls/Y';
 import { YRequest } from '@syls/connect';
-import { argClassify } from '@syls/arg';
 import { condIsNumber } from '@syls/cond';
 
 /** @type {import('./config.mjs')['default']?} */

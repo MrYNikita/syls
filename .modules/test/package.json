@@ -30,7 +30,8 @@
         "type": "git"
     },
     "dependencies": {
-       "@syls/ject": "*"
+       "@syls/y": "*",
+       "@syls/process": "*"
     },
     "description": "Модуль тестирования."
 }

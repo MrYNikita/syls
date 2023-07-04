@@ -7,8 +7,9 @@ import { condIsNumberLimit, condIsStringValid } from '@syls/cond';
 
 import { YLayout } from './layout/class.mjs';
 import { YTemplate } from './template/class.mjs';
-import { stringFilter, stringFormatReport, stringGetMatrix, stringGetRow, stringGetRows, stringPad, stringPadColumn, stringPadRow, stringPadToPosition, stringPaste, stringPasteWrap, stringRemove, stringRemoveEnd, stringRemoveStart, stringSetRow, stringSubstringByPosition, stringTrim } from './module.mjs';
-import { stringReflect } from '@syls/string';
+import { stringFilter, stringFormatReport, stringGetMatrix, stringGetRow, stringGetRows, stringPad, stringPadColumn, stringPadRow, stringPadToPosition, stringPaste, stringPasteWrap, stringRemove, stringRemoveEnd, stringRemoveStart, stringSetRow, stringSubstringByPosition, stringTrim, stringReflect, stringPasteSymbol } from './module.mjs';
+import { argClassify, yGetProperty } from '@syls/Y';
+import { YANSI } from '@syls/ansi';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -61,6 +62,23 @@ await import('./error.mjs')
  *
 */
 
+/** ### stringTTColor
+ * - Тип `TT`
+ * 
+ * 
+ * 
+ * @typedef {import('@syls/ansi').ansiColorTMColors} stringTTColor
+ * 
+*/
+/** ### stringTTSymbol
+ * - Тип `TT`
+ * 
+ * 
+ * 
+ * @typedef {import('./module.mjs').stringTTSymbol} stringTTSymbol
+ * 
+*/
+
 //#endregion
 
 /** @extends {YMany<string>} */
@@ -68,7 +86,7 @@ class SString extends YMany {
 
     static {
 
-        config.templates = config.templates.map(template => new YTemplate(...template));
+        config.value.templates = config.value.templates.map(template => new YTemplate(...template));
 
     };
 
@@ -286,8 +304,6 @@ class FString extends MString {
     /** @arg {YStringT} t @this {YString} */
     static #handle(t) {
 
-
-
         FString.#create.apply(this, [t]);
 
     };
@@ -304,7 +320,7 @@ class FString extends MString {
 
         if (config) {
 
-            this.adoptDefault(config);
+            this.adoptDefault(this.constructor.config ?? config);
 
         };
 
@@ -316,9 +332,9 @@ class FString extends MString {
 
         switch (hint) {
 
+            case 'string': return this.get();
             case 'number': return +this.get(false);
             case 'boolean': return !!this.get(false);
-            default: case 'string': return this.get();
 
         };
 
@@ -424,11 +440,10 @@ export class YString extends FString {
      * @public
     */
     setPostfix(postfix = '') {
-        
+
         if (condIsStringValid(postfix)) {
 
             this.postfix = () => postfix;
-
 
         } else if (postfix?.constructor === Function) {
 
@@ -457,12 +472,12 @@ export class YString extends FString {
      * @public
     */
     setPrePostfix(prefix, postfix) {
-        
+
         this.setPrefix(prefix);
         this.setPostfix(postfix);
 
         return this;
-        
+
     };
 
     /**
@@ -483,11 +498,11 @@ export class YString extends FString {
 
         let result = this.values;
 
-        // if (style) {
+        if (style) {
 
-        //     result = this.layout.apply(result);
+            result = this.layout.apply(result);
 
-        // };
+        };
 
         return result;
 
@@ -555,9 +570,9 @@ export class YString extends FString {
      * @public
     */
     getLayout() {
-        
+
         return this.getShell(this.layout);
-        
+
     };
     /**
      * ### getMatrix
@@ -670,7 +685,7 @@ export class YString extends FString {
      * @public
     */
     exec(func) {
-        
+
         if (func instanceof Function) {
 
             const clone = this.clone();
@@ -688,7 +703,7 @@ export class YString extends FString {
         };
 
         return this;
-        
+
     };
 
     /**
@@ -713,16 +728,63 @@ export class YString extends FString {
     };
 
     /**
+     * ### paint
+     * 
+     * ***
+     * 
+     * Метод перекраски строки.
+     * 
+     * ***
+     * @arg {number} row
+     * @arg {number} index
+     * @arg {boolean} flow
+     * @arg {stringTTColor} foreground
+     * @arg {stringTTColor} background
+     * @public
+    */
+    paint(row, index, foreground, background, flow) {
+
+        const arg = argClassify(arguments);
+
+        if (!arg.array.length) {
+
+            arg.array.push([...arguments]);
+
+        };
+
+        for (let color of arg.array) {
+
+            color = argClassify(color);
+
+            this.layout.set([
+
+                color.number[0],
+                color.number[1],
+                {
+                    flow: color.bool[0],
+                    ansi: new YANSI().setColor(color.string[0], color.string[1]),
+                }
+                
+            ]);
+
+        };
+
+        return this;
+        
+    };
+
+    /**
      * ### paste
-     * - Версия `0.0.0`
+     * - Версия `0.10.0`
      * - Модуль `string`
      * ***
      *
-     * Метод вставки значения.
+     * Метод вставки значений.
      *
      * ***
      * @arg {...string} strings `Вставки`
      * @public
+     * @method
     */
     paste(...strings) {
 
@@ -730,17 +792,45 @@ export class YString extends FString {
 
             let row = this.getRow(this.cursor.indexs[0]);
 
+            for (const match of Array.from(string.matchAll(/_(\p{L}+)/gmsu))) {
+
+                let value = yGetProperty(config.value.symbols, match[1]);
+
+                if (!value) {
+
+                    for (const section of Object.values(config.value.symbols)) {
+
+                        for (const key of Object.keys(section)) {
+
+                            if (match[1].includes(key)) {
+
+                                string = string.replaceAll(new RegExp(`_${key}`, 'gmsu'), section[key]);
+
+                            };
+
+                        };
+
+                    };
+
+                } else {
+
+                    string = string.replaceAll(match[0], value);
+
+                };
+
+            };
+
             if (this.prefix) {
 
                 string = this.prefix() + string;
 
             };
             if (this.postfix) {
-                
+
                 string += this.postfix();
 
             };
-            
+
             row = stringPaste(row, string, this.cursor.indexs[1] + string.length);
 
             this.setRow(row, this.cursor.indexs[0]);
@@ -777,6 +867,25 @@ export class YString extends FString {
 
     };
     /**
+     * ### pasteSymbol
+     * 
+     * ***
+     * 
+     * Метод вставки символов.
+     * 
+     * ***
+     * @arg {number} index `Индекс`
+     * @arg {stringTTSymbol} symbol `Символ`
+     * @public
+    */
+    pasteSymbol(symbol, index) {
+
+        this.values = stringPasteSymbol(this.values, symbol, index);
+
+        return this;
+
+    };
+    /**
      * ### pasteTemplate
      * - Версия `0.0.0`
      * - Модуль `string`
@@ -800,7 +909,7 @@ export class YString extends FString {
         };
 
         return this;
-        
+
     };
 
     /**
@@ -828,7 +937,7 @@ export class YString extends FString {
         };
 
         return this;
-        
+
     };
 
     /**
@@ -844,11 +953,11 @@ export class YString extends FString {
      * @public
     */
     filter(...filters) {
-        
+
         this.values = stringFilter(this.values, ...filters);
 
         return this;
-        
+
     };
 
     /**
@@ -863,11 +972,11 @@ export class YString extends FString {
      * @public
     */
     reflect(...mirrors) {
-        
+
         this.values = stringReflect(this.values, ...mirrors);
 
         return this;
-        
+
     };
 
     /**
@@ -907,7 +1016,7 @@ export class YString extends FString {
         this.values = stringFormatReport(this.values);
 
         return this;
-        
+
     };
 
     /**
@@ -969,13 +1078,13 @@ export class YString extends FString {
      * @public
     */
     setCursorToEnd() {
-        
+
         const rows = this.getRows();
 
         this.setCursorTo(rows.length - 1, rows.at(-1).length - 1);
 
         return this;
-        
+
     };
 
     /**
@@ -994,7 +1103,7 @@ export class YString extends FString {
         this.layout.clearColors();
 
         return this;
-        
+
     };
     /**
      * ### clearTemplates
@@ -1008,11 +1117,11 @@ export class YString extends FString {
      * @public
     */
     clearTemplates() {
-        
+
         this.templates = [];
 
         return this;
-        
+
     };
 
     /**
@@ -1038,7 +1147,7 @@ export class YString extends FString {
 
             };
             if (!color[3]) {
-                
+
                 color[3] = this.cursor.indexs[1];
 
             };
@@ -1050,7 +1159,7 @@ export class YString extends FString {
         this.layout.appendColors(...colors);
 
         return this;
-        
+
     };
     /**
      * ### appendTemplates
@@ -1065,21 +1174,37 @@ export class YString extends FString {
      * @public
     */
     appendTemplates(...templates) {
-        
+
         templates.forEach(template => {
 
             if (template.constructor === Array) {
 
                 template = new YTemplate(...template);
 
-            };  
+            };
 
             this.templates.push(template);
 
         });
 
         return this;
-        
+
+    };
+
+    /**
+     * ### toString
+     * 
+     * ***
+     * 
+     * Метод получения строкового представления.
+     * 
+     * ***
+     * @public
+    */
+    toString() {
+
+        return this.get();
+
     };
 
 };

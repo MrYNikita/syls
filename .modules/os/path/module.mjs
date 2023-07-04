@@ -615,9 +615,9 @@ function getProjectComply(t) {
     } = t;
 
     const fragments = import.meta.url.slice(8).split('/');
-    const index = fragments.findIndex(fragment => fragment === 'node_modules');
+    const index = fragments.findIndex(fragment => fragment === 'syls');
 
-    return fragments.slice(0, index ? index : -3).join('/');
+    return fragments.slice(0, index + 1 ?? 0).join('/');
 
 };
 

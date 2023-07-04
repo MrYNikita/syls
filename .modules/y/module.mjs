@@ -1,7 +1,5 @@
 //#region YI
 
-import { argClassify } from './export.mjs';
-
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
 
@@ -123,7 +121,6 @@ function fillComply(t) {
 
 
 //#endregion
-
 //#region clone
 
 /** ### yTFClone
@@ -606,11 +603,11 @@ function adoptDefaultVerify(t) {
 /** @arg {yTFAdoptDefault} t */
 function adoptDefaultHandle(t) {
    
-    const {
-    
-    
-    
-    } = t;
+    if (t.owner.constructor.name === 'YConfig') {
+
+        t.owner = t.owner.value;
+
+    };
    
     return adoptDefaultComply(t);
    
@@ -669,6 +666,168 @@ function adoptDefaultComply(t) {
 export function yAdoptDefault(y, owner) {
 
     return adoptDefaultDeceit({ y, owner, });
+
+};
+
+//#endregion
+
+//#region classifyProp
+
+/** ### yTFClassifyProp
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `classifyProp`.
+ * 
+ * @typedef {yTFUClassifyProp&yT} yTFClassifyProp
+ * 
+*/
+/** ### yTFUClassifyProp
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `classifyProp`.
+ * 
+ * @typedef yTFUClassifyProp
+ * @prop {any} ject
+*/
+
+/** @arg {yTFClassifyProp} t */
+function classifyPropDeceit(t) {
+    
+    try {
+        
+        return classifyPropVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {yTFClassifyProp} t */
+function classifyPropVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return classifyPropHandle(t);
+   
+};
+/** @arg {yTFClassifyProp} t */
+function classifyPropHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return classifyPropComply(t);
+   
+};
+/** @arg {yTFClassifyProp} t */
+function classifyPropComply(t) {
+   
+    const {
+
+        ject,
+
+    } = t;
+
+    const result = {
+
+        /** @type {Date[]} */
+        date: [],
+        /** @type {Object[]} */
+        ject: [],
+        /** @type {boolean[]} */
+        bool: [],
+        /** @type {null[]} */
+        null: [],
+        /** @type {any[][]} */
+        array: [],
+        /** @type {number[]} */
+        number: [],
+        /** @type {string[]} */
+        string: [],
+        /** @type {RegExp[]} */
+        regexp: [],
+        /** @type {bigint[]} */
+        bigint: [],
+        /** @type {undefined[]} */
+        undefined: [],
+
+    };
+
+    for (const index in ject) {
+
+        let segment = null;
+
+        const value = ject[index];
+
+        switch (typeof value) {
+
+            case "object": {
+
+                switch (value.constructor.name) {
+
+                    case "Date": segment = result.date; break;
+                    case "Array":
+                    case "YArray": segment = result.array; break;
+                    case "RegExp":
+                    case "YRegExp": segment = result.regexp; break;
+                    default: segment = result.ject; break;
+
+                };
+
+            }; break;
+            case "string": segment = result.string; break;
+            case "number": segment = result.number; break;
+            case "bigint": segment = result.bigint; break;
+            case "boolean": segment = result.bool; break;
+            case "undefined": segment = result.undefined; break;
+
+        };
+
+        if (segment) {
+
+            segment.push(value);
+
+        };
+
+    };
+
+    return result;
+    
+};
+
+/**
+ * ### yClassifyProp
+ * 
+ * ***
+ * 
+ * Функция извлечения и классификации свойств по их типу.
+ * 
+ * ***
+ * @arg {any} ject `Объект`
+*/
+export function yClassifyProp(ject) {
+
+    return classifyPropDeceit({ ject });
 
 };
 

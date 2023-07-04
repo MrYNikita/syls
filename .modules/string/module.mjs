@@ -4,6 +4,7 @@ import { funcBypass } from '@syls/func';
 import { dateGetMesuares } from '@syls/date';
 import { condIsNumberLimit, condIsString } from '@syls/cond';
 import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
+import { yGetProperty } from '@syls/Y';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -121,6 +122,35 @@ await import('./error.mjs')
  *
 */
 
+/** ### stringTTCase
+ * - Тип `TT`
+ * 
+ * 
+ * 
+ * @typedef {'и'|'р'|'д'|'в'|'т'|'п'} stringTTCase
+ * 
+*/
+/** ### stringTTGender
+ * - Тип `TT`
+ * 
+ * 
+ * 
+ * @typedef {'m'|'f'|'n'} stringTTGender
+ * 
+*/
+/** ### stringTTSymbol
+ * - Тип `TT`
+ * 
+ * ***
+ * 
+ * Данный тип описывает все допустимые символы из словоря символов.
+ * 
+ * ***
+ * 
+ * @typedef {Omit<config['value']['symbols'], 'table'>} stringTTsymbolFilter
+ * @typedef {{[K in keyof stringTTsymbolFilter]: keyof stringTTsymbolFilter[K]}[keyof stringTTsymbolFilter]} stringTTSymbol
+ * 
+*/
 /** ### stringTTInserts
  * - Тип `TT`
  * - Версия `0.0.0`
@@ -136,6 +166,309 @@ await import('./error.mjs')
 //#region YV
 
 
+
+//#endregion
+
+//#region toWordsFromNumber
+
+/** ### stringTFToWordsFromNumber
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `toWordsFromNumber`.
+ * 
+ * @typedef {stringTFUToWordsFromNumber&stringT} stringTFToWordsFromNumber
+ * 
+*/
+/** ### stringTFUToWordsFromNumber
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `toWordsFromNumber`.
+ * 
+ * @typedef stringTFUToWordsFromNumber
+ * @prop {string} local
+ * @prop {boolean} declensionMany
+ * @prop {stringTTCase} declensionCase
+ * @prop {number|string} number
+ * @prop {stringTTGender} declensionGender
+*/
+
+/** @arg {stringTFToWordsFromNumber} t */
+function toWordsFromNumberDeceit(t) {
+
+    try {
+
+        return toWordsFromNumberVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFToWordsFromNumber} t */
+function toWordsFromNumberVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return toWordsFromNumberHandle(t);
+
+};
+/** @arg {stringTFToWordsFromNumber} t */
+function toWordsFromNumberHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return toWordsFromNumberComply(t);
+
+};
+/** @arg {stringTFToWordsFromNumber} t */
+function toWordsFromNumberComply(t) {
+
+    const {
+
+        local,
+        number,
+        declensionCase,
+        declensionGender,
+
+    } = t;
+
+    let result = '';
+
+    switch (local) {
+
+        case 'ru': {
+
+            let [unit, dozen, hundred] = number.toString().split('').reverse().map(elem => +elem);
+
+            const roots = [
+
+                'нул',
+                'од',
+                'дв',
+                'тр',
+                'чет',
+                'пят',
+                'шест',
+                'сем',
+                'вос',
+                'девят',
+                'десят'
+
+            ];
+            const hundredPostfix = [
+
+                'сто',
+                'ести',
+                'исто',
+                'ыресто',
+                'ьсот',
+                'стами',
+                'стах'
+
+            ];
+            const dozenPostfix = [
+
+                'инадцать',
+                'ацать',
+                'идцать',
+                'сорок',
+                'ьдесят',
+
+            ];
+
+            if (hundred) {
+
+                const index = hundred;
+
+                switch (declensionCase) {
+
+                    case 'и': {
+
+                        switch (index) {
+
+                            case 1: hundred = 'сто'; break;
+                            case 2: hundred = 'двести'; break;
+                            case 3: hundred = 'тристо'; break;
+                            case 4: hundred = 'черытесто'; break;
+                            case 5: hundred = 'пятьсот'; break;
+
+                        };
+
+                    }; break;
+                    case 'р': {
+
+                        switch (index) {
+
+                            case 1: hundred = 'ста'; break;
+                            case 2: hundred = 'двухста'; break;
+                            case 3: hundred = 'трёхста'; break;
+                            case 4: hundred = 'четырёхста'; break;
+                            case 5: hundred = 'пятиста'; break;
+                            case 6: hundred = 'шестиста'; break;
+                            case 7: hundred = 'семиста'; break;
+                            case 8: hundred = 'восьмиста'; break;
+                            case 9: hundred = 'девятиста'; break;
+
+                        };
+
+                    }; break;
+                    case 'д': {
+
+                        switch (index) {
+
+                            case 1: hundred = 'ста'; break;
+                            case 2: hundred = 'двухстам'; break;
+                            case 3: hundred = 'трёхстам'; break;
+                            case 4: hundred = 'четырёхстам'; break;
+                            case 5: hundred = 'пятистам'; break;
+                            case 6: hundred = 'шестистам'; break;
+                            case 7: hundred = 'семистам'; break;
+                            case 8: hundred = 'восьмиста'; break;
+                            case 9: hundred = 'девятиста'; break;
+
+                        };
+
+                    }; break;
+
+                };
+
+            };
+            if (unit || (!dozen && !hundred && (unit || unit === 0))) {
+
+                const index = unit;
+
+                unit = roots[index];
+
+                switch (declensionCase) {
+
+                    case 'и': {
+
+                        switch (index) {
+
+                            case 1: unit += 'ин'; break;
+                            case 2: unit += 'а'; break;
+                            case 3: unit += 'и'; break;
+                            case 4: unit += 'ыре'; break;
+                            case 8: unit += 'емь'; break;
+                            default: unit += 'ь'; break;
+
+                        };
+
+                    }; break;
+                    case 'р': {
+
+                        switch (index) {
+
+                            case 0: unit += 'я'; break;
+                            case 1: unit += ['m', 'n'].includes(declensionGender) ? 'ного' : 'ой'; break;
+                            case 2: unit += 'ух'; break;
+                            case 3: unit += 'ёх'; break;
+                            case 4: unit += 'ырёх'; break;
+                            case 8: unit += 'ьми'; break;
+                            default: unit += 'и'; break;
+
+                        };
+
+                    }; break;
+                    case 'д': {
+
+                        switch (index) {
+
+                            case 0: unit += 'лю'; break;
+                            case 1: unit += ['m', 'n'].includes(declensionGender) ? 'ному' : 'ой'; break;
+                            case 2: unit += 'ум'; break;
+                            case 3: unit += 'ём'; break;
+                            case 4: unit += 'ыём'; break;
+                            case 8: unit += 'ьми'; break;
+                            default: unit += 'и'; break;
+
+                        };
+
+                    }; break;
+                    case 'т': {
+
+                        switch (index) {
+
+                            case 0: unit += 'ём'; break;
+                            case 1: unit += ['m', 'n'].includes(declensionGender) ? 'ним' : 'ной'; break;
+                            case 2: unit += 'умя'; break;
+                            case 3: unit += 'емя'; break;
+                            case 4: unit += 'ырьмя'; break;
+                            case 8: unit += 'емью'; break;
+                            default: unit += 'ью'; break;
+
+                        };
+
+                    }; break;
+                    case 'п': {
+
+                        switch (index) {
+
+                            case 0: unit += 'е'; break;
+                            case 1: unit += ['m', 'n'].includes(declensionGender) ? 'ном' : 'ной'; break;
+                            case 2: unit += 'ух'; break;
+                            case 3: unit += 'ёх'; break;
+                            case 4: unit += 'ырёх'; break;
+                            case 8: unit += 'ьми'; break;
+                            default: unit += 'и'; break;
+
+                        };
+
+                    }; break;
+
+                };
+
+            };
+
+            result += [hundred, unit].filter(elem => elem).join(' ');
+
+        };
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringToWordsFromNumberRu
+ * 
+ * ***
+ * 
+ * Функция преобразования числа в прописную форму русского языка с указанным склонением.
+ * 
+ * ***
+ * @arg {boolean} declensionMany `Множественность`
+ * @arg {stringTTCase} declensionCase `Падеж`
+ * @arg {number|string} number `Число`
+ * @arg {stringTTGender} declensionGender `Род`
+*/
+export function stringToWordsFromNumberRu(number = 501, declensionCase = 'д', declensionGender = 'm', declensionMany = false) {
+
+    return toWordsFromNumberDeceit({ local: 'ru', number, declensionGender, declensionCase, declensionMany, });
+
+};
 
 //#endregion
 
@@ -703,6 +1036,104 @@ function getMatrixComply(t) {
 export function stringGetMatrix(string) {
 
     return getMatrixDeceit({ string, });
+
+};
+
+//#endregion
+//#region getSymbol
+
+/** ### stringTFGetSymbol
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `getSymbol`.
+ * 
+ * @typedef {stringTFUGetSymbol&stringT} stringTFGetSymbol
+ * 
+*/
+/** ### stringTFUGetSymbol
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `getSymbol`.
+ * 
+ * @typedef stringTFUGetSymbol
+ * @prop {stringTTSymbol} symbol
+*/
+
+/** @arg {stringTFGetSymbol} t */
+function getSymbolDeceit(t) {
+    
+    try {
+        
+        return getSymbolVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {stringTFGetSymbol} t */
+function getSymbolVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return getSymbolHandle(t);
+   
+};
+/** @arg {stringTFGetSymbol} t */
+function getSymbolHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return getSymbolComply(t);
+   
+};
+/** @arg {stringTFGetSymbol} t */
+function getSymbolComply(t) {
+   
+    const {
+    
+        symbol,
+    
+    } = t;
+    
+    return yGetProperty(config.value.symbols, symbol);
+    
+};
+
+/**
+ * ### stringGetSymbol
+ * 
+ * ***
+ * 
+ * Функция получения символа по его названию.
+ * 
+ * ***
+ * @arg {stringTTSymbol} symbol `Символ`
+*/
+export function stringGetSymbol(symbol) {
+
+    return getSymbolDeceit({ symbol, });
 
 };
 
@@ -1594,62 +2025,62 @@ export function stringTrimRow(string, start, end = true) {
 
 /** @arg {stringTFMarkInsert} t */
 function markInsertDeceit(t) {
-    
+
     try {
-        
+
         return markInsertVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFMarkInsert} t */
 function markInsertVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return markInsertHandle(t);
-   
+
 };
 /** @arg {stringTFMarkInsert} t */
 function markInsertHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return markInsertComply(t);
-   
+
 };
 /** @arg {stringTFMarkInsert} t */
 function markInsertComply(t) {
-   
+
     const {
-    
+
         marks,
         string,
-    
+
     } = t;
-    
+
     const labels = [];
     const fragments = [];
 
@@ -1671,7 +2102,7 @@ function markInsertComply(t) {
     };
 
     return this;
-    
+
 };
 
 /**
@@ -2126,12 +2557,6 @@ function pasteHandle(t) {
 
     } = t;
 
-    if (!t.length) {
-
-        t.length = t.paste.length;
-
-    };
-
     if (t.modeSkip) {
 
         t.paste = stringSkip(t.string.slice(t.index, (t.length + t.index) ?? undefined), t.paste, config.skipValue).slice(0, t.length ?? t.paste.length);
@@ -2158,7 +2583,11 @@ function pasteComply(t) {
 
     } = t;
 
-    string = stringRemove(string, index, length);
+    if (length) {
+
+        string = stringRemove(string, index, length);
+
+    };
 
     if (length < -1) {
 
@@ -2197,7 +2626,7 @@ function pasteComply(t) {
  * @arg {string} paste `Вставка`
  * @arg {string} string `Строка`
 */
-export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.modeSkip) {
+export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.value.modeSkip) {
 
     return pasteDeceit({ string, paste, index, length, modeSkip, });
 
@@ -2327,6 +2756,116 @@ function pasteWrapComply(t) {
 export function stringPasteWrap(string, wrap = '', y, x, modeSkip) {
 
     return pasteWrapDeceit({ string, wrap, y, x, modeSkip, });
+
+};
+
+//#endregion
+//#region pasteSymbol
+
+/** ### stringTFPasteSymbol
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `pasteSymbol`.
+ * 
+ * @typedef {stringTFUPasteSymbol&stringT} stringTFPasteSymbol
+ * 
+*/
+/** ### stringTFUPasteSymbol
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `pasteSymbol`.
+ * 
+ * @typedef stringTFUPasteSymbol
+ * @prop {number} index
+ * @prop {string} symbol
+*/
+
+/** @arg {stringTFPasteSymbol} t */
+function pasteSymbolDeceit(t) {
+
+    try {
+
+        return pasteSymbolVerify(t);
+
+    } catch (e) {
+
+        if (config?.strict) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFPasteSymbol} t */
+function pasteSymbolVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return pasteSymbolHandle(t);
+
+};
+/** @arg {stringTFPasteSymbol} t */
+function pasteSymbolHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return pasteSymbolComply(t);
+
+};
+/** @arg {stringTFPasteSymbol} t */
+function pasteSymbolComply(t) {
+
+    const {
+
+        index,
+        string,
+
+    } = t;
+
+    const symbol = config.getProperty(t.symbol);
+
+    if (symbol) {
+
+        return stringPaste(string, symbol, index);
+
+    };
+
+    return string;
+
+};
+
+/**
+ * ### stringPasteSymbol
+ * 
+ * ***
+ * 
+ * Функция вставки символа в строку по индексу.
+ * 
+ * ***
+ * @arg {number} index `Индекс`
+ * @arg {string} string `Строка`
+ * @arg {stringTTSymbol} symbol `Символ`
+*/
+export function stringPasteSymbol(string, symbol, index) {
+
+    return pasteSymbolDeceit({ string, symbol, index, });
 
 };
 
@@ -2522,9 +3061,9 @@ function appendComply(t) {
     if (condIsNumberLimit(index) && index >= 0) {
 
         return string.slice(0, index) + appends.join('') + string.slice(index);
-
+        
     } else {
-
+        
         return string;
 
     };
@@ -3306,66 +3845,66 @@ export function stringInsertBypass(string, find, ...values) {
 
 /** @arg {stringTFMatch} t */
 function matchDeceit(t) {
-    
+
     try {
-        
+
         return matchVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFMatch} t */
 function matchVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return matchHandle(t);
-   
+
 };
 /** @arg {stringTFMatch} t */
 function matchHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return matchComply(t);
-   
+
 };
 /** @arg {stringTFMatch} t */
 function matchComply(t) {
-   
+
     const {
-    
+
         string,
         fragments,
-    
+
     } = t;
-    
+
     const result = string.match(new RegExp(fragments.join('|'), 'msu'));
 
     return result;
-    
+
 };
 
 /**
@@ -3409,63 +3948,63 @@ export function stringMatch(string, ...fragments) {
 
 /** @arg {stringTFMatchMany} t */
 function matchManyDeceit(t) {
-    
+
     try {
-        
+
         return matchManyVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFMatchMany} t */
 function matchManyVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return matchManyHandle(t);
-   
+
 };
 /** @arg {stringTFMatchMany} t */
 function matchManyHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return matchManyComply(t);
-   
+
 };
 /** @arg {stringTFMatchMany} t */
 function matchManyComply(t) {
-   
+
     const {
-    
+
         count,
         string,
         fragments,
-    
+
     } = t;
-    
+
     const result = [];
     const matches = string.matchAll(new RegExp(fragments.join("|"), "gmsu"));
 
@@ -3476,7 +4015,7 @@ function matchManyComply(t) {
     };
 
     return result;
-    
+
 };
 
 /**
@@ -3536,64 +4075,64 @@ export function stringMatchManyLimit(string, count, ...fragments) {
 
 /** @arg {stringTFMatchCount} t */
 function matchCountDeceit(t) {
-    
+
     try {
-        
+
         return matchCountVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFMatchCount} t */
 function matchCountVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return matchCountHandle(t);
-   
+
 };
 /** @arg {stringTFMatchCount} t */
 function matchCountHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return matchCountComply(t);
-   
+
 };
 /** @arg {stringTFMatchCount} t */
 function matchCountComply(t) {
-   
+
     const {
-    
+
         string,
         fragments,
-    
+
     } = t;
-    
+
     return Array.from(string.matchAll(new RegExp(fragments.join("|"), "gmsu"))).length;
-    
+
 };
 
 /**
@@ -3637,63 +4176,63 @@ export function stringMatchCount(string, ...fragments) {
 
 /** @arg {stringTFMatchCountEquals} t */
 function matchCountEqualsDeceit(t) {
-    
+
     try {
-        
+
         return matchCountEqualsVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFMatchCountEquals} t */
 function matchCountEqualsVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return matchCountEqualsHandle(t);
-   
+
 };
 /** @arg {stringTFMatchCountEquals} t */
 function matchCountEqualsHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return matchCountEqualsComply(t);
-   
+
 };
 /** @arg {stringTFMatchCountEquals} t */
 function matchCountEqualsComply(t) {
-   
+
     const {
-    
+
         count,
         string,
         fragments,
-    
+
     } = t;
-    
+
     const matches = string.matchAll(new RegExp(fragments.join('|'), 'gmsu'));
 
     let index = 0;
@@ -3712,7 +4251,7 @@ function matchCountEqualsComply(t) {
     };
 
     return false;
-    
+
 };
 
 /**
@@ -3757,63 +4296,63 @@ export function stringMatchCountEquals(string, count, ...fragments) {
 
 /** @arg {stringTFFormatUrl} t */
 function formatUrlDeceit(t) {
-    
+
     try {
-        
+
         return formatUrlVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFFormatUrl} t */
 function formatUrlVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return formatUrlHandle(t);
-   
+
 };
 /** @arg {stringTFFormatUrl} t */
 function formatUrlHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return formatUrlComply(t);
-   
+
 };
 /** @arg {stringTFFormatUrl} t */
 function formatUrlComply(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
-    
-    
+
+
+
 };
 
 /**
@@ -4243,65 +4782,65 @@ export function stringFormatNumber(number, spliterPart = config.spliterPart, spl
 
 /** @arg {stringTFFormatSample} t */
 function formatSampleDeceit(t) {
-    
+
     try {
-        
+
         return formatSampleVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFFormatSample} t */
 function formatSampleVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return formatSampleHandle(t);
-   
+
 };
 /** @arg {stringTFFormatSample} t */
 function formatSampleHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return formatSampleComply(t);
-   
+
 };
 /** @arg {stringTFFormatSample} t */
 function formatSampleComply(t) {
-   
+
     const {
-    
+
         string,
-    
+
     } = t;
-    
+
     let result = stringShield(string);
 
     return result;
-    
+
 };
 
 /**
@@ -4351,69 +4890,69 @@ export function stringFormatSample(string) {
 
 /** @arg {stringTFFormatReport} t */
 function formatReportDeceit(t) {
-    
+
     try {
-        
+
         return formatReportVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFFormatReport} t */
 function formatReportVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return formatReportHandle(t);
-   
+
 };
 /** @arg {stringTFFormatReport} t */
 function formatReportHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return formatReportComply(t);
-   
+
 };
 /** @arg {stringTFFormatReport} t */
 function formatReportComply(t) {
-   
+
     const {
-    
+
         string,
-    
+
     } = t;
 
     let result = funcBypass(string,
-        
+
         [stringInsertMany, 'Infinity/∞', 'true/+', 'false/-']
 
     );
 
     return result;
-    
+
 };
 
 /**
@@ -4832,49 +5371,49 @@ export function stringMesuare(string, step, ...mesuares) {
 
 /** @arg {stringTFTruncate} t */
 function truncateDeceit(t) {
-    
+
     try {
-        
+
         return truncateVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFTruncate} t */
 function truncateVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return truncateHandle(t);
-   
+
 };
 /** @arg {stringTFTruncate} t */
 function truncateHandle(t) {
-   
+
     const {
-    
-        
-    
+
+
+
     } = t;
-    
+
     if (t.cutoffTop) {
 
         t.cutoffBottom += t.cutoffTop;
@@ -4887,21 +5426,21 @@ function truncateHandle(t) {
     };
 
     return truncateComply(t);
-   
+
 };
 /** @arg {stringTFTruncate} t */
 function truncateComply(t) {
-   
+
     const {
-    
+
         string,
         cutoffTop,
         cutoffLeft,
         cutoffRight,
         cutoffBottom,
-    
+
     } = t;
-    
+
     let result = string;
 
     result = stringGetRows(result).slice(cutoffTop, cutoffBottom).map(row => {
@@ -4913,7 +5452,7 @@ function truncateComply(t) {
     result = stringTrim(result);
 
     return result;
-    
+
 };
 
 /**
@@ -5158,63 +5697,63 @@ export function stringSubstringByPosition(string, length, y, x, back) {
 
 /** @arg {stringTFCapitalize} t */
 function capitalizeDeceit(t) {
-    
+
     try {
-        
+
         return capitalizeVerify(t);
-        
+
     } catch (e) {
-        
+
         if (config?.strict) {
-            
+
             throw e;
-            
+
         };
-        
+
         return undefined;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
 };
 /** @arg {stringTFCapitalize} t */
 function capitalizeVerify(t) {
-    
+
     const {
-    
-    
-    
+
+
+
     } = t;
-    
+
     return capitalizeHandle(t);
-   
+
 };
 /** @arg {stringTFCapitalize} t */
 function capitalizeHandle(t) {
-   
+
     const {
-    
-    
-    
+
+
+
     } = t;
-   
+
     return capitalizeComply(t);
-   
+
 };
 /** @arg {stringTFCapitalize} t */
 function capitalizeComply(t) {
-   
+
     const {
-    
+
         string,
-    
+
     } = t;
-    
+
     return string[0].toUpperCase() + string.slice(1);
-    
+
 };
 
 /**

@@ -1,7 +1,7 @@
 //#region YI
 
 import { YEntity } from '@syls/entity';
-import { stringGetRows } from '@syls/string';
+import { YString, stringGetRows } from '@syls/string';
 import { ansiSetColor, ansiSetCursorTo } from '@syls/ansi';
 
 /** @type {import('./config.mjs')['default']?} */
@@ -76,8 +76,8 @@ class SConsole extends YEntity {
         
             YConsole
 
-                .setCursorTo(process.stdout.rows - 3, 0)
-                .resetColor(-3);
+                .resetColor(-3)
+                .writeLine();
         
         });
 
@@ -148,11 +148,19 @@ class SConsole extends YEntity {
     */
     static write(...strings) {
 
-        for (const string of strings) {
+        for (const elem of strings) {
+            
+            if (!elem) {
 
-            process.stdout.write(string.toString());
+                continue;
 
-            this.x += (string?.toString?.())?.length;
+            };
+
+            const string = elem.toString();
+
+            process.stdout.write(string);
+
+            this.x += string.length;
 
         };
 
@@ -265,16 +273,30 @@ class SConsole extends YEntity {
 
         };
 
-        strings = strings.map(string => stringGetRows(string)).flat();
+        for (const index in strings) {
 
-        strings.forEach(string => {
+            let string = strings[index];
+
+            if (string instanceof YString) {
+
+                string = string.get();
+
+            };
+
+            strings[index] = stringGetRows(string);
+
+        };
+
+        strings = strings.flat();
+
+        for (const string of strings) {
 
             this.setCursorTo().write(string);
 
             this.y++;
             this.x = x;
 
-        });
+        };
 
         this.setCursorTo();
 
@@ -499,7 +521,7 @@ class FConsole extends MConsole {
 
         if (config) {
 
-            this.adoptDefault(config);
+            this.adoptDefault(config.constructor.config ?? config);
 
         };
 
@@ -510,15 +532,14 @@ class FConsole extends MConsole {
 /**
  * ### YConsole
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\console`
+ * - Версия `0.2.0`
  * - Цепочка `BDVHC`
  * ***
  *
- *
+ * Данный класс предназначен для управления выводом данных на консоль и их отображением.
  *
  * ***
- *
+ * @class
 */
 export class YConsole extends FConsole {
 

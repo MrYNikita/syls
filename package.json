@@ -17,6 +17,10 @@
     },
     "version": "0.59.0",
     "license": "Apache-2.0",
+    "funding": {
+        "url": "https://boosty.to/mr.y.nikita",
+        "type": "boosty"
+    },
     "keywords": [
         "y",
         "lib",
@@ -29,13 +33,13 @@
     },
     "description": "SYLS (Software Y Lib Solutions) - библиотека, дающая доступ к функциональным и системным решениям, для разработки разнонаправленных приложений.",
     "dependencies": {
-        "@syls/type": "*",
-        "@syls/arg": "*",
-        "@syls/string": "*",
+        "@syls/me": "*",
         "@syls/array": "*",
         "@syls/bool": "*",
         "@syls/class": "*",
         "@syls/cond": "*",
+        "@syls/config": "*",
+        "@syls/connect": "*",
         "@syls/console": "*",
         "@syls/corr": "*",
         "@syls/crypto": "*",
@@ -62,14 +66,15 @@
         "@syls/process": "*",
         "@syls/regexp": "*",
         "@syls/rept": "*",
+        "@syls/request": "*",
         "@syls/server": "*",
+        "@syls/string": "*",
         "@syls/tag": "*",
         "@syls/terminal": "*",
         "@syls/timer": "*",
-        "@syls/web": "*",
-        "@syls/y": "*",
-        "@syls/connect": "*",
         "@syls/url": "*",
-        "@syls/request": "*"
+        "@syls/vect": "*",
+        "@syls/web": "*",
+        "@syls/y": "*"
     }
 }

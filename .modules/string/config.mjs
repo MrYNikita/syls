@@ -1,4 +1,6 @@
-export const configString = {
+import { YConfig, configY } from '@syls/y'
+
+export const configString = new YConfig({
 
     /**
      * ### tab
@@ -11,6 +13,16 @@ export const configString = {
     */
     tab: '\t',
     /**
+     * ### tabDefault
+     *
+     * Дефолт табуляция.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    tabDefault: null,
+    /**
      * ### space
      *
      * Общий заполнитель.
@@ -20,6 +32,16 @@ export const configString = {
      * @public
     */
     space: ' ',
+    /**
+     * ### defaultSpace
+     *
+     * Дефолт заполнитель.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    spaceDefault: null,
     /**
      * ### rowEnd
      *
@@ -50,6 +72,36 @@ export const configString = {
      * @public
     */
     skipValue: ' ',
+    /**
+     * ### valuesDefault
+     *
+     * Дефолт значение.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    valuesDefault: '',
+    /**
+     * ### prefixDefault
+     *
+     * Дефолт префикс.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    prefixDefault: null,
+    /**
+     * ### postfixDefault
+     *
+     * Дефолт постфикс.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    postfixDefault: null,
     /**
      * ### rowVisIndex
      *
@@ -160,6 +212,76 @@ export const configString = {
      * @public
     */
     spliterDischarge: '_',
+    /**
+     * ### rowEndDefault
+     *
+     * Дефолт конец строки.
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    rowEndDefault: null,
+    /**
+     * ### rowEndDefault
+     *
+     *
+     *
+     * ***
+     * @type {string?}
+     * @public
+    */
+    rowEndDefault: null,
+    /**
+     * ### foregroundDefault
+     * 
+     * Дефолт символьный цвет.
+     * 
+     * *** 
+     * @type {import("./ansi/module.mjs").ansiColorTMColors}
+     * @public
+    */
+    foregroundDefault: 'white',
+    /**
+     * ### backgroundDefault
+     * 
+     * Дефолт фоновый цвет.
+     * 
+     * *** 
+     * @type {import("./ansi/module.mjs").ansiColorTMColors}
+     * @public
+    */
+    backgroundDefault: 'black',
+    /**
+     * ### rowLengthDefault
+     *
+     * Дефолт предельное количество символов в линии.
+     *
+     * ***
+     * @type {number?}
+     * @public
+    */
+    rowLengthDefault: null,
+    /**
+     * ### rowVisIndexDefault
+     *
+     * Дефолт индекс видимой страницы.
+     *
+     * ***
+     * @type {number?}
+     * @public
+    */
+    rowVisIndexDefault: null,
+    /**
+     * ### rowVisLimitDefault
+     *
+     * Дефолт предел отображаемых строк.
+     *
+     * ***
+     * @type {number?}
+     * @public
+    */
+    rowVisLimitDefault: null,
 
     /**
      * ### symbols
@@ -171,14 +293,35 @@ export const configString = {
     */
     symbols: {
 
+        text: {
+
+            /** @type {'\t'} */
+            tab: '\t',
+            /** @type {'—'} */
+            tiret: '—',
+            /** @type {'«'} */
+            firLeft: '«',
+            /** @type {'»'} */
+            firRight: '»',
+
+        },
         math: {
+            
+            /** @type {'»'} */
             nu: 'µ',
+            /** @type {'≥'} */
             le: '≥',
+            /** @type {'≤'} */
             ld: '≤',
+            /** @type {'π'} */
             pi: 'π',
+            /** @type {'≠'} */
             ne: '≠',
+            /** @type {'∞'} */
             inf: '∞',
+            /** @type {'±'} */
             plusmin: '±',
+
         },
         table: {
 
@@ -188,16 +331,28 @@ export const configString = {
             
         },
         valute: {
+
+            /** @type {'₽'} */
             ru: '₽',
+            /** @type {'₺'} */
             li: '₺',
+            /** @type {'Br'} */
             br: 'Br',
+            /** @type {'€'} */
             eu: '€',
+            /** @type {'₴'} */
             gr: '₴',
+            /** @type {'$'} */
             dol: '$',
+            /** @type {'¥'} */
             uan: '¥',
+            /** @type {'₸'} */
             ten: '₸',
+            /** @type {'£'} */
             fun: '£',
+            /** @type {'Rs'} */
             rupi: 'Rs',
+
         },
     },
     /**
@@ -221,7 +376,7 @@ export const configString = {
      * Общие шаблоны.
      * 
      * *** 
-     * @type {import('./template/class.mjs').YTemplate} 
+     * @type {[string, string][]} 
      * @public
     */
     templates: [
@@ -263,117 +418,6 @@ export const configString = {
 
     },
 
-    /**
-     * ### defaultTab
-     *
-     * Дефолт табуляция.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    defaultTab: null,
-    /**
-     * ### defaultSpace
-     *
-     * Дефолт заполнитель.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    defaultSpace: null,
-    /**
-     * ### defaultValues
-     *
-     * Дефолт значение.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    defaultValues: '',
-    /**
-     * ### defaultPrefix
-     *
-     * Дефолт префикс.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    defaultPrefix: null,
-    /**
-     * ### defaultRowEnd
-     *
-     * Дефолт конец строки.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    defaultRowEnd: null,
-    /**
-     * ### defaultPostfix
-     *
-     *
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    defaultPostfix: null,
-    /**
-     * ### foregroundDefault
-     * 
-     * Дефолт символьный цвет.
-     * 
-     * *** 
-     * @type {import("./ansi/module.mjs").ansiColorTMColors}
-     * @public
-    */
-    foregroundDefault: 'white',
-    /**
-     * ### backgroundDefault
-     * 
-     * Дефолт фоновый цвет.
-     * 
-     * *** 
-     * @type {import("./ansi/module.mjs").ansiColorTMColors}
-     * @public
-    */
-    backgroundDefault: 'black',
-    /**
-     * ### defaultRowLength
-     *
-     * Дефолт предельное количество символов в линии.
-     *
-     * ***
-     * @type {number?}
-     * @public
-    */
-    defaultRowLength: null,
-    /**
-     * ### defaultRowVisIndex
-     *
-     * Дефолт индекс видимой страницы.
-     *
-     * ***
-     * @type {number?}
-     * @public
-    */
-    defaultRowVisIndex: null,
-    /**
-     * ### defaultRowVisLimit
-     *
-     * Дефолт предел отображаемых строк.
-     *
-     * ***
-     * @type {number?}
-     * @public
-    */
-    defaultRowVisLimit: null,
-
-};
+}, configY);
 
 export default configString;

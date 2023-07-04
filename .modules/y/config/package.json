@@ -35,8 +35,8 @@
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
+    "description": "",
     "dependencies": {
         "@syls/y": "*"
-    },
-    "description": ""
+    }
 }

@@ -1,14 +1,13 @@
 //#region YI
 
 import { Y, argClassify, } from "@syls/y";
-import { YJect } from "@syls/ject";
 
-/** @type {import('./config.mjs')['default']?} */
+/** @type {import('./config.mjs')['default']['value']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(i => config = i.default)
+    .then(i => config = i.default?.value ? i.default.value : i.default)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */
@@ -22,108 +21,116 @@ await import('./error.mjs')
 //#endregion
 //#region YT
 
-/** ### YConfigT
+/** ### YVectT
  * - Тип `T`
  * 
- * Основной параметр модуля `YConfig`.
+ * Основной параметр модуля `YVect`.
  * 
  * ***
  * 
- * @typedef {YConfigTE&YConfigTU} YConfigT
+ * @typedef {YVectTE&YVectTU} YVectT
 */
-/** ### YConfigTE
+/** ### YVectTE
  * - Тип `TE`
  * 
- * Параметр наследования `YConfig`.
+ * Параметр наследования `YVect`.
  * 
- * @typedef {Omit<DConfig, keyof SConfig>} YConfigTE
+ * @typedef {Omit<DVect, keyof SVect>} YVectTE
 */
-/** ### YConfigTU
+/** ### YVectTU
  * - Тип `TU`
  * 
- * Уникальные параметры `YConfig`.
+ * Уникальные параметры `YVect`.
  * 
- * @typedef YConfigTU
+ * @typedef YVectTU
  * @prop {} _
 */
-/** ### YConfigTUG
+/** ### YVectTUG
  * - Тип `TUP`
  * 
- * Уникальные генеративные параметры `YConfig`.
+ * Уникальные генеративные параметры `YVect`.
  * 
- * @typedef YConfigTUG
+ * @typedef YVectTUG
  * @prop {null} _
 */
 
 //#endregion
 
 /**
- * @extends YJect<Y1>
  * @template Y1
 */
-class SConfig extends YJect {
+class SVect extends Y {
     
     
     
 };
 /**
- * @extends SConfig<Y1>
+ * @extends SVect<Y1>
  * @template Y1
 */
-class DConfig extends SConfig {
-    
-    
-    
-};
-/**
- * @extends DConfig<Y1>
- * @template Y1
-*/
-class IConfig extends DConfig {
-    
-    
-    
-};
-/**
- * @extends IConfig<Y1>
- * @template Y1
-*/
-class MConfig extends IConfig {
-    
-    
-    
-};
-/**
- * @extends MConfig<Y1>
- * @template Y1
-*/
-class FConfig extends MConfig {
+class DVect extends SVect {
     
     /**
-     * ### YConfig.constructor
+     * ### coords
+     * 
+     * Координаты.
+     * 
+     * *** 
+     * @type {Y1} 
+     * @public
+    */
+    coords;
+    
+};
+/**
+ * @extends DVect<Y1>
+ * @template Y1
+*/
+class IVect extends DVect {
+    
+    
+    
+};
+/**
+ * @extends IVect<Y1>
+ * @template Y1
+*/
+class MVect extends IVect {
+    
+    
+    
+};
+/**
+ * @extends MVect<Y1>
+ * @template Y1
+*/
+class FVect extends MVect {
+    
+    /**
+     * ### YVect.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YConfigT&G} t
+     * @arg {YVectT&G} t
     */
     constructor(t) {
         
         t = [...arguments];
         
-        super(Object.assign(t = FConfig.#before(t), {}));
+        super(Object.assign(t = FVect.#before(t), {}));
         
-        FConfig.#deceit.apply(this, [t]);
+        FVect.#deceit.apply(this, [t]);
         
     };
     
     /** @arg {any[]} t */
     static #before(t) {
         
-        /** @type {YConfigT} */
+        /** @type {YVectT} */
         let r = {};
         
-        if (t?.length === 1 && [Object, YConfig].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
+        if (t?.length === 1 && [Object, YVect].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
             
             r = t[0];
             
@@ -137,7 +144,7 @@ class FConfig extends MConfig {
             
             const arg = argClassify(t);
             
-            
+            r.coords = arg.array[0];
             
             if (!Object.values(r).length) {
                 
@@ -150,12 +157,12 @@ class FConfig extends MConfig {
         return r;
         
     };
-    /** @arg {YConfigT} t @this {YConfig} */
+    /** @arg {YVectT} t @this {YVect} */
     static #deceit(t) {
         
         try {
             
-            FConfig.#verify.apply(this, [t]);
+            FVect.#verify.apply(this, [t]);
             
         } catch (e) {
             
@@ -168,7 +175,7 @@ class FConfig extends MConfig {
         };
         
     };
-    /** @arg {YConfigT} t @this {YConfig} */
+    /** @arg {YVectT} t @this {YVect} */
     static #verify(t) {
         
         const {
@@ -177,18 +184,18 @@ class FConfig extends MConfig {
             
         } = t;
         
-        FConfig.#handle.apply(this, [t]);
+        FVect.#handle.apply(this, [t]);
         
     };
-    /** @arg {YConfigT} t @this {YConfig} */
+    /** @arg {YVectT} t @this {YVect} */
     static #handle(t) {
         
         
         
-        FConfig.#create.apply(this, [t]);
+        FVect.#create.apply(this, [t]);
         
     };
-    /** @arg {YConfigT} t @this {YConfig} */
+    /** @arg {YVectT} t @this {YVect} */
     static #create(t) {
         
         const {
@@ -201,7 +208,7 @@ class FConfig extends MConfig {
         
         if (config) {
             
-            this.adoptDefault(config);
+            this.adoptDefault(this.constructor.config ?? config);
             
         };
         
@@ -210,18 +217,19 @@ class FConfig extends MConfig {
 };
 
 /**
- * ### YConfig
+ * ### YVect
  * - Тип `SDIMFY`
  * - Цепочка `BDVHC`
  * ***
  * 
- * 
+ * Класс векторов.
  * 
  * ***
- * @extends FConfig<Y1&YConfigTUG>
+ * @class
+ * @extends FVect<YVectTUG&Y1>
  * @template Y1
 */
-export class YConfig extends FConfig {
+export class YVect extends FVect {
     
     /** @arg {Y1} t */
     constructor(t) { super(t); };

@@ -3,7 +3,7 @@ export * from "./config.mjs";
 export * from "./module.mjs";
 export * from "./arg/export.mjs";
 export * from "./type/export.mjs";
-export * from "./alias/export.mjs";
+export * from "./config/export.mjs";
 
 /**
  * @file type.d.ts

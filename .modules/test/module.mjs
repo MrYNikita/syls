@@ -1,6 +1,6 @@
 //#region YI
 
-import { YError } from '../error/class.mjs';
+import { YPowerShell } from '@syls/powershell';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -61,6 +61,117 @@ export const testVStringSquare = `xxxxxxxxxx\nyyyyyyyyyy\nzzzzzzzzzz\niiiiiiiiii
 
 //#endregion
 
+//#region run
+
+/** ### testTFRun
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `run`.
+ * 
+ * @typedef {testTFURun&testT} testTFRun
+ * 
+*/
+/** ### testTFURun
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `run`.
+ * 
+ * @typedef testTFURun
+ * @prop {number} repeat
+ * @prop {string} fragment
+*/
+
+/** @arg {testTFRun} t */
+function runDeceit(t) {
+    
+    try {
+        
+        return runVerify(t);
+        
+    } catch (e) {
+        
+        if (config?.strict) {
+            
+            throw e;
+            
+        };
+        
+        return undefined;
+        
+    } finally {
+        
+        
+        
+    };
+    
+};
+/** @arg {testTFRun} t */
+function runVerify(t) {
+    
+    const {
+    
+    
+    
+    } = t;
+    
+    return runHandle(t);
+   
+};
+/** @arg {testTFRun} t */
+function runHandle(t) {
+   
+    const {
+    
+    
+    
+    } = t;
+   
+    return runComply(t);
+   
+};
+/** @arg {testTFRun} t */
+function runComply(t) {
+   
+    const {
+    
+        repeat,
+        fragment,
+    
+    } = t;
+
+    for (let count = 0; count < repeat; count++) {
+
+        new YPowerShell({
+
+            path: fragment,
+
+        }).print();
+
+    };
+
+    return true;
+    
+};
+
+/**
+ * ### testRun
+ * 
+ * ***
+ * 
+ * Функция запуска `.mjs` файла заданное количество раз.
+ * 
+ * ***
+ * @arg {number} repeat `Повторения`
+ * @arg {string} fragment `Фрагмент`
+*/
+export function testRun(fragment, repeat = 1) {
+
+    return runDeceit({ fragment, repeat, });
+
+};
+
+//#endregion
 //#region compare 0.0.0
 
 /**

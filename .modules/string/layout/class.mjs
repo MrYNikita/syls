@@ -83,6 +83,16 @@ class DLayout extends SLayout {
 class ILayout extends DLayout {
 
     /**
+     * ### pointer
+     * 
+     * Указатель используется для обозначения последнего элемента в пошаговой установке.
+     * 
+     * *** 
+     * @type {[number, number]} 
+     * @protected
+    */
+    pointer;
+    /**
      * ### elements
      * 
      * Элементы.
@@ -261,7 +271,7 @@ export class YLayout extends FLayout {
      * Если элемент существует, то он будет заменен, иначе - добавлен.
      * 
      * ***
-     * @arg {...[number, number, YElement]} elements `Элементы`
+     * @arg {...[number, number, import('./element/class.mjs').YElementT]} elements `Элементы`
      * 
      * При необходимости установки одного элемента, можно описать его без использования остаточных параметров.
      * 
@@ -269,25 +279,9 @@ export class YLayout extends FLayout {
     */
     set(...elements) {
 
-        if (condIsNumber(elements[0]) && condIsNumber(elements[1])) {
-
-            if (!(elements[2] instanceof YElement)) {
-
-                elements[2] = new YElement(elements[2]);
-
-            };
-
-            elements = [elements];
-
-        } else if (!elements.every(element => condIsNumber(element[0]) && condIsNumber(element[1] && element[1] instanceof YElement))) {
-
-            throw new Error('Неверный формат аргументов.');
-
-        };
-
         for (const element of elements) {
 
-            const [y, x, e] = element;
+            let [y, x, e] = element;
 
             if (!this.elements) {
 
@@ -299,11 +293,21 @@ export class YLayout extends FLayout {
                 this.elements[y] = [];
 
             };
+            if (!(e instanceof YElement)) {
 
-            const flow = this.elements.slice(0, y).flat().filter(e => e.flow).at(-1);
+                e = new YElement(e);
+
+            };
+
+            const flow = this.elements.slice(0, y === 0 ? 1 : y).flat().filter(e => e.flow).at(-1);
 
             if (flow) {
 
+                if (!e.ansi.foreground) {
+
+                    e.ansi.foreground = flow.ansi.foreground;
+
+                };
                 if (!e.ansi.background) {
 
                     e.ansi.background = flow.ansi.background;
@@ -400,7 +404,13 @@ export class YLayout extends FLayout {
 
         };
 
-        return result;
+        if (this.ansi) {
+
+            result = this.ansi.get() + result;
+
+        };
+
+        return result + ansiGetColorReset();
 
     };
     /**

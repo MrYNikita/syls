@@ -609,7 +609,7 @@ function isStringValidComply(t) {
 
     for (const value of values) {
 
-        if (!(condIsValid(value) && condIsString(value))) {
+        if (!(condIsString(value) && value !== '')) {
 
             return false;
 
@@ -974,9 +974,9 @@ function isNumberLimitComply(t) {
  * Функция проверки значений на принадлежность к конечным числам, отличным от бесконечности.
  *
  * ***
- * @arg values `Значения`
+ * @arg {...any} values `Значения`
 */
-export function condIsNumberLimit(values) {
+export function condIsNumberLimit(...values) {
 
     return isNumberLimitDeceit({ values });
 

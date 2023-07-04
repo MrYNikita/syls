@@ -1,0 +1,51 @@
+{
+    "name": "@syls/me",
+    "type": "module",
+    "files": [
+        "./.heir",
+        "./.module"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "0.0.0",
+    "license": "Apache-2.0",
+    "funding": {
+        "url": "https://boosty.to/mr.y.nikita",
+        "type": "boosty"
+    },
+    "exports": {
+        ".": {
+            "types": "./.module/type.d.ts",
+            "import": "./.module/export.mjs",
+            "default": "./.module/export.mjs"
+        },
+        "./red": {
+            "types": "./.heir/me1/type.d.ts",
+            "import": "./.heir/me1/export.mjs",
+            "default": "./.heir/me1/export.mjs"
+        },
+        "./blue": {
+            "types": "./.heir/blue/type.d.ts",
+            "import": "./.heir/blue/export.mjs",
+            "default": "./.heir/blue/export.mjs"
+        }
+    },
+    "scripts": {
+        "test": "node ./.module/test.mjs"
+    },
+    "keywords": [
+        "y",
+        "lib",
+        "syls"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "",
+    "dependencies": {
+        "@syls/y": "*"
+    }
+}

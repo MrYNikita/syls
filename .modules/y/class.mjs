@@ -1,7 +1,7 @@
 //#region YI
 
-import { argClassify } from './arg/module.mjs';
-import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yGetProperty, yGetPropertyByPath, ySupplement } from './export.mjs';
+import { argClassify } from "./arg/export.mjs";
+import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yGetProperty, yGetPropertyByPath, ySupplement } from './module.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

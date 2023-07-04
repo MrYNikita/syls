@@ -36,6 +36,6 @@
     },
     "description": "Модуль аргументов.",
     "dependencies": {
-        "@syls/ject": "*"
+        "@syls/y": "*"
     }
 }

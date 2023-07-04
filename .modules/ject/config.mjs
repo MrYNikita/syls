@@ -30,6 +30,17 @@ export const configJect = {
      * @public
     */
     stockMode: false,
+
+    /**
+     * ### valueDefault
+     * 
+     * Дефолт значение.
+     * 
+     * *** 
+     * @type {{}} 
+     * @public
+    */
+    valueDefault: {},
     
 };
 

@@ -1,3 +1,5 @@
+import { YConfig, configY, } from "@syls/y";
+
 /** ### configEntity
  * 
  * Конфигуратор модуля `entity`.
@@ -5,7 +7,7 @@
  * ***
  * @public
 */
-export const configEntity = {
+export const configEntity = new YConfig({
     
     /**
      * ### testDefault
@@ -18,7 +20,7 @@ export const configEntity = {
     */
     testDefault: 0,
     
-};
+}, configY);
 
 export default configEntity;
 

@@ -53,10 +53,23 @@ await import('./error.mjs')
 /** ### typeJect
  * 
  * ***
+ * 
  * Тип с аргументом в виде объекта.
+ * 
  * ***
  * @typedef typeJect
  * @prop {import('../class.mjs').Y} ject `Объект`
+*/
+/** ### typeLocal
+ * 
+ * ***
+ * 
+ * Тип локали.
+ * 
+ * ***
+ * @typedef { 'ru' |
+ * 'en'
+ * } typeLocal
 */
 
 //#endregion

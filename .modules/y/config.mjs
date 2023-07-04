@@ -6,10 +6,9 @@ export const configY = {
      * Локаль.
      *
      * ***
-     * @type {string}
      * @public
     */
-    local: "ru",
+    local: 'ru',
     /**
      * ### locales
      * 

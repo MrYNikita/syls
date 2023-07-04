@@ -3,7 +3,6 @@
 import http2 from "http2";
 import { Y, argClassify } from '@syls/Y';
 import { YConnect } from "../class.mjs";
-import { argClassify } from "@syls/arg";
 import { netHttp2HeaderContentType, netHttp2HeaderPath, netHttp2HeaderUserAgent } from "@syls/net";
 
 /** @type {import('./config.mjs')['default']?} */

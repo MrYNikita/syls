@@ -1,6 +1,6 @@
 //#region YI
 
-import { Y, argClassify, } from "@syls/y";
+import { Y, argClassify, yClone, } from "@syls/y";
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -86,7 +86,7 @@ class IJect extends DJect {
      * 
      * *** 
      * @type {Y1} 
-     * @public
+     * @protected
     */
     value;
     
@@ -232,6 +232,125 @@ export class YJect extends FJect {
     
     /** @arg {Y1} ject */
     constructor(ject) { super(ject); };
+
+    /**
+     * ### get
+     * 
+     * ***
+     * 
+     * Метод получения значения.
+     * 
+     * ***
+     * @public
+    */
+    get() {
+        
+        return this.value;
+        
+    };
+    /**
+     * ### getPrototype
+     * 
+     * ***
+     * 
+     * Метод получения прототипа значения.
+     * 
+     * ***
+     * @public
+    */
+    getPrototype() {
+        
+        return Object.getPrototypeOf(this.value);
+        
+    };
+
+    /**
+     * ### seal
+     * 
+     * ***
+     * 
+     * Метод запечатывания текущего значения.
+     * 
+     * Запечатанное значение нельзя дополнить новыми свойствами или удалить имеющиеся.
+     * Однако, данный подход позволяет изменять текущие свойства.
+     * 
+     * ***
+     * @arg {boolean} mode `Режим`
+     * @public
+    */
+    seal(mode = this.isSeal()) {
+        
+        if (mode) {
+
+            Object.seal(this.value);
+
+        } else {
+
+            this.value = yClone(this.value);
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### isSeal
+     * 
+     * ***
+     * 
+     * Метод проверки значения на запечатанность.
+     * 
+     * ***
+     * @public
+    */
+    isSeal() {
+        
+        return Object.isSealed(this.value);
+        
+    };
+    /**
+     * ### freeze
+     * 
+     * ***
+     * 
+     * Метод заморозки объекта.
+     * 
+     * Запечатанное значение нельзя дополнить новыми свойствами, удалить или изменить имеющиеся.
+     * 
+     * ***
+     * @arg {boolean} mode `Режим`
+     * @public
+    */
+    freeze(mode = this.isFreeze()) {
+
+        if (mode) {
+            
+            Object.freeze(this.value);
+
+        } else {
+
+            this.value = yClone(this.value);
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### isFreeze
+     * 
+     * ***
+     * 
+     * Метод проверки значения на заморозку.
+     * 
+     * ***
+     * @public
+    */
+    isFreeze() {
+        
+        return Object.isFrozen(this.value);
+        
+    };
 
     /**
      * ### setPrototype
