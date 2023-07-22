@@ -1,80 +1,62 @@
 {
-    "name": "syls",
+    "name": "@syls/syls",
     "type": "module",
-    "types": "./type.d.ts",
     "files": [
-        "./license",
-        "./type.d.ts",
-        "./class.mjs",
-        "./readme.md",
-        "./module.mjs",
-        "./package.json",
-        "./jsconfig.json"
+        "./-module",
+        "./-submodule",
+        "./package.json"
     ],
     "author": {
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.59.0",
+    "version": "1.0.0",
     "license": "Apache-2.0",
     "funding": {
         "url": "https://boosty.to/mr.y.nikita",
         "type": "boosty"
+    },
+    "exports": {
+        ".": {
+            "types": "./-module/type.d.ts",
+            "import": "./-module/export.mjs"
+        }
+    },
+    "scripts": {
+        "test": "node ./-module/module.test.js"
+    },
+    "engines": {
+        "node": ">=18.0.0"
     },
     "keywords": [
         "y",
         "lib",
         "syls"
     ],
-    "homepage": "https://github.com/MrYNikita/syls#readme",
     "repository": {
-        "url": "https://github.com/MrYNikita/syls.git",
+        "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
     "description": "SYLS (Software Y Lib Solutions) - библиотека, дающая доступ к функциональным и системным решениям, для разработки разнонаправленных приложений.",
     "dependencies": {
-        "@syls/me": "*",
-        "@syls/array": "*",
-        "@syls/bool": "*",
-        "@syls/class": "*",
-        "@syls/cond": "*",
-        "@syls/config": "*",
-        "@syls/connect": "*",
-        "@syls/console": "*",
-        "@syls/corr": "*",
-        "@syls/crypto": "*",
-        "@syls/cursor": "*",
-        "@syls/date": "*",
-        "@syls/dir": "*",
-        "@syls/dispatcher": "*",
-        "@syls/entity": "*",
-        "@syls/error": "*",
-        "@syls/file": "*",
-        "@syls/func": "*",
-        "@syls/ject": "*",
-        "@syls/key": "*",
-        "@syls/list": "*",
-        "@syls/listener": "*",
-        "@syls/log": "*",
-        "@syls/many": "*",
-        "@syls/net": "*",
-        "@syls/number": "*",
+        "@syls/y": "*",
         "@syls/os": "*",
-        "@syls/osject": "*",
-        "@syls/path": "*",
-        "@syls/position": "*",
-        "@syls/process": "*",
+        "@syls/key": "*",
+        "@syls/bool": "*",
+        "@syls/test": "*",
+        "@syls/date": "*",
+        "@syls/func": "*",
+        "@syls/many": "*",
+        "@syls/ject": "*",
+        "@syls/game": "*",
+        "@syls/class": "*",
+        "@syls/array": "*",
+        "@syls/crypto": "*",
+        "@syls/number": "*",
         "@syls/regexp": "*",
-        "@syls/rept": "*",
-        "@syls/request": "*",
-        "@syls/server": "*",
         "@syls/string": "*",
-        "@syls/tag": "*",
-        "@syls/terminal": "*",
-        "@syls/timer": "*",
-        "@syls/url": "*",
-        "@syls/vect": "*",
-        "@syls/web": "*",
-        "@syls/y": "*"
+        "@syls/console": "*",
+        "@syls/process": "*",
+        "@syls/terminal": "*"
     }
 }

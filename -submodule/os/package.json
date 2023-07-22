@@ -1,0 +1,68 @@
+{
+    "name": "@syls/os",
+    "type": "module",
+    "files": [
+        "./-module",
+        "./-submodule",
+        "./package.json"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "1.0.0",
+    "license": "Apache-2.0",
+    "funding": {
+        "url": "https://boosty.to/mr.y.nikita",
+        "type": "boosty"
+    },
+    "exports": {
+        ".": {
+            "types": "./-module/type.d.ts",
+            "import": "./-module/export.mjs"
+        },
+        "./net": {
+            "types": "./-submodule/net/-module/type.d.ts",
+            "import": "./-submodule/net/-module/export.mjs"
+        },
+        "./dir": {
+            "types": "./-submodule/dir/-module/type.d.ts",
+            "import": "./-submodule/dir/-module/export.mjs"
+        },
+        "./file": {
+            "types": "./-submodule/file/-module/type.d.ts",
+            "import": "./-submodule/file/-module/export.mjs"
+        },
+        "./path": {
+            "types": "./-submodule/path/-module/type.d.ts",
+            "import": "./-submodule/path/-module/export.mjs"
+        },
+        "./osject": {
+            "types": "./-submodule/osject/-module/type.d.ts",
+            "import": "./-submodule/osject/-module/export.mjs"
+        }
+    },
+    "scripts": {
+        "test": "node ./-module/module.test.js"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "keywords": [
+        "y",
+        "os",
+        "lib",
+        "syls"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "Моудль манипулирования OS.",
+    "dependencies": {
+        "@syls/y": "*"
+    },
+    "devDependencies": {
+        "@syls/test": "*"
+    }
+}

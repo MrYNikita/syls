@@ -1,0 +1,53 @@
+{
+    "name": "@syls/key",
+    "type": "module",
+    "files": [
+        "./-module",
+        "./-submodule",
+        "./package.json"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "1.0.0",
+    "license": "Apache-2.0",
+    "funding": {
+        "url": "https://boosty.to/mr.y.nikita",
+        "type": "boosty"
+    },
+    "exports": {
+        ".": {
+            "types": "./-module/type.d.ts",
+            "import": "./-module/export.mjs"
+        },
+        "./comb": {
+            "types": "./-submodule/comb/-module/type.d.ts",
+            "import": "./-submodule/comb/-module/export.mjs"
+        }
+    },
+    "scripts": {
+        "test": "node ./-module/module.test.js"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "keywords": [
+        "y",
+        "lib",
+        "key",
+        "syls",
+        "comb"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "Модуль представления клавиш SYLS.",
+    "dependencies": {
+        "@syls/y": "*"
+    },
+    "devDependencies": {
+        "@syls/test": "*"
+    }
+}

@@ -1,0 +1,64 @@
+{
+    "name": "@syls/y",
+    "type": "module",
+    "files": [
+        "./-module",
+        "./-submodule",
+        "./package.json"
+    ],
+    "author": {
+        "name": "Yakhin Nikita Artemovich",
+        "email": "mr.y.nikita@gmail.com"
+    },
+    "version": "1.0.0",
+    "license": "Apache-2.0",
+    "funding": {
+        "url": "https://boosty.to/mr.y.nikita",
+        "type": "boosty"
+    },
+    "exports": {
+        ".": {
+            "types": "./-module/type.d.ts",
+            "import": "./-module/export.mjs"
+        },
+        "./type": {
+            "types": "./-submodule/type/-module/type.d.ts",
+            "import": "./-submodule/type/-module/export.mjs"
+        },
+        "./cond": {
+            "types": "./-submodule/cond/-module/type.d.ts",
+            "import": "./-submodule/cond/-module/export.mjs"
+        },
+        "./shell": {
+            "types": "./-submodule/shell/-module/type.d.ts",
+            "import": "./-submodule/shell/-module/export.mjs"
+        },
+        "./error": {
+            "types": "./-submodule/error/-module/type.d.ts",
+            "import": "./-submodule/error/-module/export.mjs"
+        },
+        "./config": {
+            "types": "./-submodule/config/-module/type.d.ts",
+            "import": "./-submodule/config/-module/export.mjs"
+        }
+    },
+    "scripts": {
+        "test": "node ./-module/module.test.js"
+    },
+    "keywords": [
+        "y",
+        "lib",
+        "syls"
+    ],
+    "repository": {
+        "url": "https://github.com/MrYNikita/Y.git",
+        "type": "git"
+    },
+    "description": "Корневой SYLS модуль.",
+    "dependencies": {
+        "@syls/y": "*"
+    },
+    "devDependencies": {
+        "@syls/test": "*"
+    }
+}
