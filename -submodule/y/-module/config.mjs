@@ -10,6 +10,18 @@ export const configY = {
     */
     local: 'ru',
     /**
+     * ### aliases
+     * 
+     * ***
+     * 
+     * Алиасы.
+     * 
+     * *** 
+     * @type {string[][]}
+     * @public
+    */
+    aliases: [],
+    /**
      * ### locales
      * 
      * Локали.
@@ -19,8 +31,10 @@ export const configY = {
      * @public
     */
     locales: [
+
         "ru",
         "en",
+
     ],
     /**
      * ### moduleId
@@ -44,6 +58,19 @@ export const configY = {
      * @public
     */
     strictMode: true,
+    /**
+     * ### defaultValue
+     * 
+     * ***
+     * 
+     * Дефолтное значение, используемое для присвоения незаполенных полей. 
+     * 
+     * *** 
+     * @type {any}
+     * @public
+     * @property
+    */
+    defaultValue: null,
 
 };
 

@@ -621,24 +621,26 @@ function adoptDefaultComply(t) {
         owner,
     
     } = t;
-    
-    for (const p of Object.keys(y)) {
+
+    if (!y || !owner) {
+
+        return y;
+
+    };
+
+    for (const property of Object.keys(y)) {
         
-        const properties = ['default' + p[0].toUpperCase() + p.slice(1), p + 'Default'];
+        const propertyDefault = property + 'Default';
 
-        for (const property of properties) {
+        if (!y[property]) {
 
-            if (!y[p] && owner[property] !== undefined) {
+            if (owner[propertyDefault] === undefined) {
 
-                if (typeof owner[property] === 'object') {
+                y[property] = y.constructor.config.defaultValue;
 
-                    y[p] = yClone(owner[property]);
-                    
-                } else {
-                    
-                    y[p] = owner[property];
-    
-                };
+            } else {
+
+                y[property] = typeof owner[propertyDefault] === 'object' ? yClone(owner[propertyDefault]) : owner[propertyDefault];
 
             };
 
@@ -928,13 +930,21 @@ function correlateComply(t) {
 
             if (t[p] === undefined) {
 
-                for (const alias of aliases) {
+                let result = t;
 
-                    if (p === alias.name || alias.options.includes(p)) {
+                const alias = aliases.find(alias => alias.name === p);
 
-                        return t[alias.name];
+                if (alias) {
+
+                    for (const index in alias.options) {
+                        
+                        const step = alias.options[index];
+
+                        result = result[step];
 
                     };
+
+                    return result;
 
                 };
 
@@ -947,17 +957,31 @@ function correlateComply(t) {
 
             if (t[p] === undefined) {
 
-                for (const alias of aliases) {
+                const alias = aliases.find(alias => alias.name === p);
 
-                    if (p === alias.name || alias.options.includes(p)) {
+                if (alias) {
 
-                        t[alias.name] = v;
+                    let link = result;
 
-                        return true;
+                    for (const index in alias.options) {
+
+                        const step = alias.options[index];
+
+                        if (index === alias.options.length - 1) {
+
+                            link[step] = v;
+
+                        } else {
+
+                            link = link[step];
+
+                        };
 
                     };
 
-                };
+                    return true;
+
+                }
 
             };
 

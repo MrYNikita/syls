@@ -1,5 +1,7 @@
 //#region YI
 
+import { YDimension } from '../-submodule/dimension/-module/class.mjs';
+
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
 
@@ -71,7 +73,7 @@ await import('./error.mjs')
 
 //#endregion
 
-//#region get 0.0.0
+//#region get 
 
 /** ### manyTFGet
  * - Тип `TF`

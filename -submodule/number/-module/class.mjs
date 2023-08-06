@@ -1,6 +1,6 @@
 //#region YI
 
-import { Y } from '@syls/y';
+import { Y, yClassifyProp } from '@syls/y';
 import { condIsNumberLimit } from '@syls/y/cond';
 import { numberGetRandomFrac, numberGetRandomReal } from './module.mjs';
 
@@ -524,7 +524,7 @@ export class YNumber extends FNumber {
     */
     exp() {
 
-       return this.change(Math.exp(this.value));
+        return this.change(Math.exp(this.value));
 
     };
     /**
@@ -747,6 +747,50 @@ export class YNumber extends FNumber {
         return 1;
 
     };
+    /**
+     * ### operate
+     * 
+     * ***
+     * 
+     * Метод применения операнда с указанным значением.
+     * 
+     * ***
+     * @arg {number} value `Значение`
+     * @arg {string} operand `Операнд`
+     * @since `1.0.0`
+     * @method
+     * @public
+    */
+    operate(operand, value) {
+
+        const args = yClassifyProp(arguments);
+
+        if (!args.array.length) {
+
+            args.array.push([operand, value]);
+
+        };
+
+        for (const pair of args.array) {
+
+            [operand, value] = pair;
+
+            switch (operand) {
+
+                case '+': this.add(value); break;
+                case '-': this.dec(value); break;
+                case '*': this.mul(value); break;
+                case ':': this.div(value); break;
+                case '%': this.mod(value); break;
+                case '^': this.ere(value); break;
+    
+            };
+
+        };
+
+        return this;
+
+    };
 
     /**
      * ### getFrac
@@ -830,7 +874,7 @@ export class YNumber extends FNumber {
 
             };
 
-            this.change(this.value /  precentNow * precent);
+            this.change(this.value / precentNow * precent);
 
         } else {
 

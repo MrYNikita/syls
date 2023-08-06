@@ -38,9 +38,12 @@
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
-    "description": "Модуль терминалов.",
+    "description": "Терминальный модуль.",
     "dependencies": {
-        "@syls/y": "*"
+        "@syls/y": "*",
+        "@syls/entity": "*",
+        "@syls/string": "*",
+        "@syls/console": "*"
     },
     "devDependencies": {
         "@syls/test": "*"

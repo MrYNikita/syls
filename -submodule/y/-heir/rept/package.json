@@ -1,44 +1,50 @@
 {
     "name": "@syls/rept",
     "type": "module",
-    "types": "./type.d.ts",
     "files": [
-        "./block",
-        "./type.d.ts",
-        "./class.mjs",
-        "./config.mjs",
-        "./module.mjs",
-        "./export.mjs",
-        "./package.json",
-        "./changelog.md"
+        "./-module",
+        "./-submodule",
+        "./package.json"
     ],
-    "version": "0.0.4",
-    "exports": {
-        ".": {
-            "types": "./type.d.ts",
-            "import": "./export.mjs",
-            "default": "./export.mjs"
-        }
-    },
     "author": {
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
+    "version": "1.0.0",
     "license": "Apache-2.0",
+    "funding": {
+        "url": "https://boosty.to/mr.y.nikita",
+        "type": "boosty"
+    },
+    "exports": {
+        ".": {
+            "types": "./-module/type.d.ts",
+            "import": "./-module/export.mjs"
+        }
+    },
+    "scripts": {
+        "test": "node ./-module/module.test.js"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
     "keywords": [
         "y",
         "lib",
         "syls",
+        "entity",
         "report"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
-    "description": "Модуль отчётов.",
+    "description": "",
     "dependencies": {
         "@syls/y": "*",
-        "@syls/ansi": "*",
         "@syls/string": "*"
+    },
+    "devDependencies": {
+        "@syls/test": "*"
     }
 }

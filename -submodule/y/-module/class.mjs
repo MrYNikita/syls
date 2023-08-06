@@ -77,7 +77,11 @@ class SY {
     */
     static create(...args) {
 
-        return Object.getPrototypeOf(SY).create.apply(this, [...args]);
+        const result = [];
+
+        for (const index in args) result[index] = new this(args[index]);
+
+        return result;
 
     };
 
@@ -225,6 +229,61 @@ class FY extends MY {
 export class Y extends FY {
 
     /**
+     * ### mode
+     * 
+     * ***
+     * 
+     * Метод установки режимов.
+     * 
+     * ***
+     * @arg {any} value `Значение`
+     * @arg {string} mode `Режим`
+     * @method
+     * @public
+    */
+    mode(mode, value) {
+        
+        const args = yClassifyProp(arguments);
+
+        const options = [];
+
+        if (args.string.length > 1) {
+
+            options.push(...args.string.map(string => [string]));
+
+        } else if (!args.array.length) {
+
+            options.push([mode, value]);
+
+        } else {
+
+            options.push(...args.array);
+
+        };
+
+        for (const option of options) {
+
+            [mode, value] = option;
+
+            if (!(mode in this)) {
+
+                if (!((mode += 'Mode') in this)) {
+
+                    continue;
+
+                };
+
+            };
+
+            this[mode] = value === undefined ? this[mode] ? false : true : !!value;
+
+        };
+
+        return this;
+        
+    };
+
+    /**
      * ### fill
      * 
      * ***
@@ -239,23 +298,6 @@ export class Y extends FY {
 
 
 
-    };
-    /**
-     * ### print
-     * 
-     * ***
-     * 
-     * Метод отображения данных.
-     * 
-     * ***
-     * @public
-    */
-    print() {
-        
-        console.log(this);
-
-        return this;
-        
     };
     /**
      * ### clone
@@ -324,6 +366,44 @@ export class Y extends FY {
 
         return yAdoptDefault(this, owner);
 
+    };
+
+    /**
+     * ### print
+     * 
+     * ***
+     * 
+     * Метод отображения данных.
+     * 
+     * ***
+     * @public
+    */
+    print() {
+        
+        console.log(this);
+
+        return this;
+        
+    };
+    /**
+     * ### printTable
+     * 
+     * ***
+     * 
+     * Метод отображения данных в табличном виде.
+     * 
+     * ***
+     * @arg {...this} jects `Объекты`
+     * @since `1.0.0`
+     * @method
+     * @public
+    */
+    printTable(...jects) {
+        
+        console.table([this, ...jects]);
+
+        return this;
+        
     };
 
     /**

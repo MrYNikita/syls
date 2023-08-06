@@ -1,15 +1,15 @@
 //#region YI
 
-import { Y } from '@syls/y';
+import { Y, yClassifyProp } from '@syls/y';
 import { YContext } from '../-submodule/context/-module/export.mjs';
 import { YHandler } from '../-submodule/handler/-module/class.mjs';
 
-/** @type {import('./config.mjs')['default']?} */
+/** @type {import('./config.mjs')['default']['value']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(i => config = i.default.value)
+    .then(c => config = c.default?.value ? c.default.value : c.default)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */
@@ -17,7 +17,7 @@ let error = null;
 
 await import('./error.mjs')
 
-    .then(i => error = i.default)
+    .then(e => error = e.default)
     .catch(e => e);
 
 //#endregion
@@ -53,10 +53,12 @@ await import('./error.mjs')
 
 class SEntity extends Y {
 
-    /**
-     * ### config
-     * 
-     * Конфигуратор.
+    /** ### stock
+     * @type {YEntity[]}
+     * @public
+    */
+    static stock = [];
+    /** ### config
      * 
      * ***
      * @public
@@ -76,18 +78,18 @@ class SEntity extends Y {
 };
 class DEntity extends SEntity {
 
-    test;
+
 
 };
 class IEntity extends DEntity {
 
     /**
      * ### _y
-     * 
+     *
      * Контекст.
-     * 
-     * *** 
-     * @type {YContext?} 
+     *
+     * ***
+     * @type {YContext?}
      * @protected
     */
     _y = new YContext();
@@ -97,7 +99,7 @@ class MEntity extends IEntity {
 
     /**
      * ### findHandle
-     * - Версия `0.0.0`
+     * 
      * ***
      *
      * Метод получения обработчика по его метке.
@@ -105,6 +107,7 @@ class MEntity extends IEntity {
      * ***
      * @arg {string} label `Метка`
      * @public
+     * @method
      * @returns {YHandler?}
     */
     findHandle(label) {
@@ -134,26 +137,7 @@ class FEntity extends MEntity {
 
         FEntity.#deceit.apply(this, [t]);
 
-        return new Proxy(this.correlate(), {
-
-            get(t, p) {
-
-                t._y.log.appendRecords([`Получено значение по свойству ${p}`, 'debug/#']);
-
-                return t[p];
-
-            },
-            set(t, p, v) {
-
-                t._y.log.appendRecords([`Установлено значение по свойству ${p}`, 'debug']);
-
-                t[p] = v;
-
-                return true;
-
-            },
-
-        });
+        return this.correlate();
 
     };
 
@@ -167,19 +151,25 @@ class FEntity extends MEntity {
 
             r = t[0];
 
-        } else if (t?.length) {
+        } else if (!t.length) {
 
-            if (t[0]?._ytp) {
+            return r;
 
-                t = [...t[0]._ytp];
+        };
 
-            };
+        if (t[0]?._ytp) {
 
-            if (!Object.values(r).length) {
+            t = [...t[0]._ytp];
 
-                r = { _ytp: t, };
+        };
 
-            };
+        const arg = yClassifyProp(t);
+
+
+
+        if (!Object.values(r).length) {
+
+            r = { _ytp: t, };
 
         };
 
@@ -237,7 +227,7 @@ class FEntity extends MEntity {
 
         if (config) {
 
-            this.adoptDefault(config);
+            this.adoptDefault(this.constructor.config ?? config);
 
         };
 
@@ -248,12 +238,14 @@ class FEntity extends MEntity {
 /**
  * ### YEntity
  * - Тип `SDIMFY`
+ * - Версия `0.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
- * 
+ * Класс YEntity.
  * 
  * ***
+ * @class
  * 
 */
 export class YEntity extends FEntity {
@@ -335,3 +327,10 @@ export class YEntity extends FEntity {
     };
 
 };
+
+/**
+ * @file entity/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/

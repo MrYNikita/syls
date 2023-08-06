@@ -20,6 +20,10 @@
         ".": {
             "types": "./-module/type.d.ts",
             "import": "./-module/export.mjs"
+        },
+        "./mafia": {
+            "types": "./-heir/mafia/-module/type.d.ts",
+            "import": "./-heir/mafia/-module/export.mjs"
         }
     },
     "scripts": {

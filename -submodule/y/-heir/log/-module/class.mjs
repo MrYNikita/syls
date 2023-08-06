@@ -4,15 +4,15 @@ import { Y } from '@syls/y';
 import { YString } from '@syls/string';
 
 import { YTag } from '../-submodule/tag/-module/export.mjs';
-import { YPage } from '../-submodule/page/-module/export.mjs';
-import { YRecord, configPage } from '../-submodule/record/-module/export.mjs';
+import { YPage, configPage, } from '../-submodule/page/-module/export.mjs';
+import { YRecord } from '../-submodule/record/-module/export.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(i => config = i.default)
+    .then(i => config = i.default.value)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */

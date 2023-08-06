@@ -1,6 +1,6 @@
 //#region YI
 
-import { YMany } from '@syls/many';
+import { Y } from '@syls/y';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -21,101 +21,115 @@ await import('./error.mjs')
 //#endregion
 //#region YT
 
-/** ### YListT
+/** ### YTagT
  * - Тип `T`
  * - Версия `0.0.0`
+ * - Модуль `ject\entity\report\block\tag`
  * 
- * Основной параметр модуля `YList`.
+ * Основной параметр модуля `YTag`.
  * 
- * @typedef {YListTE&YListTU} YListT
+ * @typedef {YTagTE&YTagTU} YTagT
  * 
 */
-/** ### YListTE
+/** ### YTagTE
  * - Тип `TE`
  * - Версия `0.0.0`
+ * - Модуль `ject\entity\report\block\tag`
  * 
- * Параметр наследования `YList`.
+ * Параметр наследования `YTag`.
  * 
- * @typedef {{[p in Exclude<keyof DList,keyof SList>|Exclude<keyof SList,keyof DList>]:(DList[p]&SList[p])}} YListTE
+ * @typedef {{[p in Exclude<keyof DTag,keyof STag>|Exclude<keyof STag,keyof DTag>]:(DTag[p]&STag[p])}} YTagTE
  * 
 */
-/** ### YListTU
+/** ### YTagTU
  * - Тип `TU`
  * - Версия `0.0.0`
+ * - Модуль `ject\entity\report\block\tag`
  * 
- * Уникальные параметры `YList`.
+ * Уникальные параметры `YTag`.
  * 
- * @typedef YListTU
+ * @typedef YTagTU
  * @prop {any} _
  * 
 */
 
 //#endregion
 
-class SList extends YMany {
-    
-    /**
-     * ### config
-     * 
-     * Конфигуратор.
-     * 
-     * ***
-     * @public
-    */
-    static config = config;
-    
-};
-class DList extends SList {
+class STag extends Y {
     
     
     
 };
-class IList extends DList {
+class DTag extends STag {
     
     /**
-     * ### index
+     * ### name
      * 
-     * Индекс активного пункта.
+     * Наименование.
      * 
      * *** 
-     * @type {number} 
+     * @type {string?} 
      * @public
     */
-    index = 0;
+    name = '';
+    /**
+     * ### hide
+     * 
+     * Сокрытие.
+     * 
+     * *** 
+     * @type {boolean} 
+     * @public
+    */
+    hide = false;
     
 };
-class MList extends IList {
-    
-    
-    
-};
-class FList extends MList {
+class ITag extends DTag {
     
     /**
-     * ### YList.constructor
+     * ### links
+     * 
+     * Значения.
+     * 
+     * *** 
+     * @type {any[]} 
+     * @public
+    */
+    links = [];
+    
+};
+class MTag extends ITag {
+    
+    
+    
+};
+class FTag extends MTag {
+    
+    /**
+     * ### YTag.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YListT} t
+     * @arg {YTagT} t
     */
     constructor(t) {
         
         t = [...arguments];
         
-        super(Object.assign(t = FList.#before(t), {}));
+        super(Object.assign(t = FTag.#before(t), {}));
         
-        FList.#deceit.apply(this, [t]);
+        FTag.#deceit.apply(this, [t]);
         
     };
     
     /** @arg {any[]} t */
     static #before(t) {
         
-        /** @type {YListT} */
+        /** @type {YTagT} */
         let r = {};
         
-        if (t?.length === 1 && [Object, YList].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
+        if (t?.length === 1 && [Object, YTag].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
             
             r = t[0];
             
@@ -130,8 +144,8 @@ class FList extends MList {
             switch (t.length) {
                 
                 case 3: 
-                case 2: 
-                case 1: 
+                case 2: r.name = t[1];
+                case 1: r.links = [t[0]];
                 
             };
             
@@ -146,12 +160,12 @@ class FList extends MList {
         return r;
         
     };
-    /** @arg {YListT} t @this {YList} */
+    /** @arg {YTagT} t @this {YTag} */
     static #deceit(t) {
         
         try {
             
-            FList.#verify.apply(this, [t]);
+            FTag.#verify.apply(this, [t]);
             
         } catch (e) {
             
@@ -164,7 +178,7 @@ class FList extends MList {
         };
         
     };
-    /** @arg {YListT} t @this {YList} */
+    /** @arg {YTagT} t @this {YTag} */
     static #verify(t) {
         
         const {
@@ -173,18 +187,18 @@ class FList extends MList {
             
         } = t;
         
-        FList.#handle.apply(this, [t]);
+        FTag.#handle.apply(this, [t]);
         
     };
-    /** @arg {YListT} t @this {YList} */
+    /** @arg {YTagT} t @this {YTag} */
     static #handle(t) {
         
         
         
-        FList.#create.apply(this, [t]);
+        FTag.#create.apply(this, [t]);
         
     };
-    /** @arg {YListT} t @this {YList} */
+    /** @arg {YTagT} t @this {YTag} */
     static #create(t) {
         
         const {
@@ -206,9 +220,10 @@ class FList extends MList {
 };
 
 /**
- * ### YList
+ * ### YTag
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
+ * - Модуль `ject\entity\report\block\tag`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -217,7 +232,7 @@ class FList extends MList {
  * ***
  * 
 */
-export class YList extends FList {
+export class YTag extends FTag {
     
     
     

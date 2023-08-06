@@ -227,7 +227,7 @@ function getComply(t) {
 
                 if (ps) {
 
-                    paths.push(...ps.filter(p => !cache?.paths?.includes?.(p)));
+                    paths.push(...ps);
 
                 };
 

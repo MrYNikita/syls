@@ -42,6 +42,8 @@
         "@syls/y": "*",
         "@syls/os": "*",
         "@syls/key": "*",
+        "@syls/log": "*",
+        "@syls/rept": "*",
         "@syls/bool": "*",
         "@syls/test": "*",
         "@syls/date": "*",
@@ -55,6 +57,7 @@
         "@syls/number": "*",
         "@syls/regexp": "*",
         "@syls/string": "*",
+        "@syls/entity": "*",
         "@syls/console": "*",
         "@syls/process": "*",
         "@syls/terminal": "*"

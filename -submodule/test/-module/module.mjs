@@ -1,6 +1,6 @@
 //#region YI
 
-import { YPowerShell } from '@syls/powershell';
+// import { YPowerShell } from '@syls/powershell';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

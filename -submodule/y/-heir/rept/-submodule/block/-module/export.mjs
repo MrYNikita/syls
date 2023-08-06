@@ -1,10 +1,10 @@
 export * from "./class.mjs";
 export * from "./config.mjs";
 export * from "./module.mjs";
-export * from "./block/export.mjs";
 
 /**
- * @file type.d.ts
+ * @file block/export.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

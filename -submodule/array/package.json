@@ -20,6 +20,10 @@
         ".": {
             "types": "./-module/type.d.ts",
             "import": "./-module/export.mjs"
+        },
+        "./cursor": {
+            "types": "./-submodule/cursor/-module/type.d.ts",
+            "import": "./-submodule/cursor/-module/export.mjs"
         }
     },
     "scripts": {
@@ -31,7 +35,8 @@
     "keywords": [
         "y",
         "lib",
-        "syls"
+        "syls",
+        "array"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",

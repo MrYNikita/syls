@@ -1,8 +1,8 @@
 //#region YI
 
-import { Y, argClassify } from '../../-module/type.js';
-import { YRept } from '../class.mjs';
-import { YTag } from './tag/class.mjs';
+import { Y } from '@syls/y';
+import { YTag } from '../-submodule/tag/-module/export.mjs';
+import { YRept } from '../../../-module/export.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;

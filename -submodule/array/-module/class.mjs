@@ -1,14 +1,15 @@
 //#region YI
 
-import { YMany } from '@syls/many';
-import { condIsNumberLimit } from '@syls/y/cond';
+import { Y, yClassifyProp, } from "@syls/y";
+import { YCursor } from "../-submodule/cursor/-module/export.mjs";
+import { YMany } from "@syls/many";
 
-/** @type {import('./config.mjs')['default']?} */
+/** @type {import('./config.mjs')['default']['value']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(i => config = i.default)
+    .then(c => config = c.default?.value ? c.default.value : c.default)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */
@@ -16,7 +17,7 @@ let error = null;
 
 await import('./error.mjs')
 
-    .then(i => error = i.default)
+    .then(e => error = e.default)
     .catch(e => e);
 
 //#endregion
@@ -24,81 +25,173 @@ await import('./error.mjs')
 
 /** ### YArrayT
  * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `array`
- *
+ * 
  * Основной параметр модуля `YArray`.
- *
+ * 
+ * ***
+ * 
  * @typedef {YArrayTE&YArrayTU} YArrayT
- *
 */
 /** ### YArrayTE
  * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `array`
- *
+ * 
  * Параметр наследования `YArray`.
- *
- * @typedef {{[p in Exclude<keyof DArray,keyof SArray>|Exclude<keyof SArray,keyof DArray>]:(DArray[p]&SArray[p])}} YArrayTE
- *
+ * 
+ * @typedef {Omit<DArray, keyof SArray>} YArrayTE
 */
 /** ### YArrayTU
  * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `array`
- *
+ * 
  * Уникальные параметры `YArray`.
- *
+ * 
  * @typedef YArrayTU
- * @prop {any} _
- *
+ * @prop {number} length
+*/
+/** ### YArrayTUG
+ * - Тип `TUP`
+ * 
+ * Уникальные генеративные параметры `YArray`.
+ * 
+ * @typedef YArrayTUG
+ * @prop {null} _
 */
 
 //#endregion
 
+/**
+ * @template Y1
+*/
 class SArray extends YMany {
+    
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YArray[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
+    
+    /**
+     * @arg {...YArray} args `Аргументы`
+     * @returns {YArray[]}
+    */
+    static create(...args) {
+        
+        return Object.getPrototypeOf(SArray).create.apply(this, [...args]);
+        
+    };
+    /**
+     * ### sequence
+     * 
+     * ***
+     * 
+     * Метод создания массива из указанной последовательности значений.
+     * 
+     * ***
+     * @arg {...any} args `Аргументы`
+     * @static
+     * @method
+     * @public
+    */
+    static sequence(...args) {
 
-
-
+        return new YArray({ values: args, });
+        
+    };
+    
 };
+/**
+ * @extends SArray<Y1>
+ * @template Y1
+*/
 class DArray extends SArray {
-
-
-
+    
+    /**
+     * ### values
+     * 
+     * Значения.
+     * 
+     * *** 
+     * @type {Y1[]}
+     * @field
+     * @public
+    */
+    values;
+    
 };
+/**
+ * @extends DArray<Y1>
+ * @template Y1
+*/
 class IArray extends DArray {
-
-
-
+    
+    /**
+     * ### cursors
+     * 
+     * Курсоры.
+     * 
+     * *** 
+     * @type {YCursor[]}
+     * @field
+     * @public
+    */
+    cursors;
+    
 };
+/**
+ * @extends IArray<Y1>
+ * @template Y1
+*/
 class MArray extends IArray {
-
-
-
+    
+    
+    
 };
+/**
+ * @extends MArray<Y1>
+ * @template Y1
+*/
 class FArray extends MArray {
-
+    
     /**
      * ### YArray.constructor
-     *
-     *
-     *
+     * 
+     * 
+     * 
      * ***
-     * @arg {YArrayT} t
+     * @arg {YArrayT&G} t
     */
     constructor(t) {
-
+        
         t = [...arguments];
 
         super(Object.assign(t = FArray.#before(t), {}));
-
+        
         FArray.#deceit.apply(this, [t]);
-
+        
     };
-
+    
     /** @arg {any[]} t */
     static #before(t) {
-
+        
         /** @type {YArrayT} */
         let r = {};
 
@@ -106,136 +199,103 @@ class FArray extends MArray {
 
             r = t[0];
 
-        } else if (t?.length) {
-
-            if (t[0]?._ytp) {
-
-                t = [...t[0]._ytp];
-
-            };
-
-            switch (t.length) {
-
-                default: r.values = t;
-
-            };
-
-            if (!Object.values(r).length) {
-
-                r = { _ytp: t, };
-
-            };
-
+            return r;
+            
+        } else if (!t.length) {
+            
+            return r;
+            
         };
-
+        
+        if (t[0]?._ytp) {
+        
+            t = [...t[0]._ytp];
+        
+        };
+        
+        const arg = yClassifyProp(t);
+        
+        r.values = arg.array[0];
+        
+        if (!Object.values(r).length) {
+            
+            r = { _ytp: t, };
+            
+        };
+        
         return r;
-
+        
     };
     /** @arg {YArrayT} t @this {YArray} */
     static #deceit(t) {
 
         try {
-
+            
             FArray.#verify.apply(this, [t]);
-
+            
         } catch (e) {
-
+            
             throw e;
-
+            
         } finally {
-
-
-
+            
+            
+            
         };
-
+        
     };
     /** @arg {YArrayT} t @this {YArray} */
     static #verify(t) {
-
-        const {
-
-
-
-        } = t;
-
+        
         FArray.#handle.apply(this, [t]);
-
+        
     };
     /** @arg {YArrayT} t @this {YArray} */
     static #handle(t) {
-
-
-
+        
+        
+        
         FArray.#create.apply(this, [t]);
-
+        
     };
     /** @arg {YArrayT} t @this {YArray} */
     static #create(t) {
-
+        
         const {
-
-
-
+            
+            
+            
         } = t;
-
+        
         this.adopt(t);
-
+        
         if (config) {
-
-            this.adoptDefault(config);
-
+            
+            this.adoptDefault(this.constructor.config ?? config);
+            
         };
 
     };
-
+    
 };
 
 /**
  * ### YArray
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `array`
  * - Цепочка `BDVHC`
  * ***
- *
- *
- *
+ * 
+ * Класс `YArray` предназначен для работы с индексируемыми множествами.
+ * 
  * ***
- *
+ * @class
+ * @extends FArray<YArrayTUG&Y1>
+ * @template Y1
+ * 
 */
 export class YArray extends FArray {
-
-    /**
-     * ### set
-     * - Версия `0.0.0`
-     * - Модуль `array`
-     * ***
-     *
-     * Метод уставноки значения в указанной позиции массива.
-     *
-     * Работает аналогично методу at: если индекс отрицательный, то индекс отсчитывается с конца.
-     *
-     * ***
-     * @arg value `Значение`
-     * @arg {number} index `Индекс`
-     * @public
-    */
-    setByIndex(value, index) {
-
-        if (condIsNumberLimit(index)) {
-
-            if (index < 0) {
-
-                index += this.values.length;
-
-            };
-
-            this.values[index] = value;
-
-        };
-
-        return this;
-
-    };
-
+    
+    /** @arg {Y1} t */
+    constructor(t) { super(t); };
+    
 };

@@ -1,11 +1,10 @@
 //#region YI
 
-import { Y, argClassify } from '../-module/type.js';
+import { Y } from '@syls/y';
 import { YString } from '@syls/string';
-import { ansiSetColor } from '@syls/ansi';
-import { YEntity } from '@syls/entity';
-import { YBlock } from './block/class.mjs';
-import { YTag } from './block/tag/class.mjs';
+import { ansiSetColor } from '@syls/string/ansi';
+import { YBlock } from '../-submodule/block/-module/export.mjs';
+import { YTag } from '../-submodule/block/-submodule/tag/-module/export.mjs';
 
 /** @type {import('./config.mjs')['default']?} */
 let config = null;
@@ -255,7 +254,7 @@ class FRept extends MRept {
  * 
  * ***
  * @extends {FRept<G>}
- * @template {YReptTUG&YEntity} G
+ * @template {YReptTUG} G
 */
 export class YRept extends FRept {
 
@@ -295,7 +294,7 @@ export class YRept extends FRept {
      * Метод отображения отчета.
      * 
      * ***
-     * @arg {YEntity} entity `Сущность`
+     * @arg {any} entity `Сущность`
      * @public
     */
     display(entity) {
