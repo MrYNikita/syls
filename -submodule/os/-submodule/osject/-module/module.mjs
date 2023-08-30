@@ -159,7 +159,7 @@ function getNameDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -265,7 +265,7 @@ function getNameFullDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -369,7 +369,7 @@ function getExpandDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -490,7 +490,7 @@ function getLocationDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -709,7 +709,7 @@ function existsDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 

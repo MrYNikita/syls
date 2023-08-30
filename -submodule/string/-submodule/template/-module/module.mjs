@@ -69,7 +69,7 @@ function markDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             

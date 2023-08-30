@@ -1,7 +1,8 @@
 {
     "include": [
         "./**/*",
-        "./-submodule/**/*"
+        "./-submodule/**/*",
+        "./.scripts/**/*",
     ],
     "typeAcquisition": {
         "include": [

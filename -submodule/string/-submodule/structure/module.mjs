@@ -91,7 +91,7 @@ function frameDeceit(t) {
         
         console.log(e);
 
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             

@@ -141,7 +141,7 @@ function getDeceit(t) {
 
         console.log(e)
 
-        if (config?.strict) throw e;
+        if (config?.strictMode) throw e;
 
         return undefined;
 
@@ -675,7 +675,7 @@ function backDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -781,7 +781,7 @@ function backByNameDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -902,7 +902,7 @@ function checkDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -1004,7 +1004,7 @@ function existsDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             

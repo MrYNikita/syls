@@ -4,22 +4,7 @@ import { YElement } from '../-submodule/element/-module/export.mjs';
 import { Y, yClassifyProp } from '@syls/y';
 import { YANSI, ansiGetColorReset } from '../../ansi/-module/export.mjs';
 import { stringAppend, stringGetRow, stringSetRow } from '../../../-module/export.mjs';
-
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(i => config = i.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
+import { configLayout as config } from './config.mjs';
 
 //#endregion
 //#region YT

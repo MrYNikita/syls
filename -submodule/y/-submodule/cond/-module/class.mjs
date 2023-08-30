@@ -1,82 +1,76 @@
 //#region YI
 
-import { Y } from '@syls/y';
-import { condIsBool, condIsFloat, condIsNumber, condIsString } from './module.mjs';
-
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(i => config = i.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
+import { Y, yClassifyProp } from '@syls/y';
+import { configCond as config } from './config.mjs';
 
 //#endregion
 //#region YT
 
 /** ### YCondT
  * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
+ * 
  * Основной параметр модуля `YCond`.
- *
- * ***
- *
- * @typedef {YCondTE&YCondTU} YCondT
- *
+ * 
+ * @typedef {YCondTE&YCondTU&Y} YCondT
+ * 
 */
 /** ### YCondTE
  * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
+ * 
  * Параметр наследования `YCond`.
- *
- * @typedef {{[p in Exclude<keyof DCond,keyof SCond>|Exclude<keyof SCond,keyof DCond>]:(DCond[p]&SCond[p])}} YCondTE
- *
+ * 
+ * @typedef {Omit<DCond, keyof SCond>} YCondTE
+ * 
 */
 /** ### YCondTU
  * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
+ * 
  * Уникальные параметры `YCond`.
- *
+ * 
  * @typedef YCondTU
- * @prop {function(...):void=} funcSucs
- * @prop {function(...):void=} funcFail
- * @prop {function(...):boolean} condition
- *
-*/
-/** ### YCondTUP
- * - Тип `TUP`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные генеративные параметры `YCond`.
- *
- * @typedef YCondTUG
- * @prop {G1=} sucs
- * @prop {G2=} fail
- * @template G1,G2
- *
+ * @prop {any} _
+ * 
 */
 
 //#endregion
 
-/**
- * @template {YCondTUG<G1,G2>} G
-*/
 class SCond extends Y {
+
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YCond[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
+
+    /**
+     * @arg {...YCond} args `Аргументы`
+     * @returns {YCond[]}
+    */
+    static create(...args) {
+
+        return Object.getPrototypeOf(SCond).create.apply(this, [...args]);
+
+    };
 
     /**
      * ### isBool
@@ -148,105 +142,30 @@ class SCond extends Y {
     };
 
 };
-/**
- * @extends {SCond<G>}
- * @template {YCondTUG<G1,G2>} G
-*/
 class DCond extends SCond {
 
 
 
 };
-/**
- * @extends {DCond<G>}
- * @template {YCondTUG<G1,G2>} G
-*/
 class ICond extends DCond {
 
-    /**
-     * ### sucs
-     *
-     * Успех.
-     *
-     * ***
-     * @type {G['sucs']}
-     * @protected
-    */
-    sucs;
-    /**
-     * ### fail
-     *
-     * Провал.
-     *
-     * ***
-     * @type {G['fail']}
-     * @protected
-    */
-    fail;
-    /**
-     * ### conds
-     *
-     * Условия.
-     *
-     * ***
-     * @type {YCond[]}
-     * @protected
-    */
-    conds = [];
-    /**
-     * ### funcSucs
-     *
-     * Функция успеха.
-     *
-     * ***
-     * @type {(function(...):void)[]}
-     * @protected
-    */
-    funcSucs;
-    /**
-     * ### funcFail
-     *
-     * Функция провала.
-     *
-     * ***
-     * @type {(function(...):void)[]}
-     * @protected
-    */
-    funcFail;
-    /**
-     * ### condition
-     *
-     * Условие.
-     *
-     * ***
-     * @type {(function(...):boolean)[]}
-     * @protected
-    */
-    condition;
+
 
 };
-/**
- * @extends {ICond<G>}
- * @template {YCondTUG<G1,G2>} G
-*/
 class MCond extends ICond {
 
 
 
 };
-/**
- * @extends {MCond<G>}
- * @template {YCondTUG<G1,G2>} G
-*/
 class FCond extends MCond {
 
     /**
      * ### YCond.constructor
-     *
-     *
-     *
+     * 
+     * 
+     * 
      * ***
-     * @arg {YCondT&G} t
+     * @arg {YCondT} t
     */
     constructor(t) {
 
@@ -255,6 +174,8 @@ class FCond extends MCond {
         super(Object.assign(t = FCond.#before(t), {}));
 
         FCond.#deceit.apply(this, [t]);
+
+        return this.correlate();
 
     };
 
@@ -268,27 +189,27 @@ class FCond extends MCond {
 
             r = t[0];
 
-        } else if (t?.length) {
+            return r;
 
-            if (t[0]?._ytp) {
+        } else if (!t.length) {
 
-                t = [...t[0]._ytp];
+            return r;
 
-            };
+        };
 
-            switch (t.length) {
+        if (t[0]?._ytp) {
 
-                case 3:
-                case 2:
-                case 1: r.sucs = t[0];
+            t = [...t[0]._ytp];
 
-            };
+        };
 
-            if (!Object.values(r).length) {
+        const arg = yClassifyProp(t);
 
-                r = { _ytp: t, };
 
-            };
+
+        if (!Object.values(r).length) {
+
+            r = { _ytp: t, };
 
         };
 
@@ -300,11 +221,17 @@ class FCond extends MCond {
 
         try {
 
-            FCond.#verify.apply(this, [t]);
+            FCond.#verify.apply(this, [t = { ...t }]);
 
         } catch (e) {
 
-            throw e;
+            if (config?.strictMode) {
+
+                throw e;
+
+            };
+
+            return new YCond();
 
         } finally {
 
@@ -328,6 +255,8 @@ class FCond extends MCond {
     /** @arg {YCondT} t @this {YCond} */
     static #handle(t) {
 
+
+
         FCond.#create.apply(this, [t]);
 
     };
@@ -340,13 +269,9 @@ class FCond extends MCond {
 
         } = t;
 
-        this.adopt(t);
-
-        if (config) {
-
-            this.adoptDefault(config);
-
-        };
+        this
+            .adopt(t)
+            .adoptDefault(this.constructor.config ?? config);
 
     };
 
@@ -355,16 +280,15 @@ class FCond extends MCond {
 /**
  * ### YCond
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
+ * - Версия `1.0.0`
  * - Цепочка `BDVHC`
  * ***
- *
- *
- *
+ * 
+ * Класс `YCond`.
+ * 
  * ***
- * @extends {FCond<G>}
- * @template {YCondTUG<G1,G2>} G
+ * @class
+ * 
 */
 export class YCond extends FCond {
 
@@ -436,7 +360,8 @@ export class YCond extends FCond {
 };
 
 /**
- * @file class.mjs
+ * @file cond/class.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

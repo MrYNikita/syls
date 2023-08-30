@@ -104,7 +104,7 @@ function getIpDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -216,7 +216,7 @@ function requestDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 

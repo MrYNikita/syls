@@ -1,22 +1,7 @@
 //#region YI
 
-import { YMany } from '@syls/many';
-
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default)
-    .catch(e => e);
-
-/** @type {import('./-module/error.mjs')['default']?} */
-let error = null;
-
-await import('./-module/error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
+import { YMany } from '@syls/y/many';
+import { configCond as config } from './config.mjs';
 
 //#endregion
 //#region YT
@@ -93,7 +78,7 @@ function isTypeDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -208,7 +193,7 @@ function isBoolDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -322,7 +307,7 @@ function isManyDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -445,7 +430,7 @@ function isStringDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -559,7 +544,7 @@ function isStringValidDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -674,7 +659,7 @@ function isFloatDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -788,7 +773,7 @@ function isNumberDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -902,7 +887,7 @@ function isNumberLimitDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -985,7 +970,8 @@ export function condIsNumberLimit(...values) {
 //#endregion
 
 /**
- * @file module.mjs
+ * @file cond/module.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

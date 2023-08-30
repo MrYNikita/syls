@@ -4,7 +4,8 @@
     "files": [
         "./-module",
         "./-submodule",
-        "./package.json"
+        "./package.json",
+        "./-heir/entity"
     ],
     "author": {
         "name": "Yakhin Nikita Artemovich",
@@ -20,6 +21,26 @@
         ".": {
             "types": "./-module/type.d.ts",
             "import": "./-module/export.mjs"
+        },
+        "./arg": {
+            "types": "./-submodule/arg/-module/type.d.ts",
+            "import": "./-submodule/arg/-module/export.mjs"
+        },
+        "./log": {
+            "types": "./-submodule/log/-module/type.d.ts",
+            "import": "./-submodule/log/-module/export.mjs"
+        },
+        "./tag": {
+            "types": "./-submodule/tag/-module/type.d.ts",
+            "import": "./-submodule/tag/-module/export.mjs"
+        },
+        "./many": {
+            "types": "./-submodule/many/-module/type.d.ts",
+            "import": "./-submodule/many/-module/export.mjs"
+        },
+        "./rept": {
+            "types": "./-submodule/rept/-module/type.d.ts",
+            "import": "./-submodule/rept/-module/export.mjs"
         },
         "./type": {
             "types": "./-submodule/type/-module/type.d.ts",

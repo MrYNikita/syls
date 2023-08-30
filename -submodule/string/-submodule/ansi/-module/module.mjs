@@ -70,7 +70,7 @@ function getColorDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -220,7 +220,7 @@ function getColorCodeDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -344,7 +344,7 @@ function getColorResetDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -464,7 +464,7 @@ function clearDeceit(t) {
         
         console.log(e);
 
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -571,7 +571,7 @@ function setColorDeceit(t) {
         
         console.log(e);
 
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -689,7 +689,7 @@ function backspaceDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -796,7 +796,7 @@ function resetColorDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -913,7 +913,7 @@ function setCursorToDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 

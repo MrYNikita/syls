@@ -1,26 +1,11 @@
 //#region YI
 
+import { configString as config } from './config.mjs';
 import { funcBypass } from '@syls/func';
-import { yGetProperty } from '@syls/y';
+import { yClassifyProp, yGetProperty } from '@syls/y';
 import { dateGetMesuares } from '@syls/date';
 import { condIsNumberLimit, condIsString } from '@syls/y/cond';
 import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
-
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
 
 //#endregion
 //#region YT
@@ -202,7 +187,7 @@ function toWordsFromNumberDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -506,7 +491,7 @@ function setRowDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -623,7 +608,7 @@ function getDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -749,7 +734,7 @@ function getRowDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -865,7 +850,7 @@ function getRowsDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -936,6 +921,128 @@ export function stringGetRows(string) {
 };
 
 //#endregion
+//#region getIndex 1.0.0
+
+/** ### stringTFGetIndex
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `getIndex`.
+ * 
+ * @typedef {stringTFUGetIndex&stringT} stringTFGetIndex
+ * 
+*/
+/** ### stringTFUGetIndex
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `getIndex`.
+ * 
+ * @typedef stringTFUGetIndex
+ * @prop {number} row
+ * @prop {number} col
+*/
+
+/** @arg {stringTFGetIndex} t */
+function getIndexDeceit(t) {
+
+    try {
+
+        return getIndexVerify(t);
+
+    } catch (e) {
+
+        if (config?.strictMode) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFGetIndex} t */
+function getIndexVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getIndexHandle(t);
+
+};
+/** @arg {stringTFGetIndex} t */
+function getIndexHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getIndexComply(t);
+
+};
+/** @arg {stringTFGetIndex} t */
+function getIndexComply(t) {
+
+    const {
+
+        row,
+        col,
+        string,
+
+    } = t;
+
+    let result = 0;
+    let y = 0;
+
+    const dimension = stringGetDimension(string);
+
+    for (; y < row; y++) result += dimension[y] + 1;
+
+    if (col < dimension[y]) {
+
+        result += col;
+
+    } else {
+
+        result += dimension[y];
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringGetIndex
+ * 
+ * ***
+ * 
+ * Функция получения индекса в строке по позиции.
+ * 
+ * ***
+ * @arg {number} row `Строка`
+ * @arg {number} col `Столбец`
+ * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @function
+*/
+export function stringGetIndex(string, row, col) {
+
+    return getIndexDeceit({ string, row, col, });
+
+};
+
+//#endregion
 //#region getMatrix 0.0.0
 
 /** ### stringTFGetMatrix
@@ -969,7 +1076,7 @@ function getMatrixDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -1069,7 +1176,7 @@ function getSymbolDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -1138,8 +1245,108 @@ export function stringGetSymbol(symbol) {
 };
 
 //#endregion
+//#region getDimension 1.0.0
 
-//#region pad 0.1.1
+/** ### stringTFGetDimension
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `getDimension`.
+ * 
+ * @typedef {stringTFUGetDimension&stringT} stringTFGetDimension
+ * 
+*/
+/** ### stringTFUGetDimension
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `getDimension`.
+ * 
+ * @typedef stringTFUGetDimension
+ * @prop {any} _
+*/
+
+/** @arg {stringTFGetDimension} t */
+function getDimensionDeceit(t) {
+
+    try {
+
+        return getDimensionVerify(t);
+
+    } catch (e) {
+
+        if (config?.strictMode) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFGetDimension} t */
+function getDimensionVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getDimensionHandle(t);
+
+};
+/** @arg {stringTFGetDimension} t */
+function getDimensionHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return getDimensionComply(t);
+
+};
+/** @arg {stringTFGetDimension} t */
+function getDimensionComply(t) {
+
+    const {
+
+        string,
+
+    } = t;
+
+    return string.split('\n').map(row => row.length);
+
+};
+
+/**
+ * ### stringGetDimension
+ * 
+ * ***
+ * 
+ * Функция получения измерений строки.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @function
+*/
+export function stringGetDimension(string) {
+
+    return getDimensionDeceit({ string, });
+
+};
+
+//#endregion
+
+//#region pad 1.0.0
 
 /** ### stringTFPad
  * - Тип `TF`
@@ -1173,7 +1380,7 @@ function padDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -1225,24 +1432,24 @@ function padComply(t) {
 
     } = t;
 
-    if (string.length >= limit || !limit || !pad) {
+    let result = string;
 
-        return string;
-
-    } else {
+    if (string.length <= limit && limit && pad) {
 
         const count = Math.floor((limit - string.length) / pad.length);
-        const overflow = t.limit - (count * pad.length + string.length);
+        // const overflow = t.limit - (count * pad.length + string.length);
 
-        return stringAppend(string, index, pad.repeat(count) + pad.slice(0, overflow > 0 ? overflow : 0));
+        result += pad.repeat(count);
 
     };
+
+    return result;
 
 };
 
 /**
  * ### stringPad
- * - Версия `0.1.1`
+ * - Версия `1.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `string`
  * ***
@@ -1257,6 +1464,8 @@ function padComply(t) {
  * @arg {number} index `Позиция`
  * @arg {string} string `Строка`
  * @arg {boolean} modeCut `Режим отсечения`
+ * @since `1.0.0`
+ * @function
  *
  * Режим отсечения позволяет обрезать ту часть дополнения, что превзошла указанный лимит.
  *
@@ -1302,7 +1511,7 @@ function padRowDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -1419,7 +1628,7 @@ function padColumnDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -1523,6 +1732,8 @@ export function stringPadColumn(string, limit, pad = ' ') {
  * Уникальные параметры функции `padToPosition`.
  *
  * @typedef stringTFUPadToPosition
+ * @prop {number} row
+ * @prop {number} column
  * @prop {string} space
  * @prop {string} rowEnd
 */
@@ -1536,7 +1747,7 @@ function padToPositionDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -1580,37 +1791,32 @@ function padToPositionComply(t) {
 
     let {
 
-        y,
+        row,
 
     } = t;
 
     const {
 
+        col,
         space,
         string,
-        x,
         rowEnd,
 
     } = t;
 
     let result = string;
 
-    result = funcBypass(result,
+    result = stringPadRow(result, row + 1, rowEnd).split('\n');
+    result[row] = stringPad(result[row], space, col);
+    result = result.join(rowEnd);
 
-        [stringPadRow, y + 1, rowEnd],
-        [stringSplit, rowEnd],
-
-    );
-
-    result[y] = stringPad(result[y], space, x);
-
-    return result.join(rowEnd);
+    return result;
 
 };
 
 /**
  * ### stringPadToPosition
- * - Версия `0.0.0`
+ * - Версия `1.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `string`
  * ***
@@ -1618,15 +1824,17 @@ function padToPositionComply(t) {
  * Функция приведения указанной строки до указанной позиции.
  *
  * ***
- * @arg {string} string `Строка`
- * @arg {number} y `Линия`
- * @arg {number} x `Столбец`
+ * @arg {string} string `Текст`
+ * @arg {number} row `Строка`
+ * @arg {number} col `Столбец`
  * @arg {string?} space `Заполнитель`
  * @arg {string?} rowEnd `Конец линии`
+ * @since `1.0.0`
+ * @function
 */
-export function stringPadToPosition(string, y, x, space = config.space, rowEnd = config.rowEnd) {
+export function stringPadToPosition(string, row, col, space = config.space, rowEnd = config.rowEnd) {
 
-    return padToPositionDeceit({ string, y, x, space, rowEnd, });
+    return padToPositionDeceit({ string, row, col, space, rowEnd, });
 
 };
 
@@ -1666,7 +1874,7 @@ function skipDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -1788,7 +1996,7 @@ function trimDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -1912,7 +2120,7 @@ function trimRowDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -2032,7 +2240,7 @@ function markInsertDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -2158,7 +2366,7 @@ function splitDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -2278,7 +2486,7 @@ function splitByCountDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -2385,7 +2593,7 @@ function unifyDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -2495,7 +2703,7 @@ export function stringUnifyBySymbol(string, symbols) {
 
 //#endregion
 
-//#region paste 0.2.0
+//#region paste 1.0.0
 
 /** ### stringTFPaste
  * - Тип `TF`
@@ -2518,6 +2726,7 @@ export function stringUnifyBySymbol(string, symbols) {
  * @typedef stringTFUPaste
  * @prop {string} paste
  * @prop {boolean} modeSkip
+ * @prop {stringTPosition} position
 */
 
 /** @arg {stringTFPaste} t */
@@ -2556,6 +2765,15 @@ function pasteHandle(t) {
 
 
     } = t;
+
+    const args = yClassifyProp(t);
+
+    if (args.arrayNumber.length) {
+
+        t.string = stringPadToPosition(t.string, ...args.arrayNumber[0]);
+        t.index = stringGetIndex(t.string, ...args.arrayNumber[0]);
+
+    };
 
     if (t.modeSkip) {
 
@@ -2611,7 +2829,7 @@ function pasteComply(t) {
 
 /**
  * ### stringPaste
- * - Версия `0.2.0`
+ * - Версия `1.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `string`
  * ***
@@ -2625,15 +2843,19 @@ function pasteComply(t) {
  * - Дефолт `string.length ?? 0`
  * @arg {string} paste `Вставка`
  * @arg {string} string `Строка`
+ * 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.value.modeSkip) {
+export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.modeSkip) {
 
     return pasteDeceit({ string, paste, index, length, modeSkip, });
 
 };
 
 //#endregion
-//#region pasteWrap 0.0.0
+//#region pasteWrap 1.0.0
 
 /** ### stringTFPasteWrap
  * - Тип `TF`
@@ -2667,7 +2889,7 @@ function pasteWrapDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -2790,7 +3012,7 @@ function pasteSymbolDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -2870,7 +3092,7 @@ export function stringPasteSymbol(string, symbol, index) {
 };
 
 //#endregion
-//#region pasteByPosition 0.0.0
+//#region pasteByPosition 1.0.0
 
 /** ### stringTFPasteByPosition
  * - Тип `TF`
@@ -2903,7 +3125,7 @@ function pasteByPositionDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -2975,6 +3197,135 @@ export function stringPasteByPosition() {
 
 //#endregion
 
+//#region append 1.0.0
+
+/** ### stringTFAppend
+ * - Тип `TF`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ * ***
+ *
+ * Результирующие параметры функции `append`.
+ *
+ * @typedef {stringTFUAppend&stringT} stringTFAppend
+ *
+*/
+/** ### stringTFUAppend
+ * - Тип `TFU`
+ * - Версия `0.0.0`
+ * - Модуль `string`
+ *
+ * Уникальные параметры функции `append`.
+ *
+ * @typedef stringTFUAppend
+ * @prop {number} index
+ * @prop {string[]} appends
+*/
+
+/** @arg {stringTFAppend} t */
+function appendDeceit(t) {
+
+    try {
+
+        return appendVerify(t);
+
+    } catch (e) {
+
+        if (config?.strictMode) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFAppend} t */
+function appendVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return appendHandle(t);
+
+};
+/** @arg {stringTFAppend} t */
+function appendHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    const args = yClassifyProp(t);
+
+    if (args.arrayNumber.length) {
+
+        t.string = stringPadToPosition(t.string, ...args.arrayNumber[0]);
+        t.index = stringGetIndex(t.string, ...args.arrayNumber[0]);
+    };
+
+    return appendComply(t);
+
+};
+/** @arg {stringTFAppend} t */
+function appendComply(t) {
+
+    const {
+
+        index,
+        string,
+        appends,
+
+    } = t;
+
+    let result = string;
+
+    if (condIsNumberLimit(index) && index >= 0) {
+
+        return result.slice(0, index) + appends.join('') + result.slice(index);
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringAppend
+ * - Версия `1.0.0`
+ * - Модуль `string`
+ * - Цепочка `DVHCa`
+ * ***
+ *
+ * Функция добавления подстрок к строке по указанной позиции.
+ *
+ * ***
+ * @arg {number} index `Индекс`
+ * @arg {string} string `Строка`
+ * @arg {...string} appends `Добавления`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringAppend(string, index, ...appends) {
+
+    return appendDeceit({ string, index, appends, });
+
+};
+
+//#endregion
+
 //#region recode 0.0.0
 
 /** ### stringTFRecode
@@ -3005,7 +3356,7 @@ function recodeDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -3103,123 +3454,7 @@ export function stringRecode(string, localNow = 'en', localNew = 'ru') {
 };
 
 //#endregion
-//#region append 0.0.1
-
-/** ### stringTFAppend
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `append`.
- *
- * @typedef {stringTFUAppend&stringT&stringTIndex} stringTFAppend
- *
-*/
-/** ### stringTFUAppend
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `append`.
- *
- * @typedef stringTFUAppend
- * @prop {string[]} appends
-*/
-
-/** @arg {stringTFAppend} t */
-function appendDeceit(t) {
-
-    try {
-
-        return appendVerify(t);
-
-    } catch (e) {
-
-        if (config?.strict) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFAppend} t */
-function appendVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return appendHandle(t);
-
-};
-/** @arg {stringTFAppend} t */
-function appendHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return appendComply(t);
-
-};
-/** @arg {stringTFAppend} t */
-function appendComply(t) {
-
-    const {
-
-        index,
-        string,
-        appends,
-
-    } = t;
-
-    if (condIsNumberLimit(index) && index >= 0) {
-
-        return string.slice(0, index) + appends.join('') + string.slice(index);
-
-    } else {
-
-        return string;
-
-    };
-
-};
-
-/**
- * ### stringAppend
- * - Версия `0.0.1`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция добавления указанных значений к указанной строке с указанной позиции.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {number} index `Индекс`
- * @arg {string} appends `Добавления`
-*/
-export function stringAppend(string, index, ...appends) {
-
-    return appendDeceit({ string, index, appends, });
-
-};
-
-//#endregion
-//#region remove 0.0.1
+//#region remove 1.0.0
 
 /** ### stringTFRemove
  * - Тип `TF`
@@ -3229,7 +3464,7 @@ export function stringAppend(string, index, ...appends) {
  *
  * Результирующие параметры функции `remove`.
  *
- * @typedef {stringTFURemove&stringT&stringTLength&stringTIndex} stringTFRemove
+ * @typedef {stringTFURemove&stringT} stringTFRemove
  *
 */
 /** ### stringTFURemove
@@ -3240,7 +3475,8 @@ export function stringAppend(string, index, ...appends) {
  * Уникальные параметры функции `remove`.
  *
  * @typedef stringTFURemove
- * @prop {any} _
+ * @prop {number} index
+ * @prop {number} length
 */
 
 /** @arg {stringTFRemove} t */
@@ -3252,7 +3488,7 @@ function removeDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -3288,13 +3524,41 @@ function removeHandle(t) {
 
     } = t;
 
-    if (t.index < 0) t.index = 0;
-    if (t.index >= t.string.length) t.index = t.string.length;
+    const args = yClassifyProp(t);
 
-    if (t.length < 0 && t.length + t.index < 0) [t.index, t.length] = [null, t.index + 1];
-    else if (t.length > 0 && t.length + t.index >= t.string.length) [t.index, t.length] = [t.index, null];
-    else if (t.length > 0) [t.index, t.length] = [t.index, t.index + t.length];
-    else[t.index, t.length] = [t.index + t.length + 1, t.index + 1];
+    if (args.arrayNumber.length) {
+
+        t.index = stringGetIndex(t.string, ...args.arrayNumber[0]);
+
+    };
+
+    if (t.index < 0) {
+
+        t.index = 0;
+
+    } else if (t.index >= t.string.length) {
+
+        t.index = t.string.length;
+
+    };
+
+    if (t.length < 0 && t.length + t.index < 0) {
+
+        [t.index, t.length] = [null, t.index + 1];
+
+    } else if (t.length > 0 && t.length + t.index >= t.string.length) {
+
+        [t.index, t.length] = [t.index, null];
+
+    } else if (t.length > 0) {
+
+        [t.index, t.length] = [t.index, t.index + t.length];
+
+    } else {
+
+        [t.index, t.length] = [t.index + t.length + 1, t.index + 1];
+
+    };
 
     return removeComply(t);
 
@@ -3328,17 +3592,20 @@ function removeComply(t) {
 
 /**
  * ### stringRemove
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
  * - Модуль `string`
+ * - Версия `1.0.0`
+ * - Цепочка `DVHCa`
  * ***
  *
- * Функция удаления фрагмента из указанной строки начиная с указанного индекса и до указанной длины.
+ * Функция удаления подстроки из строки, начиная с указанного индекса.
  *
  * ***
  * @arg {number} index `Индекс`
  * @arg {number} length `Длина`
  * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function stringRemove(string, index, length) {
 
@@ -3347,7 +3614,7 @@ export function stringRemove(string, index, length) {
 };
 /**
  * ### stringRemoveEnd
- * - Версия `0.0.0`
+ * - Версия `1.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `string`
  * ***
@@ -3357,6 +3624,9 @@ export function stringRemove(string, index, length) {
  * ***
  * @arg {number} length `Длина`
  * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function stringRemoveEnd(string, length) {
 
@@ -3365,7 +3635,7 @@ export function stringRemoveEnd(string, length) {
 };
 /**
  * ### stringRemoveStart
- * - Версия `0.0.0`
+ * - Версия `1.0.0`
  * - Цепочка `DVHCa`
  * - Модуль `string`
  * ***
@@ -3375,6 +3645,9 @@ export function stringRemoveEnd(string, length) {
  * ***
  * @arg {number} length `Длина`
  * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function stringRemoveStart(string, length) {
 
@@ -3416,7 +3689,7 @@ function filterDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -3540,7 +3813,7 @@ function shieldDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -3701,7 +3974,7 @@ function replaceManyDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -3824,7 +4097,7 @@ function insertDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -3976,7 +4249,7 @@ function insertBypassDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -4099,7 +4372,7 @@ function matchDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -4202,7 +4475,7 @@ function matchManyDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -4329,7 +4602,7 @@ function matchCountDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -4430,7 +4703,7 @@ function matchCountEqualsDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -4550,7 +4823,7 @@ function formatUrlDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -4653,7 +4926,7 @@ function formatDateDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -4791,7 +5064,7 @@ function formatPhoneDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -4903,7 +5176,7 @@ function formatNumberDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -5036,7 +5309,7 @@ function formatSampleDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -5144,7 +5417,7 @@ function formatReportDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -5259,7 +5532,7 @@ function reverseDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -5371,7 +5644,7 @@ function reflectDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -5497,7 +5770,7 @@ function mesuareDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -5625,7 +5898,7 @@ function truncateDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -5737,6 +6010,137 @@ export function stringTruncate(string, cutoffRight, cutoffBottom, cutoffLeft = 0
 export function stringTruncateByArea(string, position = [0, 0], positionStart = [0, 0], positionEnd) {
 
     return truncateDeceit({ string, position, positionStart, positionEnd });
+
+};
+
+//#endregion
+//#region correlate 1.0.0
+
+/** ### stringTFCorrelate
+ * - Тип `TF`
+ * ***
+ * 
+ * Результирующие параметры функции `correlate`.
+ * 
+ * @typedef {stringTFUCorrelate&stringT} stringTFCorrelate
+ * 
+*/
+/** ### stringTFUCorrelate
+ * - Тип `TFU`
+ * 
+ * Уникальные параметры функции `correlate`.
+ * 
+ * @typedef stringTFUCorrelate
+ * @prop {any} _
+*/
+
+/** @arg {stringTFCorrelate} t */
+function correlateDeceit(t) {
+
+    try {
+
+        return correlateVerify(t);
+
+    } catch (e) {
+
+        if (config?.strictMode) {
+
+            throw e;
+
+        };
+
+        return undefined;
+
+    } finally {
+
+
+
+    };
+
+};
+/** @arg {stringTFCorrelate} t */
+function correlateVerify(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return correlateHandle(t);
+
+};
+/** @arg {stringTFCorrelate} t */
+function correlateHandle(t) {
+
+    const {
+
+
+
+    } = t;
+
+    return correlateComply(t);
+
+};
+/** @arg {stringTFCorrelate} t */
+function correlateComply(t) {
+
+    const {
+
+        string
+
+    } = t;
+
+    let result = string;
+
+    for (const match of Array.from(result.matchAll(/_(\p{L}+)/gmsu))) {
+
+        let value = yGetProperty(config.symbols, match[1]);
+
+        if (value) {
+
+            result = result.replace(match[0], value);
+
+        } else {
+
+            for (const section of Object.values(config.symbols)) {
+
+                for (const key of Object.keys(section)) {
+
+                    if (match[1].includes(key)) {
+
+                        result = result.replaceAll(new RegExp(`_${key}`, 'gmsu'), section[key]);
+
+                    };
+
+                };
+
+            };
+
+        };
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringCorrelate
+ * - Версия `1.0.0`
+ * - Цепочка `DVHC`
+ * ***
+ * 
+ * Функция определения символов по их специальным названиям.
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringCorrelate(string) {
+
+    return correlateDeceit({ string, });
 
 };
 
@@ -5951,7 +6355,7 @@ function capitalizeDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 

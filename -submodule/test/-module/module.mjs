@@ -48,7 +48,7 @@ await import('./error.mjs')
 */
 export const testVStringRuler = '0123456789';
 /**
- * ### testVStringSquare
+ * ### testVStringRulerSquare
  * - Версия `0.0.0`
  * - Модуль `test`
  *
@@ -57,7 +57,29 @@ export const testVStringRuler = '0123456789';
  * ***
  *
 */
-export const testVStringSquare = `xxxxxxxxxx\nyyyyyyyyyy\nzzzzzzzzzz\niiiiiiiiii\nwwwwwwwwww`;
+export const testVStringRulerSquare = (testVStringRuler + '\n').repeat(9) + testVStringRuler;
+/**
+ * ### testVStringSquare
+ * - Версия `1.0.0`
+ * - Модуль `test`
+ *
+ * Значение представленное многолинейной строкой с индексированными значениями.
+ *
+ * ***
+ * 
+*/
+export const testVStringSquare = `0123456789\n1123456789\n2223456789\n3333456789\n4444456789\n5555556789\n6666666789\n7777777789\n8888888889\n9999999999`;
+/**
+ * ### testVStringChaotic
+ * 
+ * ***
+ * 
+ * Строчное тестовое значение с хаотичной строкой.
+ * 
+ * ***
+ * 
+*/
+export const testVStringChaotic = `zqraesdwfthyigkbmn\n10869453\n1q2w3e4r5t6y7u8i9o0p\n0987654321\nasdfghjkl\nmnbvcxz`;
 
 //#endregion
 
@@ -91,7 +113,7 @@ function runDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             

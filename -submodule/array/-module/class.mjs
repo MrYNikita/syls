@@ -2,7 +2,7 @@
 
 import { Y, yClassifyProp, } from "@syls/y";
 import { YCursor } from "../-submodule/cursor/-module/export.mjs";
-import { YMany } from "@syls/many";
+import { YMany } from "@syls/y/many";
 
 /** @type {import('./config.mjs')['default']['value']?} */
 let config = null;

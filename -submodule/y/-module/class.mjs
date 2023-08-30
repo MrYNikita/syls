@@ -1,22 +1,7 @@
 //#region YI
 
-import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yGetProperty, yGetPropertyByPath, ySupplement, yClassifyProp } from './module.mjs';
-
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(i => config = i.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
+import { configY as config } from './config.mjs';
+import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yGetProperty, yGetPropertyByPath, ySupplement, yClassifyProp, } from "./module.mjs";
 
 //#endregion
 //#region YT
@@ -98,7 +83,30 @@ class IY extends DY {
 };
 class MY extends IY {
 
+    /**
+     * ### correlate
+     * 
+     * ***
+     * 
+     * Метод корреляции.
+     * 
+     * ***
+     * @method
+     * @protected
+    */
+    correlate() {
 
+        const aliases = this.constructor?.config?.aliases;
+
+        if (aliases) {
+
+            return yCorrelate(this, ...aliases);
+
+        };
+
+        return this;
+
+    };
 
 };
 class FY extends MY {
@@ -109,67 +117,24 @@ class FY extends MY {
      * 
      * 
      * ***
-     * @arg {YT} t
+     * @arg {YT} args
     */
-    constructor(t) {
+    constructor(args) {
 
-        t = [...arguments];
+        super();
 
-        super(Object.assign(t = FY.#before(t), {}));
-
-        FY.#deceit.apply(this, [t]);
+        FY.#deceit.apply(this, arguments);
 
         return this.correlate();
 
     };
 
-    /** @arg {any[]} t */
-    static #before(t) {
-
-        /** @type {YT} */
-        let r = {};
-
-        if (t?.length === 1 && [Object, Y].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-            r = t[0];
-
-        } else if (t?.length) {
-
-            if (t[0]?._ytp) {
-
-                t = [...t[0]._ytp];
-
-            };
-
-            switch (t.length) {
-
-                default: {
-
-                    const arg = yClassifyProp(t);
-
-
-
-                };
-
-            };
-
-            if (!Object.values(r).length) {
-
-                r = { _ytp: t, };
-
-            };
-
-        };
-
-        return r;
-
-    };
-    /** @arg {YT} t @this {Y} */
-    static #deceit(t) {
+    /** @arg {YT} args @this {Y} */
+    static #deceit(args) {
 
         try {
 
-            FY.#verify.apply(this, [t]);
+            FY.#verify.apply(this, arguments);
 
         } catch (e) {
 
@@ -182,34 +147,24 @@ class FY extends MY {
         };
 
     };
-    /** @arg {YT} t @this {Y} */
-    static #verify(t) {
+    /** @arg {YT} args @this {Y} */
+    static #verify(args) {
 
-        const {
-
-
-
-        } = t;
-
-        FY.#handle.apply(this, [t]);
+        FY.#handle.apply(this, arguments);
 
     };
-    /** @arg {YT} t @this {Y} */
-    static #handle(t) {
+    /** @arg {YT} args @this {Y} */
+    static #handle(args) {
 
 
 
-        FY.#create.apply(this, [t]);
+        FY.#create.apply(this, arguments);
 
     };
-    /** @arg {YT} t @this {Y} */
-    static #create(t) {
+    /** @arg {YT} args @this {Y} */
+    static #create(args) {
 
-        const {
-
-
-
-        } = t;
+        
 
     };
 
@@ -218,16 +173,88 @@ class FY extends MY {
 /**
  * ### Y
  * - Тип `SDIMFY`
+ * - Версия `1.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
+ * Класс `Y`.
  * 
+ * Базовый класс любого `SYLS` класса.
  * 
  * ***
- * 
+ * @class
 */
 export class Y extends FY {
 
+    /**
+     * ### do
+     * 
+     * ***
+     * 
+     * Метод выполнения кода в контексте данного экземпляра.
+     * 
+     * ***
+     * @arg {(self: this, ...args) => void} code `Код`
+     * @since `1.0.0`
+     * @method
+     * @public
+    */
+    do(code, ...args) {
+
+        try {
+
+            if (typeof code !== 'function') {
+
+                return this;
+
+            };
+
+            code(this, ...args);
+
+        } catch (error) {
+
+
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### cond
+     * 
+     * ***
+     * 
+     * Метод условной проверки.
+     * 
+     * ***
+     * @arg {((self: this, ...args) => void)?} f `Ложь`
+     * @arg {((self: this, ...args) => void)?} args `Истина`
+     * @arg {(self: this, ...args) => boolean} cond `Условие`
+     * @method
+     * @public
+    */
+    cond(cond, t, f, ...args) {
+
+        if (typeof cond !== "function") {
+
+            return this;
+
+        };
+
+        if (cond(this, ...args)) {
+
+            if (typeof args === 'function') t(this, ...args);
+
+        } else {
+
+            if (typeof f === "function") f(this, ...args);
+
+        };
+
+        return this;
+
+    };
     /**
      * ### mode
      * 
@@ -242,24 +269,10 @@ export class Y extends FY {
      * @public
     */
     mode(mode, value) {
-        
+
         const args = yClassifyProp(arguments);
 
-        const options = [];
-
-        if (args.string.length > 1) {
-
-            options.push(...args.string.map(string => [string]));
-
-        } else if (!args.array.length) {
-
-            options.push([mode, value]);
-
-        } else {
-
-            options.push(...args.array);
-
-        };
+        const options = [...args.array, ...args.string.map(string => [string])];
 
         for (const option of options) {
 
@@ -280,9 +293,36 @@ export class Y extends FY {
         };
 
         return this;
-        
-    };
 
+    };
+    /**
+     * ### wrap
+     * 
+     * ***
+     * 
+     * Метод выполнения нового контекста.
+     * 
+     * ***
+     * @arg {Y1} target `Цель`
+     * @arg {(self: Y1) => void} wrapper `Обёртка`
+     * @arg {...any} args `Аргументы`
+     * @method
+     * @public
+     * @template Y1
+    */
+    wrap(wrapper, target, ...args) {
+
+        if (typeof wrapper !== 'function') {
+
+            return this;
+
+        };
+
+        wrapper(target, ...args);
+
+        return this;
+
+    };
     /**
      * ### fill
      * 
@@ -300,171 +340,22 @@ export class Y extends FY {
 
     };
     /**
-     * ### clone
+     * ### turn
      * 
      * ***
      * 
-     * Метод клонирования объекта.
+     * Метод переопределения метододологического холста.
      * 
      * ***
-     * @arg {boolean} link `Связь`
-     * @public
-    */
-    clone(link) {
-
-        return yClone(this, link);
-
-    };
-    /**
-     * ### equal
-     * 
-     * ***
-     * 
-     * Метод проверки на эквивалентность.
-     * 
-     * ***
-     * @arg {Y1} ject `Объект`
-     * @public
-     * @template Y1
-    */
-    equal(ject) {
-
-        return yEqual(this, ject);
-
-    };
-
-    /**
-     * ### adopt
-     * - Версия `0.0.0`
-     * - Модуль `ject`
-     * ***
-     *
-     * Метод {@link yAdopt|перенятия} свойств обладателя.
-     *
-     * ***
-     * @arg {{}} owner `Обладатель`
-     * @public
-    */
-    adopt(owner) {
-
-        return yAdopt(this, owner);
-
-    };
-    /**
-     * ### adoptDefault
-     * - Версия `0.0.0`
-     * - Модуль `ject`
-     * ***
-     *
-     * Метод {@link yAdoptDefault|перенятия} дефолт свойств обладателя.
-     *
-     * ***
-     * @arg {{}} owner `Обладатель`
-     * @public
-    */
-    adoptDefault(owner) {
-
-        return yAdoptDefault(this, owner);
-
-    };
-
-    /**
-     * ### print
-     * 
-     * ***
-     * 
-     * Метод отображения данных.
-     * 
-     * ***
-     * @public
-    */
-    print() {
-        
-        console.log(this);
-
-        return this;
-        
-    };
-    /**
-     * ### printTable
-     * 
-     * ***
-     * 
-     * Метод отображения данных в табличном виде.
-     * 
-     * ***
-     * @arg {...this} jects `Объекты`
-     * @since `1.0.0`
+     * @arg {Y1} y
      * @method
-     * @public
-    */
-    printTable(...jects) {
-        
-        console.table([this, ...jects]);
-
-        return this;
-        
-    };
-
-    /**
-     * ### correlate
-     * 
-     * ***
-     * 
-     * Метод корреляции.
-     * 
-     * ***
-     * @public
-    */
-    correlate() {
-
-        const aliases = this.constructor?.config?.aliases;
-
-        if (aliases) {
-
-            return yCorrelate(this, ...aliases);
-
-        };
-
-        return this;
-
-    };
-    /**
-     * ### supplement
-     * - Версия `0.0.0`
-     * - Модуль `ject`
-     * ***
-     *
-     * Метод {@link ySupplement|дополнения} свойствами указанного дополнителя.
-     *
-     * ***
-     * @arg {{}} supplementer `Дополнитель`
-     * @public
-    */
-    supplement(supplementer) {
-
-        return ySupplement(this, supplementer);
-
-    };
-
-    /**
-     * ### getShell
-     * 
-     * ***
-     * 
-     * Метод возвращающий оболочку.
-     * 
-     * Оболочка - это объект, прототипом которого является указанный в рагменте объект и иммет метод getOver для вовзрата к контексту родителя.
-     * 
-     * ***
-     * @arg {Y1} y `Объект`
      * @public
      * @returns {Y1&{getPrev()=>Y2}}
      * @template Y1
      * @template {this} Y2
     */
-    getShell(y) {
-
+    turn(y) {
+        
         const prev = this;
 
         const shell = new Proxy({
@@ -503,8 +394,244 @@ export class Y extends FY {
         Object.setPrototypeOf(shell, y);
 
         return shell;
+        
+    };
+    /**
+     * ### clone
+     * 
+     * ***
+     * 
+     * Метод клонирования объекта.
+     * 
+     * ***
+     * @arg {boolean?} link `Связь`
+     * @public
+    */
+    clone(link = true) {
+
+        return yClone(this, link);
 
     };
+    /**
+     * ### equal
+     * 
+     * ***
+     * 
+     * Метод проверки на эквивалентность.
+     * 
+     * ***
+     * @arg {Y1} ject `Объект`
+     * @public
+     * @template Y1
+    */
+    equal(ject) {
+
+        return yEqual(this, ject);
+
+    };
+    /**
+     * ### default
+     * 
+     * ***
+     * 
+     * Метод замещения указанных значений объекта на дефолтные.
+     * 
+     * Если не указать ни одного свойства, то заменены будут все свойства.
+     * 
+     * ***
+     * @arg {...(keyof this)} props `Значения`
+     * @method
+     * @public
+    */
+    default(...props) {
+    
+        if (!props.length) {
+
+            props = Object.keys(this);
+
+        } else {
+
+            props = props.filter(prop => prop in this);
+
+        };
+
+        const config = this.constructor.config;
+
+        for (const prop of props) {
+
+            this[prop] = (config[prop + 'Default'] ?? config.default);
+
+        };
+
+        return this;
+        
+    };
+
+    /**
+     * ### adopt
+     * - Версия `1.0.0`
+     * - Модуль `ject`
+     * ***
+     *
+     * Метод {@link yAdopt|перенятия} свойств обладателя.
+     *
+     * ***
+     * @arg {Y1} owner `Обладатель`
+     * @arg {Y2} config `Конфигуратор`
+     * @since `1.0.0`
+     * @public
+     * @method
+     * @version `1.0.0`
+     * @template Y1,Y2
+    */
+    adopt(owner, config) {
+
+        return yAdopt(this, owner, config);
+
+    };
+    /**
+     * ### adoptDefault
+     * - Версия `0.0.0`
+     * - Модуль `ject`
+     * ***
+     *
+     * Метод {@link yAdoptDefault|перенятия} дефолт свойств обладателя.
+     *
+     * ***
+     * @arg {{}} owner `Обладатель`
+     * @public
+    */
+    adoptDefault(owner) {
+
+        return yAdoptDefault(this, owner);
+
+    };
+
+    /**
+     * ### print
+     * 
+     * ***
+     * 
+     * Метод отображения объекта.
+     * 
+     * ***
+     * @public
+    */
+    print() {
+
+        console.log(this);
+
+        return this;
+
+    };
+    /**
+     * ### printProp
+     * 
+     * ***
+     * 
+     * Метод отображения свойства объекта.
+     * 
+     * ***
+     * @arg {...(keyof this)} props `Свойство`
+     * @method
+     * @public
+    */
+    printProp(...props) {
+
+        if (!props.every(elem => elem instanceof Array)) {
+
+            props = [props];
+
+        };
+
+        for (const prop of props) {
+
+            let focus = this;
+
+            for (const part of prop) {
+
+                if (part in focus) {
+
+                    focus = focus[part]
+
+                } else {
+
+                    break;
+
+                };
+
+            };
+
+            console.log(focus);
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### printExec
+     * 
+     * ***
+     * 
+     * Метод отображения результата кодовых операций в контексте текущего объекта.
+     * 
+     * ***
+     * @arg {...(self:this)=>any} codes `Коды`
+     * @method
+     * @public
+    */
+    printExec(...codes) {
+        
+        for (const code of codes) {
+
+            console.log(code(this));
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### printTable
+     * 
+     * ***
+     * 
+     * Метод отображения данных в табличном виде.
+     * 
+     * ***
+     * @arg {...this} jects `Объекты`
+     * @since `1.0.0`
+     * @method
+     * @public
+    */
+    printTable(...jects) {
+
+        console.table([this, ...jects]);
+
+        return this;
+
+    };
+
+    /**
+     * ### supplement
+     * - Версия `0.0.0`
+     * - Модуль `ject`
+     * ***
+     *
+     * Метод {@link ySupplement|дополнения} свойствами указанного дополнителя.
+     *
+     * ***
+     * @arg {{}} supplementer `Дополнитель`
+     * @public
+     * @method
+    */
+    supplement(supplementer) {
+
+        return ySupplement(this, supplementer);
+
+    };
+
     /**
      * ### getProperty
      * - Версия `0.0.0`

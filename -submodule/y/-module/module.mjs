@@ -1,20 +1,7 @@
 //#region YI
 
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
+import { Y } from './class.mjs';
+import { configY as config } from './config.mjs';
 
 //#endregion
 //#region YT
@@ -27,6 +14,61 @@ await import('./error.mjs')
  * 
  * @typedef yT
  * @prop {{}} y
+ * 
+*/
+
+/** ### yTArg
+ * 
+ * @typedef {[string, Y1]} yTArg
+ * @template Y1
+ * 
+*/
+/** ### yTArgs
+ * 
+ * @typedef yTArgs
+ * @prop {yTArg<null>[]} null 
+ * @prop {yTArg<Date>[]} date 
+ * @prop {yTArg<Object>[]} ject 
+ * @prop {yTArg<boolean>[]} bool 
+ * @prop {yTArg<function>[]} func
+ * @prop {yTArg<number>[]} number
+ * @prop {yTArg<string>[]} string 
+ * @prop {yTArg<RegExp>[]} regexp 
+ * @prop {yTArg<bigint>[]} bigint 
+ * @prop {yTArg<any[]>[]} array 
+ * @prop {yTArg<null[]>[]} arrayNull 
+ * @prop {yTArg<Date[]>[]} arrayDate 
+ * @prop {yTArg<Object[]>[]} arrayJect 
+ * @prop {yTArg<boolean[]>[]} arrayBool 
+ * @prop {yTArg<function[]>[][]} arrayFunc 
+ * @prop {yTArg<number[]>[][]} arrayNumber 
+ * @prop {yTArg<string[]>[][]} arrayString 
+ * @prop {yTArg<RegExp[]>[][]} arrayRegexp 
+ * @prop {yTArg<bigint[]>[][]} arrayBigint 
+ * 
+*/
+/** ### yTPropClassify
+ * 
+ * @typedef yTPropClassify
+ * @prop {null[]} null 
+ * @prop {Date[]} date 
+ * @prop {Object[]} ject 
+ * @prop {boolean[]} bool 
+ * @prop {function[]} func
+ * @prop {number[]} number
+ * @prop {string[]} string 
+ * @prop {RegExp[]} regexp 
+ * @prop {bigint[]} bigint 
+ * @prop {any[]} array 
+ * @prop {null[][]} arrayNull 
+ * @prop {Date[][]} arrayDate 
+ * @prop {Object[][]} arrayJect 
+ * @prop {boolean[][]} arrayBool 
+ * @prop {function[][]} arrayFunc 
+ * @prop {number[][]} arrayNumber 
+ * @prop {string[][]} arrayString 
+ * @prop {RegExp[][]} arrayRegexp 
+ * @prop {bigint[][]} arrayBigint 
  * 
 */
 
@@ -66,7 +108,7 @@ function fillDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -150,7 +192,7 @@ function cloneDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -304,7 +346,7 @@ function equalDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -453,7 +495,7 @@ export function yEqual(y, equal) {
  * Уникальные параметры функции `adopt`.
  * 
  * @typedef yTFUAdopt
- * @prop {any} _
+ * @prop {any} config
 */
 
 /** @arg {yTFAdopt} t */
@@ -464,12 +506,14 @@ function adoptDeceit(t) {
         return adoptVerify(t);
         
     } catch (e) {
-        
-        if (config?.strict) {
+
+        if (config?.strictMode) {
             
             throw e;
             
         };
+
+        console.log(e);
         
         return undefined;
         
@@ -500,6 +544,16 @@ function adoptHandle(t) {
     
     
     } = t;
+
+    if (!t.config) {
+
+        if (t.y instanceof Y && t.y.constructor.config) {
+
+            t.config = t.y.constructor.config;
+
+        };
+
+    };
    
     return adoptComply(t);
    
@@ -511,12 +565,25 @@ function adoptComply(t) {
     
         y,
         owner,
+        config,
     
     } = t;
+
+    if (!owner) {
+
+        return y;
+
+    };
 
     for (const s of Object.keys(y)) {
 
         owner[s] !== undefined && (y[s] = owner[s])
+
+    };
+
+    if (config) {
+
+        yAdoptDefault(y, config);
 
     };
 
@@ -537,9 +604,9 @@ function adoptComply(t) {
  * @returns {Y1}
  * @template Y1,Y2
 */
-export function yAdopt(y, owner) {
+export function yAdopt(y, owner, config) {
 
-    return adoptDeceit({ y, owner, });
+    return adoptDeceit({ y, owner, config, });
 
 };
 
@@ -573,7 +640,7 @@ function adoptDefaultDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -636,7 +703,7 @@ function adoptDefaultComply(t) {
 
             if (owner[propertyDefault] === undefined) {
 
-                y[property] = y.constructor.config.defaultValue;
+                y[property] = y.constructor.config.value.defaultValue;
 
             } else {
 
@@ -702,7 +769,7 @@ function classifyPropDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -770,8 +837,30 @@ function classifyPropComply(t) {
         regexp: [],
         /** @type {bigint[]} */
         bigint: [],
+        /** @type {function[]} */
+        function: [],
         /** @type {undefined[]} */
         undefined: [],
+        /** @type {Date[][]} */
+        arrayDate: [],
+        /** @type {boolean[][]} */
+        arrayBool: [],
+        /** @type {Object[][]} */
+        arrayJect: [],
+        /** @type {null[][]} */
+        arrayNull: [],
+        /** @type {number[][]} */
+        arrayNumber: [],
+        /** @type {string[][]} */
+        arrayString: [],
+        /** @type {RegExp[][]} */
+        arrayRegexp: [],
+        /** @type {bigint[][]} */
+        arrayBigint: [],
+        /** @type {function[][]} */
+        arrayFunction: [],
+        /** @type {undefined[][]} */
+        arrayUndefined: [],
 
     };
 
@@ -783,25 +872,37 @@ function classifyPropComply(t) {
 
         switch (typeof value) {
 
-            case "object": {
+            case 'object': {
 
                 switch (value.constructor.name) {
 
-                    case "Date": segment = result.date; break;
-                    case "Array":
-                    case "YArray": segment = result.array; break;
-                    case "RegExp":
-                    case "YRegExp": segment = result.regexp; break;
+                    case 'Date': segment = result.date; break;
+                    case 'Array': {
+
+                        if (value.every(element => typeof element === 'number')) segment = result.arrayNumber;
+                        else if (value.every(element => typeof element === 'bigint')) segment = result.arrayBigint;
+                        else if (value.every(element => typeof element === 'boolean')) segment = result.arrayBool;
+                        else if (value.every(element => typeof element === 'string')) segment = result.arrayString;
+                        else if (value.every(element => typeof element === 'function')) segment = result.arrayFunction;
+                        else if (value.every(element => typeof element === 'undefined')) segment = result.arrayUndefined;
+                        else if (value.every(element => element instanceof RegExp)) segment = result.arrayRegexp;
+                        else if (value.every(element => element instanceof Date)) segment = result.arrayDate;
+                        else segment = result.array;
+
+                    } break;
+                    case 'RegExp':
+                    case 'YRegExp': segment = result.regexp; break;
                     default: segment = result.ject; break;
 
                 };
 
             }; break;
-            case "string": segment = result.string; break;
-            case "number": segment = result.number; break;
-            case "bigint": segment = result.bigint; break;
-            case "boolean": segment = result.bool; break;
-            case "undefined": segment = result.undefined; break;
+            case 'string': segment = result.string; break;
+            case 'number': segment = result.number; break;
+            case 'bigint': segment = result.bigint; break;
+            case 'boolean': segment = result.bool; break;
+            case 'function': segment = result.function; break;
+            case 'undefined': segment = result.undefined; break;
 
         };
 
@@ -819,13 +920,17 @@ function classifyPropComply(t) {
 
 /**
  * ### yClassifyProp
- * 
+ * - Версия `1.0.0`
+ * - Цепочка `DVHC`
  * ***
  * 
  * Функция извлечения и классификации свойств по их типу.
  * 
  * ***
  * @arg {any} ject `Объект`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function yClassifyProp(ject) {
 
@@ -864,7 +969,7 @@ function correlateDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -961,7 +1066,7 @@ function correlateComply(t) {
 
                 if (alias) {
 
-                    let link = result;
+                    let link = t;
 
                     for (const index in alias.options) {
 
@@ -1044,7 +1149,7 @@ function supplementDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -1151,7 +1256,7 @@ function getPropertyDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -1281,7 +1386,7 @@ function getPropertyByPathDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             

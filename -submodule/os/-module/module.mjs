@@ -1,11 +1,11 @@
 //#region YI
 
-/** @type {import('./config.mjs')['default']?} */
+/** @type {import('./config.mjs')['default']['value']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(c => config = c.default)
+    .then(c => config = c.default?.value ? c.default.value : c.default)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */
@@ -13,7 +13,7 @@ let error = null;
 
 await import('./error.mjs')
 
-    .then(i => error = i.default)
+    .then(e => error = e.default)
     .catch(e => e);
 
 //#endregion
@@ -22,7 +22,6 @@ await import('./error.mjs')
 /** ### osT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `os`
  * 
  * Основной параметр модуля `os`.
  * 
@@ -39,7 +38,8 @@ await import('./error.mjs')
 //#endregion
 
 /**
- * @file module.mjs
+ * @file os/module.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

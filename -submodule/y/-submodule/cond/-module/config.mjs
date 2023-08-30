@@ -1,6 +1,13 @@
 import { configY } from "@syls/y";
 import { YConfig } from "@syls/y/config";
 
+/** @type {configY} */
+const config = {
+    
+    
+    
+};
+
 /** ### configCond
  * 
  * Конфигуратор модуля `cond`.
@@ -8,45 +15,17 @@ import { YConfig } from "@syls/y/config";
  * ***
  * @public
 */
-export const configCond = new YConfig({
+export const configCond = new YConfig(Object.assign(config, {
     
-    /**
-     * ### defaultSucs
-     *
-     * Дефолт значение успеха.
-     *
-     * ***
-     * @type {boolean}
-     * @public
-    */
-    defaultSucs: true,
-    /**
-     * ### defaultFail
-     *
-     * Дефолт значение провала.
-     *
-     * ***
-     * @type {boolean}
-     * @public
-    */
-    defaultFail: false,
-    /**
-     * ### defaultConditions
-     *
-     * Дефолт условия.
-     *
-     * ***
-     * @type {function(...):boolean}
-     * @public
-    */
-    defaultCondition: _ => false,
     
-}, configY);
+    
+}), configY);
 
 export default configCond;
 
 /**
  * @file cond/config.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */

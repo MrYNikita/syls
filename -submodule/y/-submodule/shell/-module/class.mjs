@@ -1,13 +1,13 @@
 //#region YI
 
-import { Y, yClassifyProp } from '../../../-module/export.mjs';
+import { yClassifyProp, } from "@syls/y";
 
-/** @type {import('./config.mjs')['default']?} */
+/** @type {import('./config.mjs')['default']['value']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(i => config = i.default?.value ? i.default.value : i.default)
+    .then(c => config = c.default?.value ? c.default.value : c.default)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */
@@ -15,7 +15,7 @@ let error = null;
 
 await import('./error.mjs')
 
-    .then(i => error = i.default)
+    .then(e => error = e.default)
     .catch(e => e);
 
 //#endregion
@@ -61,7 +61,41 @@ await import('./error.mjs')
 */
 class SShell extends Y {
     
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YShell[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
     
+    /**
+     * @arg {...YShell} args `Аргументы`
+     * @returns {YShell[]}
+    */
+    static create(...args) {
+        
+        return Object.getPrototypeOf(SShell).create.apply(this, [...args]);
+        
+    };
     
 };
 /**
@@ -71,15 +105,16 @@ class SShell extends Y {
 class DShell extends SShell {
     
     /**
-     * ### prev
+     * ### target
      * 
-     * Предыдущее значение.
+     * Цель.
      * 
      * *** 
-     * @type {Y1} 
+     * @type {Y1}
+     * @field
      * @public
     */
-    prev;
+    target;
     
 };
 /**
@@ -134,23 +169,27 @@ class FShell extends MShell {
             
             r = t[0];
             
-        } else if (t?.length) {
+            return r;
             
-            if (t[0]?._ytp) {
+        } else if (!t.length) {
             
-                t = [...t[0]._ytp];
+            return r;
             
-            };
+        };
+        
+        if (t[0]?._ytp) {
+        
+            t = [...t[0]._ytp];
+        
+        };
+        
+        const arg = yClassifyProp(t);
+        
+        
+        
+        if (!Object.values(r).length) {
             
-            const arg = yClassifyProp(t);
-            
-            
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
+            r = { _ytp: t, };
             
         };
         
@@ -162,7 +201,7 @@ class FShell extends MShell {
         
         try {
             
-            FShell.#verify.apply(this, [t]);
+            FShell.#verify.apply(this, [t = { ...t }]);
             
         } catch (e) {
             
@@ -204,13 +243,9 @@ class FShell extends MShell {
             
         } = t;
         
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
+        this
+            .adopt(t)
+            .adoptDefault(this.constructor.config ?? config);
         
     };
     
@@ -219,14 +254,17 @@ class FShell extends MShell {
 /**
  * ### YShell
  * - Тип `SDIMFY`
+ * - Версия `0.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
- * 
+ * Класс `YShell`.
  * 
  * ***
- * @extends FShell<YShellTUG&Y1>
+ * @class
  * @template Y1
+ * @extends FShell<YShellTUG&Y1>
+ * 
 */
 export class YShell extends FShell {
     
@@ -234,5 +272,3 @@ export class YShell extends FShell {
     constructor(t) { super(t); };
     
 };
-
-string

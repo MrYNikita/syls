@@ -4,21 +4,6 @@ import { YPath } from '@syls/path';
 import { YEntity } from '@syls/entity';
 import { YProcess } from '@syls/process';
 
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(i => config = i.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
 
 //#endregion
 //#region YT

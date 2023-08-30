@@ -58,11 +58,8 @@
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
-    "description": "Моудль манипулирования OS.",
+    "description": "Моудль OS.",
     "dependencies": {
         "@syls/y": "*"
-    },
-    "devDependencies": {
-        "@syls/test": "*"
     }
 }

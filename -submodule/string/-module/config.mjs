@@ -1,5 +1,12 @@
-import { configY } from "@syls/y";
 import { YConfig } from "@syls/y/config";
+import { configMany } from "@syls/y/many";
+
+/** @type {configMany} */
+const config = {
+    
+    
+    
+};
 
 /** ### configString
  * 
@@ -8,7 +15,7 @@ import { YConfig } from "@syls/y/config";
  * ***
  * @public
 */
-export const configString = new YConfig({
+export const configString = new YConfig(Object.assign(config, {
     
     /**
      * ### tab
@@ -21,16 +28,6 @@ export const configString = new YConfig({
     */
     tab: '\t',
     /**
-     * ### tabDefault
-     *
-     * Дефолт табуляция.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    tabDefault: null,
-    /**
      * ### space
      *
      * Общий заполнитель.
@@ -40,16 +37,6 @@ export const configString = new YConfig({
      * @public
     */
     space: ' ',
-    /**
-     * ### defaultSpace
-     *
-     * Дефолт заполнитель.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    spaceDefault: null,
     /**
      * ### rowEnd
      *
@@ -90,26 +77,6 @@ export const configString = new YConfig({
      * @public
     */
     valuesDefault: '',
-    /**
-     * ### prefixDefault
-     *
-     * Дефолт префикс.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    prefixDefault: null,
-    /**
-     * ### postfixDefault
-     *
-     * Дефолт постфикс.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    postfixDefault: null,
     /**
      * ### rowVisIndex
      *
@@ -221,26 +188,6 @@ export const configString = new YConfig({
     */
     spliterDischarge: '_',
     /**
-     * ### rowEndDefault
-     *
-     * Дефолт конец строки.
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    rowEndDefault: null,
-    /**
-     * ### rowEndDefault
-     *
-     *
-     *
-     * ***
-     * @type {string?}
-     * @public
-    */
-    rowEndDefault: null,
-    /**
      * ### foregroundDefault
      * 
      * Дефолт символьный цвет.
@@ -260,36 +207,6 @@ export const configString = new YConfig({
      * @public
     */
     backgroundDefault: 'black',
-    /**
-     * ### rowLengthDefault
-     *
-     * Дефолт предельное количество символов в линии.
-     *
-     * ***
-     * @type {number?}
-     * @public
-    */
-    rowLengthDefault: null,
-    /**
-     * ### rowVisIndexDefault
-     *
-     * Дефолт индекс видимой страницы.
-     *
-     * ***
-     * @type {number?}
-     * @public
-    */
-    rowVisIndexDefault: null,
-    /**
-     * ### rowVisLimitDefault
-     *
-     * Дефолт предел отображаемых строк.
-     *
-     * ***
-     * @type {number?}
-     * @public
-    */
-    rowVisLimitDefault: null,
 
     /**
      * ### symbols
@@ -315,7 +232,7 @@ export const configString = new YConfig({
         },
         math: {
             
-            /** @type {'»'} */
+            /** @type {'µ'} */
             nu: 'µ',
             /** @type {'≥'} */
             le: '≥',
@@ -363,20 +280,6 @@ export const configString = new YConfig({
 
         },
     },
-    /**
-     * ### aliases
-     * 
-     * Псевдонимы.
-     * 
-     * *** 
-     * @type {string[][]} 
-     * @public
-    */
-    aliases: [
-
-        ['values', 'value', 'str', 'string'],
-
-    ],
 
     /**
      * ### templates
@@ -426,12 +329,13 @@ export const configString = new YConfig({
 
     },
     
-}, configY);
+}), configMany);
 
 export default configString;
 
 /**
  * @file string/config.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */

@@ -7,16 +7,7 @@
 */
 export const configConfig = {
     
-    /**
-     * ### valueDefault
-     * 
-     * Дефолт значение.
-     * 
-     * *** 
-     * @type {null} 
-     * @public
-    */
-    valueDefault: null,
+    
     
 };
 

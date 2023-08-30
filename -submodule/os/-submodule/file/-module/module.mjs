@@ -16,7 +16,7 @@ let error = null;
 
 await import('./error.mjs')
 
-    .then(i => error = i.default)
+    .then(i => error = i?.default)
     .catch(e => e);
 
 //#endregion
@@ -159,7 +159,7 @@ function readDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -277,7 +277,7 @@ function readCsvDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -406,7 +406,7 @@ function readJsonDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strict) {
+        if (config?.strictMode) {
 
             throw e;
 
@@ -519,7 +519,7 @@ function writeDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -633,7 +633,7 @@ function writeCsvDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             
@@ -746,7 +746,7 @@ function writeJsonDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strict) {
+        if (config?.strictMode) {
             
             throw e;
             

@@ -30,8 +30,11 @@
     },
     "keywords": [
         "y",
+        "os",
         "lib",
-        "syls"
+        "syls",
+        "file",
+        "osject"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
@@ -39,7 +42,8 @@
     },
     "description": "Модуль файлов.",
     "dependencies": {
-        "@syls/y": "*"
+        "@syls/y": "*",
+        "@syls/os": "*"
     },
     "devDependencies": {
         "@syls/test": "*"
