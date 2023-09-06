@@ -598,6 +598,12 @@ export class YDate extends FDate {
     
 };
 
+//#region YE
+
+YDate.getY()['modules'].push(YDate);
+
+//#endregion YE
+
 /**
  * @file date/class.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>

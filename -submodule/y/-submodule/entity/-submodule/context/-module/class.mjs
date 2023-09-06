@@ -1,10 +1,11 @@
 //#region YI
 
-import { YLog } from '@syls/log';
-import { YDate } from '@syls/date';
-import { YRept } from '@syls/rept';
-import { Y, yClassifyProp } from '@syls/y';
-
+import { Y } from '../../../../../-module/export.mjs';
+import { YArg } from '../../../../arg/-module/export.mjs';
+import { YLog } from '../../../../log/-module/export.mjs';
+import { YDate } from '../../../../date/-module/export.mjs';
+import { configContext as config } from './config.mjs';
+import { YHandler } from '../../handler/-module/class.mjs';
 
 //#endregion
 //#region YT
@@ -14,8 +15,9 @@ import { Y, yClassifyProp } from '@syls/y';
  * 
  * Основной параметр модуля `YContext`.
  * 
- * @typedef {YContextTE&YContextTU&Y} YContextT
+ * ***
  * 
+ * @typedef {YContextTE&YContextTU} YContextT
 */
 /** ### YContextTE
  * - Тип `TE`
@@ -23,7 +25,6 @@ import { Y, yClassifyProp } from '@syls/y';
  * Параметр наследования `YContext`.
  * 
  * @typedef {Omit<DContext, keyof SContext>} YContextTE
- * 
 */
 /** ### YContextTU
  * - Тип `TU`
@@ -31,20 +32,46 @@ import { Y, yClassifyProp } from '@syls/y';
  * Уникальные параметры `YContext`.
  * 
  * @typedef YContextTU
- * @prop {any} _
+ * @prop {} _
+*/
+/** ### YContextTUG
+ * - Тип `TUP`
  * 
+ * Уникальные генеративные параметры `YContext`.
+ * 
+ * @typedef YContextTUG
+ * @prop {null} _
 */
 
 //#endregion
 
+/**
+ * @template Y1
+*/
 class SContext extends Y {
     
     /**
-     * ### config
-     * 
-     * Конфигуратор.
+     * ### stock
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YContext[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
      * @public
     */
     static config = config;
@@ -55,11 +82,15 @@ class SContext extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SContext).create.apply(this, [...args]);
+        return Object.getPrototypeOf(SContext).create.apply(this, args);
         
     };
     
 };
+/**
+ * @extends SContext<Y1>
+ * @template Y1
+*/
 class DContext extends SContext {
     
     /**
@@ -68,7 +99,8 @@ class DContext extends SContext {
      * Идентификатор.
      * 
      * *** 
-     * @type {number} 
+     * @type {number}
+     * @field
      * @public
     */
     id;
@@ -78,12 +110,17 @@ class DContext extends SContext {
      * Обработчики.
      * 
      * *** 
-     * @type {YHandler[]} 
+     * @type {YHandler<Y1>[]}
+     * @field
      * @public
     */
     handlers;
     
 };
+/**
+ * @extends DContext<Y1>
+ * @template Y1
+*/
 class IContext extends DContext {
     
     /**
@@ -92,37 +129,48 @@ class IContext extends DContext {
      * Журнал.
      * 
      * *** 
-     * @type {} 
+     * @type {YLog}
+     * @field
      * @protected
     */
-    log = new YLog();
+    log;
     /**
      * ### date
      * 
      * Дата.
      * 
      * *** 
-     * @type {Date} 
+     * @type {YDate}
+     * @field
      * @protected
     */
-    date = new YDate();
+    date;
     /**
      * ### rept
      * 
      * Отчёт.
      * 
      * *** 
-     * @type {YRept?} 
+     * @type {YRept}
+     * @field
      * @protected
     */
-    rept = new YRept();
+    rept;
     
 };
+/**
+ * @extends IContext<Y1>
+ * @template Y1
+*/
 class MContext extends IContext {
     
     
     
 };
+/**
+ * @extends MContext<Y1>
+ * @template Y1
+*/
 class FContext extends MContext {
     
     /**
@@ -131,71 +179,43 @@ class FContext extends MContext {
      * 
      * 
      * ***
-     * @arg {YContextT} t
+     * @arg {YContextT&G} args
     */
-    constructor(t) {
+    constructor(args) {
         
-        t = [...arguments];
+        super(args = FContext.#before(args = arguments));
         
-        super(Object.assign(t = FContext.#before(t), {}));
-        
-        FContext.#deceit.apply(this, [t]);
-        
-        return this.correlate();
+        FContext.#deceit.apply(this, [args]);
         
     };
     
-    /** @arg {any[]} t */
-    static #before(t) {
+    /** @arg {DContext} args */
+    static #before(args) {
         
-        /** @type {YContextT} */
-        let r = {};
+        /** @type {YArg<IContext>} */
+        const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
         
-        if (t?.length === 1 && [Object, YContext].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (t?.length) {
-            
-            if (t[0]?._ytp) {
-            
-                t = [...t[0]._ytp];
-            
-            };
-            
-            switch (t.length) {
-                
-                default: {
-                    
-                    const arg = yClassifyProp(t);
-                    
-                    
-                    
-                };
-                
-            };
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
-            
-        };
         
-        return r;
+        
+        return yarg;
         
     };
-    /** @arg {YContextT} t @this {YContext} */
-    static #deceit(t) {
+    /** @arg {YArg<IContext>} args @this {YContext} */
+    static #deceit(args) {
         
         try {
             
-            FContext.#verify.apply(this, [t]);
+            FContext.#verify.apply(this, arguments);
             
         } catch (e) {
             
-            throw e;
+            if (config?.strictMode) {
+                
+                throw e;
+                
+            };
+            
+            return new YContext();
             
         } finally {
             
@@ -204,42 +224,38 @@ class FContext extends MContext {
         };
         
     };
-    /** @arg {YContextT} t @this {YContext} */
-    static #verify(t) {
+    /** @arg {YArg<IContext>} args @this {YContext} */
+    static #verify(args) {
         
         const {
             
             
             
-        } = t;
+        } = args;
         
-        FContext.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YContextT} t @this {YContext} */
-    static #handle(t) {
-        
-        
-        
-        FContext.#create.apply(this, [t]);
+        FContext.#handle.apply(this, arguments);
         
     };
-    /** @arg {YContextT} t @this {YContext} */
-    static #create(t) {
+    /** @arg {YArg<IContext>} args @this {YContext} */
+    static #handle(args) {
+        
+        
+        
+        FContext.#create.apply(this, arguments);
+        
+    };
+    /** @arg {YArg<IContext>} args @this {YContext} */
+    static #create(args) {
         
         const {
             
             
             
-        } = t;
+        } = args;
         
-        this.adopt(t);
+        this
         
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
+            .adopt(args.getData());
         
     };
     
@@ -248,16 +264,54 @@ class FContext extends MContext {
 /**
  * ### YContext
  * - Тип `SDIMFY`
+ * - Версия `0.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
- * 
+ * Класс `YContext`.
  * 
  * ***
+ * @class
+ * @template Y1
+ * @extends FContext<YContextTUG&Y1>
  * 
 */
 export class YContext extends FContext {
     
+    /** @arg {Y1} args */
+    constructor(args) { super(...arguments); };
     
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YContext}
+    */
+    getClass() {
+        
+        return YContext;
+        
+    };
     
 };
+
+//#region YE
+
+YContext.getY()['modules'].push(YContext);
+
+//#endregion
+
+/**
+ * @file context/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/

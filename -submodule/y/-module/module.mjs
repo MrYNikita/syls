@@ -495,7 +495,7 @@ export function yEqual(y, equal) {
  * Уникальные параметры функции `adopt`.
  * 
  * @typedef yTFUAdopt
- * @prop {any} config
+ * @prop {any} conf
 */
 
 /** @arg {yTFAdopt} t */
@@ -545,11 +545,11 @@ function adoptHandle(t) {
     
     } = t;
 
-    if (!t.config) {
+    if (!t.conf) {
 
         if (t.y instanceof Y && t.y.constructor.config) {
 
-            t.config = t.y.constructor.config;
+            t.conf = t.y.constructor.config;
 
         };
 
@@ -565,7 +565,7 @@ function adoptComply(t) {
     
         y,
         owner,
-        config,
+        conf,
     
     } = t;
 
@@ -581,9 +581,9 @@ function adoptComply(t) {
 
     };
 
-    if (config) {
+    if (conf) {
 
-        yAdoptDefault(y, config);
+        yAdoptDefault(y, conf);
 
     };
 
@@ -604,9 +604,9 @@ function adoptComply(t) {
  * @returns {Y1}
  * @template Y1,Y2
 */
-export function yAdopt(y, owner, config) {
+export function yAdopt(y, owner, conf) {
 
-    return adoptDeceit({ y, owner, config, });
+    return adoptDeceit({ y, owner, conf, });
 
 };
 

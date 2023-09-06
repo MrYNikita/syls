@@ -1,8 +1,10 @@
 //#region YI
 
 import { YCursor } from "@syls/many/cursor";
-import { Y, yClassifyProp, } from "@syls/y";
+import { Y, } from "@syls/y";
 import { YCursorContoller } from "../-submodule/cursorContoller/-module/class.mjs";
+import { argClassify } from "../../arg/-module/module.mjs";
+import { YArg } from "../../arg/-module/class.mjs";
 
 /** @type {import('./config.mjs')['default']['value']?} */
 let config = null;
@@ -159,61 +161,41 @@ class FMany extends MMany {
      * 
      * 
      * ***
-     * @arg {YManyT&G} t
+     * @arg {YManyT&G} args
     */
-    constructor(t) {
+    constructor(args) {
 
-        t = [...arguments];
+        super(args = FMany.#before(arguments));
 
-        super(Object.assign(t = FMany.#before(t), {}));
+        FMany.#deceit.apply(this, [args]);
 
-        FMany.#deceit.apply(this, [t]);
-
-    };
-
-    /** @arg {any[]} t */
-    static #before(t) {
-
-        /** @type {YManyT} */
-        let r = {};
-
-        if (t?.length === 1 && [Object, YMany].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-            r = t[0];
-
-            return r;
-
-        } else if (!t.length) {
-
-            return r;
-
-        };
-
-        if (t[0]?._ytp) {
-
-            t = [...t[0]._ytp];
-
-        };
-
-        const arg = yClassifyProp(t);
-
-        r.values = arg.array[0] ?? arg.string[0];
-
-        if (!Object.values(r).length) {
-
-            r = { _ytp: t, };
-
-        };
-
-        return r;
+        return this.correlate();
 
     };
-    /** @arg {YManyT} t @this {YMany} */
-    static #deceit(t) {
+
+    /** @arg {any[]} args */
+    static #before(args) {
+
+        /** @type {YArg<IMany>} */
+        const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
+
+        yarg
+
+            .set(
+
+                ['values', 'array', 'string'],
+
+            )
+
+        return yarg;
+
+    };
+    /** @arg {YArg<IMany>} args @this {YMany} */
+    static #deceit(args) {
 
         try {
 
-            FMany.#verify.apply(this, [t]);
+            FMany.#verify.apply(this, arguments);
 
         } catch (e) {
 
@@ -226,42 +208,40 @@ class FMany extends MMany {
         };
 
     };
-    /** @arg {YManyT} t @this {YMany} */
-    static #verify(t) {
+    /** @arg {YArg<IMany>} args @this {YMany} */
+    static #verify(args) {
 
         const {
 
 
 
-        } = t;
+        } = args;
 
-        FMany.#handle.apply(this, [t]);
-
-    };
-    /** @arg {YManyT} t @this {YMany} */
-    static #handle(t) {
-
-
-
-        FMany.#create.apply(this, [t]);
+        FMany.#handle.apply(this, arguments);
 
     };
-    /** @arg {YManyT} t @this {YMany} */
-    static #create(t) {
+    /** @arg {YArg<IMany>} args @this {YMany} */
+    static #handle(args) {
+
+
+
+        FMany.#create.apply(this, arguments);
+
+    };
+    /** @arg {YArg<IMany>} args @this {YMany} */
+    static #create(args) {
 
         const {
 
 
 
-        } = t;
+        } = args;
 
         this
 
-            .adopt(t)
-            .adoptDefault(this.constructor.config ?? config)
-            .do(self => self
+            .adopt(args.getData())
+            .do(self => self.getCursorController()
 
-                .getCursorController()
                 .append({ many: this })
 
             )
@@ -287,8 +267,8 @@ class FMany extends MMany {
 */
 export class YMany extends FMany {
 
-    /** @arg {Y1} t */
-    constructor(t) { super(t); };
+    /** @arg {Y1} args */
+    constructor(...args) { super(...args); };
 
     /**
      * ### getCursorController
@@ -309,6 +289,12 @@ export class YMany extends FMany {
     };
 
 };
+
+//#region YE
+
+YMany.getY()['modules'].push(YMany);
+
+//#endregion YE
 
 /**
  * @file many/class.mjs

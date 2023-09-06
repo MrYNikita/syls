@@ -2,10 +2,12 @@
     //
     // Классы
     "class-syls": {
+
         "body": [
+
             "//#region YI",
             "",
-            "import { yClassifyProp } from '@syls/y';",
+            "import { YArg } from '@syls/y/arg';",
             "import { config$1 as config } from './config.mjs';",
             "",
             "//#endregion",
@@ -73,7 +75,7 @@
             "    */",
             "    static create(...args) {",
             "        ",
-            "        return Object.getPrototypeOf(S$1).create.apply(this, [...args]);",
+            "        return Object.getPrototypeOf(S$1).create.apply(this, args);",
             "        ",
             "    };",
             "    ",
@@ -116,46 +118,20 @@
             "    /** @arg {D$1} args */",
             "    static #before(args) {",
             "        ",
-            "        /** @type {Y$1T} */",
-            "        let r = {};",
-            "        ",
-            "        if (t?.length === 1 && [Object, Y$1].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {",
-            "            ",
-            "            r = { ...t[0] };",
-            "            ",
-            "            return r;",
-            "            ",
-            "        } else if (!t.length) {",
-            "            ",
-            "            return r;",
-            "            ",
-            "        };",
-            "        ",
-            "        if (t[0]?._ytp) {",
-            "        ",
-            "            t = [...t[0]._ytp];",
-            "        ",
-            "        };",
-            "        ",
-            "        const args = yClassifyProp(t);",
+            "        /** @type {YArg<I$1>} */",
+            "        const yarg = args instanceof YArg ? args : new YArg(args);",
             "        ",
             "        ",
             "        ",
-            "        if (!Object.values(r).length) {",
-            "            ",
-            "            r = { _ytp: t, };",
-            "            ",
-            "        };",
-            "        ",
-            "        return r;",
+            "        return yarg;",
             "        ",
             "    };",
-            "    /** @arg {Y$1T} args @this {Y$1} */",
+            "    /** @arg {YArg<I$1>} args @this {Y$1} */",
             "    static #deceit(args) {",
             "        ",
             "        try {",
             "            ",
-            "            F$1.#verify.apply(this, [args = { ...args }]);",
+            "            F$1.#verify.apply(this, arguments);",
             "            ",
             "        } catch (e) {",
             "            ",
@@ -174,7 +150,7 @@
             "        };",
             "        ",
             "    };",
-            "    /** @arg {Y$1T} args @this {Y$1} */",
+            "    /** @arg {YArg<I$1>} args @this {Y$1} */",
             "    static #verify(args) {",
             "        ",
             "        const {",
@@ -186,7 +162,7 @@
             "        F$1.#handle.apply(this, arguments);",
             "        ",
             "    };",
-            "    /** @arg {Y$1T} args @this {Y$1} */",
+            "    /** @arg {YArg<I$1>} args @this {Y$1} */",
             "    static #handle(args) {",
             "        ",
             "        ",
@@ -194,7 +170,7 @@
             "        F$1.#create.apply(this, arguments);",
             "        ",
             "    };",
-            "    /** @arg {Y$1T} args @this {Y$1} */",
+            "    /** @arg {YArg<I$1>} args @this {Y$1} */",
             "    static #create(args) {",
             "        ",
             "        const {",
@@ -205,7 +181,7 @@
             "        ",
             "        this",
             "        ",
-            "            .adopt(args, config);",
+            "            .adopt(args.getData());",
             "        ",
             "    };",
             "    ",
@@ -226,19 +202,46 @@
             "*/",
             "${3:export }class Y$1 extends F$1 {",
             "    ",
-            "    ",
+            "    /**",
+            "     * ### getClass",
+            "     * ",
+            "     * ",
+            "     * ",
+            "     * ***",
+            "     * ",
+            "     * ",
+            "     * ",
+            "     * ***",
+            "     * @method",
+            "     * @public",
+            "     * @returns {typeof Y$1}",
+            "    */",
+            "    getClass() {",
+            "        ",
+            "        return Y$1;",
+            "        ",
+            "    };",
             "    ",
             "};",
+            "",
+            "//#region YE",
+            "",
+            "Y$1.getY()['modules'].push(Y$1);",
+            "",
+            "//#endregion",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "class-syls",
-        "description": "Class-syls является новейшим сниппетом новой файловой структуры модулей с использованием inner папки моудля."
+        "description": "Шаблон класса syls."
     },
     "class-generic-syls": {
+
         "body": [
+
             "//#region YI",
             "",
-            "import { yClassifyProp, } from \"@syls/y\";",
+            "import { YArg } from '@syls/y/arg';",
             "import { config$1 as config } from './config.mjs';",
             "",
             "//#endregion",
@@ -316,7 +319,7 @@
             "    */",
             "    static create(...args) {",
             "        ",
-            "        return Object.getPrototypeOf(S$1).create.apply(this, [...args]);",
+            "        return Object.getPrototypeOf(S$1).create.apply(this, args);",
             "        ",
             "    };",
             "    ",
@@ -373,46 +376,20 @@
             "    /** @arg {D$1} args */",
             "    static #before(args) {",
             "        ",
-            "        /** @type {Y$1T} */",
-            "        let r = {};",
-            "        ",
-            "        if (t?.length === 1 && [Object, Y$1].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {",
-            "            ",
-            "            r = { ...t[0] };",
-            "            ",
-            "            return r;",
-            "            ",
-            "        } else if (!t.length) {",
-            "            ",
-            "            return r;",
-            "            ",
-            "        };",
-            "        ",
-            "        if (t[0]?._ytp) {",
-            "        ",
-            "            t = [...t[0]._ytp];",
-            "        ",
-            "        };",
-            "        ",
-            "        const args = yClassifyProp(t);",
+            "        /** @type {YArg<I$1>} */",
+            "        const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);",
             "        ",
             "        ",
             "        ",
-            "        if (!Object.values(r).length) {",
-            "            ",
-            "            r = { _ytp: t, };",
-            "            ",
-            "        };",
-            "        ",
-            "        return r;",
+            "        return yarg;",
             "        ",
             "    };",
-            "    /** @arg {Y$1T} args @this {Y$1} */",
+            "    /** @arg {YArg<I$1>} args @this {Y$1} */",
             "    static #deceit(args) {",
             "        ",
             "        try {",
             "            ",
-            "            F$1.#verify.apply(this, [args = { ...args }]);",
+            "            F$1.#verify.apply(this, arguments);",
             "            ",
             "        } catch (e) {",
             "            ",
@@ -431,7 +408,7 @@
             "        };",
             "        ",
             "    };",
-            "    /** @arg {Y$1T} args @this {Y$1} */",
+            "    /** @arg {YArg<I$1>} args @this {Y$1} */",
             "    static #verify(args) {",
             "        ",
             "        const {",
@@ -443,7 +420,7 @@
             "        F$1.#handle.apply(this, arguments);",
             "        ",
             "    };",
-            "    /** @arg {Y$1T} args @this {Y$1} */",
+            "    /** @arg {YArg<I$1>} args @this {Y$1} */",
             "    static #handle(args) {",
             "        ",
             "        ",
@@ -451,7 +428,7 @@
             "        F$1.#create.apply(this, arguments);",
             "        ",
             "    };",
-            "    /** @arg {Y$1T} args @this {Y$1} */",
+            "    /** @arg {YArg<I$1>} args @this {Y$1} */",
             "    static #create(args) {",
             "        ",
             "        const {",
@@ -462,7 +439,7 @@
             "        ",
             "        this",
             "        ",
-            "            .adopt(args, config);",
+            "            .adopt(args.getData());",
             "        ",
             "    };",
             "    ",
@@ -485,19 +462,48 @@
             "*/",
             "export class Y$1 extends F$1 {",
             "    ",
-            "    /** @arg {Y1} t */",
-            "    constructor(t) { super(t); };",
+            "    /** @arg {Y1} args */",
+            "    constructor(args) { super(...arguments); };",
+            "    ",
+            "    /**",
+            "     * ### getClass",
+            "     * ",
+            "     * ",
+            "     * ",
+            "     * ***",
+            "     * ",
+            "     * ",
+            "     * ",
+            "     * ***",
+            "     * @method",
+            "     * @public",
+            "     * @returns {typeof Y$1}",
+            "    */",
+            "    getClass() {",
+            "        ",
+            "        return Y$1;",
+            "        ",
+            "    };",
             "    ",
             "};",
+            "",
+            "//#region YE",
+            "",
+            "Y$1.getY()['modules'].push(Y$1);",
+            "",
+            "//#endregion",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "class-generic-syls",
-        "description": "Class-generic-syls - это класс соотвествующий актуальным стандартам syls с дженерик-параметром.",
+        "description": "Шаблон дженерик-класса syls.",
     },
     //
     // Поля
     "field-syls": {
+
         "body": [
+
             "/**",
             " * ### $1",
             " * ",
@@ -509,13 +515,17 @@
             " * @${4|public,protected,private|}",
             "*/",
             "$1 = $2;",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "field-syls",
-        "description": "Поле класса syls.",
+        "description": "Шаблон поля класса syls.",
+
     },
     "field-static-syls": {
+
         "body": [
+
             "/**",
             " * ### $1",
             " * ",
@@ -530,15 +540,18 @@
             " * @${4|public,protected,private|}",
             "*/",
             "static $1 = $2;",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "field-static-syls",
-        "description": "Статическое поле класса syls.",
+        "description": "Шаблон статического поля класса syls.",
     },
     //
     // Свойства
     "property-syls": {
+
         "body": [
+
             "/**",
             " * ### $1",
             " * ",
@@ -552,15 +565,18 @@
             " * @property",
             "*/",
             "$1: $2,",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "property-syls",
-        "description": "Свойство объекта syls.",
+        "description": "Шаблон свойства объекта syls.",
     },
     //
     // Методы
     "method-syls": {
+
         "body": [
+
             "/**",
             " * ### $1",
             " * ",
@@ -578,13 +594,17 @@
             "    $0",
             "    ",
             "};",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "method-syls",
-        "description": "Method-syls - обычный syls."
+        "description": "Шаблон метода syls."
+
     },
     "method-async-syls": {
+
         "body": [
+
             "/**",
             " * ### $1",
             " * ",
@@ -603,13 +623,17 @@
             "    $0",
             "    ",
             "};",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "method-async-syls",
-        "description": "Method-async-syls - асинхронный метод syls."
+        "description": "Шаблон асинхронного метода syls."
+
     },
     "method-static-syls": {
+
         "body": [
+
             "/**",
             " * ### $1",
             " * ",
@@ -628,13 +652,17 @@
             "    $0",
             "    ",
             "};",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "method-static-syls",
-        "description": "Method-static-syls - статический метод syls."
+        "description": "Шаблон статического метода syls."
+
     },
     "method-async-static-syls": {
+
         "body": [
+
             "/**",
             " * ### $1",
             " * ",
@@ -654,15 +682,19 @@
             "    $0",
             "    ",
             "};",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "method-async-static-syls",
-        "description": "Method-static-syls - асинхронный статический метод syls."
+        "description": "Шаблон асинхронного статического метода syls."
+
     },
     //
     // Файлы
     "file-error-syls": {
+
         "body": [
+
             "//#region YI",
             "",
             "import { } from \"@syls/y\";",
@@ -690,14 +722,18 @@
             "",
             "",
             "$0",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "file-error-syls",
-        "description": "File-error-syls - это шаблон файла ошибок (error) syls.",
+        "description": "Шаблон файла ошибок (error) syls.",
         "isFileTemplate": true,
+
     },
     "file-config-syls": {
+
         "body": [
+
             "import { YConfig } from \"@syls/y/config\";",
             "",
             "/** @type {$2} */",
@@ -723,14 +759,18 @@
             "export default $1;",
             "",
             "file-metadata-syls$0",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "file-config-syls",
-        "description": "File-config-syls - это шаблон файла конфигуратора (config) syls.",
+        "description": "Шаблон файла конфигуратора (config) syls.",
         "isFileTemplate": true,
+
     },
     "file-module-syls": {
+
         "body": [
+
             "//#region YI",
             "",
             "import { config${1/(.*)/${1:/capitalize}/} as config } from './config.mjs';",
@@ -757,27 +797,35 @@
             "//#endregion",
             "",
             "file-metadata-syls$0",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "file-module-syls",
-        "description": "File-module-syls - это шаблон файла модуля (module) syls.",
+        "description": "Шаблон файла модуля (module) syls.",
         "isFileTemplate": true
+
     },
     "file-export-syls": {
+
         "body": [
+
             "export * from \"./class.mjs\";",
             "export * from \"./config.mjs\";",
             "export * from \"./module.mjs\";",
             "",
             "$0",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "file-export-syls",
-        "description": "File-export-syls - это шаблон файла экспорта (export) syls.",
+        "description": "Шаблон файла экспорта (export) syls.",
         "isFileTemplate": true,
+
     },
     "file-package-syls": {
+
         "body": [
+
             "{",
             "    \"name\": \"@syls/${TM_DIRECTORY/(.*?[\\\\])+(.*)/${2}/}\",",
             "    \"type\": \"${1|module,commonjs|}\",",
@@ -825,51 +873,67 @@
             "        \"@syls/test\": \"*\"",
             "    }",
             "}",
+
         ],
         "scope": "json",
         "prefix": "file-package-syls",
-        "description": "File-package-syls - это шаблон файла пакета (package.json) syls.",
+        "description": "Шаблон файла пакета (package.json) syls.",
         "isFileTemplate": true,
+
     },
     "file-metadata-syls": {
+
         "body": [
+
             "/**",
             " * @file ${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}/$TM_FILENAME",
             " * @author ${1:Yakhin Nikita Artemovich} ${2:<mr.y.nikita@gmail.com>}",
             " * @license Apache-2.0",
             " * @copyright SYLS (Software Y Lib Solutions) $CURRENT_YEAR",
             "*/",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "file-metadata-syls",
-        "description": "Метаданные файла syls."
+        "description": "Шаблон метаданных файла syls."
+
     },
     "file-package-heir-syls": {
+
         "body": [
+
             "\"./$1\": {",
             "    \"types\": \"./-heir/$1/-module/type.d.ts\",",
             "    \"import\": \"./-heir/$1/-module/export.mjs\"",
             "}$0",
+
         ],
         "scope": "json",
         "prefix": "file-package-heir-syls",
-        "description": "File-package-heir-syls - шаблон для экспорта наследника syls."
+        "description": "Шаблон для экспорта наследника syls."
+
     },
     "file-package-submodule-syls": {
+
         "body": [
+
             "\"./$1\": {",
             "    \"types\": \"./-submodule/$1/-module/type.d.ts\",",
             "    \"import\": \"./-submodule/$1/-module/export.mjs\"",
             "}$0",
+
         ],
         "scope": "json",
         "prefix": "file-package-submodule-syls",
-        "description": "File-package-submodule-syls - шаблон для экспорта подмодуля syls."
+        "description": "Шаблон для экспорта подмодуля syls."
+
     },
     //
     // Значения
     "value-syls": {
+
         "body": [
+
             "/** ### ${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}$1",
             " * ",
             " * ***",
@@ -880,15 +944,19 @@
             " * ",
             "*/",
             "export const ${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}$1 = $0;",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "value-syls",
-        "description": "Value-syls - значение syls."
+        "description": "Шаблон значения syls."
+
     },
     //
     // Функции
     "function-syls": {
+
         "body": [
+
             "//#region $1",
             "",
             "/** ### ${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}TF${1/(\\w)/${1:/upcase}/}",
@@ -973,13 +1041,17 @@
             "$0",
             "",
             "//#endregion",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "function-syls",
-        "description": "Function-syls - шаблон функции syls.",
+        "description": "Шаблон функции syls.",
+
     },
     "function-provider-syls": {
+
         "body": [
+
             "/**",
             " * ### ${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}$1$2",
             " * ",
@@ -996,86 +1068,189 @@
             "    return ${1/(\\w)/${1:/downcase}/}Deceit({});",
             "",
             "};",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "function-provider-syls",
-        "description": "Function-provider-syls - шаблон функции поставщика syls."
+        "description": "Шаблон функции поставщика syls."
+
     },
     //
     // Типы
+    "type-ject-syls": {
+
+        "body": [
+
+            "/** ### ${1:${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}}T$2",
+            " * ",
+            " * ",
+            " * ",
+            " * ***",
+            " * ",
+            " * $4",
+            " * ",
+            " * ***",
+            " * ",
+            " * @typedef $3",
+            " * @prop {} _",
+            " * ",
+            "*/",
+
+        ],
+        "scope": "javascript,typescript",
+        "prefix": "type-ject-syls",
+        "description": "Шаблон типа объекта syls."
+
+    },
+    "type-value-syls": {
+
+        "body": [
+
+            "/** ### ${1:${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}}T$2",
+            " * ",
+            " * ",
+            " * ",
+            " * ***",
+            " * ",
+            " * $4",
+            " * ",
+            " * ***",
+            " * ",
+            " * @type {$3}",
+            " * ",
+            "*/",
+
+        ],
+        "scope": "javascript,typescript",
+        "prefix": "type-value-syls",
+        "description": "Шаблон типа значения syls."
+
+    },
+    "type-import-syls": {
+
+        "body": [
+
+            "/** ### ${1:${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}TI$2}",
+            " * ",
+            " * ",
+            " * ",
+            " * ***",
+            " * ",
+            " * $3",
+            " * ",
+            " * ***",
+            " * ",
+            " * @typedef {$0} $1",
+            " * ",
+            "*/",
+
+        ],
+        "scope": "javascript,typescript",
+        "prefix": "type-import-syls",
+        "description": "Шаблон импортируемого типа syls."
+
+    },
     //
     // Отладка
     "breakpoint-syls": {
+
         "body": [
+
             "console.log('${RELATIVE_FILEPATH/[^\\w\\d,-. _]/\\/\\//g} $TM_LINE_INDEX');",
             "console.log(${1|[],this|}$0);",
             "console.log('#'.repeat(5));",
+
         ],
         "scope": "javascript,typescript",
         "prefix": "breakpoint-syls",
-        "description": "Breakpoint-syls - шаблон точки прерывания syls."
+        "description": "Шаблон точки прерывания syls."
+
     },
     "breakpoint-exit-syls": {
+
         "body": [
+
             "console.log('${RELATIVE_FILEPATH/[^\\w\\d,-. _]/\\/\\//g} $TM_LINE_INDEX');",
             "console.log(${1|[],this|}$0);",
             "console.log('#'.repeat(5));",
             "process.exit();"
+
         ],
         "scope": "javascript,typescript",
         "prefix": "breakpoint-exit-syls",
-        "description": "Breakpoint-exit-syls - шаблон точки прерывания syls с выводом информации."
+        "description": "Шаблон точки прерывания syls с выводом информации."
+
     },
     //
     // Журнал изменений
     "changelog-syls": {
+
         "body": [
+
             "# ${1:Y${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/${1:/capitalize}/}}",
             "",
             "$0",
+
         ],
         "scope": "markdown",
         "prefix": "changelog-syls",
-        "description": "Changelog-syls - журнал изменений syls.",
+        "description": "Шаблон журнала изменений syls.",
         "isFileTemplate": true,
+
     },
     "changelog-fix-syls": {
+
         "body": [
+
             "### **Исправления**",
             "$0",
+
         ],
         "scope": "markdown",
         "prefix": "changelog-fix-syls",
-        "description": "Changelog-fix-syls - шаблон раздела для обновления журнала изменений syls."
+        "description": "Шаблон раздела для обновления журнала изменений syls."
+
     },
     "changelog-point-syls": {
+
         "body": [
+
             "- #### **$1**",
             "    $2",
             "$0"
+
         ],
         "scope": "markdown",
         "prefix": "changelog-point-syls",
-        "description": "Changelog-point-syls - пункт журнала изменений syls."
+        "description": "Шаблон пункта журнала изменений syls."
+
     },
     "changelog-update-syls": {
+
         "body": [
+
             "## **${1:0}.${2:0}.${3:0} - $CURRENT_DATE.$CURRENT_MONTH.$CURRENT_YEAR**",
             "$0",
             "***",
+
         ],
         "scope": "markdown",
         "prefix": "changelog-update-syls",
-        "description": "Changelog-update-syls - обновление журнала изменений syls."
+        "description": "Шаблон обновления журнала изменений syls."
+
     },
     "changelog-change-syls": {
+
         "body": [
+
             "### **Изменения**",
             "$0",
+
         ],
         "scope": "markdown",
         "prefix": "changelog-change-syls",
-        "description": "Changelog-change-syls - шаблон раздела для обновления журнала изменений syls."
+        "description": "Шаблон раздела для обновления журнала изменений syls."
+
     },
     //
     //

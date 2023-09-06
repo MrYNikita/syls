@@ -1,5 +1,12 @@
-import { configY } from "@syls/y";
 import { YConfig } from "@syls/y/config";
+import configY from "../../../../../-module/config.mjs";
+
+/** @type {configY} */
+const config = {
+    
+    
+    
+};
 
 /** ### configContext
  * 
@@ -8,35 +15,29 @@ import { YConfig } from "@syls/y/config";
  * ***
  * @public
 */
-export const configContext = new YConfig({
+export const configContext = new YConfig(Object.assign(config, {
     
-    /**
-     * ### id
-     * 
-     * Идентификатор.
-     * 
-     * *** 
-     * @type {null} 
-     * @public
-    */
-    idDefault: null,
     /**
      * ### handlersDefault
      * 
-     * Обработчики.
+     * ***
+     * 
+     * Дефолт обработчики.
      * 
      * *** 
-     * @type {import('../handler/class.mjs').YHandler[]} 
+     * @type {any[]}
      * @public
+     * @property
     */
     handlersDefault: [],
     
-}, configY);
+}), configY);
 
 export default configContext;
 
 /**
  * @file context/config.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */

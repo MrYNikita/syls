@@ -1,26 +1,12 @@
-import { cryptoGeneratePasswordBlock } from "@syls/crypto";
-import { YArg, argClassify } from "@syls/y/arg";
+import { YScheduler } from "@syls/y/scheduler";
 
-const args = new YArg({
+new YScheduler()
 
-    str1: 'str',
-    str2: 'ww',
-    num: 21,
-    bol: true,
+    .appendEvent(
 
-});
-
-args
-
-    .print()
-    .printProp(
-
-        ['values', 'string'],
-        ['values', 'number'],
+        ['clear', () => console.clear(), 10],
+        ['log', () => console.log('tact'), 1],
 
     )
-    .printExec(
-        
-        
-        
-    )
+    .on()
+    .do(self => setTimeout(() => self.on(1000), 3000))

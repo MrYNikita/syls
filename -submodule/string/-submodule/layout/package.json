@@ -31,7 +31,9 @@
     "keywords": [
         "y",
         "lib",
-        "syls"
+        "syls",
+        "string",
+        "layout"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",

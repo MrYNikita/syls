@@ -1,3 +1,4 @@
+import { YLayout } from "../-submodule/layout/-module/class.mjs";
 import { YConfig } from "@syls/y/config";
 import { configMany } from "@syls/y/many";
 
@@ -207,6 +208,19 @@ export const configString = new YConfig(Object.assign(config, {
      * @public
     */
     backgroundDefault: 'black',
+    /**
+     * ### layoutDefault
+     * 
+     * ***
+     * 
+     * Дефолт стилевая разметка.
+     * 
+     * *** 
+     * @type {YLayout}
+     * @public
+     * @property
+    */
+    layoutDefault: new YLayout(),
 
     /**
      * ### symbols

@@ -1,20 +1,6 @@
 //#region YI
 
-/** @type {import('./config.mjs')['default']['value']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default?.value ? c.default.value : c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(e => error = e.default)
-    .catch(e => e);
+import { configANSI as config } from './config.mjs';
 
 //#endregion
 //#region YT
@@ -70,7 +56,7 @@ function getColorDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
             
             throw e;
             
@@ -154,16 +140,16 @@ function getColorComply(t) {
 
     if (foreground || foreground === 0) {
 
-        foreground = [config.codeColorForeground + config.codeColor, foreground].join(config.delimiter);
+        foreground = [config.value.codeColorForeground + config.value.codeColor, foreground].join(config.value.delimiter);
 
     };
     if (background || background === 0) {
 
-        background = [config.codeColorBackground + config.codeColor, background].join(config.delimiter);
+        background = [config.value.codeColorBackground + config.value.codeColor, background].join(config.value.delimiter);
 
     };
 
-    return config.code + [foreground, background].filter(e => e).join(config.delimiter) + config.codeEnd;
+    return config.value.code + [foreground, background].filter(e => e).join(config.value.delimiter) + config.value.codeEnd;
     
 };
 
@@ -220,7 +206,7 @@ function getColorCodeDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
             
             throw e;
             
@@ -274,7 +260,7 @@ function getColorCodeComply(t) {
 
     } else {
 
-        const result = Object.entries(config.colors).find(c => c[0].match(new RegExp(color) || c[1] === color))[1];
+        const result = Object.entries(config.value.colors).find(c => c[0].match(new RegExp(color) || c[1] === color))[1];
 
         if (result === -1) {
 
@@ -344,7 +330,7 @@ function getColorResetDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
             
             throw e;
             
@@ -395,16 +381,16 @@ function getColorResetComply(t) {
     
     if (foreground) {
 
-        foreground = `${config.codeColorForeground}${config.codeColorReset}`;
+        foreground = `${config.value.codeColorForeground}${config.value.codeColorReset}`;
 
     };
     if (background) {
 
-        background = `${config.codeColorBackground}${config.codeColorReset}`;
+        background = `${config.value.codeColorBackground}${config.value.codeColorReset}`;
 
     };
     
-    return config.code + [foreground, background].filter(e => e).join(config.delimiter) + config.codeEnd;
+    return config.value.code + [foreground, background].filter(e => e).join(config.value.delimiter) + config.value.codeEnd;
     
 };
 
@@ -464,7 +450,7 @@ function clearDeceit(t) {
         
         console.log(e);
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
             
             throw e;
             
@@ -571,7 +557,7 @@ function setColorDeceit(t) {
         
         console.log(e);
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
             
             throw e;
             
@@ -689,7 +675,7 @@ function backspaceDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
             
             throw e;
             
@@ -737,7 +723,7 @@ function backspaceComply(t) {
     
     } = t;
 
-    process.stdout.write(config.codeBackspace.repeat(count));
+    process.stdout.write(config.value.codeBackspace.repeat(count));
 
     return true;
     
@@ -796,7 +782,7 @@ function resetColorDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
             
             throw e;
             
@@ -913,7 +899,7 @@ function setCursorToDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -965,7 +951,7 @@ function setCursorToComply(t) {
 
     } = t;
 
-    const result = `${config.code}${y};${x}${config.codePosition}`;
+    const result = `${config.value.code}${y};${x}${config.value.codePosition}`;
 
     if (result) {
 
@@ -1005,5 +991,6 @@ export function ansiSetCursorTo(y, x) {
 /**
  * @file ansi/module.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */

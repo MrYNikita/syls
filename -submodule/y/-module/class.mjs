@@ -55,7 +55,38 @@ class SY {
      * @public
     */
     static config = config;
+    /**
+     * ### modules
+     * 
+     * ***
+     * 
+     * Модули.
+     * 
+     * *** 
+     * @type {any[]}
+     * @field
+     * @static
+     * @private
+    */
+    static modules = [];
 
+    /**
+     * ### getY
+     * 
+     * ***
+     * 
+     * Метод получения базового класса.
+     * 
+     * ***
+     * @static
+     * @method
+     * @public
+    */
+    static getY() {
+
+        return Y;
+        
+    };
     /**
      * @arg {...Y} args `Аргументы`
      * @returns {Y[]}
@@ -64,7 +95,7 @@ class SY {
 
         const result = [];
 
-        for (const index in args) result[index] = new this(args[index]);
+        for (const index in args) result[index] = new this(args[index]);y
 
         return result;
 
@@ -194,26 +225,26 @@ export class Y extends FY {
      * Метод выполнения кода в контексте данного экземпляра.
      * 
      * ***
-     * @arg {(self: this, ...args) => void} code `Код`
+     * @arg {...((self: this, ...args) => void)} codes `Коды`
      * @since `1.0.0`
      * @method
      * @public
     */
-    do(code, ...args) {
+    do(...codes) {
 
         try {
 
-            if (typeof code !== 'function') {
+            for (const code of codes) {
 
-                return this;
-
+                if (typeof code !== 'function') continue;
+    
+                code(this);
+    
             };
-
-            code(this, ...args);
 
         } catch (error) {
 
-
+            console.error(error);
 
         };
 
@@ -228,8 +259,9 @@ export class Y extends FY {
      * Метод условной проверки.
      * 
      * ***
+     * @arg {...any} args `Аргументы`
+     * @arg {((self: this, ...args) => void)?} t `Истина`
      * @arg {((self: this, ...args) => void)?} f `Ложь`
-     * @arg {((self: this, ...args) => void)?} args `Истина`
      * @arg {(self: this, ...args) => boolean} cond `Условие`
      * @method
      * @public
@@ -244,7 +276,7 @@ export class Y extends FY {
 
         if (cond(this, ...args)) {
 
-            if (typeof args === 'function') t(this, ...args);
+            if (typeof t === 'function') t(this, ...args);
 
         } else {
 
@@ -633,6 +665,23 @@ export class Y extends FY {
     };
 
     /**
+     * ### getClass
+     * 
+     * ***
+     * 
+     * Метод получения класса экземпляра.
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof Y}
+    */
+    getClass() {
+
+        return Y;
+        
+    };
+    /**
      * ### getProperty
      * - Версия `0.0.0`
      * ***
@@ -666,3 +715,16 @@ export class Y extends FY {
     };
 
 };
+
+//#region YE
+
+Y.getY()['modules'].push(Y);
+
+//#endregion YE
+
+/**
+ * @file y/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/

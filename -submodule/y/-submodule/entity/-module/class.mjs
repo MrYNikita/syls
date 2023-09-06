@@ -1,41 +1,45 @@
 //#region YI
 
-import { yClassifyProp } from '@syls/y';
-import { configYE as config } from './config.mjs';
+import { Y } from '../../../-module/class.mjs';
+import { YArg } from '../../arg/-module/class.mjs';
+import { YContext } from '../-submodule/context/-module/class.mjs';
+import { configEntity as config } from './config.mjs';
+import { YHandler } from '../-submodule/handler/-module/class.mjs';
+import { YCond } from '../../cond/-module/class.mjs';
 
 //#endregion
 //#region YT
 
-/** ### YYET
+/** ### YEntityT
  * - Тип `T`
  * 
- * Основной параметр модуля `YYE`.
+ * Основной параметр модуля `YEntity`.
  * 
- * @typedef {YYETE&YYETU&Y} YYET
+ * @typedef {YEntityTE&YEntityTU&Y} YEntityT
  * 
 */
-/** ### YYETE
+/** ### YEntityTE
  * - Тип `TE`
  * 
- * Параметр наследования `YYE`.
+ * Параметр наследования `YEntity`.
  * 
- * @typedef {Omit<DYE, keyof SYE>} YYETE
+ * @typedef {Omit<DEntity, keyof SEntity>} YEntityTE
  * 
 */
-/** ### YYETU
+/** ### YEntityTU
  * - Тип `TU`
  * 
- * Уникальные параметры `YYE`.
+ * Уникальные параметры `YEntity`.
  * 
- * @typedef YYETU
+ * @typedef YEntityTU
  * @prop {any} _
  * 
 */
 
 //#endregion
 
-class SYE extends Y {
-    
+class SEntity extends Y {
+
     /**
      * ### stock
      * 
@@ -44,7 +48,7 @@ class SYE extends Y {
      * 
      * 
      * ***
-     * @type {YYE[]}
+     * @type {YEntity[]}
      * @field
      * @static
      * @public
@@ -61,505 +65,282 @@ class SYE extends Y {
      * @public
     */
     static config = config;
-    
+
     /**
-     * @arg {...YYE} args `Аргументы`
-     * @returns {YYE[]}
+     * @arg {...YEntity} args `Аргументы`
+     * @returns {YEntity[]}
     */
     static create(...args) {
-        
-        return Object.getPrototypeOf(SYE).create.apply(this, [...args]);
-        
+
+        return Object.getPrototypeOf(SEntity).create.apply(this, args);
+
     };
-    
+
 };
-class DYE extends SYE {
-    
-    
-    
+class DEntity extends SEntity {
+
+
+
 };
-class IYE extends DYE {
-    
-    
-    
-};
-class MYE extends IYE {
-    
-    
-    
-};
-class FYE extends MYE {
-    
+class IEntity extends DEntity {
+
     /**
-     * ### YYE.constructor
+     * ### _y
+     * 
+     * Контекст.
+     * 
+     * *** 
+     * @type {YContext<this>}
+     * @field
+     * @protected
+    */
+    _y;
+
+};
+class MEntity extends IEntity {
+
+
+
+};
+class FEntity extends MEntity {
+
+    /**
+     * ### YEntity.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YYET} t
+     * @arg {YEntityT} args
     */
-    constructor(t) {
-        
-        t = [...arguments];
-        
-        super(Object.assign(t = FYE.#before(t), {}));
-        
-        FYE.#deceit.apply(this, [t]);
-        
+    constructor(args) {
+
+        super(args = FEntity.#before(args = arguments));
+
+        FEntity.#deceit.apply(this, [args]);
+
         return this.correlate();
-        
+
     };
-    
-    /** @arg {any[]} t */
-    static #before(t) {
-        
-        /** @type {YYET} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YYE].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-            return r;
-            
-        } else if (!t.length) {
-            
-            return r;
-            
-        };
-        
-        if (t[0]?._ytp) {
-        
-            t = [...t[0]._ytp];
-        
-        };
-        
-        const arg = yClassifyProp(t);
-        
-        
-        
-        if (!Object.values(r).length) {
-            
-            r = { _ytp: t, };
-            
-        };
-        
-        return r;
-        
+
+    /** @arg {DEntity} args */
+    static #before(args) {
+
+        /** @type {YArg<IEntity>} */
+        const yarg = args instanceof YArg ? args : new YArg(args);
+
+
+
+        return yarg;
+
     };
-    /** @arg {YYET} t @this {YYE} */
-    static #deceit(t) {
-        
+    /** @arg {YArg<IEntity>} args @this {YEntity} */
+    static #deceit(args) {
+
         try {
-            
-            FYE.#verify.apply(this, [t = { ...t }]);
-            
+
+            FEntity.#verify.apply(this, arguments);
+
         } catch (e) {
-            
+
             if (config?.strictMode) {
-                
+
                 throw e;
-                
+
             };
-            
-            return new YYE();
-            
+
+            return new YEntity();
+
         } finally {
-            
-            
-            
+
+
+
         };
-        
+
     };
-    /** @arg {YYET} t @this {YYE} */
-    static #verify(t) {
-        
+    /** @arg {YArg<IEntity>} args @this {YEntity} */
+    static #verify(args) {
+
         const {
-            
-            
-            
-        } = t;
-        
-        FYE.#handle.apply(this, [t]);
-        
+
+
+
+        } = args;
+
+        FEntity.#handle.apply(this, arguments);
+
     };
-    /** @arg {YYET} t @this {YYE} */
-    static #handle(t) {
-        
-        
-        
-        FYE.#create.apply(this, [t]);
-        
+    /** @arg {YArg<IEntity>} args @this {YEntity} */
+    static #handle(args) {
+
+
+
+        FEntity.#create.apply(this, arguments);
+
     };
-    /** @arg {YYET} t @this {YYE} */
-    static #create(t) {
-        
+    /** @arg {YArg<IEntity>} args @this {YEntity} */
+    static #create(args) {
+
         const {
-            
-            
-            
-        } = t;
-        
+
+
+
+        } = args;
+
         this
-            .adopt(t)
-            .adoptDefault(this.constructor.config ?? config);
-        
+
+            .adopt(args.getData());
+
     };
-    
+
 };
 
 /**
- * ### YYE
+ * ### YEntity
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `1.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
- * Класс `YYE`.
+ * Класс `YEntity`.
  * 
  * ***
  * @class
  * 
 */
-export class YE extends FYE {
-    
-    
-    
+export class YEntity extends FEntity {
+
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YEntity}
+    */
+    getClass() {
+
+        return YEntity;
+
+    };
+    /**
+     * ### getHandler
+     * 
+     * ***
+     * 
+     * Метод получения обработчика по метке.
+     * 
+     * ***
+     * @arg {string} label `Метка`
+     * @method
+     * @public
+    */
+    getHandler(label) {
+
+        for (const handler of this._y.handlers) {
+
+            if (handler.label === label) return handler;
+
+        }
+
+        return null;
+
+    };
+
+    /**
+     * ### handle
+     * 
+     * ***
+     * 
+     * Метод обработки событий.
+     * 
+     * ***
+     * @arg {...string} labels `Метки` 
+     * @method
+     * @public
+    */
+    handle(...labels) {
+
+        for (const label of labels) {
+
+            const handler = this.getHandler(label);
+
+            if (handler) {
+
+                handler.handle(this);
+
+                if (!handler.procedures.length) {
+
+                    this._y.handlers.splice(this._y.handlers.indexOf(handler), 1);
+
+                };
+
+            };
+
+        };
+
+        return this;
+
+    };
+
+    /**
+     * ### appendHandler
+     * 
+     * ***
+     * 
+     * Метод добавления обработчиков.
+     * 
+     * ***
+     * @arg {(self:this)=>void} func `Функция`
+     * @arg {string} label `Метка`
+     * @arg {string} procLabel `Метка процедуры`
+     * @arg {boolean} disposable `Одноразовость`
+     * @method
+     * @public
+    */
+    appendHandler(label, procLabel, func, disposable) {
+
+        const values = YCond.isString(arguments[0]) ? [[label, [procLabel, func, disposable]]] : arguments;
+
+        for (const value of values) {
+
+            label = value[0];
+
+            const procedures = value.slice(1);
+            const handler = this.getHandler(label);
+
+            if (handler) {
+
+                handler.append(...procedures);
+
+            } else {
+
+                this._y.handlers.push(new YHandler(label, disposable).append(...procedures));
+
+            };
+
+        };
+
+        return this;
+
+    };
+
 };
 
-// //#region YI
+//#region YE
 
-// import { Y, yClassifyProp } from '@syls/y';
-// import { YContext } from '../-submodule/context/-module/export.mjs';
-// import { YHandler } from '../-submodule/handler/-module/class.mjs';
+YEntity.getY()['modules'].push(YEntity);
 
-// /** @type {import('./config.mjs')['default']['value']?} */
-// let config = null;
+//#endregion YE
 
-// await import('./config.mjs')
-
-//     .then(c => config = c.default?.value ? c.default.value : c.default)
-//     .catch(e => e);
-
-// /** @type {import('./error.mjs')['default']?} */
-// let error = null;
-
-// await import('./error.mjs')
-
-//     .then(e => error = e.default)
-//     .catch(e => e);
-
-// //#endregion
-// //#region YT
-
-// /** ### YEntityT
-//  * - Тип `T`
-//  * 
-//  * Основной параметр модуля `YEntity`.
-//  * 
-//  * @typedef {YEntityTE&YEntityTU&Y} YEntityT
-//  * 
-// */
-// /** ### YEntityTE
-//  * - Тип `TE`
-//  * 
-//  * Параметр наследования `YEntity`.
-//  * 
-//  * @typedef {Omit<DEntity, keyof SEntity>} YEntityTE
-//  * 
-// */
-// /** ### YEntityTU
-//  * - Тип `TU`
-//  * 
-//  * Уникальные параметры `YEntity`.
-//  * 
-//  * @typedef YEntityTU
-//  * @prop {any} _
-//  * 
-// */
-
-// //#endregion
-
-// class SEntity extends Y {
-
-//     /** ### stock
-//      * @type {YEntity[]}
-//      * @public
-//     */
-//     static stock = [];
-//     /** ### config
-//      * 
-//      * ***
-//      * @public
-//     */
-//     static config = config;
-
-//     /**
-//      * @arg {...YEntity} args `Аргументы`
-//      * @returns {YEntity[]}
-//     */
-//     static create(...args) {
-
-//         return Object.getPrototypeOf(SEntity).create.apply(this, [...args]);
-
-//     };
-
-// };
-// class DEntity extends SEntity {
-
-
-
-// };
-// class IEntity extends DEntity {
-
-//     /**
-//      * ### _y
-//      *
-//      * Контекст.
-//      *
-//      * ***
-//      * @type {YContext?}
-//      * @protected
-//     */
-//     _y = new YContext();
-
-// };
-// class MEntity extends IEntity {
-
-//     /**
-//      * ### findHandle
-//      * 
-//      * ***
-//      *
-//      * Метод получения обработчика по его метке.
-//      *
-//      * ***
-//      * @arg {string} label `Метка`
-//      * @public
-//      * @method
-//      * @returns {YHandler?}
-//     */
-//     findHandle(label) {
-
-//         const handler = this._y.handlers.find(h => h.label === label);
-
-//         return handler ?? null;
-
-//     };
-
-// };
-// class FEntity extends MEntity {
-
-//     /**
-//      * ### YEntity.constructor
-//      * 
-//      * 
-//      * 
-//      * ***
-//      * @arg {YEntityT} t
-//     */
-//     constructor(t) {
-
-//         t = [...arguments];
-
-//         super(Object.assign(t = FEntity.#before(t), {}));
-
-//         FEntity.#deceit.apply(this, [t]);
-
-//         return this.correlate();
-
-//     };
-
-//     /** @arg {any[]} t */
-//     static #before(t) {
-
-//         /** @type {YEntityT} */
-//         let r = {};
-
-//         if (t?.length === 1 && [Object, YEntity].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-//             r = t[0];
-
-//         } else if (!t.length) {
-
-//             return r;
-
-//         };
-
-//         if (t[0]?._ytp) {
-
-//             t = [...t[0]._ytp];
-
-//         };
-
-//         const arg = yClassifyProp(t);
-
-
-
-//         if (!Object.values(r).length) {
-
-//             r = { _ytp: t, };
-
-//         };
-
-//         return r;
-
-//     };
-//     /** @arg {YEntityT} t @this {YEntity} */
-//     static #deceit(t) {
-
-//         try {
-
-//             FEntity.#verify.apply(this, [t]);
-
-//         } catch (e) {
-
-//             throw e;
-
-//         } finally {
-
-
-
-//         };
-
-//     };
-//     /** @arg {YEntityT} t @this {YEntity} */
-//     static #verify(t) {
-
-//         const {
-
-
-
-//         } = t;
-
-//         FEntity.#handle.apply(this, [t]);
-
-//     };
-//     /** @arg {YEntityT} t @this {YEntity} */
-//     static #handle(t) {
-
-
-
-//         FEntity.#create.apply(this, [t]);
-
-//     };
-//     /** @arg {YEntityT} t @this {YEntity} */
-//     static #create(t) {
-
-//         const {
-
-
-
-//         } = t;
-
-//         this.adopt(t);
-
-//         if (config) {
-
-//             this.adoptDefault(this.constructor.config ?? config);
-
-//         };
-
-//     };
-
-// };
-
-// /**
-//  * ### YEntity
-//  * - Тип `SDIMFY`
-//  * - Версия `0.0.0`
-//  * - Цепочка `BDVHC`
-//  * ***
-//  * 
-//  * Класс YEntity.
-//  * 
-//  * ***
-//  * @class
-//  * 
-// */
-// export class YEntity extends FEntity {
-
-//     /**
-//      * ### handle
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод обработки событий.
-//      * 
-//      * ***
-//      * @arg {...string} labels `Метки`
-//      * @public
-//     */
-//     handle(...labels) {
-
-//         for (const label of labels) {
-
-//             const handler = this.findHandle(label);
-
-//             if (handler) {
-
-//                 handler.exec(this);
-
-//                 handler.procedures = handler.procedures.filter(p => !p.disposable);
-
-//             };
-
-//         };
-
-//         return this;
-
-//     };
-
-//     /**
-//      * ### appendHandler
-//      * - Версия `0.0.0`
-//      * ***
-//      *
-//      * Метод добавления обработчиков.
-//      *
-//      * ***
-//      * @arg {...[string, [string, function(YEntity):void]]} handlers `Обработчики`
-//      * @public
-//     */
-//     appendHandlers(...handlers) {
-
-//         try {
-
-//             handlers.forEach(handle => {
-
-//                 const label = handle[0];
-//                 const procedures = handle.slice(1);
-//                 const find = this.findHandle(label);
-
-//                 if (find) {
-
-//                     find.appendProcedures(...procedures);
-
-//                 } else {
-
-//                     handle = new YHandler(label).appendProcedures(...procedures);
-
-//                     this._y.handlers.push(handle);
-
-//                 };
-
-//             });
-
-//         } catch (e) {
-
-//             throw new Error(e);
-
-//         };
-
-//         return this;
-
-//     };
-
-// };
-
-// /**
-//  * @file entity/class.mjs
-//  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
-//  * @license Apache-2.0
-//  * @copyright SYLS (Software Y Lib Solutions) 2023
-// */
+/**
+ * @file entity/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/

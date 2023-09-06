@@ -34,6 +34,10 @@
             "types": "./-submodule/tag/-module/type.d.ts",
             "import": "./-submodule/tag/-module/export.mjs"
         },
+        "./date": {
+            "types": "./-submodule/date/-module/type.d.ts",
+            "import": "./-submodule/date/-module/export.mjs"
+        },
         "./many": {
             "types": "./-submodule/many/-module/type.d.ts",
             "import": "./-submodule/many/-module/export.mjs"
@@ -61,6 +65,14 @@
         "./config": {
             "types": "./-submodule/config/-module/type.d.ts",
             "import": "./-submodule/config/-module/export.mjs"
+        },
+        "./entity": {
+            "types": "./-submodule/entity/-module/type.d.ts",
+            "import": "./-submodule/entity/-module/export.mjs"
+        },
+        "./scheduler": {
+            "types": "./-submodule/scheduler/-module/type.d.ts",
+            "import": "./-submodule/scheduler/-module/export.mjs"
         }
     },
     "scripts": {

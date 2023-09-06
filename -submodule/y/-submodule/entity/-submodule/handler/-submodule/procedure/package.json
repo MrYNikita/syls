@@ -31,7 +31,10 @@
     "keywords": [
         "y",
         "lib",
-        "syls"
+        "syls",
+        "entity",
+        "handler",
+        "procedure"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",

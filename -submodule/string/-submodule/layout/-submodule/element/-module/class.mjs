@@ -1,7 +1,8 @@
 //#region YI
 
 import { Y } from '@syls/y';
-import { YANSI } from '../../../../ansi/-module/export.mjs';
+import { YArg } from '@syls/y/arg';
+import { YANSI } from '../../../../ansi/-module/class.mjs';
 import { configElement as config } from './config.mjs';
 
 //#endregion
@@ -12,7 +13,7 @@ import { configElement as config } from './config.mjs';
  * 
  * Основной параметр модуля `YElement`.
  * 
- * @typedef {YElementTE&YElementTU} YElementT
+ * @typedef {YElementTE&YElementTU&Y} YElementT
  * 
 */
 /** ### YElementTE
@@ -20,7 +21,7 @@ import { configElement as config } from './config.mjs';
  * 
  * Параметр наследования `YElement`.
  * 
- * @typedef {{[p in Exclude<keyof DElement,keyof SElement>|Exclude<keyof SElement,keyof DElement>]:(DElement[p]&SElement[p])}} YElementTE
+ * @typedef {Omit<DElement, keyof SElement>} YElementTE
  * 
 */
 /** ### YElementTU
@@ -38,14 +39,40 @@ import { configElement as config } from './config.mjs';
 class SElement extends Y {
     
     /**
-     * ### config
-     * 
-     * Конфигуратор.
+     * ### stock
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YElement[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
      * @public
     */
     static config = config;
+    
+    /**
+     * @arg {...YElement} args `Аргументы`
+     * @returns {YElement[]}
+    */
+    static create(...args) {
+        
+        return Object.getPrototypeOf(SElement).create.apply(this, args);
+        
+    };
     
 };
 class DElement extends SElement {
@@ -53,34 +80,37 @@ class DElement extends SElement {
     /**
      * ### ansi
      * 
-     * Ansi.
+     * ANSI вставка.
      * 
      * *** 
-     * @type {YANSI?} 
+     * @type {YANSI}
+     * @field
      * @public
     */
-    ansi = null;
+    ansi;
     /**
      * ### flow
      * 
      * Поточность.
      * 
      * *** 
-     * @type {boolean} 
+     * @type {boolean}
+     * @field
      * @public
     */
-    flow = false;
+    flow;
     /**
      * ### value
      * 
      * Значение.
      * 
      * *** 
-     * @type {string} 
+     * @type {string}
+     * @field
      * @public
     */
-    value = '';
-    
+    value;
+
 };
 class IElement extends DElement {
     
@@ -100,68 +130,53 @@ class FElement extends MElement {
      * 
      * 
      * ***
-     * @arg {YElementT} t
+     * @arg {YElementT} args
     */
-    constructor(t) {
+    constructor(args) {
         
-        t = [...arguments];
+        super(args = FElement.#before(args = arguments));
         
-        super(Object.assign(t = FElement.#before(t), {}));
-        
-        FElement.#deceit.apply(this, [t]);
+        FElement.#deceit.apply(this, [args]);
         
         return this.correlate();
         
     };
     
-    /** @arg {any[]} t */
-    static #before(t) {
+    /** @arg {DElement} args */
+    static #before(args) {
         
-        /** @type {YElementT} */
-        let r = {};
+        /** @type {YArg<IElement>} */
+        const yarg = args instanceof YArg ? args : new YArg(args);
         
-        if (t?.length === 1 && [Object, YElement].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (t?.length) {
-            
-            if (t[0]?._ytp) {
-            
-                t = [...t[0]._ytp];
-            
-            };
-            
-            switch (t.length) {
-                
-                default:
-                case 3: 
-                case 2: r.ansi = t[1];
-                case 1: r.value = t[0];
-                
-            };
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
-            
-        };
+        yarg
         
-        return r;
+            .set(
+
+                ['ansi', 'ject'],
+                ['flow', 'bool'],
+                ['value', 'string'],
+
+            )
+        
+        return yarg;
         
     };
-    /** @arg {YElementT} t @this {YElement} */
-    static #deceit(t) {
+    /** @arg {YArg<IElement>} args @this {YElement} */
+    static #deceit(args) {
         
         try {
             
-            FElement.#verify.apply(this, [t]);
+            FElement.#verify.apply(this, arguments);
             
         } catch (e) {
             
-            throw e;
+            if (config?.strictMode) {
+                
+                throw e;
+                
+            };
+            
+            return new YElement();
             
         } finally {
             
@@ -170,46 +185,38 @@ class FElement extends MElement {
         };
         
     };
-    /** @arg {YElementT} t @this {YElement} */
-    static #verify(t) {
+    /** @arg {YArg<IElement>} args @this {YElement} */
+    static #verify(args) {
         
         const {
             
             
             
-        } = t;
+        } = args;
         
-        FElement.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YElementT} t @this {YElement} */
-    static #handle(t) {
-        
-        if (!(t.ansi instanceof YANSI)) {
-
-            t.ansi = new YANSI(t.ansi);
-
-        };
-        
-        FElement.#create.apply(this, [t]);
+        FElement.#handle.apply(this, arguments);
         
     };
-    /** @arg {YElementT} t @this {YElement} */
-    static #create(t) {
+    /** @arg {YArg<IElement>} args @this {YElement} */
+    static #handle(args) {
+        
+        
+        
+        FElement.#create.apply(this, arguments);
+        
+    };
+    /** @arg {YArg<IElement>} args @this {YElement} */
+    static #create(args) {
         
         const {
             
             
             
-        } = t;
+        } = args;
         
-        this.adopt(t);
+        this
         
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
+            .adopt(args.getData());
         
     };
     
@@ -218,16 +225,36 @@ class FElement extends MElement {
 /**
  * ### YElement
  * - Тип `SDIMFY`
+ * - Версия `0.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
- * 
+ * Класс `YElement`.
  * 
  * ***
+ * @class
  * 
 */
 export class YElement extends FElement {
     
-    
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YElement}
+    */
+    getClass() {
+        
+        return YElement;
+        
+    };
     
 };

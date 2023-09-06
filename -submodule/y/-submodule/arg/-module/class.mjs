@@ -1,9 +1,8 @@
 //#region YI
 
-import { Y, yClassifyProp } from '@syls/y';
+import { Y, yClassifyProp, } from "@syls/y";
 import { configArg as config } from './config.mjs';
-import { argClassify } from './module.mjs';
-import { condIsNumber } from '../../cond/-module/module.mjs';
+import { argClassify } from "./module.mjs";
 
 //#endregion
 //#region YT
@@ -13,8 +12,9 @@ import { condIsNumber } from '../../cond/-module/module.mjs';
  * 
  * Основной параметр модуля `YArg`.
  * 
- * @typedef {YArgTE&YArgTU&Y} YArgT
+ * ***
  * 
+ * @typedef {YArgTE&YArgTU} YArgT
 */
 /** ### YArgTE
  * - Тип `TE`
@@ -22,7 +22,6 @@ import { condIsNumber } from '../../cond/-module/module.mjs';
  * Параметр наследования `YArg`.
  * 
  * @typedef {Omit<DArg, keyof SArg>} YArgTE
- * 
 */
 /** ### YArgTU
  * - Тип `TU`
@@ -30,14 +29,38 @@ import { condIsNumber } from '../../cond/-module/module.mjs';
  * Уникальные параметры `YArg`.
  * 
  * @typedef YArgTU
- * @prop {any} _
+ * @prop {} _
+*/
+/** ### YArgTUG
+ * - Тип `TUP`
+ * 
+ * Уникальные генеративные параметры `YArg`.
+ * 
+ * @typedef YArgTUG
+ * @prop {null} _
+*/
+
+/** ### argTIArgs
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * @typedef {import("./module.mjs").argTArgs} argTIArgs
  * 
 */
 
 //#endregion
 
+/**
+ * @template Y1
+*/
 class SArg extends Y {
-
+    
     /**
      * ### stock
      * 
@@ -63,134 +86,163 @@ class SArg extends Y {
      * @public
     */
     static config = config;
-
+    
     /**
      * @arg {...YArg} args `Аргументы`
      * @returns {YArg[]}
     */
     static create(...args) {
-
+        
         return Object.getPrototypeOf(SArg).create.apply(this, [...args]);
-
+        
     };
-
+    
 };
+/**
+ * @extends SArg<Y1>
+ * @template Y1
+*/
 class DArg extends SArg {
-
+    
     /**
-     * ### values
+     * ### used
      * 
-     * Значения.
+     * Используемые аргументы.
      * 
      * *** 
-     * @type {any[][]}
+     * @type {Y1}
      * @field
      * @public
     */
-    values;
-
+    dataUsed = {};
+    /**
+     * ### free
+     * 
+     * Свободные аргументы.
+     * 
+     * *** 
+     * @type {import("../../../-module/module.mjs").yTArgs}
+     * @field
+     * @public
+    */
+    dataFree;
+    
 };
+/**
+ * @extends DArg<Y1>
+ * @template Y1
+*/
 class IArg extends DArg {
+    
 
-
-
+    
 };
+/**
+ * @extends IArg<Y1>
+ * @template Y1
+*/
 class MArg extends IArg {
-
-
-
+    
+    
+    
 };
+/**
+ * @extends MArg<Y1>
+ * @template Y1
+*/
 class FArg extends MArg {
-
+    
     /**
      * ### YArg.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YArgT} args
+     * @arg {YArgT&G} args
     */
     constructor(args) {
-
+        
         super(args = FArg.#before(args = arguments));
-
+        
         FArg.#deceit.apply(this, [args]);
-
-        return this.correlate();
-
+        
     };
-
+    
     /** @arg {DArg} args */
     static #before(args) {
+        
+        return {
 
-        const order = argClassify(...args);
-
-        return args = {
-
-            values: order,
+            dataFree: argClassify(...args),
 
         };
-
+        
     };
     /** @arg {YArgT} args @this {YArg} */
     static #deceit(args) {
-
+        
         try {
-
+            
             FArg.#verify.apply(this, [args = { ...args }]);
-
+            
         } catch (e) {
-
+            
             if (config?.strictMode) {
-
+                
                 throw e;
-
+                
             };
-
+            
             return new YArg();
-
+            
         } finally {
-
-
-
+            
+            
+            
         };
-
+        
     };
     /** @arg {YArgT} args @this {YArg} */
     static #verify(args) {
-
+        
+        const {
+            
+            
+            
+        } = args;
+        
         FArg.#handle.apply(this, arguments);
-
+        
     };
     /** @arg {YArgT} args @this {YArg} */
     static #handle(args) {
-
-
-
+        
+        
+        
         FArg.#create.apply(this, arguments);
-
+        
     };
     /** @arg {YArgT} args @this {YArg} */
     static #create(args) {
-
+        
         const {
-
-
-
+            
+            
+            
         } = args;
-
+        
         this
-
-            .adopt(args, config);
-
+        
+            .adopt(args);
+        
     };
-
+    
 };
 
 /**
  * ### YArg
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `1.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -198,9 +250,81 @@ class FArg extends MArg {
  * 
  * ***
  * @class
+ * @template Y1
+ * @extends FArg<YArgTUG&Y1>
  * 
 */
 export class YArg extends FArg {
+    
+    /** @arg {Y1} args */
+    constructor(args) { super(...arguments); };
+    
+    /**
+     * ### set
+     * 
+     * ***
+     * 
+     * Метод утсановки значений.
+     * 
+     * ***
+     * @arg {...[keyof Y1, keyof argTIArgs]} values `Значения`
+     * @method
+     * @public
+    */
+    set(...values) {
+        
+        for (const value of values) {
+
+            for (const type of value.slice(1)) {
+
+                if (!(type in this.dataFree && this.dataFree[type].length)) continue;
+
+                this.dataUsed[value[0]] = this.extract(type);
+                break;
+
+            };
+
+        };
+
+        return this;
+        
+    };
+
+    /**
+     * ### getData
+     * 
+     * ***
+     * 
+     * Метод получения используемых данных.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    getData() {
+        
+        return this.dataUsed;
+        
+    };
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YArg}
+    */
+    getClass() {
+        
+        return YArg;
+        
+    };
 
     /**
      * ### extract
@@ -216,14 +340,14 @@ export class YArg extends FArg {
      * @arg {number} index `Индекс`
      * @method
      * @public
-     * @returns { import('@syls/y').yTPropClassify[section][0] }
-     * @template { keyof import('@syls/y').yTPropClassify } Y1
+     * @returns { argTIArgs[section][0] }
+     * @template { argTIArgs } Y1
     */
-    extract(section, index) {
+    extract(section, index = 0) {
 
-        if (this.values[section]?.length) {
+        if (this.dataFree[section]?.length) {
 
-            return this.values[section].splice(index, 1)[0][1];
+            return this.dataFree[section].splice(index, 1)[0][1];
 
         };
 
@@ -242,8 +366,8 @@ export class YArg extends FArg {
      * @arg {...number} indexs `Индексы`
      * @method
      * @public
-     * @returns { import('@syls/y').yTPropClassify[section][0][] }
-     * @template { keyof import('@syls/y').yTPropClassify } Y1
+     * @returns { argTIArgs[section][0][] }
+     * @template { keyof argTIArgs } Y1
     */
     extractMany(section, ...indexs) {
         
@@ -276,8 +400,8 @@ export class YArg extends FArg {
      * @arg {string} property `Свойство`
      * @method
      * @public
-     * @returns { import('@syls/y').yTPropClassify[section][0] }
-     * @template { keyof import('@syls/y').yTPropClassify } Y1
+     * @returns { argTIArgs[section][0] }
+     * @template { keyof argTIArgs } Y1
     */
     extractByProperty(section, property) {
         
@@ -347,5 +471,18 @@ export class YArg extends FArg {
         return result;
 
     };
-
+    
 };
+
+//#region YE
+
+YArg.getY()['modules'].push(YArg);
+
+//#endregion YE
+
+/**
+ * @file arg/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/

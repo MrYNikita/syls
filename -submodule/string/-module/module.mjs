@@ -3,7 +3,7 @@
 import { configString as config } from './config.mjs';
 import { funcBypass } from '@syls/func';
 import { yClassifyProp, yGetProperty } from '@syls/y';
-import { dateGetMesuares } from '@syls/date';
+import { dateGetMesuares } from '@syls/y/date';
 import { condIsNumberLimit, condIsString } from '@syls/y/cond';
 import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
 
@@ -132,7 +132,7 @@ import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
  * 
  * ***
  * 
- * @typedef {Omit<config['value']['symbols'], 'table'>} stringTTsymbolFilter
+ * @typedef {Omit<config.value['value']['symbols'], 'table'>} stringTTsymbolFilter
  * @typedef {{[K in keyof stringTTsymbolFilter]: keyof stringTTsymbolFilter[K]}[keyof stringTTsymbolFilter]} stringTTSymbol
  * 
 */
@@ -187,7 +187,7 @@ function toWordsFromNumberDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -491,7 +491,7 @@ function setRowDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -608,7 +608,7 @@ function getDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -734,7 +734,7 @@ function getRowDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -850,7 +850,7 @@ function getRowsDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -951,7 +951,7 @@ function getIndexDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1076,7 +1076,7 @@ function getMatrixDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1176,7 +1176,7 @@ function getSymbolDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1274,7 +1274,7 @@ function getDimensionDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1380,7 +1380,7 @@ function padDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1511,7 +1511,7 @@ function padRowDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1588,7 +1588,7 @@ function padRowComply(t) {
  * @arg {string} string `Строка`
  * @arg {number} limit `Лимит`
 */
-export function stringPadRow(string, limit, pad = config.rowEnd) {
+export function stringPadRow(string, limit, pad = config.value.rowEnd) {
 
     return padRowDeceit({ string, limit, pad, });
 
@@ -1628,7 +1628,7 @@ function padColumnDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1747,7 +1747,7 @@ function padToPositionDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1832,7 +1832,7 @@ function padToPositionComply(t) {
  * @since `1.0.0`
  * @function
 */
-export function stringPadToPosition(string, row, col, space = config.space, rowEnd = config.rowEnd) {
+export function stringPadToPosition(string, row, col, space = config.value.space, rowEnd = config.value.rowEnd) {
 
     return padToPositionDeceit({ string, row, col, space, rowEnd, });
 
@@ -1874,7 +1874,7 @@ function skipDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -1996,7 +1996,7 @@ function trimDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -2120,7 +2120,7 @@ function trimRowDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -2240,7 +2240,7 @@ function markInsertDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -2366,7 +2366,7 @@ function splitDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -2486,7 +2486,7 @@ function splitByCountDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -2593,7 +2593,7 @@ function unifyDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -2738,7 +2738,7 @@ function pasteDeceit(t) {
 
     } catch (e) {
 
-        if (config.strict) throw e;
+        if (config.value.strict) throw e;
 
         return undefined;
 
@@ -2777,7 +2777,7 @@ function pasteHandle(t) {
 
     if (t.modeSkip) {
 
-        t.paste = stringSkip(t.string.slice(t.index, (t.length + t.index) ?? undefined), t.paste, config.skipValue).slice(0, t.length ?? t.paste.length);
+        t.paste = stringSkip(t.string.slice(t.index, (t.length + t.index) ?? undefined), t.paste, config.value.skipValue).slice(0, t.length ?? t.paste.length);
 
     };
 
@@ -2848,7 +2848,7 @@ function pasteComply(t) {
  * @version `1.0.0`
  * @function
 */
-export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.modeSkip) {
+export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.value.modeSkip) {
 
     return pasteDeceit({ string, paste, index, length, modeSkip, });
 
@@ -2889,7 +2889,7 @@ function pasteWrapDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -3012,7 +3012,7 @@ function pasteSymbolDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -3061,7 +3061,7 @@ function pasteSymbolComply(t) {
 
     } = t;
 
-    const symbol = config.getProperty(t.symbol);
+    const symbol = config.value.getProperty(t.symbol);
 
     if (symbol) {
 
@@ -3125,7 +3125,7 @@ function pasteByPositionDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -3231,7 +3231,7 @@ function appendDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -3356,7 +3356,7 @@ function recodeDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -3488,7 +3488,7 @@ function removeDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -3689,7 +3689,7 @@ function filterDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -3813,7 +3813,7 @@ function shieldDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -3974,7 +3974,7 @@ function replaceManyDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4097,7 +4097,7 @@ function insertDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4137,7 +4137,7 @@ function insertHandle(t) {
 
         if (condIsString(e)) {
 
-            a[i] = stringSplit(e, config.insertSpliter, 1);
+            a[i] = stringSplit(e, config.value.insertSpliter, 1);
 
         };
 
@@ -4249,7 +4249,7 @@ function insertBypassDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4372,7 +4372,7 @@ function matchDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4475,7 +4475,7 @@ function matchManyDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4602,7 +4602,7 @@ function matchCountDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4703,7 +4703,7 @@ function matchCountEqualsDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4823,7 +4823,7 @@ function formatUrlDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4926,7 +4926,7 @@ function formatDateDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -4981,7 +4981,7 @@ function formatDateComply(t) {
 
     mesuares[mesuares.length - 1] = mesuares.at(-1).padStart(4, 0);
 
-    let result = funcBypass(config.templatesDate[local ?? 'ru'],
+    let result = funcBypass(config.value.templatesDate[local ?? 'ru'],
 
         [stringInsert, 'ss', mesuares[5]],
         [stringInsert, 'mm', mesuares[4]],
@@ -5064,7 +5064,7 @@ function formatPhoneDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -5100,7 +5100,7 @@ function formatPhoneHandle(t) {
 
     } = t;
 
-    t.string = stringPad(t.string, '0', config.templatesPhone[t.local ?? 'ru'].length);
+    t.string = stringPad(t.string, '0', config.value.templatesPhone[t.local ?? 'ru'].length);
 
     return formatPhoneComply(t);
 
@@ -5115,7 +5115,7 @@ function formatPhoneComply(t) {
 
     } = t;
 
-    let result = stringInsertBypass(config.templatesPhone[local ?? 'ru'], '.', ...string.split('').filter(symbol => symbol.match(/\d/)));
+    let result = stringInsertBypass(config.value.templatesPhone[local ?? 'ru'], '.', ...string.split('').filter(symbol => symbol.match(/\d/)));
 
     return result;
 
@@ -5176,7 +5176,7 @@ function formatNumberDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -5234,7 +5234,7 @@ function formatNumberComply(t) {
 
             [stringReverse],
             [stringSplitByCount, 3],
-            [arrayJoin, spliterDischarge === true ? config.spliterDischarge : spliterDischarge],
+            [arrayJoin, spliterDischarge === true ? config.value.spliterDischarge : spliterDischarge],
             [stringReverse]
 
         ));
@@ -5242,7 +5242,7 @@ function formatNumberComply(t) {
     };
     if (spliterPart) {
 
-        parts = parts.join(spliterPart === true ? config.spliterPart : spliterPart);
+        parts = parts.join(spliterPart === true ? config.value.spliterPart : spliterPart);
 
     };
 
@@ -5269,7 +5269,7 @@ function formatNumberComply(t) {
  * @arg {boolean|string} spliterPart `Разделитель частей`
  * @arg {boolean|string} spliterDischarge `Разделитель велечин`
 */
-export function stringFormatNumber(number, spliterPart = config.spliterPart, spliterDischarge = config.spliterDischarge) {
+export function stringFormatNumber(number, spliterPart = config.value.spliterPart, spliterDischarge = config.value.spliterDischarge) {
 
     return formatNumberDeceit({ number, spliterPart, spliterDischarge, });
 
@@ -5309,7 +5309,7 @@ function formatSampleDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -5417,7 +5417,7 @@ function formatReportDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -5532,7 +5532,7 @@ function reverseDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -5644,7 +5644,7 @@ function reflectDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -5770,7 +5770,7 @@ function mesuareDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -5898,7 +5898,7 @@ function truncateDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -6043,7 +6043,7 @@ function correlateDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 
@@ -6095,7 +6095,7 @@ function correlateComply(t) {
 
     for (const match of Array.from(result.matchAll(/_(\p{L}+)/gmsu))) {
 
-        let value = yGetProperty(config.symbols, match[1]);
+        let value = yGetProperty(config.value.symbols, match[1]);
 
         if (value) {
 
@@ -6103,7 +6103,7 @@ function correlateComply(t) {
 
         } else {
 
-            for (const section of Object.values(config.symbols)) {
+            for (const section of Object.values(config.value.symbols)) {
 
                 for (const key of Object.keys(section)) {
 
@@ -6178,7 +6178,7 @@ function substringDeceit(t) {
 
     } catch (e) {
 
-        if (config.strict) throw e;
+        if (config.value.strict) throw e;
 
         return undefined;
 
@@ -6355,7 +6355,7 @@ function capitalizeDeceit(t) {
 
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config.value?.strictMode) {
 
             throw e;
 

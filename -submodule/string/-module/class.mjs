@@ -1,13 +1,13 @@
 //#region YI
 
-import { YStat } from '../-submodule/stat/-module/class.mjs';
+import { YArg } from '@syls/y/arg';
 import { YMany } from '@syls/y/many';
-import { YANSI } from '../-submodule/ansi/-module/export.mjs';
-import { YLayout } from '../-submodule/layout/-module/class.mjs';
-import { yClassifyProp } from '@syls/y';
-import { stringCorrelate, stringGetRows, stringPaste, stringSetRow } from './module.mjs';
-import { condIsStringValid } from '@syls/y/cond';
+import { YCond, condIsStringValid } from '@syls/y/cond';
 import { configString as config } from './config.mjs';
+import { YStat } from '../-submodule/stat/-module/class.mjs';
+import { YLayout } from '../-submodule/layout/-module/class.mjs';
+import { stringCorrelate, stringGetRows, stringPaste, stringSetRow, stringTrim } from './module.mjs';
+import { YCorrecter } from '../-submodule/correcter/-module/class.mjs';
 
 //#endregion
 //#region YT
@@ -136,52 +136,18 @@ class FString extends MString {
     /** @arg {DString} args */
     static #before(args) {
 
-        args = yClassifyProp(args);
+        /** @type {YArg<IString>} */
+        const yarg = args instanceof YArg ? args : new YArg(args);
 
-        return args = {
-
-            
-
-        };
-
-        // /** @type {YStringT} */
-        // let r = {};
-
-        // if (t?.length === 1 && [Object, YString].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-        //     r = { ...t[0] };
-
-        // } else if (!t.length) {
-
-        //     return r;
-
-        // };
-
-        // if (t[0]?._ytp) {
-
-        //     t = [...t[0]._ytp];
-
-        // };
-
-        // const arg = yClassifyProp(t);
-
-
-
-        // if (!Object.values(r).length) {
-
-        //     r = { _ytp: t, };
-
-        // };
-
-        // return r;
+        return yarg;
 
     };
-    /** @arg {YStringT} t @this {YString} */
-    static #deceit(t) {
+    /** @arg {YStringT} argst @this {YString} */
+    static #deceit(args) {
 
         try {
 
-            FString.#verify.apply(this, [t]);
+            FString.#verify.apply(this, arguments);
 
         } catch (e) {
 
@@ -194,42 +160,51 @@ class FString extends MString {
         };
 
     };
-    /** @arg {YStringT} t @this {YString} */
-    static #verify(t) {
+    /** @arg {YStringT} args @this {YString} */
+    static #verify(args) {
 
         const {
 
 
 
-        } = t;
+        } = args;
 
-        FString.#handle.apply(this, [t]);
-
-    };
-    /** @arg {YStringT} t @this {YString} */
-    static #handle(t) {
-
-
-
-        FString.#create.apply(this, [t]);
+        FString.#handle.apply(this, arguments);
 
     };
-    /** @arg {YStringT} t @this {YString} */
-    static #create(t) {
+    /** @arg {YStringT} args @this {YString} */
+    static #handle(args) {
+
+
+
+        FString.#create.apply(this, arguments);
+
+    };
+    /** @arg {YStringT} args @this {YString} */
+    static #create(args) {
 
         const {
 
 
 
-        } = t;
+        } = args;
 
         this
 
-            .adopt(t, config)
-            .getCursorController()
+            .adopt(args.getData())
+            .do(self => self.getCursorController()
+            
+                .cond(
 
-                .get()
-                .move(0, this.values.length)
+                    self => self.get(),
+                    self => self
+
+                        .get()
+                        .move(0, this.values.length)
+
+                )
+            
+            )
 
     };
 
@@ -251,20 +226,188 @@ class FString extends MString {
 export class YString extends FString {
 
     /**
-     * ### set
+     * ### get
      * - Версия `0.0.0`
      * - Модуль `string`
      * ***
      *
-     * Метод установки нового значения.
+     * Метод получения строки.
+     *
+     * ***
+     * @arg {boolean} style `Стиль`
+     *
+     * - Дефолт `true`
+     * @public
+    */
+    get(style = true) {
+
+        let result = this.values;
+
+        if (style) {
+
+            result = this.layout.apply(result);
+
+        };
+
+        return result;
+
+    };
+    /**
+     * ### getVis
+     * - Версия `1.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод получения видимой области.
+     *
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @method
+     * @version `1.0.0`
+    */
+    getVis() {
+
+        return this;
+
+    };
+    /**
+     * ### getRow
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод получения указанной линии.
+     *
+     * ***
+     * @arg {number} index `Индекс`
+     * @public
+    */
+    getRow(index) {
+
+        return this.getRows()[index];
+
+    };
+    /**
+     * ### getStat
+     * 
+     * ***
+     * 
+     * Метод получения статистики.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @method
+     * @public
+     * @version `1.0.0`
+    */
+    getStat() {
+        
+        return new YStat(this.get(false));
+        
+    };
+    /**
+     * ### getRows
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод получения массива всех линий.
+     *
+     * ***
+     * @public
+    */
+    getRows() {
+
+        return stringGetRows(this.values);
+
+    };
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YString}
+    */
+    getClass() {
+        
+        return YString;
+        
+    };
+    /**
+     * ### getLayout
+     * 
+     * ***
+     * 
+     * Метод получения стилевой разметки.
+     * 
+     * ***
+     * 
+     * @method
+     * @public
+    */
+    getLayout() {
+        
+        return this.layout;
+        
+    };
+    /**
+     * ### getMatrix
+     * - Версия `0.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод получения матрицы символов.
+     *
+     * ***
+     * @public
+     * @method
+    */
+    getMatrix() {
+
+        return stringGetMatrix(this.values);
+
+    };
+
+    /**
+     * ### set
+     * - Версия `1.0.0`
+     * - Модуль `string`
+     * ***
+     *
+     * Метод установки значения.
      *
      * ***
      * @arg {string} string `Строка`
      * @public
+     * @method
     */
     set(string) {
 
-        this.values = string;
+        const copy = this.values;
+
+        try {
+
+            if (typeof string !== 'string') {
+
+                string = string.toString();
+    
+            };
+
+            this.values = string;
+
+        } catch (err) {
+
+            this.values = copy;
+
+        };
 
         return this;
 
@@ -374,133 +517,29 @@ export class YString extends FString {
     };
 
     /**
-     * ### get
-     * - Версия `0.0.0`
-     * - Модуль `string`
+     * ### useCorrecter
+     * 
      * ***
-     *
-     * Метод получения строки.
-     *
+     * 
+     * Метод использования корректировщиков.
+     * 
      * ***
-     * @arg {boolean} style `Стиль`
-     *
-     * - Дефолт `true`
+     * @arg {...((self:YCorrecter) => void)} corrects `Коррекции`
+     * @method
      * @public
     */
-    get(style = true) {
+    useCorrecter(...corrects) {
+        
+        for (const correct of corrects) {
 
-        let result = this.values;
+            if (!YCond.isFunc(correct)) continue;
 
-        if (style) {
-
-            result = this.layout.apply(result);
+            correct(new YCorrecter(this));
 
         };
 
-        return result;
-
-    };
-    /**
-     * ### getVis
-     * - Версия `1.0.0`
-     * - Модуль `string`
-     * ***
-     *
-     * Метод получения видимой области.
-     *
-     * ***
-     * @since `1.0.0`
-     * @public
-     * @method
-     * @version `1.0.0`
-    */
-    getVis() {
-
         return this;
-
-    };
-    /**
-     * ### getRow
-     * - Версия `0.0.0`
-     * - Модуль `string`
-     * ***
-     *
-     * Метод получения указанной линии.
-     *
-     * ***
-     * @arg {number} index `Индекс`
-     * @public
-    */
-    getRow(index) {
-
-        return this.getRows()[index];
-
-    };
-    /**
-     * ### getStat
-     * 
-     * ***
-     * 
-     * Метод получения статистики.
-     * 
-     * ***
-     * @since `1.0.0`
-     * @method
-     * @public
-     * @version `1.0.0`
-    */
-    getStat() {
         
-        return new YStat(this.get(false));
-        
-    };
-    /**
-     * ### getRows
-     * - Версия `0.0.0`
-     * - Модуль `string`
-     * ***
-     *
-     * Метод получения массива всех линий.
-     *
-     * ***
-     * @public
-    */
-    getRows() {
-
-        return stringGetRows(this.values);
-
-    };
-    /**
-     * ### getLayout
-     * 
-     * ***
-     * 
-     * Метод получения оболочки стилей.
-     * 
-     * ***
-     * @public
-    */
-    getLayout() {
-
-        return this.getShell(this.layout);
-
-    };
-    /**
-     * ### getMatrix
-     * - Версия `0.0.0`
-     * - Модуль `string`
-     * ***
-     *
-     * Метод получения матрицы символов.
-     *
-     * ***
-     * @public
-     * @method
-    */
-    getMatrix() {
-
-        return stringGetMatrix(this.values);
-
     };
 
     /**
@@ -604,6 +643,7 @@ export class YString extends FString {
     /**
      * ### paint
      * 
+     * 
      * ***
      * 
      * Метод перекраски строки.
@@ -611,37 +651,16 @@ export class YString extends FString {
      * ***
      * @arg {number} row
      * @arg {number} index
+     * @arg {number} length
      * @arg {boolean} flow
      * @arg {stringTTColor} foreground
      * @arg {stringTTColor} background
      * @public
+     * @method
     */
     paint(row, index, foreground, background, flow) {
 
-        const arg = yClassifyProp(arguments);
-
-        if (!arg.array.length) {
-
-            arg.array.push([...arguments]);
-
-        };
-
-        for (let color of arg.array) {
-
-            color = yClassifyProp(color);
-
-            this.layout.set([
-
-                color.number[0],
-                color.number[1],
-                {
-                    flow: color.bool[0],
-                    ansi: new YANSI().setColor(color.string[0], color.string[1]),
-                }
-
-            ]);
-
-        };
+        
 
         return this;
 
@@ -679,7 +698,7 @@ export class YString extends FString {
                 string += this.postfix();
 
             };
-
+            
             string = stringCorrelate(string);
 
             for (const cursor of cursorController.cursors.slice().reverse()) {

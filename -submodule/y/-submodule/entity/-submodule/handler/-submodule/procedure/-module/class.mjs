@@ -1,15 +1,14 @@
 //#region YI
 
-import { Y } from '@syls/y';
-
+import { Y } from '../../../../../../../-module/export.mjs';
+import { YArg } from '../../../../../../arg/-module/export.mjs';
+import { configProcedure as config } from './config.mjs';
 
 //#endregion
 //#region YT
 
 /** ### YProcedureT
  * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\handler\procedure`
  * 
  * Основной параметр модуля `YProcedure`.
  * 
@@ -19,17 +18,13 @@ import { Y } from '@syls/y';
 */
 /** ### YProcedureTE
  * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\handler\procedure`
  * 
  * Параметр наследования `YProcedure`.
  * 
- * @typedef {{[p in Exclude<keyof DProcedure,keyof SProcedure>|Exclude<keyof SProcedure,keyof DProcedure>]:(DProcedure[p]&SProcedure[p])}} YProcedureTE
+ * @typedef {Omit<DProcedure, keyof SProcedure>} YProcedureTE
 */
 /** ### YProcedureTU
  * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\handler\procedure`
  * 
  * Уникальные параметры `YProcedure`.
  * 
@@ -38,221 +33,269 @@ import { Y } from '@syls/y';
 */
 /** ### YProcedureTUG
  * - Тип `TUP`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\handler\procedure`
  * 
  * Уникальные генеративные параметры `YProcedure`.
  * 
  * @typedef YProcedureTUG
- * @prop {null=} _
+ * @prop {null} _
 */
 
 //#endregion
 
 /**
- * @template {YProcedureTUG} G
+ * @template Y1
 */
 class SProcedure extends Y {
-    
-    
-    
+
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YProcedure[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
+
+    /**
+     * @arg {...YProcedure} args `Аргументы`
+     * @returns {YProcedure[]}
+    */
+    static create(...args) {
+
+        return Object.getPrototypeOf(SProcedure).create.apply(this, args);
+
+    };
+
 };
 /**
- * @extends {SProcedure<G>}
- * @template {YProcedureTUG} G
+ * @extends SProcedure<Y1>
+ * @template Y1
 */
 class DProcedure extends SProcedure {
-    
+
     /**
      * ### func
-     *
+     * 
      * Функция.
-     *
-     * ***
-     * @type {function(T):void}
+     * 
+     * *** 
+     * @type {(self:Y1)=>void}
+     * @field
      * @public
     */
     func;
     /**
      * ### label
-     *
+     * 
      * Метка.
-     *
-     * Позволяет отметить процедуру.
-     *
-     * ***
-     * @type {string?}
+     * 
+     * *** 
+     * @type {string}
+     * @field
      * @public
     */
     label;
     /**
      * ### disposable
-     *
+     * 
      * Одноразовость.
-     *
+     * 
      * Одноразовые процедуры позволяют понять обработчикам, что после их выполнения, их следует удалить.
-     *
-     * ***
+     * 
+     * *** 
      * @type {boolean}
+     * @field
      * @public
     */
     disposable;
-    
+
 };
 /**
- * @extends {DProcedure<G>}
- * @template {YProcedureTUG} G
+ * @extends DProcedure<Y1>
+ * @template Y1
 */
 class IProcedure extends DProcedure {
-    
-    
-    
+
+
+
 };
 /**
- * @extends {IProcedure<G>}
- * @template {YProcedureTUG} G
+ * @extends IProcedure<Y1>
+ * @template Y1
 */
 class MProcedure extends IProcedure {
-    
-    
-    
+
+
+
 };
 /**
- * @extends {MProcedure<G>}
- * @template {YProcedureTUG} G
+ * @extends MProcedure<Y1>
+ * @template Y1
 */
 class FProcedure extends MProcedure {
-    
+
     /**
      * ### YProcedure.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YProcedureT&G} t
+     * @arg {YProcedureT&G} args
     */
-    constructor(t) {
-        
-        t = [...arguments];
-        
-        super(Object.assign(t = FProcedure.#before(t), {}));
-        
-        FProcedure.#deceit.apply(this, [t]);
-        
+    constructor(args) {
+
+        super(args = FProcedure.#before(args = arguments));
+
+        FProcedure.#deceit.apply(this, [args]);
+
     };
-    
-    /** @arg {any[]} t */
-    static #before(t) {
-        
-        /** @type {YProcedureT} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YProcedure].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (t?.length) {
-            
-            if (t[0]?._ytp) {
-            
-                t = [...t[0]._ytp];
-            
-            };
-            
-            switch (t.length) {
-                
-                case 3: r.disposable = t[2];
-                case 2: r.func = t[1];
-                case 1: r.label = t[0];
-                
-            };
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
-            
-        };
-        
-        return r;
-        
+
+    /** @arg {DProcedure} args */
+    static #before(args) {
+
+        /** @type {YArg<IProcedure>} */
+        const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
+
+        yarg.set(
+
+            ['func', 'func'],
+            ['label', 'string'],
+            ['disposable', 'bool'],
+
+        );
+
+        return yarg;
+
     };
-    /** @arg {YProcedureT} t @this {YProcedure} */
-    static #deceit(t) {
-        
+    /** @arg {YArg<IProcedure>} args @this {YProcedure} */
+    static #deceit(args) {
+
         try {
-            
-            FProcedure.#verify.apply(this, [t]);
-            
+
+            FProcedure.#verify.apply(this, arguments);
+
         } catch (e) {
-            
-            throw e;
-            
+
+            if (config?.strictMode) {
+
+                throw e;
+
+            };
+
+            return new YProcedure();
+
         } finally {
-            
-            
-            
+
+
+
         };
-        
+
     };
-    /** @arg {YProcedureT} t @this {YProcedure} */
-    static #verify(t) {
-        
+    /** @arg {YArg<IProcedure>} args @this {YProcedure} */
+    static #verify(args) {
+
         const {
-            
-            
-            
-        } = t;
-        
-        FProcedure.#handle.apply(this, [t]);
-        
+
+
+
+        } = args;
+
+        FProcedure.#handle.apply(this, arguments);
+
     };
-    /** @arg {YProcedureT} t @this {YProcedure} */
-    static #handle(t) {
-        
-        
-        
-        FProcedure.#create.apply(this, [t]);
-        
+    /** @arg {YArg<IProcedure>} args @this {YProcedure} */
+    static #handle(args) {
+
+
+
+        FProcedure.#create.apply(this, arguments);
+
     };
-    /** @arg {YProcedureT} t @this {YProcedure} */
-    static #create(t) {
-        
+    /** @arg {YArg<IProcedure>} args @this {YProcedure} */
+    static #create(args) {
+
         const {
-            
-            
-            
-        } = t;
-        
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
-        
+
+
+
+        } = args;
+
+        this
+
+            .adopt(args.getData());
+
     };
-    
+
 };
 
 /**
  * ### YProcedure
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\handler\procedure`
+ * - Версия `1.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
- * 
+ * Класс `YProcedure`.
  * 
  * ***
- * @extends {FProcedure<G>}
- * @template {YProcedureTUG} G
+ * @class
+ * @template Y1
+ * @extends FProcedure<YProcedureTUG&Y1>
+ * 
 */
 export class YProcedure extends FProcedure {
-    
-    
-    
+
+    /** @arg {Y1} args */
+    constructor(args) { super(...arguments); };
+
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YProcedure}
+    */
+    getClass() {
+
+        return YProcedure;
+
+    };
+
 };
+
+//#region YE
+
+YProcedure.getY()['modules'].push(YProcedure);
+
+//#endregion
+
+/**
+ * @file procedure/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/

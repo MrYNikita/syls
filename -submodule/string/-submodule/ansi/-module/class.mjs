@@ -1,33 +1,31 @@
 //#region YI
 
 import { Y } from '@syls/y';
-import { ansiGetColorCode } from './export.mjs';
-import { configAnsi as config } from './config.mjs';
+import { YArg } from '@syls/y/arg';
+import { ansiGetColor, ansiGetColorCode } from './export.mjs';
+import { configANSI as config } from './config.mjs';
 
 //#endregion
 //#region YT
 
 /** ### YANSIT
  * - Тип `T`
- * - Версия `0.0.0`
  * 
  * Основной параметр модуля `YANSI`.
  * 
- * @typedef {YANSITE&YANSITU} YANSIT
+ * @typedef {YANSITE&YANSITU&Y} YANSIT
  * 
 */
 /** ### YANSITE
  * - Тип `TE`
- * - Версия `0.0.0`
  * 
  * Параметр наследования `YANSI`.
  * 
- * @typedef {{[p in Exclude<keyof DANSI,keyof SANSI>|Exclude<keyof SANSI,keyof DANSI>]:(DANSI[p]&SANSI[p])}} YANSITE
+ * @typedef {Omit<DANSI, keyof SANSI>} YANSITE
  * 
 */
 /** ### YANSITU
  * - Тип `TU`
- * - Версия `0.0.0`
  * 
  * Уникальные параметры `YANSI`.
  * 
@@ -51,14 +49,40 @@ import { configAnsi as config } from './config.mjs';
 class SANSI extends Y {
     
     /**
-     * ### config
-     * 
-     * Конфигуратор.
+     * ### stock
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YANSI[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
      * @public
     */
     static config = config;
+    
+    /**
+     * @arg {...YANSI} args `Аргументы`
+     * @returns {YANSI[]}
+    */
+    static create(...args) {
+        
+        return Object.getPrototypeOf(SANSI).create.apply(this, [...args]);
+        
+    };
     
 };
 class DANSI extends SANSI {
@@ -69,7 +93,8 @@ class DANSI extends SANSI {
      * Линия подчеркивания.
      * 
      * *** 
-     * @type {boolean} 
+     * @type {boolean}
+     * @field
      * @public
     */
     underline;
@@ -79,7 +104,8 @@ class DANSI extends SANSI {
      * Цвет символов.
      * 
      * *** 
-     * @type {ANSITTColor} 
+     * @type {ANSITTColor}
+     * @field
      * @public
     */
     foreground;
@@ -89,7 +115,8 @@ class DANSI extends SANSI {
      * Цвет фона.
      * 
      * *** 
-     * @type {ANSITTColor} 
+     * @type {ANSITTColor}
+     * @field
      * @public
     */
     background;
@@ -113,67 +140,47 @@ class FANSI extends MANSI {
      * 
      * 
      * ***
-     * @arg {YANSIT} t
+     * @arg {YANSIT} args
     */
-    constructor(t) {
+    constructor(args) {
         
-        t = [...arguments];
+        super(args = FANSI.#before(args = arguments));
         
-        super(Object.assign(t = FANSI.#before(t), {}));
-        
-        FANSI.#deceit.apply(this, [t]);
+        FANSI.#deceit.apply(this, [args]);
         
         return this.correlate();
         
     };
     
-    /** @arg {any[]} t */
-    static #before(t) {
+    /** @arg {DANSI} args */
+    static #before(args) {
         
-        /** @type {YANSIT} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YANSI].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (t?.length) {
-            
-            if (t[0]?._ytp) {
-            
-                t = [...t[0]._ytp];
-            
-            };
-            
-            switch (t.length) {
-                
-                case 3: r.underline = t[2];
-                case 2: r.background = t[1];
-                case 1: r.foreground = t[0];
-                
-            };
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
-            
-        };
-        
-        return r;
+        /** @type {YArg<IANSI>} */
+        const yarg = args instanceof YArg ? args : new YArg(args);
+
+        yarg.dataUsed.underline = yarg.extract('bool');
+        yarg.dataUsed.foreground = yarg.extract('string') ?? yarg.extract('number');
+        yarg.dataUsed.background = yarg.extract('string') ?? yarg.extract('number');
+
+        return yarg;
         
     };
-    /** @arg {YANSIT} t @this {YANSI} */
-    static #deceit(t) {
+    /** @arg {YArg<IANSI>} args @this {YANSI} */
+    static #deceit(args) {
         
         try {
             
-            FANSI.#verify.apply(this, [t]);
+            FANSI.#verify.apply(this, arguments);
             
         } catch (e) {
             
-            throw e;
+            if (config?.strictMode) {
+                
+                throw e;
+                
+            };
+            
+            return new YANSI();
             
         } finally {
             
@@ -182,44 +189,38 @@ class FANSI extends MANSI {
         };
         
     };
-    /** @arg {YANSIT} t @this {YANSI} */
-    static #verify(t) {
+    /** @arg {YArg<IANSI>} args @this {YANSI} */
+    static #verify(args) {
         
         const {
             
             
             
-        } = t;
+        } = args;
         
-        FANSI.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YANSIT} t @this {YANSI} */
-    static #handle(t) {
-        
-        t.underline = t.underline ? true : false;
-        
-        FANSI.#create.apply(this, [t]);
+        FANSI.#handle.apply(this, arguments);
         
     };
-    /** @arg {YANSIT} t @this {YANSI} */
-    static #create(t) {
+    /** @arg {YArg<IANSI>} args @this {YANSI} */
+    static #handle(args) {
         
-        const {
-            
-            
-            
-        } = t;
-        
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
+        args.dataUsed.underline = args.dataUsed.underline ? true : false;
 
-        this.setColor(t.foreground, t.background);
+        FANSI.#create.apply(this, arguments);
+        
+    };
+    /** @arg {YArg<IANSI>} args @this {YANSI} */
+    static #create(args) {
+        
+        const {
+            
+            
+            
+        } = args;
+
+        this
+        
+            .adopt(args.getData())
         
     };
     
@@ -228,13 +229,14 @@ class FANSI extends MANSI {
 /**
  * ### YANSI
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `1.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
- * 
+ * Класс `YANSI`.
  * 
  * ***
+ * @class
  * 
 */
 export class YANSI extends FANSI {
@@ -252,12 +254,31 @@ export class YANSI extends FANSI {
     */
     get() {
         
-        const underline = this.underline ? config.codeUnderline : config.codeUnderlineReset;
+        const underline = this.underline ? config.value.codeUnderline : config.value.codeUnderlineReset;
 
-        const foreground = this.foreground ? `${config.codeColorForeground}${config.codeColor};${this.foreground}` : '';
-        const background = this.background ? `${config.codeColorBackground}${config.codeColor};${this.background}` : '';
+        const foreground = this.foreground ? `${config.value.codeColorForeground}${config.value.codeColor};${this.foreground}` : '';
+        const background = this.background ? `${config.value.codeColorBackground}${config.value.codeColor};${this.background}` : '';
 
-        return `${config.code}${[underline, foreground, background].filter(code => code).join(';')}m`;
+        return `${config.value.code}${[underline, foreground, background].filter(code => code).join(';')}m`;
+        
+    };
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YANSI}
+    */
+    getClass() {
+        
+        return YANSI;
         
     };
 

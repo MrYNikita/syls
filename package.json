@@ -44,7 +44,6 @@
         "@syls/class": "*",
         "@syls/console": "*",
         "@syls/crypto": "*",
-        "@syls/date": "*",
         "@syls/func": "*",
         "@syls/game": "*",
         "@syls/ject": "*",

@@ -1,10 +1,11 @@
 //#region YI
 
+import { Y } from '@syls/y';
+import { YArg } from '@syls/y/arg';
+import { configLayout as config } from './config.mjs';
 import { YElement } from '../-submodule/element/-module/export.mjs';
-import { Y, yClassifyProp } from '@syls/y';
 import { YANSI, ansiGetColorReset } from '../../ansi/-module/export.mjs';
 import { stringAppend, stringGetRow, stringSetRow } from '../../../-module/export.mjs';
-import { configLayout as config } from './config.mjs';
 
 //#endregion
 //#region YT
@@ -14,7 +15,7 @@ import { configLayout as config } from './config.mjs';
  * 
  * Основной параметр модуля `YLayout`.
  * 
- * @typedef {YLayoutTE&YLayoutTU} YLayoutT
+ * @typedef {YLayoutTE&YLayoutTU&Y} YLayoutT
  * 
 */
 /** ### YLayoutTE
@@ -31,48 +32,76 @@ import { configLayout as config } from './config.mjs';
  * Уникальные параметры `YLayout`.
  * 
  * @typedef YLayoutTU
- * @prop {string} string
+ * @prop {any} _
  * 
 */
 
 //#endregion
 
 class SLayout extends Y {
-
+    
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YLayout[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
     /**
      * ### config
      * 
-     * Конфигуратор.
+     * 
      * 
      * ***
+     * @field
+     * @static
      * @public
     */
     static config = config;
-
+    
+    /**
+     * @arg {...YLayout} args `Аргументы`
+     * @returns {YLayout[]}
+    */
+    static create(...args) {
+        
+        return Object.getPrototypeOf(SLayout).create.apply(this, args);
+        
+    };
+    
 };
 class DLayout extends SLayout {
-
+    
     /**
      * ### ansi
      * 
-     * Ориентировочная ANSI вставка.
+     * ANSI вставка.
      * 
      * *** 
-     * @type {YANSI?} 
+     * @type {YANSI?}
+     * @field
      * @public
     */
-    ansi = null;
-
+    ansi;
+    
 };
 class ILayout extends DLayout {
-
+    
     /**
      * ### pointer
      * 
-     * Указатель используется для обозначения последнего элемента в пошаговой установке.
+     * Указатель.
      * 
      * *** 
-     * @type {[number, number]} 
+     * @type {[number, number]}
+     * @field
      * @protected
     */
     pointer;
@@ -82,152 +111,125 @@ class ILayout extends DLayout {
      * Элементы.
      * 
      * *** 
-     * @type {YElement[][]?} 
+     * @type {YElement[][]?}
+     * @field
      * @protected
     */
-    elements = null;
-
+    elements;
+    
 };
 class MLayout extends ILayout {
-
-
-
+    
+    
+    
 };
 class FLayout extends MLayout {
-
+    
     /**
      * ### YLayout.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YLayoutT} t
+     * @arg {YLayoutT} args
     */
-    constructor(t) {
-
-        t = [...arguments];
-
-        super(Object.assign(t = FLayout.#before(t), {}));
-
-        FLayout.#deceit.apply(this, [t]);
-
+    constructor(args) {
+        
+        super(args = FLayout.#before(args = arguments));
+        
+        FLayout.#deceit.apply(this, [args]);
+        
         return this.correlate();
-
+        
     };
-
-    /** @arg {any[]} t */
-    static #before(t) {
-
-        /** @type {YLayoutT} */
-        let r = {};
-
-        if (t?.length === 1 && [Object, YLayout].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-            r = t[0];
-
-        } else if (t?.length) {
-
-            if (t[0]?._ytp) {
-
-                t = [...t[0]._ytp];
-
-            };
-
-            switch (t.length) {
-
-                default: {
-
-                    const arg = yClassifyProp(t);
-
-                    r.string = arg.string[0];
-
-                };
-
-            };
-
-            if (!Object.values(r).length) {
-
-                r = { _ytp: t, };
-
-            };
-
-        };
-
-        return r;
-
+    
+    /** @arg {DLayout} args */
+    static #before(args) {
+        
+        /** @type {YArg<ILayout>} */
+        const yarg = args instanceof YArg ? args : new YArg(args);
+        
+        yarg.dataUsed.string = yarg.extract('string');
+        
+        return yarg;
+        
     };
-    /** @arg {YLayoutT} t @this {YLayout} */
-    static #deceit(t) {
-
+    /** @arg {YArg<ILayout>} args @this {YLayout} */
+    static #deceit(args) {
+        
         try {
-
-            FLayout.#verify.apply(this, [t]);
-
+            
+            FLayout.#verify.apply(this, arguments);
+            
         } catch (e) {
-
-            throw e;
-
+            
+            if (config?.strictMode) {
+                
+                throw e;
+                
+            };
+            
+            return new YLayout();
+            
         } finally {
-
-
-
+            
+            
+            
         };
-
+        
     };
-    /** @arg {YLayoutT} t @this {YLayout} */
-    static #verify(t) {
-
+    /** @arg {YArg<ILayout>} args @this {YLayout} */
+    static #verify(args) {
+        
         const {
-
-
-
-        } = t;
-
-        FLayout.#handle.apply(this, [t]);
-
+            
+            
+            
+        } = args;
+        
+        FLayout.#handle.apply(this, arguments);
+        
     };
-    /** @arg {YLayoutT} t @this {YLayout} */
-    static #handle(t) {
-
-
-
-        FLayout.#create.apply(this, [t]);
-
+    /** @arg {YArg<ILayout>} args @this {YLayout} */
+    static #handle(args) {
+        
+        
+        
+        FLayout.#create.apply(this, arguments);
+        
     };
-    /** @arg {YLayoutT} t @this {YLayout} */
-    static #create(t) {
-
+    /** @arg {YArg<ILayout>} args @this {YLayout} */
+    static #create(args) {
+        
         const {
-
-
-
-        } = t;
-
-        this.adopt(t);
-
-        if (config) {
-
-            this.adoptDefault(config);
-
-        };
-
+            
+            
+            
+        } = args;
+        
+        this
+        
+            .adopt(args.getData());
+        
     };
-
+    
 };
 
 /**
  * ### YLayout
  * - Тип `SDIMFY`
+ * - Версия `0.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
- * 
+ * Класс `YLayout`.
  * 
  * ***
+ * @class
  * 
 */
 export class YLayout extends FLayout {
-
+    
     /**
      * ### get
      * 
@@ -243,6 +245,25 @@ export class YLayout extends FLayout {
 
 
 
+    };
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YLayout}
+    */
+    getClass() {
+        
+        return YLayout;
+        
     };
 
     /**
@@ -427,5 +448,5 @@ export class YLayout extends FLayout {
         return results;
 
     };
-
+    
 };

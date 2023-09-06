@@ -8,7 +8,7 @@ import { YConfig } from "@syls/y/config";
  * ***
  * @public
 */
-export const configAnsi = new YConfig({
+export const configANSI = new YConfig({
     
     /**
      * ### delimeter
@@ -212,10 +212,11 @@ export const configAnsi = new YConfig({
     
 }, configY);
 
-export default configAnsi;
+export default configANSI;
 
 /**
  * @file ansi/config.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */

@@ -1,21 +1,8 @@
 //#region YI
 
-import { Y, yClassifyProp } from '@syls/y';
-
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default?.value ? c.default.value : c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(e => error = e.default)
-    .catch(e => e);
+import { YArg } from '@syls/y/arg';
+import { configStat as config } from './config.mjs';
+import { Y } from '@syls/y';
 
 //#endregion
 //#region YT
@@ -42,7 +29,7 @@ await import('./error.mjs')
  * Уникальные параметры `YStat`.
  * 
  * @typedef YStatTU
- * @prop {YString} string
+ * @prop {any} _
  * 
 */
 
@@ -82,14 +69,14 @@ class SStat extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SStat).create.apply(this, [...args]);
+        return Object.getPrototypeOf(SStat).create.apply(this, args);
         
     };
     
 };
 class DStat extends SStat {
     
-
+    
     
 };
 class IStat extends DStat {
@@ -106,6 +93,17 @@ class IStat extends DStat {
     */
     string;
     /**
+     * ### frequencyWords
+     * 
+     * Частота слов.
+     * 
+     * *** 
+     * @type {[string, number][]}
+     * @field
+     * @public
+    */
+    frequencyWords;
+    /**
      * ### frequency
      * 
      * Частота.
@@ -115,7 +113,7 @@ class IStat extends DStat {
      * @field
      * @protected
     */
-    frequency;
+    frequencySymbols;
     
 };
 class MStat extends IStat {
@@ -131,67 +129,45 @@ class FStat extends MStat {
      * 
      * 
      * ***
-     * @arg {YStatT} t
+     * @arg {YStatT} args
     */
-    constructor(t) {
+    constructor(args) {
         
-        t = [...arguments];
+        super(args = FStat.#before(args = arguments));
         
-        super(Object.assign(t = FStat.#before(t), {}));
-        
-        FStat.#deceit.apply(this, [t]);
+        FStat.#deceit.apply(this, [args]);
         
         return this.correlate();
         
     };
     
-    /** @arg {any[]} t */
-    static #before(t) {
+    /** @arg {DStat} args */
+    static #before(args) {
         
-        /** @type {YStatT} */
-        let r = {};
+        /** @type {YArg<IStat>} */
+        const yarg = args instanceof YArg ? args : new YArg(args);
         
-        if (t?.length === 1 && [Object, YStat].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-            return r;
-            
-        } else if (!t.length) {
-            
-            return r;
-            
-        };
+        yarg.dataUsed.string = yarg.extract('string');
         
-        if (t[0]?._ytp) {
-        
-            t = [...t[0]._ytp];
-        
-        };
-
-        const arg = yClassifyProp(t);
-        
-        r.string = arg.string[0];
-        
-        if (!Object.values(r).length) {
-            
-            r = { _ytp: t, };
-            
-        };
-        
-        return r;
+        return yarg;
         
     };
-    /** @arg {YStatT} t @this {YStat} */
-    static #deceit(t) {
+    /** @arg {YArg<IStat>} args @this {YStat} */
+    static #deceit(args) {
         
         try {
             
-            FStat.#verify.apply(this, [t = { ...t }]);
+            FStat.#verify.apply(this, arguments);
             
         } catch (e) {
             
-            throw e;
+            if (config?.strictMode) {
+                
+                throw e;
+                
+            };
+            
+            return new YStat();
             
         } finally {
             
@@ -200,38 +176,38 @@ class FStat extends MStat {
         };
         
     };
-    /** @arg {YStatT} t @this {YStat} */
-    static #verify(t) {
+    /** @arg {YArg<IStat>} args @this {YStat} */
+    static #verify(args) {
         
         const {
             
             
             
-        } = t;
+        } = args;
         
-        FStat.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YStatT} t @this {YStat} */
-    static #handle(t) {
-        
-        
-        
-        FStat.#create.apply(this, [t]);
+        FStat.#handle.apply(this, arguments);
         
     };
-    /** @arg {YStatT} t @this {YStat} */
-    static #create(t) {
+    /** @arg {YArg<IStat>} args @this {YStat} */
+    static #handle(args) {
+        
+        
+        
+        FStat.#create.apply(this, arguments);
+        
+    };
+    /** @arg {YArg<IStat>} args @this {YStat} */
+    static #create(args) {
         
         const {
             
             
             
-        } = t;
+        } = args;
         
         this
-            .adopt(t)
-            .adoptDefault(this.constructor.config ?? config);
+        
+            .adopt(args.getData());
         
     };
     
@@ -253,7 +229,74 @@ class FStat extends MStat {
 export class YStat extends FStat {
     
     /**
-     * ### getFrequency
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YStat}
+    */
+    getClass() {
+        
+        return YStat;
+        
+    };
+    /**
+     * ### getFrequencyWord
+     * 
+     * ***
+     * 
+     * Метод получения частоты употребления слов.
+     * 
+     * ***
+     * 
+     * @method
+     * @public
+    */
+    getFrequencyWords() {
+        
+        let result = [];
+
+        const matches = this.string.match(/\p{L}+ | \p{L}+/uimsg);
+
+        if (matches) for (const word of matches.map(word => word.toLowerCase().trim())) {
+
+            let index = result.findIndex(pair => pair[0] === word);
+            let pair = result[index];
+
+            if (!pair) {
+
+                result.push(pair = [word, 0]);
+
+            };
+
+            pair[1]++;
+
+            for (let count = index - 1; count >= 0; count--) {
+
+                if (result[count][1] < pair[1]) {
+
+                    [result[count], result[count + 1]] = [result[count + 1], result[count]];
+
+                } else break;
+
+            };
+
+        };
+
+        this.frequencyWords = result;
+
+        return result;
+        
+    };
+    /**
+     * ### getFrequencySymbols
      * 
      * ***
      * 
@@ -264,7 +307,7 @@ export class YStat extends FStat {
      * @method
      * @public
     */
-    getFrequency() {
+    getFrequencySymbols() {
         
         let result = [];
 
@@ -293,10 +336,17 @@ export class YStat extends FStat {
 
         };
 
-        this.frequency = result;
+        this.frequencySymbols = result;
 
         return result;
         
     };
     
 };
+
+/**
+ * @file stat/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/

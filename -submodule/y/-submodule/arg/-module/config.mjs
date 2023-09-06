@@ -1,7 +1,7 @@
-import { YConfig } from "@syls/y/config";
+import { YConfig } from "../../config/-module/export.mjs";
 import configY from "../../../-module/config.mjs";
 
-/** @type {} */
+/** @type {configY} */
 const config = {
     
     

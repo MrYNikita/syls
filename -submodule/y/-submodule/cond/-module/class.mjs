@@ -1,6 +1,7 @@
 //#region YI
 
-import { Y, yClassifyProp } from '@syls/y';
+import { Y } from '../../../-module/class.mjs';
+import { YArg } from '../../arg/-module/class.mjs';
 import { configCond as config } from './config.mjs';
 
 //#endregion
@@ -35,7 +36,7 @@ import { configCond as config } from './config.mjs';
 //#endregion
 
 class SCond extends Y {
-
+    
     /**
      * ### stock
      * 
@@ -61,17 +62,45 @@ class SCond extends Y {
      * @public
     */
     static config = config;
-
+    
     /**
      * @arg {...YCond} args `Аргументы`
      * @returns {YCond[]}
     */
     static create(...args) {
-
-        return Object.getPrototypeOf(SCond).create.apply(this, [...args]);
-
+        
+        return Object.getPrototypeOf(SCond).create.apply(this, args);
+        
     };
 
+    /**
+     * ### isFunc
+     * 
+     * ***
+     * 
+     * Метод проверки значений на принадлежность к функциям.
+     * 
+     * ***
+     * @arg {...any} values `Значения`
+     * @static
+     * @method
+     * @public
+    */
+    static isFunc(...values) {
+        
+        for (const value of values) {
+
+            if (typeof value !== 'function') {
+
+                return false;
+
+            };
+
+        };
+
+        return true;
+        
+    };
     /**
      * ### isBool
      * - Версия `0.0.1`
@@ -107,26 +136,38 @@ class SCond extends Y {
 
     };
     /**
-     * ### isNumber
-     * - Версия `0.0.1`
-     * - Модуль `bool\cond`
+     * ### isArray
+     * 
      * ***
-     *
-     * Метод проверки значений на принадлежнсоть к числу.
-     *
+     * 
+     * Метод проверки значений на принадлежность к массивам.
+     * 
      * ***
      * @arg {...any} values `Значения`
+     * @static
+     * @method
      * @public
     */
-    static isNumber(...values) {
+    static isArray(...values) {
+        
+        for (const value of values) {
 
-        return condIsNumber(...values);
+            if (!(value instanceof Array)) {
 
+                return false;
+
+            };
+
+        };
+
+        return true;
+        
     };
     /**
      * ### isString
-     * - Версия `0.0.1`
-     * - Модуль `bool\cond`
+     * - Версия `1.0.0`
+     * 
+     * 
      * ***
      *
      * Метод проверки значений на принадлежность к строкам.
@@ -137,150 +178,176 @@ class SCond extends Y {
     */
     static isString(...values) {
 
-        return condIsString(...values);
+        for (const value of values) {
+
+            if (!(value instanceof String || typeof value === 'string')) return false;
+
+        };
+
+        return true;
 
     };
+    /**
+     * ### isNumber
+     * - Версия `1.0.0`
+     * ***
+     *
+     * Метод проверки значений на принадлежнсоть к числу.
+     *
+     * ***
+     * @arg {...any} values `Значения`
+     * @public
+    */
+    static isNumber(...values) {
 
+        for (const value of values) {
+
+            if (!(value instanceof Number || typeof value === 'number')) return false;
+
+        };
+
+        return true;
+
+    };
+    /**
+     * ### isNumberInt
+     * 
+     * ***
+     * 
+     * Метод проверки значений на принадлежнсоть к целым числам.
+     * 
+     * ***
+     * @arg {...any} values `Значения`
+     * @static
+     * @method
+     * @public
+    */
+    static isNumberInt(...values) {
+        
+        if (!this.isNumber(...values)) return false;
+
+        for (const value of values) {
+
+            if (value % 10 !== 0) return false;
+
+        };
+
+        return true;
+        
+    };
+    
 };
 class DCond extends SCond {
-
-
-
+    
+    
+    
 };
 class ICond extends DCond {
-
-
-
+    
+    
+    
 };
 class MCond extends ICond {
-
-
-
+    
+    
+    
 };
 class FCond extends MCond {
-
+    
     /**
      * ### YCond.constructor
      * 
      * 
      * 
      * ***
-     * @arg {YCondT} t
+     * @arg {YCondT} args
     */
-    constructor(t) {
-
-        t = [...arguments];
-
-        super(Object.assign(t = FCond.#before(t), {}));
-
-        FCond.#deceit.apply(this, [t]);
-
+    constructor(args) {
+        
+        super(args = FCond.#before(args = arguments));
+        
+        FCond.#deceit.apply(this, [args]);
+        
         return this.correlate();
-
+        
     };
-
-    /** @arg {any[]} t */
-    static #before(t) {
-
-        /** @type {YCondT} */
-        let r = {};
-
-        if (t?.length === 1 && [Object, YCond].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-            r = t[0];
-
-            return r;
-
-        } else if (!t.length) {
-
-            return r;
-
-        };
-
-        if (t[0]?._ytp) {
-
-            t = [...t[0]._ytp];
-
-        };
-
-        const arg = yClassifyProp(t);
-
-
-
-        if (!Object.values(r).length) {
-
-            r = { _ytp: t, };
-
-        };
-
-        return r;
-
+    
+    /** @arg {DCond} args */
+    static #before(args) {
+        
+        /** @type {YArg<ICond>} */
+        const yarg = args instanceof YArg ? args : new YArg(args);
+        
+        
+        
+        return yarg;
+        
     };
-    /** @arg {YCondT} t @this {YCond} */
-    static #deceit(t) {
-
+    /** @arg {YArg<ICond>} args @this {YCond} */
+    static #deceit(args) {
+        
         try {
-
-            FCond.#verify.apply(this, [t = { ...t }]);
-
+            
+            FCond.#verify.apply(this, arguments);
+            
         } catch (e) {
-
+            
             if (config?.strictMode) {
-
+                
                 throw e;
-
+                
             };
-
+            
             return new YCond();
-
+            
         } finally {
-
-
-
+            
+            
+            
         };
-
+        
     };
-    /** @arg {YCondT} t @this {YCond} */
-    static #verify(t) {
-
+    /** @arg {YArg<ICond>} args @this {YCond} */
+    static #verify(args) {
+        
         const {
-
-
-
-        } = t;
-
-        FCond.#handle.apply(this, [t]);
-
+            
+            
+            
+        } = args;
+        
+        FCond.#handle.apply(this, arguments);
+        
     };
-    /** @arg {YCondT} t @this {YCond} */
-    static #handle(t) {
-
-
-
-        FCond.#create.apply(this, [t]);
-
+    /** @arg {YArg<ICond>} args @this {YCond} */
+    static #handle(args) {
+        
+        
+        
+        FCond.#create.apply(this, arguments);
+        
     };
-    /** @arg {YCondT} t @this {YCond} */
-    static #create(t) {
-
+    /** @arg {YArg<ICond>} args @this {YCond} */
+    static #create(args) {
+        
         const {
-
-
-
-        } = t;
-
+            
+            
+            
+        } = args;
+        
         this
-            .adopt(t)
-            .adoptDefault(this.constructor.config ?? config);
-
+        
+            .adopt(args.getData());
+        
     };
-
+    
 };
 
 /**
  * ### YCond
  * - Тип `SDIMFY`
- * - Версия `1.0.0`
+ * - Версия `0.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -291,6 +358,26 @@ class FCond extends MCond {
  * 
 */
 export class YCond extends FCond {
+    
+    /**
+     * ### getClass
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {typeof YCond}
+    */
+    getClass() {
+        
+        return YCond;
+        
+    };
 
     /**
      * ### check
@@ -356,8 +443,14 @@ export class YCond extends FCond {
         return this;
 
     };
-
+    
 };
+
+//#region YE
+
+YCond.getY()['modules'].push(YCond);
+
+//#endregion
 
 /**
  * @file cond/class.mjs

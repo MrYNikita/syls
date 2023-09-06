@@ -16,6 +16,36 @@ import { configArg as config } from './config.mjs';
  * @prop {any} _
  * 
 */
+/** ### argTArg
+ * 
+ * @typedef {[string, Y1]} argTArg
+ * @template Y1
+ * 
+*/
+/** ### argTArgs
+ * 
+ * @typedef argTArgs
+ * @prop {argTArg<null>[]} null 
+ * @prop {argTArg<Date>[]} date 
+ * @prop {argTArg<Object>[]} ject 
+ * @prop {argTArg<boolean>[]} bool 
+ * @prop {argTArg<function>[]} func
+ * @prop {argTArg<number>[]} number
+ * @prop {argTArg<string>[]} string 
+ * @prop {argTArg<RegExp>[]} regexp 
+ * @prop {argTArg<bigint>[]} bigint 
+ * @prop {argTArg<any[]>[]} array 
+ * @prop {argTArg<null[]>[]} arrayNull 
+ * @prop {argTArg<Date[]>[]} arrayDate 
+ * @prop {argTArg<Object[]>[]} arrayJect 
+ * @prop {argTArg<boolean[]>[]} arrayBool 
+ * @prop {argTArg<function[]>[][]} arrayFunc 
+ * @prop {argTArg<number[]>[][]} arrayNumber 
+ * @prop {argTArg<string[]>[][]} arrayString 
+ * @prop {argTArg<RegExp[]>[][]} arrayRegexp 
+ * @prop {argTArg<bigint[]>[][]} arrayBigint 
+ * 
+*/
 
 //#endregion
 //#region YV
@@ -107,28 +137,28 @@ function classifyComply(t) {
         ject: [],
         bool: [],
         null: [],
+        func: [],
         array: [],
         number: [],
         string: [],
         regexp: [],
         bigint: [],
-        function: [],
         undefined: [],
         arrayDate: [],
         arrayBool: [],
         arrayJect: [],
         arrayNull: [],
+        arrayFunc: [],
         arrayNumber: [],
         arrayString: [],
         arrayRegexp: [],
         arrayBigint: [],
-        arrayFunction: [],
         arrayUndefined: [],
 
     };
 
     for (const arg of args) {
-        
+
         for (const index in arg) {
 
             let segment = null;
@@ -144,15 +174,23 @@ function classifyComply(t) {
                         case 'Date': segment = result.date; break;
                         case 'Array': {
 
-                            if (value.every(element => typeof element === 'number')) segment = result.arrayNumber;
-                            else if (value.every(element => typeof element === 'bigint')) segment = result.arrayBigint;
-                            else if (value.every(element => typeof element === 'boolean')) segment = result.arrayBool;
-                            else if (value.every(element => typeof element === 'string')) segment = result.arrayString;
-                            else if (value.every(element => typeof element === 'function')) segment = result.arrayFunction;
-                            else if (value.every(element => typeof element === 'undefined')) segment = result.arrayUndefined;
-                            else if (value.every(element => element instanceof RegExp)) segment = result.arrayRegexp;
-                            else if (value.every(element => element instanceof Date)) segment = result.arrayDate;
-                            else segment = result.array;
+                            if (value.length) {
+
+                                if (value.every(element => typeof element === 'number')) segment = result.arrayNumber;
+                                else if (value.every(element => typeof element === 'bigint')) segment = result.arrayBigint;
+                                else if (value.every(element => typeof element === 'boolean')) segment = result.arrayBool;
+                                else if (value.every(element => typeof element === 'string')) segment = result.arrayString;
+                                else if (value.every(element => typeof element === 'function')) segment = result.arrayFunc;
+                                else if (value.every(element => typeof element === 'undefined')) segment = result.arrayUndefined;
+                                else if (value.every(element => element instanceof RegExp)) segment = result.arrayRegexp;
+                                else if (value.every(element => element instanceof Date)) segment = result.arrayDate;
+                                else segment = result.array;
+
+                            } else {
+
+                                segment = result.array;
+
+                            };
 
                         } break;
                         case 'RegExp':
@@ -166,7 +204,7 @@ function classifyComply(t) {
                 case 'number': segment = result.number; break;
                 case 'bigint': segment = result.bigint; break;
                 case 'boolean': segment = result.bool; break;
-                case 'function': segment = result.function; break;
+                case 'function': segment = result.func; break;
                 case 'undefined': segment = result.undefined; break;
 
             };
