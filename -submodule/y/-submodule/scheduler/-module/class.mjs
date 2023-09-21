@@ -137,9 +137,7 @@ class MScheduler extends IScheduler {
 
         for (const event of y.events) {
 
-            event.accumulate();
-
-            if (event.tact === event.hoarder && event.disposable) {
+            if (event.accumulate() && event.disposable) {
 
                 y.events = y.events.filter(eventThis => eventThis !== event);
 

@@ -1,20 +1,6 @@
 //#region YI
 
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
+import { configNumber as config } from './config.mjs';
 
 /** @type {import('crypto')} */
 let crypto = null;

@@ -1,5 +1,5 @@
-import { YConfig } from "@syls/y/config";
 import configY from "../../../../../-module/config.mjs";
+import { YConfig } from "../../../../config/-module/export.mjs";
 
 /** @type {configY} */
 const config = {
@@ -30,6 +30,19 @@ export const configContext = new YConfig(Object.assign(config, {
      * @property
     */
     handlersDefault: [],
+    /**
+     * ### instructsDefault
+     * 
+     * ***
+     * 
+     * Дефолт инструкции.
+     * 
+     * *** 
+     * @type {any[]}
+     * @public
+     * @property
+    */
+    instructsDefault: [],
     
 }), configY);
 

@@ -2,7 +2,6 @@
 
 import { Y } from '@syls/y';
 import { YArg } from '@syls/y/arg';
-import { ansiGetColor, ansiGetColorCode } from './export.mjs';
 import { configANSI as config } from './config.mjs';
 
 //#endregion
@@ -158,9 +157,13 @@ class FANSI extends MANSI {
         /** @type {YArg<IANSI>} */
         const yarg = args instanceof YArg ? args : new YArg(args);
 
-        yarg.dataUsed.underline = yarg.extract('bool');
-        yarg.dataUsed.foreground = yarg.extract('string') ?? yarg.extract('number');
-        yarg.dataUsed.background = yarg.extract('string') ?? yarg.extract('number');
+        yarg.set(
+
+            ['underline', 'bool'],
+            ['foreground', 'string', 'number'],
+            ['background', 'string', 'number'],
+
+        );
 
         return yarg;
         

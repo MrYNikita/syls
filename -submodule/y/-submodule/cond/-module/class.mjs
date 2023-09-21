@@ -228,7 +228,7 @@ class SCond extends Y {
 
         for (const value of values) {
 
-            if (value % 10 !== 0) return false;
+            if (value % 1 !== 0) return false;
 
         };
 

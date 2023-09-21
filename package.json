@@ -39,8 +39,8 @@
     },
     "description": "SYLS (Software Y Lib Solutions) - библиотека, дающая доступ к функциональным и системным решениям, для разработки разнонаправленных приложений.",
     "dependencies": {
-        "@syls/array": "*",
         "@syls/bool": "*",
+        "@syls/array": "*",
         "@syls/class": "*",
         "@syls/console": "*",
         "@syls/crypto": "*",
@@ -49,6 +49,7 @@
         "@syls/ject": "*",
         "@syls/key": "*",
         "@syls/lang": "*",
+        "@syls/listener": "*",
         "@syls/number": "*",
         "@syls/os": "*",
         "@syls/process": "*",

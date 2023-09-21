@@ -21,10 +21,16 @@
             "types": "./-module/type.d.ts",
             "import": "./-module/export.mjs"
         },
+
         "./sag": {
             "types": "./-heir/sag/-module/type.d.ts",
             "import": "./-heir/sag/-module/export.mjs"
         },
+        "./sag/being": {
+            "types": "./-submodule/sag/-submodule/being/-module/type.d.ts",
+            "import": "./-submodule/sag/-submodule/being/-module/export.mjs"
+        },
+
         "./mafia": {
             "types": "./-heir/mafia/-module/type.d.ts",
             "import": "./-heir/mafia/-module/export.mjs"

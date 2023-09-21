@@ -49,6 +49,19 @@ export const configY = {
     */
     moduleId: 0,
     /**
+     * ### stockMode
+     * 
+     * ***
+     * 
+     * Режим хранения.
+     * 
+     * *** 
+     * @type {boolean}
+     * @public
+     * @property
+    */
+    stockMode: false,
+    /**
      * ### modeStrict
      *
      * Режим строгости.

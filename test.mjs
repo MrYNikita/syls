@@ -1,12 +1,9 @@
-import { YScheduler } from "@syls/y/scheduler";
+import { Y } from "@syls/y";
 
-new YScheduler()
+new Y()
 
-    .appendEvent(
+    .printExec(self => {
 
-        ['clear', () => console.clear(), 10],
-        ['log', () => console.log('tact'), 1],
+        return self;
 
-    )
-    .on()
-    .do(self => setTimeout(() => self.on(1000), 3000))
+    })

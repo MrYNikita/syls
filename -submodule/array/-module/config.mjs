@@ -1,15 +1,10 @@
-import { configY } from "@syls/y";
 import { YConfig } from "@syls/y/config";
-import { YCursor } from "../-submodule/cursor/-module/class.mjs";
+import { configMany } from "@syls/y/many";
 
-/** @type {configY} */
+/** @type {configMany['value']} */
 const config = {
     
-    aliases: [
-
-        ['length', 'values', 'length']
-
-    ],
+    
     
 };
 
@@ -22,32 +17,9 @@ const config = {
 */
 export const configArray = new YConfig(Object.assign(config, {
     
-    /**
-     * ### valuesDefault
-     * 
-     * ***
-     * 
-     * Дефолт значение.
-     * 
-     * *** 
-     * @type {any[]}
-     * @public
-    */
-    valuesDefault: [],
-    /**
-     * ### cursorsDefault
-     * 
-     * ***
-     * 
-     * Дефолт курсоры.
-     * 
-     * *** 
-     * @type {any[]}
-     * @public
-    */
-    cursorsDefault: [new YCursor()],
     
-}), configY);
+    
+}), configMany);
 
 export default configArray;
 

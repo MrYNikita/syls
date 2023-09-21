@@ -3,6 +3,7 @@
         "./**/*",
         "./-submodule/**/*",
         "./.scripts/**/*",
+        "./.games/**/*",
     ],
     "typeAcquisition": {
         "include": [
@@ -10,10 +11,12 @@
         ],
     },
     "compilerOptions": {
-        "module": "ES2022",
+        "outDir": ".build",
+        "rootDir": "./",
         "target": "ES2022",
+        "module": "NodeNext",
         "esModuleInterop": true,
-        "moduleResolution": "nodenext",
+        "moduleResolution": "NodeNext",
         "resolveJsonModule": true,
         "experimentalDecorators": true,
     }

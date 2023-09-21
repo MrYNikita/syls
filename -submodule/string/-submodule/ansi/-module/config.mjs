@@ -1,5 +1,12 @@
-import { configY } from "@syls/y";
 import { YConfig } from "@syls/y/config";
+import configString from "../../../-module/config.mjs";
+
+/** @type {configString['value']} */
+const config = {
+    
+    
+    
+};
 
 /** ### configAnsi
  * 
@@ -8,7 +15,7 @@ import { YConfig } from "@syls/y/config";
  * ***
  * @public
 */
-export const configANSI = new YConfig({
+export const configANSI = new YConfig(Object.assign(config, {
     
     /**
      * ### delimeter
@@ -16,7 +23,7 @@ export const configANSI = new YConfig({
      * Разделитель аргументов.
      * 
      * *** 
-     * @type {string} 
+     * @type {';'} 
      * @public
     */
     delimiter: ';',
@@ -27,7 +34,7 @@ export const configANSI = new YConfig({
      * Код.
      *
      * ***
-     * @type {string}
+     * @type {'\x1b['}
      * @public
     */
     code: '\x1b[',
@@ -37,7 +44,7 @@ export const configANSI = new YConfig({
      * Код завершения вставки.
      * 
      * *** 
-     * @type {string} 
+     * @type {'m'} 
      * @public
     */
     codeEnd: 'm',
@@ -47,7 +54,7 @@ export const configANSI = new YConfig({
      * Код очистки экрана.
      * 
      * *** 
-     * @type {string} 
+     * @type {'J'} 
      * @public
     */
     codeClear: 'J',
@@ -57,7 +64,7 @@ export const configANSI = new YConfig({
      * Вставка точечной настройки цвета.
      * 
      * *** 
-     * @type {string} 
+     * @type {'8;5'} 
      * @public
     */
     codeColor: '8;5',
@@ -67,7 +74,7 @@ export const configANSI = new YConfig({
      * Код сброса цветов.
      * 
      * *** 
-     * @type {string} 
+     * @type {'9'} 
      * @public
     */
     codeColorReset: '9',
@@ -77,7 +84,7 @@ export const configANSI = new YConfig({
      * Код цвета символов.
      * 
      * *** 
-     * @type {string} 
+     * @type {'3'} 
      * @public
     */
     codeColorForeground: '3',
@@ -87,7 +94,7 @@ export const configANSI = new YConfig({
      * Код цвета фона.
      * 
      * *** 
-     * @type {string} 
+     * @type {'4'} 
      * @public
     */
     codeColorBackground: '4',
@@ -97,7 +104,7 @@ export const configANSI = new YConfig({
      * Код позиции.
      *
      * ***
-     * @type {string}
+     * @type {'H'}
      * @public
     */
     codePosition: 'H',
@@ -107,7 +114,7 @@ export const configANSI = new YConfig({
      * Код сдвига курсора до конца строки с удалением последующих символов.
      * 
      * *** 
-     * @type {string} 
+     * @type {'K'} 
      * @public
     */
     codePositionEnd: 'K',
@@ -117,7 +124,7 @@ export const configANSI = new YConfig({
      * Код линии подчеркивания.
      * 
      * *** 
-     * @type {} 
+     * @type {'4'} 
      * @public
     */
     codeUnderline: '4',
@@ -127,7 +134,7 @@ export const configANSI = new YConfig({
      * Код сброса линии подчеркивания.
      * 
      * *** 
-     * @type {string} 
+     * @type {'24'} 
      * @public
     */
     codeUnderlineReset: '24',
@@ -137,7 +144,7 @@ export const configANSI = new YConfig({
      * Код удаления символа со сдвигом.
      * 
      * *** 
-     * @type {string} 
+     * @type {'\b'} 
      * @public
     */
     codeBackspace: '\b',
@@ -155,6 +162,7 @@ export const configANSI = new YConfig({
     colors: {
 
         reset: -1,
+        resetY: -2,
 
         red: 160,
         redDark: 52,
@@ -210,13 +218,6 @@ export const configANSI = new YConfig({
 
     },
     
-}, configY);
+}), configString);
 
 export default configANSI;
-
-/**
- * @file ansi/config.mjs
- * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @license Apache-2.0
- * @copyright SYLS (Software Y Lib Solutions) 2023
-*/

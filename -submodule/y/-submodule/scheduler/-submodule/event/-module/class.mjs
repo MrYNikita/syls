@@ -1,5 +1,6 @@
 //#region YI
 
+import { YScheduler } from '../../../-module/class.mjs';
 import { Y } from '../../../../../-module/class.mjs';
 import { YArg } from '../../../../arg/-module/class.mjs';
 import { configEvent as config } from './config.mjs';
@@ -289,6 +290,62 @@ export class YEvent extends FEvent {
     };
 
     /**
+     * ### incr
+     * 
+     * ***
+     * 
+     * Метод наращивания накопителя.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    incr() {
+        
+        this.hoarder++;
+
+        return this;
+        
+    };
+    /**
+     * ### exec
+     * 
+     * ***
+     * 
+     * Метод выполнения события.
+     * 
+     * ***
+     * @arg {YScheduler} scheduler `Планировщик`
+     * @method
+     * @public
+    */
+    exec(scheduler) {
+        
+        this.func(scheduler);
+
+        return this;
+        
+    };
+    /**
+     * ### reset
+     * 
+     * ***
+     * 
+     * Метод сброса накопителя.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    reset() {
+        
+        this.hoarder = 0;
+
+        return this;
+        
+    };
+
+    /**
      * ### accumulate
      * 
      * ***
@@ -296,20 +353,43 @@ export class YEvent extends FEvent {
      * Метод перерасчёта накопления.
      * 
      * ***
+     * @arg {YScheduler} scheduler `Планировщик`
      * @method
      * @public
     */
-    accumulate() {
+    accumulate(scheduler) {
 
-        if (++this.hoarder >= this.tact) {
+        this.incr();
 
-            this.hoarder = 0;
+        if (this.isAccumulated()) {
 
-            this.func();
+            this
+            
+                .exec(scheduler)
+                .reset();
+
+            return true;
 
         };
 
-        return this;
+        return false;
+        
+    };
+
+    /**
+     * ### isAccumulated
+     * 
+     * ***
+     * 
+     * Метод проверки накопления.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    isAccumulated() {
+        
+        return this.hoarder >= this.tact;
         
     };
     

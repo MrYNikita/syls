@@ -108,7 +108,7 @@ function fillDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strictMode) {
+        if (config?.value?.strictMode) {
             
             throw e;
             
@@ -192,7 +192,7 @@ function cloneDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strictMode) {
+        if (config?.value?.strictMode) {
             
             throw e;
             
@@ -346,7 +346,7 @@ function equalDeceit(t) {
         
     } catch (e) {
         
-        if (config?.strictMode) {
+        if (config?.value?.strictMode) {
             
             throw e;
             
@@ -507,7 +507,7 @@ function adoptDeceit(t) {
         
     } catch (e) {
 
-        if (config?.strictMode) {
+        if (config?.value?.strictMode) {
             
             throw e;
             
@@ -670,7 +670,7 @@ function adoptDefaultVerify(t) {
 /** @arg {yTFAdoptDefault} t */
 function adoptDefaultHandle(t) {
    
-    if (t.owner.constructor.name === 'YConfig') {
+    if (t.owner.constructor.name === 'YConfig' || t.owner === config) {
 
         t.owner = t.owner.value;
 
@@ -698,7 +698,7 @@ function adoptDefaultComply(t) {
     for (const property of Object.keys(y)) {
         
         const propertyDefault = property + 'Default';
-
+        
         if (!y[property]) {
 
             if (owner[propertyDefault] === undefined) {
@@ -712,7 +712,7 @@ function adoptDefaultComply(t) {
             };
 
         };
-
+        
     };
 
     return y;

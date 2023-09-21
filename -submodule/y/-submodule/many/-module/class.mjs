@@ -1,26 +1,10 @@
 //#region YI
 
-import { YCursor } from "@syls/many/cursor";
-import { Y, } from "@syls/y";
+import { YEntity } from "../../entity/-module/class.mjs";
+import { YCursor } from "../-submodule/cursor/-module/export.mjs";
 import { YCursorContoller } from "../-submodule/cursorContoller/-module/class.mjs";
-import { argClassify } from "../../arg/-module/module.mjs";
+import { configMany as config } from "./config.mjs";
 import { YArg } from "../../arg/-module/class.mjs";
-
-/** @type {import('./config.mjs')['default']['value']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default?.value ? c.default.value : c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(e => error = e.default)
-    .catch(e => e);
 
 //#endregion
 //#region YT
@@ -63,7 +47,7 @@ await import('./error.mjs')
 /**
  * @template Y1
 */
-class SMany extends Y {
+class SMany extends YEntity {
 
     /**
      * ### stock

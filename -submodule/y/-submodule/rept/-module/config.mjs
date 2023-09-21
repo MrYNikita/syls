@@ -17,7 +17,32 @@ const config = {
 */
 export const configRept = new YConfig(Object.assign(config, {
     
-    
+    /**
+     * ### blocksDefault
+     * 
+     * ***
+     * 
+     * Дефолт блоки.
+     * 
+     * *** 
+     * @type {any[]}
+     * @public
+     * @property
+    */
+    blocksDefault: [],
+    /**
+     * ### iterateDefault
+     * 
+     * ***
+     * 
+     * Дефолт итерация.
+     * 
+     * *** 
+     * @type {number}
+     * @public
+     * @property
+    */
+    iterateDefault: 0,
     
 }), configY);
 

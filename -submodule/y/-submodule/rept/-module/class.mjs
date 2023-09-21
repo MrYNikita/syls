@@ -2,7 +2,9 @@
 
 import { Y } from '../../../-module/export.mjs';
 import { YArg } from '../../arg/-module/export.mjs';
+import { YBlock } from '../-submodule/block/-module/class.mjs';
 import { configRept as config } from './config.mjs';
+import { YCond } from '../../cond/-module/class.mjs';
 
 //#endregion
 //#region YT
@@ -109,7 +111,28 @@ class DRept extends SRept {
 */
 class IRept extends DRept {
     
-    
+    /**
+     * ### blocks
+     * 
+     * Блоки.
+     * 
+     * *** 
+     * @type {YBlock[]}
+     * @field
+     * @protected
+    */
+    blocks;
+    /**
+     * ### iterate
+     * 
+     * Итерация.
+     * 
+     * *** 
+     * @type {number}
+     * @field
+     * @protected
+    */
+    iterate;
     
 };
 /**
@@ -149,7 +172,11 @@ class FRept extends MRept {
         /** @type {YArg<IRept>} */
         const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
         
-        
+        yarg.set(
+            
+            ['target', 'ject'],
+            
+        );
         
         return yarg;
         
@@ -218,7 +245,7 @@ class FRept extends MRept {
 /**
  * ### YRept
  * - Тип `SDIMFY`
- * - Версия `0.0.0`
+ * - Версия `1.0.0`
  * - Цепочка `BDVHC`
  * ***
  * 
@@ -236,6 +263,37 @@ export class YRept extends FRept {
     constructor(args) { super(...arguments); };
     
     /**
+     * ### get
+     * 
+     * ***
+     * 
+     * Метод получения текста отчёта.
+     * 
+     * ***
+     * @method
+     * @public
+     * @returns {string}
+    */
+    get() {
+        
+        let result = '';
+
+        for (const block of this.blocks) {
+
+            result += `### ${block.title ?? block.label}\n`;
+
+            for (const func of block.funcs) {
+                
+                result += `${func(this.target)}\n`;
+
+            };
+
+        };
+
+        return result;
+        
+    };
+    /**
      * ### getClass
      * 
      * 
@@ -252,6 +310,76 @@ export class YRept extends FRept {
     getClass() {
         
         return YRept;
+        
+    };
+    /**
+     * ### getBlock
+     * 
+     * ***
+     * 
+     * Метод получения блока по метке.
+     * 
+     * ***
+     * @arg {string} label `Метка`
+     * @method
+     * @public
+    */
+    getBlock(label) {
+        
+        return this.blocks.find(block => block.label === label) ?? null;
+        
+    };
+
+    /**
+     * ### display
+     * 
+     * ***
+     * 
+     * Метод отображения отчёта.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    display() {
+        
+        this.iterate++;
+
+        console.log(this.get());
+
+        return this;
+        
+    };
+
+    /**
+     * ### appendBlock
+     * 
+     * ***
+     * 
+     * Метод добавления блоков.
+     * 
+     * ***
+     * @arg {string} label `Метка`
+     * @arg {string} title `Заголовок`
+     * @arg {number} priority `Приоритет`
+     * @arg {string[]} tags `Теги`
+     * @arg {((self:Y1)=>string)[]} funcs `Функции`
+     * @method
+     * @public
+    */
+    appendBlock(label, title, priority, tags, funcs) {
+        
+        const values = YCond.isString(label) ? [[...arguments]] : arguments;
+
+        for (const value of values) {
+
+            if (!YCond.isArray(value) || this.getBlock(value[0])) continue;
+
+            this.blocks.push(new YBlock(...value));
+
+        };
+
+        return this;
         
     };
     

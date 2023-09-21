@@ -34,6 +34,10 @@
             "types": "./-submodule/tag/-module/type.d.ts",
             "import": "./-submodule/tag/-module/export.mjs"
         },
+        "./class": {
+            "types": "./-submodule/class/-module/type.d.ts",
+            "import": "./-submodule/class/-module/export.mjs"
+        },
         "./date": {
             "types": "./-submodule/date/-module/type.d.ts",
             "import": "./-submodule/date/-module/export.mjs"

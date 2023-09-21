@@ -1,61 +1,82 @@
 //#region YI
 
-import { Y, yClassifyProp } from '@syls/y';
-import { condIsNumberLimit } from '@syls/y/cond';
-import { numberGetRandomFrac, numberGetRandomReal } from './module.mjs';
-
+import { YArg } from '@syls/y/arg';
+import { YEntity } from '@syls/y/entity';
+import { YCond, condIsNumberLimit } from '@syls/y/cond';
+import { configNumber as config } from './config.mjs';
 
 //#endregion
 //#region YT
 
 /** ### YNumberT
  * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `number`
- *
+ * 
  * Основной параметр модуля `YNumber`.
- *
- * @typedef {YNumberTE&YNumberTU} YNumberT
- *
+ * 
+ * @typedef {YNumberTE&YNumberTU&Y} YNumberT
+ * 
 */
 /** ### YNumberTE
  * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `number`
- *
+ * 
  * Параметр наследования `YNumber`.
- *
- * @typedef {{[p in Exclude<keyof DNumber,keyof SNumber>|Exclude<keyof SNumber,keyof DNumber>]:(DNumber[p]&SNumber[p])}} YNumberTE
- *
+ * 
+ * @typedef {Omit<DNumber, keyof SNumber>} YNumberTE
+ * 
 */
 /** ### YNumberTU
  * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `number`
- *
+ * 
  * Уникальные параметры `YNumber`.
- *
+ * 
  * @typedef YNumberTU
  * @prop {any} _
- *
+ * 
 */
 
 //#endregion
 
-class SNumber extends Y {
+class SNumber extends YEntity {
+
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YNumber[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
 
     /**
      * ### getRandom
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
-     *
-     * Метод получения случайного числа из указанного диапазона.
-     *
+     * 
+     * Метод получения случайного значения в заданном диапазоне.
+     * 
      * ***
      * @arg {number} min `Минимум`
      * @arg {number} max `Максимум`
-     * @arg {boolean?} frac `Дробное`
+     * @arg {boolean} frac `Дробность`
+     * @static
+     * @method
      * @public
     */
     static getRandom(min, max, frac) {
@@ -64,22 +85,93 @@ class SNumber extends Y {
 
     };
 
-};
-class DNumber extends SNumber {
-
     /**
-     * ### modeConstant
-     *
-     * Режим константы.
-     *
+     * ### min
+     * 
      * ***
-     * @type {boolean}
+     * 
+     * Метод поиска минимального значения среди приведенных.
+     * 
+     * ***
+     * @arg {...number} numbers `Числа`
+     * @static
+     * @method
      * @public
     */
-    modeConstant;
+    static min(...numbers) {
+        
+        let result = numbers[0];
+
+        for (const number of numbers) {
+
+            if (!YCond.isNumber(number) || result <= number) continue;
+
+            result = number;
+
+        };
+
+        return result;
+        
+    };
+    /**
+     * ### max
+     * 
+     * ***
+     * 
+     * Метод поиска максимального значения среди приведенных.
+     * 
+     * ***
+     * @arg {...number} numbers `Числа`
+     * @static
+     * @method
+     * @public
+    */
+    static max(...numbers) {
+        
+        let result = numbers[0];
+
+        for (const number of numbers) {
+
+            if (!YCond.isNumber(number) || result >= number) continue;
+
+            result = number;
+
+        };
+
+        return result;
+        
+    };
+
+    /**
+     * @arg {...YNumber} args `Аргументы`
+     * @returns {YNumber[]}
+    */
+    static create(...args) {
+
+        return Object.getPrototypeOf(SNumber).create.apply(this, args);
+
+    };
+
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&Y1)?}
+     * @template {YNumber} Y1
+    */
+    static becomePrototype(value) {
+
+        if (!(value instanceof Object)) return null;
+
+        Object.setPrototypeOf(value, Y.prototype);
+
+        return value;
+
+    };
 
 };
-class INumber extends DNumber {
+class DNumber extends SNumber {
 
     /**
      * ### value
@@ -88,9 +180,36 @@ class INumber extends DNumber {
      *
      * ***
      * @type {number}
-     * @protected
+     * @field
+     * @public
     */
     value;
+    /**
+     * ### historyMode
+     * 
+     * Режим истории.
+     * 
+     * *** 
+     * @type {boolean}
+     * @field
+     * @public
+    */
+    historyMode;
+    /**
+     * ### constantMode
+     * 
+     * Режим константы.
+     * 
+     * *** 
+     * @type {boolean}
+     * @field
+     * @public
+    */
+    constantMode;
+
+};
+class INumber extends DNumber {
+
     /**
      * ### history
      *
@@ -98,6 +217,7 @@ class INumber extends DNumber {
      *
      * ***
      * @type {number[]}
+     * @field
      * @protected
     */
     history;
@@ -107,25 +227,23 @@ class MNumber extends INumber {
 
     /**
      * ### change
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
-     *
+     * 
      * Метод изменения значения.
-     *
+     * 
      * ***
      * @arg {number} value `Значение`
+     * @method
      * @protected
     */
     change(value) {
 
-        if (!this.modeConstant && ((value && value.constructor === Number) || value === 0)) {
+        if (this.constantMode || !YCond.isNumber(value)) return this;
 
-            this.history.push(this.value);
+        this.history.push(this.value);
 
-            this.value = value;
-
-        };
+        this.value = value;
 
         return this;
 
@@ -136,67 +254,54 @@ class FNumber extends MNumber {
 
     /**
      * ### YNumber.constructor
-     *
-     *
-     *
+     * 
+     * 
+     * 
      * ***
-     * @arg {...YNumberT} t
+     * @arg {YNumberT} args
     */
-    constructor(...t) {
+    constructor(args) {
 
-        super(Object.assign(t = FNumber.#before(t), {}));
+        super(args = FNumber.#before(args = arguments));
 
-        FNumber.#deceit.apply(this, [t]);
+        FNumber.#deceit.apply(this, [args]);
 
-    };
-
-    /** @arg {any[]} t */
-    static #before(t) {
-
-        /** @type {YNumberT} */
-        let r = {};
-
-        if (t?.length === 1 && [Object, YNumber].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-            r = t[0];
-
-        } else if (t?.length) {
-
-            if (t[0]?._ytp) {
-
-                t = [...t[0]._ytp];
-
-            };
-
-            switch (t.length) {
-
-                case 3:
-                case 2:
-                case 1: r.value = t[0];
-
-            };
-
-            if (!Object.values(r).length) {
-
-                r = { _ytp: t, };
-
-            };
-
-        };
-
-        return r;
+        return this.correlate();
 
     };
-    /** @arg {YNumberT} t @this {YNumber} */
-    static #deceit(t) {
+
+    /** @arg {DNumber} args */
+    static #before(args) {
+
+        /** @type {YArg<INumber>} */
+        const yarg = args instanceof YArg ? args : new YArg(args);
+
+        yarg.set(
+
+            ['value', 'number'],
+            ['constantMode', 'bool'],
+
+        );
+
+        return yarg;
+
+    };
+    /** @arg {YArg<INumber>} args @this {YNumber} */
+    static #deceit(args) {
 
         try {
 
-            FNumber.#verify.apply(this, [t]);
+            FNumber.#verify.apply(this, arguments);
 
         } catch (e) {
 
-            throw e;
+            if (config?.strictMode) {
+
+                throw e;
+
+            };
+
+            return new YNumber();
 
         } finally {
 
@@ -205,42 +310,38 @@ class FNumber extends MNumber {
         };
 
     };
-    /** @arg {YNumberT} t @this {YNumber} */
-    static #verify(t) {
+    /** @arg {YArg<INumber>} args @this {YNumber} */
+    static #verify(args) {
 
         const {
 
 
 
-        } = t;
+        } = args;
 
-        FNumber.#handle.apply(this, [t]);
-
-    };
-    /** @arg {YNumberT} t @this {YNumber} */
-    static #handle(t) {
-
-
-
-        FNumber.#create.apply(this, [t]);
+        FNumber.#handle.apply(this, arguments);
 
     };
-    /** @arg {YNumberT} t @this {YNumber} */
-    static #create(t) {
+    /** @arg {YArg<INumber>} args @this {YNumber} */
+    static #handle(args) {
+
+
+
+        FNumber.#create.apply(this, arguments);
+
+    };
+    /** @arg {YArg<INumber>} args @this {YNumber} */
+    static #create(args) {
 
         const {
 
 
 
-        } = t;
+        } = args;
 
-        this.adopt(t);
+        this
 
-        if (config) {
-
-            this.adoptDefault(config);
-
-        };
+            .adopt(args.getData());
 
     };
 
@@ -248,9 +349,7 @@ class FNumber extends MNumber {
 
         switch (to) {
 
-            case 'string': return this.value.toString();
-            case 'number': return this.value;
-            case 'boolean': return true;
+            default: return this.value;
 
         };
 
@@ -262,26 +361,110 @@ class FNumber extends MNumber {
  * ### YNumber
  * - Тип `SDIMFY`
  * - Версия `0.0.0`
- * - Модуль `number`
  * - Цепочка `BDVHC`
  * ***
- *
- *
- *
+ * 
+ * Класс `YNumber`.
+ * 
  * ***
- *
+ * @class
+ * 
 */
 export class YNumber extends FNumber {
 
     /**
+     * ### toPrecent
+     * 
+     * ***
+     *
+     * Метод приведения текущего значения к указанному проценту.
+     *
+     * ***
+     * @arg {number} precent `Процент`
+     * @arg {number?} precentNow `Текущий процент`
+     *
+     * Позволяет указать, что текущее значение является процентом от указанного числа.
+     *
+     * Например, указав данный параметр как `97` при значении `543`, метод будет воспринимать значение в `543` как `97` процентов ои нужного числа.
+     * В следствии этого, метод предварительно доведет значение `543` до `100%`, прибавив ещё `3%`.
+     * @method
+     * @public
+    */
+    toPrecent(precent, precentNow) {
+
+        if (precentNow && precentNow.constructor === Number) {
+
+            if (precentNow < 0) {
+
+                precentNow *= -1;
+
+            };
+
+            this.change(this.value / precentNow * precent);
+
+        } else {
+
+            this.change(this.value / 100 * precent);
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### toPositive
+     * 
+     * ***
+     *
+     * Метод делающий число положительным.
+     *
+     * ***
+     * @method
+     * @public
+    */
+    toPositive() {
+
+        if (this.value < 0) {
+
+            this.deny();
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### toNegative
+     * 
+     * ***
+     *
+     * Метод делающий число отрицательным.
+     *
+     * ***
+     * @method
+     * @public
+    */
+    toNegative() {
+
+        if (this.value > 0) {
+
+            this.deny();
+
+        };
+
+        return this;
+
+    };
+
+    /**
      * ### get
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
-     *
-     * Метод получения текущего числа.
-     *
+     * 
+     * Метод получения значения.
+     * 
      * ***
+     * @method
      * @public
     */
     get() {
@@ -290,157 +473,255 @@ export class YNumber extends FNumber {
 
     };
     /**
-     * ### set
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * ### getReal
+     * 
+     * ***
+     * 
+     * Метод получения целой части.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    getReal() {
+        
+        return Math.trunc(this.value);
+        
+    };
+    /**
+     * ### getFrac
+     * 
+     * 
      * ***
      *
-     * Метод установки значения.
+     * Метод получения дробной части числа.
      *
+     * ***
+     * @method
+     * @public
+    */
+    getFrac() {
+
+        const part = this.value.toString().split('.');
+
+        if (part.length === 2) {
+
+            const result = [0, part[1]].join('.');
+
+            return part[0][0] === '-' ? +result * -1 : +result;
+
+        } else {
+
+            return null;
+
+        };
+
+    };
+    /**
+     * @method
+     * @public
+     * @returns {typeof YNumber}
+    */
+    getClass() {
+
+        return YNumber;
+
+    };
+    /**
+     * ### getPrecent
+     * 
+     * 
+     * ***
+     *
+     * Метод получения процента от указанного числа.
+     *
+     * ***
+     * @arg {number} number `Число`
+     *
+     * От указанного числа вычисляется процент.
+     * @public
+    */
+    getPrecent(number) {
+
+        if (YCond.isNumber(number)) {
+
+            return this.value / (number / 100);
+
+        };
+
+        return NaN;
+
+    };
+
+    /**
+     * ### set
+     * 
+     * ***
+     * 
+     * Метод установки нового значения минуя изменение.
+     * 
      * ***
      * @arg {number} value `Значение`
+     * @method
      * @public
     */
     set(value) {
 
-        return this.change(value);
+        if (YCond.isNumber(value)) {
+
+            this.history.push(this.value);
+
+            this.value = value;
+
+        };
+
+        return this;
 
     };
+
     /**
      * ### add
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
-     * Метод приращения значения.
+     * Метод увеличения.
      *
      * ***
      * @arg {...number} numbers `Числа`
+     * @method
      * @public
     */
     add(...numbers) {
 
-        if (!this.modeConstant) {
-
-            numbers.filter(n => n && n.constructor === Number).forEach(n => this.change(this.value + n));
-
-        };
+        for (const number of numbers) this.change(this.value + number);
 
         return this;
 
     };
     /**
      * ### dec
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
-     * Метод уменьшения значения.
+     * Метод уменьшения.
      *
      * ***
      * @arg {...number} numbers `Числа`
+     * @method
      * @public
     */
     dec(...numbers) {
 
-        if (!this.modeConstant) {
-
-            numbers.filter(n => n && n.constructor === Number).forEach(n => this.change(this.value - n));
-
-        };
+        for (const number of numbers) this.change(this.value - number);
 
         return this;
 
     };
     /**
      * ### div
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
      * Метод деления.
      *
      * ***
      * @arg {...number} numbers `Числа`
+     * @method
      * @public
     */
     div(...numbers) {
 
-        if (!this.modeConstant) {
-
-            numbers.filter(n => n && n.constructor === Number).forEach(n => this.change(this.value / n));
-
-        };
+        for (const number of numbers) this.change(this.value / number);
 
         return this;
 
     };
     /**
      * ### mul
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
      * Метод умножения.
      *
      * ***
      * @arg {...number} numbers `Числа`
+     * @method
      * @public
     */
     mul(...numbers) {
 
-        if (!this.modeConstant) {
-
-            numbers.filter(n => n && n.constructor === Number).forEach(n => this.change(this.value * n));
-
-        };
+        for (const number of numbers) this.change(this.value * number);
 
         return this;
 
     };
     /**
      * ### ere
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * ***
+     * 
+     * Метод возведения в степень.
+     * 
+     * ***
+     * @arg {number} degree `Степень`
+     * @method
+     * @public
+    */
+    ere(degree = 2) {
+        
+        return this.change(this.value ** degree);
+        
+    };
+    /**
+     * ### pow
+     * 
+     * 
      * ***
      *
-     * Метод вовзедения в степень.
+     * Метод вовзедения в степень через `Math.pow`.
      *
      * ***
      * @arg {number} degree `Степень`
+     * @method
      * @public
     */
-    ere(degree) {
+    pow(degree = 2) {
 
-        return this.change(this.value ** degree);
+        return this.change(Math.pow(this.value, degree));
 
     };
     /**
      * ### mod
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
      * Метод взятия остатка от числа.
      *
      * ***
      * @arg {number} number `Число`
+     * @method
      * @public
     */
-    mod(number) {
+    mod(number = 10) {
 
         return this.change(this.value % number);
 
     };
     /**
      * ### abs
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
      * Метод извлечения модуля числа.
      *
      * ***
+     * @method
      * @public
     */
     abs() {
@@ -449,62 +730,15 @@ export class YNumber extends FNumber {
 
     };
     /**
-     * ### sin
-     * - Версия `0.0.0`
-     * - Модуль `number`
-     * ***
-     *
-     * Метод вычисления сиунса.
-     *
-     * ***
-     * @public
-    */
-    sin() {
-
-        return this.change(Math.sin(this.value));
-
-    };
-    /**
-     * ### cos
-     * - Версия `0.0.0`
-     * - Модуль `number`
-     * ***
-     *
-     * Метод вычисления косинуса.
-     *
-     * ***
-     * @public
-    */
-    cos() {
-
-        return this.change(Math.cos(this.value));
-
-    };
-    /**
-     * ### tan
-     * - Версия `0.0.0`
-     * - Модуль `number`
-     * ***
-     *
-     * Метод вычисления тангенса.
-     *
-     * ***
-     * @public
-    */
-    tan() {
-
-        return this.change(Math.tan(this.value));
-
-    };
-    /**
      * ###
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
      * Метод вычисления экспоненты.
      *
      * ***
+     * @method
      * @public
     */
     exp() {
@@ -513,26 +747,25 @@ export class YNumber extends FNumber {
 
     };
     /**
-     * ### log
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * ### cbrt
+     * 
      * ***
-     *
-     * Метод вычисления логорифма.
-     *
+     * 
+     * Метод вычисления кубического корня числа.
+     * 
      * ***
-     * @arg {number} number `Число`
+     * @method
      * @public
     */
-    log(number) {
-
-        return this.change(Math.log(number));
-
+    cbrt() {
+        
+        return this.change(Math.cbrt(this.value));
+        
     };
     /**
      * ### back
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
      * Метод отката значения на указанное количество операций.
@@ -540,11 +773,12 @@ export class YNumber extends FNumber {
      * ***
      * @arg {number} count `Счет`
      * - Дефолт `1`
+     * @method
      * @public
     */
-    back(count = 1) {
+    back(count) {
 
-        if (!this.modeConstant && this.history.length && condIsNumberLimit(count)) {
+        if (!this.constantMode && YCond.isNumberInt(count) && count > 0) {
 
             if (count > this.history.length) {
 
@@ -567,13 +801,14 @@ export class YNumber extends FNumber {
     };
     /**
      * ### deny
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
      * Метод смены знака.
      *
      * ***
+     * @method
      * @public
     */
     deny() {
@@ -583,13 +818,14 @@ export class YNumber extends FNumber {
     };
     /**
      * ### sqrt
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
+     * 
      * ***
      *
      * Метод извлечения квадратного корня.
      *
      * ***
+     * @method
      * @public
     */
     sqrt() {
@@ -599,13 +835,13 @@ export class YNumber extends FNumber {
     };
     /**
      * ### ceil
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
      *
      * Метод округления до максимума.
      *
      * ***
+     * @method
      * @public
     */
     ceil() {
@@ -615,13 +851,13 @@ export class YNumber extends FNumber {
     };
     /**
      * ### real
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
      *
      * Метод отброса дробной части.
      *
      * ***
+     * @method
      * @public
     */
     real() {
@@ -631,13 +867,13 @@ export class YNumber extends FNumber {
     };
     /**
      * ### frac
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
      *
      * Метод отброса целой части.
      *
      * ***
+     * @method
      * @public
     */
     frac() {
@@ -646,33 +882,14 @@ export class YNumber extends FNumber {
 
     };
     /**
-     * ### exec
-     * - Версия `0.0.0`
-     * - Модуль `number`
-     * ***
-     *
-     * Метод выполнения кода.
-     *
-     * ***
-     * @arg {function(this):void} func `Функция`
-     * @public
-    */
-    exec(func) {
-
-        func(this);
-
-        return this;
-
-    };
-    /**
      * ### floor
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
      *
      * Метод округления до минимума.
      *
      * ***
+     * @method
      * @public
     */
     floor() {
@@ -682,14 +899,13 @@ export class YNumber extends FNumber {
     };
     /**
      * ### round
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
      *
      * Метод округления от 0.5.
      *
      * ***
-     *
+     * @method
      * @public
     */
     round() {
@@ -699,14 +915,14 @@ export class YNumber extends FNumber {
     };
     /**
      * ### compare
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * 
      * ***
      *
      * Метод сравнения с указанным числом.
      *
      * ***
      * @arg {number} number `Число`
+     * @method
      * @public
     */
     compare(number) {
@@ -765,160 +981,344 @@ export class YNumber extends FNumber {
                 case '+': this.add(value); break;
                 case '-': this.dec(value); break;
                 case '*': this.mul(value); break;
-                case ':': this.div(value); break;
                 case '%': this.mod(value); break;
-                case '^': this.ere(value); break;
-    
-            };
-
-        };
-
-        return this;
-
-    };
-
-    /**
-     * ### getFrac
-     * - Версия `0.0.0`
-     * - Модуль `number`
-     * ***
-     *
-     * Метод получения дробной части числа.
-     *
-     * ***
-     * @public
-    */
-    getFrac() {
-
-        const part = this.value.toString().split('.');
-
-        if (part.length === 2) {
-
-            const result = [0, part[1]].join('.');
-
-            return part[0][0] === '-' ? +result * -1 : +result;
-
-        } else {
-
-            return 0;
-
-        };
-
-    };
-    /**
-     * ### getPrecent
-     * - Версия `0.0.0`
-     * - Модуль `number`
-     * ***
-     *
-     * Метод получения процента от указанного числа.
-     *
-     * ***
-     * @arg {number} number `Число`
-     *
-     * От указанного числа вычисляется процент.
-     * @public
-    */
-    getPrecent(number) {
-
-        if (number && number.constructor === Number) {
-
-            return this.value / (number / 100);
-
-        };
-
-        return NaN;
-
-    };
-
-    /**
-     * ### toPrecent
-     * - Версия `0.0.0`
-     * - Модуль `number`
-     * ***
-     *
-     * Метод приведения текущего значения к указанному проценту.
-     *
-     * ***
-     * @arg {number} precent `Процент`
-     * @arg {number?} precentNow `Текущий процент`
-     *
-     * Позволяет указать, что текущее значение является процентом от указанного числа.
-     *
-     * Например, указав данный параметр как `97` при значении `543`, метод будет воспринимать значение в `543` как `97` процентов ои нужного числа.
-     * В следствии этого, метод предварительно доведет значение `543` до `100%`, прибавив ещё `3%`.
-     * @public
-    */
-    toPrecent(precent, precentNow) {
-
-        if (precentNow && precentNow.constructor === Number) {
-
-            if (precentNow < 0) {
-
-                precentNow *= -1;
+                case ':': case '/': this.div(value); break;
+                case '^': case '**': this.pow(value); break;
 
             };
 
-            this.change(this.value / precentNow * precent);
-
-        } else {
-
-            this.change(this.value / 100 * precent);
-
         };
 
         return this;
 
     };
+
     /**
-     * ### toPositive
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * ### sin
+     * 
+     * 
      * ***
      *
-     * Метод делающий число положительным.
+     * Метод вычисления сиунса.
      *
      * ***
+     * @method
      * @public
     */
-    toPositive() {
+    sin() {
 
-        if (this.value < 0) {
-
-            this.deny();
-
-        };
-
-        return this;
+        return this.change(Math.sin(this.value));
 
     };
     /**
-     * ### toNegative
-     * - Версия `0.0.0`
-     * - Модуль `number`
+     * ### asin
+     * 
      * ***
-     *
-     * Метод делающий число отрицательным.
-     *
+     * 
+     * Метод вычисления арксинуса.
+     * 
      * ***
+     * @method
      * @public
     */
-    toNegative() {
+    asin() {
+        
+        return this.change(Math.asin(this.value));
+        
+    };
+    /**
+     * ### sinh
+     * 
+     * ***
+     * 
+     * Метод вычисления гипербалического синуса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    sinh() {
+        
+        return this.change(Math.sinh(this.value));
+        
+    };
+    /**
+     * ### asinh
+     * 
+     * ***
+     * 
+     * Метод вычисления гипербалического арксинуса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    asinh() {
+        
+        return this.change(Math.asinh(this.value));
+        
+    };
 
-        if (this.value > 0) {
+    /**
+     * ### cos
+     * 
+     * 
+     * ***
+     *
+     * Метод вычисления косинуса.
+     *
+     * ***
+     * @method
+     * @public
+    */
+    cos() {
 
-            this.deny();
+        return this.change(Math.cos(this.value));
 
-        };
+    };
+    /**
+     * ### acos
+     * 
+     * ***
+     * 
+     * Метод вычисления арккосинуса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    acos() {
+        
+        return this.change(Math.acos(this.value));
+        
+    };
+    /**
+     * ### cosh
+     * 
+     * ***
+     * 
+     * Метод вычисления гипербалического косинуса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    cosh() {
+        
+        return this.change(Math.cosh(this.value));
+        
+    };
+    /**
+     * ### acosh
+     * 
+     * ***
+     * 
+     * Метод вычисления гипербалического арккосинуса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    acosh() {
+        
+        return this.change(Math.acosh(this.value));
+        
+    };
 
-        return this;
+    /**
+     * ### tan
+     * 
+     * 
+     * ***
+     *
+     * Метод вычисления тангенса.
+     *
+     * ***
+     * @method
+     * @public
+    */
+    tan() {
 
+        return this.change(Math.tan(this.value));
+
+    };
+    /**
+     * ### atan
+     * 
+     * ***
+     * 
+     * Метод вычисления арктангенса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    atan() {
+        
+        return this.change(Math.atan(this.value));
+        
+    };
+    /**
+     * ### tanh
+     * 
+     * ***
+     * 
+     * Метод вычисления гипербалического тангенса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    tanh() {
+        
+        return this.change(Math.atanh(this.value));
+        
+    };
+    /**
+     * ### atan2
+     * 
+     * ***
+     * 
+     * Метод вычисления арктангенса по двум координатам.
+     * 
+     * ***
+     * @arg {number} y `Y`
+     * @arg {number} x `X`
+     * @method
+     * @public
+    */
+    atan2(y = this.value, x = 0) {
+        
+        return this.change(Math.atan2(y, x));
+        
+    };
+    /**
+     * ### atanh
+     * 
+     * ***
+     * 
+     * Метод вычисления гепербалического арктангенса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    atanh() {
+        
+        return this.change(Math.atanh(this.value));
+        
+    };
+
+    /**
+     * ### cotan
+     * 
+     * ***
+     * 
+     * Метод вычисления котангенса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    cotan() {
+        
+        return this.change(1 / this.tan().get());
+        
+    };
+    /**
+     * ### acotan
+     * 
+     * ***
+     * 
+     * Метод вычисления арккотангенса.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    acotan() {
+        
+        return this.change(Math.PI / 2 - this.atan().get());
+        
+    };
+
+    /**
+     * ### log
+     * 
+     * 
+     * ***
+     *
+     * Метод вычисления логорифма.
+     *
+     * ***
+     * @method
+     * @public
+    */
+    log() {
+
+        return this.change(Math.log(this.value));
+
+    };
+    /**
+     * ### log2
+     * 
+     * ***
+     * 
+     * Метод вычисления логорифма по 2 базовому алгоритму.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    log2() {
+
+        return this.change(Math.log2(this.value));
+        
+    };
+    /**
+     * ### log1p
+     * 
+     * ***
+     * 
+     * Метод вычисления логорифма от значения на 1 больше текущего.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    log1p() {
+        
+        return this.change(Math.log1p(this.value));
+        
+    };
+    /**
+     * ### log10
+     * 
+     * ***
+     * 
+     * Метод вычисления логорифма по 10 базовому алгоритму.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    log10() {
+        
+        return this.change(Math.log10(this.value));
+        
     };
 
 };
 
+//#region YE
+
+YNumber.appendModule(YNumber);
+
+//#endregion
+
 /**
- * @file class.mjs
+ * @file number/class.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

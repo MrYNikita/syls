@@ -81,7 +81,8 @@ class SConfig extends Y {
 
 };
 /**
- * @template Y1,Y2
+ * @template Y1
+ * @template Y2
 */
 class DConfig extends SConfig {
 
@@ -226,7 +227,8 @@ class FConfig extends MConfig {
  * ***
  * @class
  * @extends FConfig<YConfigTUG&Y1,Y2>
- * @template Y1,Y2
+ * @template Y1
+ * @template Y2
  * 
 */
 export class YConfig extends FConfig {
@@ -261,7 +263,10 @@ export class YConfig extends FConfig {
 
 //#region YE
 
-YConfig.getY()['modules'].push(YConfig);
+YConfig
+
+    .appendModule(YConfig)
+    .becomePrototype(config);
 
 //#endregion
 

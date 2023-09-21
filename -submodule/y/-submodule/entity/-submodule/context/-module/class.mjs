@@ -4,8 +4,8 @@ import { Y } from '../../../../../-module/export.mjs';
 import { YArg } from '../../../../arg/-module/export.mjs';
 import { YLog } from '../../../../log/-module/export.mjs';
 import { YDate } from '../../../../date/-module/export.mjs';
-import { configContext as config } from './config.mjs';
 import { YHandler } from '../../handler/-module/class.mjs';
+import { configContext as config } from './config.mjs';
 
 //#endregion
 //#region YT
@@ -104,17 +104,6 @@ class DContext extends SContext {
      * @public
     */
     id;
-    /**
-     * ### handlers
-     * 
-     * Обработчики.
-     * 
-     * *** 
-     * @type {YHandler<Y1>[]}
-     * @field
-     * @public
-    */
-    handlers;
     
 };
 /**
@@ -144,18 +133,18 @@ class IContext extends DContext {
      * @field
      * @protected
     */
-    date;
+    date = new YDate();
     /**
-     * ### rept
+     * ### handlers
      * 
-     * Отчёт.
+     * Обработчики.
      * 
      * *** 
-     * @type {YRept}
+     * @type {YHandler<Y1>[]}
      * @field
      * @protected
     */
-    rept;
+    handlers;
     
 };
 /**

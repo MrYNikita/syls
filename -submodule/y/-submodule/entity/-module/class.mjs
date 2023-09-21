@@ -2,10 +2,11 @@
 
 import { Y } from '../../../-module/class.mjs';
 import { YArg } from '../../arg/-module/class.mjs';
+import { YCond } from '../../cond/-module/class.mjs';
+import { YRept } from '../../rept/-module/class.mjs';
+import { YHandler } from '../-submodule/handler/-module/class.mjs';
 import { YContext } from '../-submodule/context/-module/class.mjs';
 import { configEntity as config } from './config.mjs';
-import { YHandler } from '../-submodule/handler/-module/class.mjs';
-import { YCond } from '../../cond/-module/class.mjs';
 
 //#endregion
 //#region YT
@@ -94,7 +95,7 @@ class IEntity extends DEntity {
      * @field
      * @protected
     */
-    _y;
+    _y = new YContext();
 
 };
 class MEntity extends IEntity {
@@ -188,7 +189,12 @@ class FEntity extends MEntity {
 
         this
 
-            .adopt(args.getData());
+            .adopt(args.getData())
+            .do(self => {
+
+                self._y.id = self.getClass().count ?? null;
+
+            })
 
     };
 
@@ -209,6 +215,22 @@ class FEntity extends MEntity {
 */
 export class YEntity extends FEntity {
 
+    /**
+     * ### getRept
+     * 
+     * ***
+     * 
+     * Метод получения отчёта.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    getRept() {
+        
+        return new YRept(this);
+        
+    };
     /**
      * ### getClass
      * 
@@ -286,6 +308,36 @@ export class YEntity extends FEntity {
 
         return this;
 
+    };
+
+    /**
+     * ### useRept
+     * 
+     * ***
+     * 
+     * Метод использования отчёта.
+     * 
+     * ***
+     * @arg {(self:YRept<this>) => void} code `Код`
+     * @method
+     * @public
+    */
+    useRept(code) {
+        
+        try {
+
+            if (!YCond.isFunc(code)) return this;
+
+            code(this.getRept());
+
+        } catch (error) {
+
+
+
+        };
+
+        return this;
+        
     };
 
     /**

@@ -1,6 +1,6 @@
 //#region YI
 
-import { Y, yClassifyProp, } from "@syls/y";
+import { Y } from "../../../-module/export.mjs";
 import { configArg as config } from './config.mjs';
 import { argClassify } from "./module.mjs";
 
@@ -476,7 +476,7 @@ export class YArg extends FArg {
 
 //#region YE
 
-YArg.getY()['modules'].push(YArg);
+YArg.getY().appendModule(YArg);
 
 //#endregion YE
 

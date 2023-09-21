@@ -1,7 +1,7 @@
-import { configY } from "@syls/y";
-import { YConfig } from "@syls/y/config";
+import { configEntity } from "../../entity/-module/export.mjs";
+import { YConfig } from "../../config/-module/export.mjs";
 
-/** @type {configY} */
+/** @type {configEntity} */
 const config = {
     
     aliases: [
@@ -44,7 +44,7 @@ export const configMany = new YConfig(Object.assign(config, {
     */
     cursorsDefault: [],
     
-}), configY);
+}), configEntity);
 
 export default configMany;
 

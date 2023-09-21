@@ -2,9 +2,9 @@
 
 import { Y } from '@syls/y';
 import { YArg } from '@syls/y/arg';
-import { configLayout as config } from './config.mjs';
+import { YANSI } from '../../ansi/-module/export.mjs';
 import { YElement } from '../-submodule/element/-module/export.mjs';
-import { YANSI, ansiGetColorReset } from '../../ansi/-module/export.mjs';
+import { configLayout as config } from './config.mjs';
 import { stringAppend, stringGetRow, stringSetRow } from '../../../-module/export.mjs';
 
 //#endregion
@@ -95,6 +95,17 @@ class DLayout extends SLayout {
 class ILayout extends DLayout {
     
     /**
+     * ### string
+     * 
+     * Строка.
+     * 
+     * *** 
+     * @type {import('@syls/string')['YString']['prototype']}
+     * @field
+     * @protected
+    */
+    string;
+    /**
      * ### pointer
      * 
      * Указатель.
@@ -149,7 +160,11 @@ class FLayout extends MLayout {
         /** @type {YArg<ILayout>} */
         const yarg = args instanceof YArg ? args : new YArg(args);
         
-        yarg.dataUsed.string = yarg.extract('string');
+        yarg.set(
+
+            ['string', 'ject'],
+
+        );
         
         return yarg;
         

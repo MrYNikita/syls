@@ -1,5 +1,12 @@
-import { configY } from "@syls/y";
 import { YConfig } from "@syls/y/config";
+import { configEntity } from "@syls/y/entity";
+
+/** @type {configEntity} */
+const config = {
+    
+    
+    
+};
 
 /** ### configNumber
  * 
@@ -8,45 +15,42 @@ import { YConfig } from "@syls/y/config";
  * ***
  * @public
 */
-export const configNumber = new YConfig({
+export const configNumber = new YConfig(Object.assign(config, {
     
     /**
-     * ### defaultValue
-     *
+     * ### valueDefault
+     * 
+     * ***
+     * 
      * Дефолт значение.
-     *
-     * ***
-     * @type {NaN?}
+     * 
+     * *** 
+     * @type {number}
      * @public
+     * @property
     */
-    defaultValue: NaN,
+    valueDefault: 0,
     /**
-     * ### defaultHistory
-     *
-     * Дефолт история.
-     *
+     * ### historyDefault
+     * 
      * ***
+     * 
+     * Дефолт история.
+     * 
+     * *** 
      * @type {number[]}
      * @public
+     * @property
     */
-    defaultHistory: [],
-    /**
-     * ### defaultModeConstant
-     *
-     * Дефолт режим коснтанты.
-     *
-     * ***
-     * @type {boolean}
-     * @public
-    */
-    defaultModeConstant: false,
+    historyDefault: [],
     
-}, configY);
+}), configEntity);
 
 export default configNumber;
 
 /**
  * @file number/config.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */

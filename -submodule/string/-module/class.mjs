@@ -1,8 +1,8 @@
 //#region YI
 
-import { YArg } from '@syls/y/arg';
 import { YMany } from '@syls/y/many';
-import { YCond, condIsStringValid } from '@syls/y/cond';
+import { YArg } from '@syls/y/arg';
+import { YCond } from '@syls/y/cond';
 import { configString as config } from './config.mjs';
 import { YStat } from '../-submodule/stat/-module/class.mjs';
 import { YLayout } from '../-submodule/layout/-module/class.mjs';
@@ -83,7 +83,7 @@ class IString extends DString {
      * @field
      * @public
     */
-    layout;
+    layout = new YLayout(this);
     /**
      * ### prefix
      * 
@@ -205,6 +205,12 @@ class FString extends MString {
                 )
             
             )
+
+    };
+
+    [Symbol.toPrimitive](to) {
+
+        return this.values;
 
     };
 
@@ -349,7 +355,6 @@ export class YString extends FString {
      * Метод получения стилевой разметки.
      * 
      * ***
-     * 
      * @method
      * @public
     */
@@ -477,7 +482,7 @@ export class YString extends FString {
     */
     setPostfix(postfix = '') {
 
-        if (condIsStringValid(postfix)) {
+        if (YCond.isString(postfix)) {
 
             this.postfix = () => postfix;
 
@@ -516,6 +521,27 @@ export class YString extends FString {
 
     };
 
+    /**
+     * ### useLayout
+     * 
+     * ***
+     * 
+     * Метод использования шаблона.
+     * 
+     * ***
+     * @arg {(self:YLayout) => void} code `Код`
+     * @method
+     * @public
+    */
+    useLayout(code) {
+
+        if (!YCond.isFunc(code)) return this;
+
+        code(this.getLayout());
+
+        return this;
+        
+    };
     /**
      * ### useCorrecter
      * 

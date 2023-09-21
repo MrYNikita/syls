@@ -1,4 +1,4 @@
-import { YLayout } from "../-submodule/layout/-module/class.mjs";
+// import { YLayout } from "../-submodule/layout/-module/class.mjs";
 import { YConfig } from "@syls/y/config";
 import { configMany } from "@syls/y/many";
 
@@ -28,6 +28,19 @@ export const configString = new YConfig(Object.assign(config, {
      * @public
     */
     tab: '\t',
+    /**
+     * ### style
+     * 
+     * ***
+     * 
+     * Стиль.
+     * 
+     * *** 
+     * @type {string}
+     * @public
+     * @property
+    */
+    style: 'classic',
     /**
      * ### space
      *
@@ -208,20 +221,39 @@ export const configString = new YConfig(Object.assign(config, {
      * @public
     */
     backgroundDefault: 'black',
+
     /**
-     * ### layoutDefault
+     * ### styles
      * 
      * ***
      * 
-     * Дефолт стилевая разметка.
+     * Стили.
      * 
      * *** 
-     * @type {YLayout}
      * @public
      * @property
     */
-    layoutDefault: new YLayout(),
+    styles: {
 
+        redline: {
+
+            foreground: 'white',
+            background: 'redDark',
+            
+        },
+        vampire: {
+            
+
+
+        },
+        classic: {
+
+            foreground: 'cyan',
+            background: 'blueDark',
+
+        },
+
+    },
     /**
      * ### symbols
      * 
@@ -258,6 +290,8 @@ export const configString = new YConfig(Object.assign(config, {
             ne: '≠',
             /** @type {'∞'} */
             inf: '∞',
+            /** @type {'∫'} */
+            integr: '∫',
             /** @type {'±'} */
             plusmin: '±',
 

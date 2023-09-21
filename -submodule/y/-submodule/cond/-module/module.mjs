@@ -1,6 +1,5 @@
 //#region YI
 
-import { YMany } from '@syls/y/many';
 import { configCond as config } from './config.mjs';
 
 //#endregion
