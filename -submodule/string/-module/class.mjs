@@ -12,67 +12,30 @@ import { YCorrecter } from '../-submodule/correcter/-module/class.mjs';
 //#endregion
 //#region YT
 
-/** ### YStringT
- * - Тип `T`
- * 
- * Основной параметр модуля `YString`.
- * 
- * @typedef {YStringTE&YStringTU&Y} YStringT
- * 
-*/
-/** ### YStringTE
- * - Тип `TE`
- * 
- * Параметр наследования `YString`.
- * 
- * @typedef {Omit<DString, keyof SString>} YStringTE
- * 
-*/
-/** ### YStringTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YString`.
- * 
- * @typedef YStringTU
- * @prop {any} _
- * 
-*/
+
 
 //#endregion
 
-/** @extends {YMany<string>} */
-class SString extends YMany {
-
-    /** ### stock
-     * @type {YString[]}
-     * @public
-    */
-    static stock = [];
-    /** ### config
-     * 
-     * ***
-     * @public
-    */
-    static config = config;
-
-    /**
-     * @arg {...YString} args `Аргументы`
-     * @returns {YString[]}
-    */
-    static create(...args) {
-
-        return Object.getPrototypeOf(SString).create.apply(this, [...args]);
-
-    };
-
-};
-class DString extends SString {
-
+/**
+ * ### YString
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @extends YMany<Y1>
+ * @template {string} Y1
+ * 
+*/
+export class YString extends YMany {
     
-
-};
-class IString extends DString {
-
+    //#region field
+    
     /**
      * ### layout
      * 
@@ -106,130 +69,25 @@ class IString extends DString {
      * @protected
     */
     postfix;
-
-};
-class MString extends IString {
-
-
-
-};
-class FString extends MString {
-
+    
+    //#endregion
+    //#region method
+    
     /**
-     * ### YString.constructor
-     * 
-     * 
+     * ### toString
      * 
      * ***
-     * @arg {YStringT} args
+     * 
+     * Метод получения строкового представления.
+     * 
+     * ***
+     * @public
     */
-    constructor(args) {
+    toString() {
 
-        super(args = FString.#before(arguments));
-
-        FString.#deceit.apply(this, [args]);
-
-        return this.correlate();
+        return this.get();
 
     };
-
-    /** @arg {DString} args */
-    static #before(args) {
-
-        /** @type {YArg<IString>} */
-        const yarg = args instanceof YArg ? args : new YArg(args);
-
-        return yarg;
-
-    };
-    /** @arg {YStringT} argst @this {YString} */
-    static #deceit(args) {
-
-        try {
-
-            FString.#verify.apply(this, arguments);
-
-        } catch (e) {
-
-            throw e;
-
-        } finally {
-
-
-
-        };
-
-    };
-    /** @arg {YStringT} args @this {YString} */
-    static #verify(args) {
-
-        const {
-
-
-
-        } = args;
-
-        FString.#handle.apply(this, arguments);
-
-    };
-    /** @arg {YStringT} args @this {YString} */
-    static #handle(args) {
-
-
-
-        FString.#create.apply(this, arguments);
-
-    };
-    /** @arg {YStringT} args @this {YString} */
-    static #create(args) {
-
-        const {
-
-
-
-        } = args;
-
-        this
-
-            .adopt(args.getData())
-            .do(self => self.getCursorController()
-            
-                .cond(
-
-                    self => self.get(),
-                    self => self
-
-                        .get()
-                        .move(0, this.values.length)
-
-                )
-            
-            )
-
-    };
-
-    [Symbol.toPrimitive](to) {
-
-        return this.values;
-
-    };
-
-};
-
-/**
- * ### YString
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс YString.
- * 
- * ***
- * @class
- * 
-*/
-export class YString extends FString {
 
     /**
      * ### get
@@ -1055,23 +913,151 @@ export class YString extends FString {
         return this;
 
     };
-
+    
+    //#endregion
+    //#region static
+    
+    static {
+        
+        
+        
+    };
+    
     /**
-     * ### toString
+     * ### stock
      * 
      * ***
      * 
-     * Метод получения строкового представления.
+     * 
      * 
      * ***
+     * @type {YString[]}
+     * @field
+     * @static
      * @public
     */
-    toString() {
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
+    
+    /**
+     * @arg {...YString} args `Аргументы`
+     * @returns {YString[]}
+    */
+    static create(...args) {
+        
+        return Object.getPrototypeOf(this).create.apply(this, args);
+        
+    };
+    
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&Y1)?}
+     * @template {YString} Y1
+    */
+    static becomePrototype(value) {
+        
+        return Object.getPrototypeOf(this).becomePrototype.apply(this, [value]);
+        
+    };
+    
+    //#endregion
+    
+    /**
+     * ### YStringConstructor
+     * 
+     * 
+     * 
+     * ***
+     * @arg {YStringT} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @constructor
+    */
+    constructor(...args) {
+        
+        try {
+            
+            //#region before
+            
+            /** @type {YArg<YString>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
+            
+            
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+                .do(self => self.getCursorController()
+            
+                .cond(
 
-        return this.get();
+                    self => self.get(),
+                    self => self
 
+                        .get()
+                        .move(0, this.values.length)
+
+                )
+            
+            )
+            
+            
+        } catch (err) {
+            
+            if (config.value.strictMode) {
+                
+                throw err;
+                
+            };
+            
+        } finally {
+            
+            
+            
+        };
+        
     };
 
+    [Symbol.toPrimitive](to) {
+
+        return this.values;
+
+    };
+    
 };
 
 /**

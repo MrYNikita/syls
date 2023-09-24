@@ -5,7 +5,7 @@ import { funcBypass } from '@syls/func';
 import { yClassifyProp, yGetProperty } from '@syls/y';
 import { dateGetMesuares } from '@syls/y/date';
 import { condIsNumberLimit, condIsString } from '@syls/y/cond';
-import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
+// import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
 
 //#endregion
 //#region YT

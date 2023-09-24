@@ -152,6 +152,124 @@ export function arrayToNew(array, type) {
 };
 
 //#endregion
+//#region toClass
+
+/**
+ * ### toClass
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef toClassT
+ * @prop {any} cl
+ * @prop {any[]} array
+ * ***
+ * @arg {toClassT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function toClass(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            cl,
+            array,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = array;
+        
+        //#endregion
+        //#region comply
+        
+        for (const index in array) {
+
+            array[index] = new cl(array[index]);
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arrayToClass
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция приведения всех элементов массива к указанному классу.
+ * 
+ * ***
+ * @arg {Y2} cl `Класс`
+ * @arg {Y1} array `Массив`
+ * @returns {Y2['prototype'][]}
+ * @function
+ * @template Y2
+ * @template {any[]} Y1
+*/
+export function arrayToClass(array, cl) {
+
+    return toClass({ array, cl, });
+
+};
+/**
+ * ### arrayToClassNew
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция {@link arrayToClass|приведения всех элементов массива к указанному классу}.
+ * Работает с копией указанного массива.
+ * 
+ * ***
+ * @arg {Y2} cl `Класс`
+ * @arg {Y1} array `Массив`
+ * @returns {Y2['prototype'][]}
+ * @function
+ * @template Y2
+ * @template {any[]} Y1
+*/
+export function arrayToClassNew(array, cl) {
+
+    return toClass({ array: array?.slice?.(), cl, });
+
+};
+
+//#endregion
 //#region get
 
 /**
@@ -240,6 +358,119 @@ function get(args) {
 export function arrayGet(array, index) {
 
     return get({ array, index, });
+
+};
+
+//#endregion
+//#region getOut
+
+/**
+ * ### getOut
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getOutT
+ * @prop {any} value
+ * @prop {any[]} array
+ * @prop {number} index
+ * ***
+ * @arg {getOutT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getOut(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            array,
+            index,
+            value,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (value === undefined) value = null;
+        
+        //#endregion
+        //#region comply
+        
+        result = array.splice(index, 1, value)[0];
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arrayGetOut
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция извлечения из массива с подстановкой.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {any} value `Подстановка`
+ * @arg {number} index `Индекс`
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayGetOut(array, index, value) {
+
+    return getOut({ array, index, value, });
+
+};
+/**
+ * ### arrayGetOutNew
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция {@link arrayGetOut|извлечения из массива с подстановкой}.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {any} value `Подстановка`
+ * @arg {number} index `Индекс`
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayGetOutNew(array, index, value) {
+
+    return getOut({ array: array?.slice?.(), index, value, });
 
 };
 
@@ -485,6 +716,148 @@ export function arrayMixNew(array, iter) {
 };
 
 //#endregion
+//#region pad
+
+/**
+ * ### pad
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef padT
+ * @prop {any} value
+ * @prop {any[]} array
+ * @prop {number} length
+ * @prop {'center'|'left'|'right'} mode
+ * ***
+ * @arg {padT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function pad(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            mode,
+            value,
+            array,
+            length,
+            
+        } = args;
+        
+        //#region verify
+        
+
+        
+        //#endregion
+        //#region handle
+        
+        result = array;
+
+        if (value === undefined) value = null;
+        if (!mode || !['center', 'left', 'right'].includes(mode)) mode = 'right';
+        if (YCond.isNumber(length) && length > array.length) length -= array.length;
+
+        //#endregion
+        //#region comply
+        
+        const pads = new Array(length).fill(value);
+
+        switch (mode) {
+
+            case 'right': {
+
+                array.push(...pads);
+
+            }; break;
+            case 'left': {
+
+                array.unshift(...pads);
+
+            }; break;
+            case 'center': {
+
+                for (const index in pads) (index - 0) % 2 == 0 ? array.push(pads[index]) : array.unshift(pads[index]);
+
+            }; break;
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arrayPad
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция доведения массива до указанной длины.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {any} value `Дополнитель`
+ * @arg {number} length `Длина`
+ * @arg {padT['mode']} mode `Режим`
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayPad(array, length, value, mode) {
+
+    return pad({ array, length, value, mode, });
+
+};
+/**
+ * ### arrayPadNew
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция {@link arrayPad|доведения массива до указанной длины}.
+ * Работает с копией указанного массива.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {any} value `Дополнитель`
+ * @arg {number} length `Длина`
+ * @arg {padT['mode']} mode `Режим`
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayPadNew(array, length, value, mode) {
+
+    return pad({ array: array?.slice?.(), length, value, mode, });
+
+};
+
+//#endregion
 //#region move
 
 /**
@@ -500,7 +873,6 @@ export function arrayMixNew(array, iter) {
  * @prop {any[]} array
  * @prop {number} bias
  * @prop {number} index
- * @prop {boolean} direct
  * ***
  * @arg {moveT} args `Аргументы`
  * @since `1.0.0`
@@ -518,7 +890,6 @@ function move(args) {
             bias,
             array,
             index,
-            direct,
 
         } = args;
 
@@ -529,20 +900,26 @@ function move(args) {
         //#endregion
         //#region handle
 
+        let indexS = 0, indexE = 0;
 
+        if (bias < 0) {
+
+            indexS = index + bias;
+            indexE = index;
+
+        } else {
+
+            indexS = index;
+            indexE = index + bias;
+
+        };
+
+        result = array;
 
         //#endregion
         //#region comply
 
-        if (direct) {
-
-            bias
-
-        } else {
-
-
-
-        };
+        array.splice(indexS, 0, ...array.splice(indexE))
 
         //#endregion
 
@@ -582,14 +959,35 @@ function move(args) {
  * @arg {Y1} array `Массив`
  * @arg {number} bias `Смещение`
  * @arg {number} index `Индекс`
- * @arg {boolean} direct `Напрвление`
  * @returns {Y1}
  * @function
  * @template {any[]} Y1
 */
-export function arrayMove(array, index, bias, direct) {
+export function arrayMove(array, index, bias) {
 
     return move({ array, index, bias, direct, });
+
+};
+/**
+ * ### arrayMoveNew
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция {@link arrayMove|смещения части массива начиная с указанного индекса и на указанное количество шагов}.
+ * Работает с копией указанного массива.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {number} bias `Смещение`
+ * @arg {number} index `Индекс`
+ * @returns {Y1}
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayMoveNew(array, index, bias) {
+
+    return move({ array: array?.slice?.(), index, bias, direct, });
 
 };
 
@@ -1057,6 +1455,204 @@ export function arrayClear(array) {
 export function arrayClearNew(array) {
 
     return clear({ array: array?.slice?.(), });
+
+};
+
+//#endregion
+//#region create
+
+/**
+ * ### create
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef createT
+ * @prop {number} length
+ * ***
+ * @arg {createT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function create(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            length,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = [];
+        
+        //#endregion
+        //#region comply
+        
+        arrayPad(result, length);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arrayCreate
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция создания массива указанной длины.
+ * 
+ * ***
+ * @arg {number} length `Длина`
+ * @function
+*/
+export function arrayCreate(length) {
+
+    return create({ length, });
+
+};
+
+//#endregion
+//#region select
+
+/**
+ * ### select
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef selectT
+ * @prop {any[]} array
+ * @prop {((elem: Y1[0], index: number, array: Y1) => boolean)[]} conds
+ * ***
+ * @arg {selectT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function select(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            conds,
+            array,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = [];
+        
+        //#endregion
+        //#region comply
+        
+        for (const index in array) {
+
+            let flag = false;
+
+            const elem = array[index];
+
+            for (const cond of conds) {
+
+                if (!cond(elem, index, array)) {
+
+                    flag = true;
+                    break;
+
+                };
+
+            };
+
+            if (flag) continue;
+
+            result.push(elem);
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arraySelect
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция отбора значений по условиям.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {...((elem: Y1[0], index: number, array: Y1) => boolean)} conds `Условия`
+ * @returns {Y1}
+ * @function
+ * @template {any[]} Y1
+*/
+export function arraySelect(array, ...conds) {
+
+    return select({ array, conds, });
 
 };
 
@@ -1562,6 +2158,214 @@ export function arrayConveyNew(array, step, direct) {
 };
 
 //#endregion
+//#region repeat
+
+/**
+ * ### repeat
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef repeatT
+ * @prop {any[]} array
+ * @prop {number} count
+ * ***
+ * @arg {repeatT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function repeat(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            array,
+            count,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = array;
+        
+        //#endregion
+        //#region comply
+        
+        const slice = array.slice();
+
+        while (count > 0) {
+
+            array.push(...slice);
+
+            count--;
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arrayRepeat
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция дополнения массива его повторениями.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {number} count `Количество`
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayRepeat(array, count) {
+
+    return repeat({ array, count, });
+
+};
+/**
+ * ### arrayRepeatNew
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция {@link arrayRepeat|дополнения массива его повторениями}.
+ * Работает с копией указанного массива.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {number} count `Количество`
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayRepeatNew(array, count) {
+
+    return repeat({ array: array?.slice?.(), count, });
+
+};
+
+//#endregion
+//#region extract
+
+/**
+ * ### extract
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef extractT
+ * @prop {any[]} array
+ * @prop {number} index
+ * ***
+ * @arg {extractT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function extract(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            array,
+            index,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+
+        
+        //#endregion
+        //#region comply
+        
+        result = array.splice(index, 1);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arrayExtract
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция извлечения элемента из массива.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {number} index `Индекс`
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayExtract(array, index) {
+
+    return extract({ array, index, });
+
+};
+
+//#endregion
 //#region foreach
 
 /**
@@ -1726,6 +2530,117 @@ export function arrayForeach(array, act, condsBreak, condsContinue) {
 export function arrayForeachNew(array, act, condsBreak, condsContinue) {
 
     return foreach({ array, act, condsBreak, condsContinue, });
+
+};
+
+//#endregion
+//#region compress
+
+/**
+ * ### compress
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef compressT
+ * @prop {any[]} array
+ * ***
+ * @arg {compressT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function compress(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            array,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = array;
+        
+        //#endregion
+        //#region comply
+        
+        for (let index = 0; index < array.length; index++) {
+
+            if (!array[index] && array[index] !== 0) array.splice(index--, 1);
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arrayCompress
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция сжатия массива.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @returns {Y1}
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayCompress(array) {
+
+    return compress({ array, });
+
+};
+/**
+ * ### arrayCompressNew
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция {@link arrayCompress|сжатия массива}.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @returns {Y1}
+ * @function
+ * @template {any[]} Y1
+*/
+export function arrayCompressNew(array) {
+
+    return compress({ array: array?.slice?.(), });
 
 };
 

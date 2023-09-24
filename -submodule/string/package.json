@@ -24,6 +24,10 @@
         "./ansi": {
             "types": "./-submodule/ansi/-module/type.d.ts",
             "import": "./-submodule/ansi/-module/export.mjs"
+        },
+        "./console": {
+            "types": "./-submodule/console/-module/type.d.ts",
+            "import": "./-submodule/console/-module/export.mjs"
         }
     },
     "scripts": {
