@@ -1,14 +1,20 @@
-import { arrayCompress, arrayCompressNew, arrayCreate, arrayGetOut, arrayMove, arrayPad, arrayRepeat, arraySelect, arrayToClassNew } from "@syls/array";
-import { YNumber } from "@syls/number";
-import { YCond } from "@syls/y/cond";
+import { netRequest } from "@syls/os/net";
+import { YPath, pathGet, pathGetDisk, pathGetName, pathSetExpand, pathSetName } from "@syls/os/path";
 
-const arr = [0, 1, 2, 3, null, null, null, 7, 8];
+console.clear();
 
-// console.log(arraySelect(arr, x => YCond.isString(x), x => x.length > 2));
-// console.log(arrayGetOut(arr, 1, 'x'), arr);
-// console.log(arrayPad(arr, 20, null, 'center'));
-// console.log(arrayRepeat(arr, 1));
-// console.log(arrayCreate(10));
-// console.log(arrayMove(arr, 7, -4));
-// console.log();
-// console.log();
+// const path1 = new YPath('test2/test.txt');
+// const path2 = new YPath('test2/test.csv');
+
+// path1
+
+//     .setName('eee')
+//     .setExpand('csv')
+//     .print()
+
+// console.log(pathGetName(pathGet('test2/test.txt')));
+// console.log(pathSetExpand(pathGet('test2/test.txt'), 'cmd'));
+// console.log(pathSetName(pathGet('test2/test.txt'), 'eee'));
+// console.log(pathGetDisk('C:/Config'));
+console.log();
+console.log(await netRequest('habr.com', '/ru/articles/554274/', 'GET'));

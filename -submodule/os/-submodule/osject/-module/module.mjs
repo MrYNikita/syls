@@ -1,23 +1,10 @@
 //#region YI
 
-import { pathExists, pathGet } from '../../path/-module/export.mjs';
+import { YArg } from '@syls/y/arg';
+import { YCond } from '@syls/y/cond';
+import { pathDecompose, pathExist, pathGet, pathGetMany } from '../../path/-module/export.mjs';
+import { configOsject as config } from './config.mjs';
 import { unlinkSync, statSync, renameSync, } from 'fs';
-
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
 
 //#endregion
 //#region YT
@@ -25,97 +12,14 @@ await import('./error.mjs')
 /** ### osjectT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `osject`
- *
+ * 
  * Основной параметр модуля `osject`.
- *
+ * 
  * @typedef osjectT
- * @prop {any} _
- *
-*/
-/** ### osjectTData
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- *
- *
- * @typedef osjectTData
- * @prop {osjectTTData} data
- *
-*/
-/** ### osjectTExpand
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- *
- *
- * @typedef osjectTExpand
- * @prop {osjectTTExpand} expand
- *
-*/
-/** ### osjectTFragment
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- *
- *
- * @typedef osjectTFragment
- * @prop {osjectTTFragment} fragment
- *
-*/
-/** ### osjectTEncoding
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * 
- * 
- * @typedef osjectTEncoding
- * @prop {osjectTTEncoding} encoding
- * 
-*/
-
-/** ### osjectTTData
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- *
- *
- * @typedef {string|[]|[][]|{}} osjectTTData
- *
-*/
-/** ### osjectTTExpand
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- *
- *
- * @typedef {'csv'|'txt'|'json'} osjectTTExpand
- *
-*/
-/** ### osjectTTFragment
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- *
- *
- * @typedef {import("../path/module.mjs").pathTTFragment} osjectTTFragment
- *
-*/
-/** ### osjectTTEncoding
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * 
- * 
- * @typedef {string} osjectTTEncoding
+ * @prop {string} name
+ * @prop {string} expand
+ * @prop {string} fragment
+ * @prop {string} location
  * 
 */
 
@@ -126,46 +30,62 @@ await import('./error.mjs')
 
 //#endregion
 
-//#region getName 0.0.0
+//#region getName
 
-/** ### osjectTFGetName
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
+/**
+ * ### getName
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `getName`.
  * 
- * @typedef {osjectTFUGetName&osjectT&osjectTFragment} osjectTFGetName
  * 
+ * ***
+ * @typedef getNameT
+ * @prop {} _
+ * ***
+ * @arg {osjectT&getNameT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### osjectTFUGetName
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * Уникальные параметры функции `getName`.
- * 
- * @typedef osjectTFUGetName
- * @prop {any} _
-*/
+function getName(args) {
 
-/** @arg {osjectTFGetName} t */
-function getNameDeceit(t) {
+    let result;
 
     try {
 
-        return getNameVerify(t);
+        let {
 
-    } catch (e) {
+            fragment,
 
-        if (config?.strictMode) {
+        } = args;
 
-            throw e;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = osjectGetNameFull(fragment).split('.')[0];
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
 
         };
 
-        return undefined;
+
 
     } finally {
 
@@ -173,105 +93,90 @@ function getNameDeceit(t) {
 
     };
 
-};
-/** @arg {osjectTFGetName} t */
-function getNameVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getNameHandle(t);
-
-};
-/** @arg {osjectTFGetName} t */
-function getNameHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.fragment = pathGet(t.fragment);
-
-    return getNameComply(t);
-
-};
-/** @arg {osjectTFGetName} t */
-function getNameComply(t) {
-
-    const {
-
-        fragment,
-
-    } = t;
-
-    return osjectGetNameFull(fragment).split('.')[0];
+    return result;
 
 };
 
 /**
- * ### osjectGetname
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\osject`
+ * ### osjectGetName
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Функция получения имени файла, полученного по указанному фргаменту.
+ * Функция получения имени объекта os.
  * 
  * ***
- * @arg {osjectTTFragment} fragment `Фрагмент`
+ * @arg {string|RegExp} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function osjectGetName(fragment) {
 
-    return getNameDeceit({ fragment, });
+    return getName({ fragment, });
 
 };
 
 //#endregion
-//#region getNameFull 0.0.0
+//#region getNameFull
 
-/** ### osjectTFGetNameFull
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
+/**
+ * ### getNameFull
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `getNameFull`.
  * 
- * @typedef {osjectTFUGetNameFull&osjectT&osjectTFragment} osjectTFGetNameFull
  * 
+ * ***
+ * @typedef getNameFullT
+ * @prop {} _
+ * ***
+ * @arg {osjectT&getNameFullT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### osjectTFUGetNameFull
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * Уникальные параметры функции `getNameFull`.
- * 
- * @typedef osjectTFUGetNameFull
- * @prop {any} _
-*/
+function getNameFull(args) {
 
-/** @arg {osjectTFGetNameFull} t */
-function getNameFullDeceit(t) {
+    let result;
 
     try {
 
-        return getNameFullVerify(t);
+        let {
 
-    } catch (e) {
+            fragment,
 
-        if (config?.strictMode) {
+        } = args;
 
-            throw e;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = fragment.split('/').at(-1);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
 
         };
 
-        return undefined;
+
 
     } finally {
 
@@ -279,103 +184,92 @@ function getNameFullDeceit(t) {
 
     };
 
-};
-/** @arg {osjectTFGetNameFull} t */
-function getNameFullVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getNameFullHandle(t);
-
-};
-/** @arg {osjectTFGetNameFull} t */
-function getNameFullHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getNameFullComply(t);
-
-};
-/** @arg {osjectTFGetNameFull} t */
-function getNameFullComply(t) {
-
-    const {
-
-        fragment,
-
-    } = t;
-
-    return fragment.split('/').at(-1);
+    return result;
 
 };
 
 /**
  * ### osjectGetNameFull
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\osject`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Функция получения полного имени файла по указанному фрагменту.
+ * 
  * 
  * ***
- * @arg {osjectTTFragment} fragment `Фрагмент`
+ * @arg {osjectT['fragment']} fragment
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function osjectGetNameFull(fragment) {
 
-    return getNameFullDeceit({ fragment, });
+    return getNameFull({ fragment, });
 
 };
 
 //#endregion
-//#region getExpand 0.0.0
+//#region getExpand
 
-/** ### osjectTFGetExpand
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
+/**
+ * ### getExpand
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `getExpand`.
  * 
- * @typedef {osjectTFUGetExpand&osjectT&osjectTFragment} osjectTFGetExpand
  * 
+ * ***
+ * @typedef getExpandT
+ * @prop {} _
+ * ***
+ * @arg {osjectT&getExpandT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### osjectTFUGetExpand
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * Уникальные параметры функции `getExpand`.
- * 
- * @typedef osjectTFUGetExpand
- * @prop {any} _
-*/
+function getExpand(args) {
 
-/** @arg {osjectTFGetExpand} t */
-function getExpandDeceit(t) {
+    let result;
 
     try {
 
-        return getExpandVerify(t);
+        let {
 
-    } catch (e) {
+            fragment,
 
-        if (config?.strictMode) {
+        } = args;
 
-            throw e;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const name = pathDecompose(fragment).at(-1);
+
+        result = name.match(/\./) ? name.slice(name.indexOf('.') + 1) : statSync(fragment).isDirectory() ? 'dir' : '';
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
 
         };
 
-        return undefined;
+
 
     } finally {
 
@@ -383,120 +277,90 @@ function getExpandDeceit(t) {
 
     };
 
-};
-/** @arg {osjectTFGetExpand} t */
-function getExpandVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getExpandHandle(t);
-
-};
-/** @arg {osjectTFGetExpand} t */
-function getExpandHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.fragment = pathGet(t.fragment);
-
-    return getExpandComply(t);
-
-};
-/** @arg {osjectTFGetExpand} t */
-function getExpandComply(t) {
-
-    const {
-
-        fragment,
-
-    } = t;
-
-
-    const name = fragment.split('/').at(-1);
-    const countDot = name.match(/\./g)?.length;
-
-    if (!countDot) {
-
-        const isDir = statSync(fragment).isDirectory();
-
-        return isDir ? 'dir' : '';
-
-    } else {
-
-        return name.split('.').at(-1);
-
-    };
+    return result;
 
 };
 
 /**
  * ### osjectGetExpand
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\osject`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Метод получения расширения файла, полученного по указанному пути.
+ * Функция получения расширения указанного объекта os.
  * 
  * ***
- * @arg {osjectTTFragment} fragment `Фрагмент`
- * @returns {string}
+ * @arg {osjectT['fragment']} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function osjectGetExpand(fragment) {
 
-    return getExpandDeceit({ fragment, });
+    return getExpand({ fragment, });
 
 };
 
 //#endregion
-//#region getLocation 0.0.0
+//#region getLocation
 
-/** ### osjectTFGetLocation
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
+/**
+ * ### getLocation
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `getLocation`.
  * 
- * @typedef {osjectTFUGetLocation&osjectT&osjectTFragment} osjectTFGetLocation
  * 
+ * ***
+ * @typedef getLocationT
+ * @prop {} _
+ * ***
+ * @arg {osjectT&getLocationT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### osjectTFUGetLocation
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * Уникальные параметры функции `getLocation`.
- * 
- * @typedef osjectTFUGetLocation
- * @prop {any} _
-*/
+function getLocation(args) {
 
-/** @arg {osjectTFGetLocation} t */
-function getLocationDeceit(t) {
+    let result;
 
     try {
 
-        return getLocationVerify(t);
+        let {
 
-    } catch (e) {
+            fragment,
 
-        if (config?.strictMode) {
+        } = args;
 
-            throw e;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = fragment.split('/').slice(0, -1).join('/');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
 
         };
 
-        return undefined;
+
 
     } finally {
 
@@ -504,480 +368,395 @@ function getLocationDeceit(t) {
 
     };
 
-};
-/** @arg {osjectTFGetLocation} t */
-function getLocationVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getLocationHandle(t);
-
-};
-/** @arg {osjectTFGetLocation} t */
-function getLocationHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.fragment = pathGet(t.fragment);
-
-    return getLocationComply(t);
-
-};
-/** @arg {osjectTFGetLocation} t */
-function getLocationComply(t) {
-
-    const {
-
-        fragment,
-
-    } = t;
-
-    return fragment.split('/').slice(0, -1).join('/');
+    return result;
 
 };
 
 /**
  * ### osjectGetLocation
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\osject`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Функция получения расположения файла, полученного по указанному фрагменту.
+ * 
  * 
  * ***
- * @arg {osjectTTFragment} fragment `Фрагмент`
+ * @arg {osjectT['fragment']} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function osjectGetLocation(fragment) {
 
-    return getLocationDeceit({ fragment, });
+    return getLocation({ fragment, });
 
 };
 
 //#endregion
+//#region setExpand
 
-//#region move 0.1.0
-
-/** ### osjectTFMove
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `osject`
+/**
+ * ### setExpand
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Результирующие параметры функции `move`.
- *
- * @typedef {osjectTFUMove&osjectT&osjectTFragment} osjectTFMove
- *
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setExpandT
+ * @prop {} _
+ * ***
+ * @arg {osjectT&setExpandT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### osjectTFUMove
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- * Уникальные параметры функции `move`.
- *
- * @typedef osjectTFUMove
- * @prop {osjectTTFragment} location
-*/
+function setExpand(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            expand,
+            fragment,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        fragment = pathGet(fragment);
 
-/** @arg {osjectTFMove} t */
-function moveDeceit(t) {
+        if (!expand) expand = 'txt';
+        
+        //#endregion
+        //#region comply
+        
+        result = osjectRename(fragment, null, expand);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### osjectSetExpand
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция для изменения расширения объекта os.
+ * 
+ * ***
+ * @arg {osjectT['expand']} expand `Расширение`
+ * @arg {osjectT['fragment']} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function osjectSetExpand(fragment, expand) {
+
+    return setExpand({ fragment, expand, });
+
+};
+
+//#endregion
+//#region move
+
+/**
+ * ### move
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef moveT
+ * @prop {} _
+ * ***
+ * @arg {osjectT&moveT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function move(args) {
+
+    let result;
 
     try {
 
-        return moveVerify(t);
+        let {
 
-    } catch (e) {
+            fragment,
+            location,
 
-        if (config.strict) throw e;
+        } = args;
 
-        return undefined;
-
-    };
-
-};
-/** @arg {osjectTFMove} t */
-function moveVerify(t) {
-
-    const {
+        //#region verify
 
 
 
-    } = t;
+        //#endregion
+        //#region handle
 
-    return moveHandle(t);
+        [location, fragment] = pathGetMany(location, fragment);
 
-};
-/** @arg {osjectTFMove} t */
-function moveHandle(t) {
+        //#endregion
+        //#region comply
 
-    const {
+        result = fragment;
 
-        fragment,
-        location,
+        if (location) {
 
-    } = t;
+            result = location + '/' + osjectGetNameFull(fragment);
 
-    t.fragment = pathGet(t.fragment);
-    t.location = pathGet(t.location);
+            renameSync(fragment, location + '/' + osjectGetNameFull(fragment));
 
-    return moveComply(t);
+        };
 
-};
-/** @arg {osjectTFMove} t */
-function moveComply(t) {
+        //#endregion
 
-    const {
+    } catch (err) {
 
-        fragment,
-        location,
+        if (config.value.strictMode) {
 
-    } = t;
+            throw err;
 
-    if (pathExists(location)) {
+        };
 
-        const result = location + '/' + osjectGetNameFull(fragment);
 
-        renameSync(fragment, location + '/' + osjectGetNameFull(fragment));
 
-        return result;
+    } finally {
+
+
 
     };
 
-    return fragment;
+    return result;
 
 };
 
 /**
  * ### osjectMove
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * - Модуль `osject`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Функция перемещения файла.
- *
+ * 
+ * Функция перемещения объекта os в указанную локацию.
+ * 
  * ***
- * @arg {osjectTTFragment} fragment `Фрагмент`
- * @arg {osjectTTFragment} location `Размещение`
+ * @arg {osjectT['location']} location `Локация`
+ * @arg {osjectT['fragment']} fragment `Фрагмент`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function osjectMove(fragment, location) {
 
-    return moveDeceit({ fragment, location });
+    return move({ fragment, location, });
 
 };
 
 //#endregion
-//#region exists 0.0.0
+//#region remove
 
-/** ### osjectTFExists
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
+/**
+ * ### remove
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `exists`.
  * 
- * @typedef {osjectTFUExists&osjectT&osjectTFragment} osjectTFExists
  * 
+ * ***
+ * @typedef removeT
+ * @prop {} _
+ * ***
+ * @arg {osjectT&removeT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### osjectTFUExists
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * Уникальные параметры функции `exists`.
- * 
- * @typedef osjectTFUExists
- * @prop {any} _
-*/
+function remove(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            fragment,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        fragment = pathGet(fragment);
+        
+        //#endregion
+        //#region comply
+        
+        unlinkSync(fragment);
 
-/** @arg {osjectTFExists} t */
-function existsDeceit(t) {
+        result = fragment;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### osjectRemove
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция удаления объекта os.
+ * 
+ * ***
+ * @arg {osjectT['fragment']} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function osjectRemove(fragment) {
+
+    return remove({ fragment, });
+
+};
+
+//#endregion
+//#region rename
+
+/**
+ * ### rename
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef renameT
+ * @prop {} _
+ * ***
+ * @arg {osjectT&renameT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function rename(args) {
+
+    let result;
 
     try {
 
-        return existsVerify(t);
+        let {
 
-    } catch (e) {
+            name,
+            expand,
+            fragment,
 
-        if (config?.strictMode) {
+        } = args;
 
-            throw e;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        fragment = pathGet(fragment);
+
+        if (!name) name = osjectGetName(fragment);
+        if (!expand) expand = osjectGetExpand(fragment);
+
+        //#endregion
+        //#region comply
+
+        const location = osjectGetLocation(fragment);
+
+        result = `${location}/${name}${['dir', ''].includes(expand) ? '' : '.' + expand}`;
+
+        renameSync(fragment, result);
+
+        return result;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
 
         };
 
-        return undefined;
+
 
     } finally {
 
 
 
     };
-
-};
-/** @arg {osjectTFExists} t */
-function existsVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return existsHandle(t);
-
-};
-/** @arg {osjectTFExists} t */
-function existsHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.fragment = pathGet(t.fragment);
-
-    return existsComply(t);
-
-};
-/** @arg {osjectTFExists} t */
-function existsComply(t) {
-
-    const {
-
-        fragment,
-
-    } = t;
-
-    if (pathExists(t.fragment)) {
-
-        return !!statSync(t.fragment);
-
-    };
-
-    return false;
-
-};
-
-/**
- * ### osjectexists
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\osject`
- * ***
- * 
- * Функция проверки файла полученного по указанному фрагменту на принадлежность к файлам.
- * 
- * ***
- * @arg {osjectTTFragment} fragment `Фрагмент`
-*/
-export function osjectExists(fragment) {
-
-    return existsDeceit({ fragment, });
-
-};
-
-//#endregion
-//#region delete 0.1.0
-
-/** ### osjectTFDelete
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `osject`
- * ***
- *
- * Результирующие параметры функции `delete`.
- *
- * @typedef {osjectTFUDelete&osjectTFragment} osjectTFDelete
- *
-*/
-/** ### osjectTFUDelete
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- * Уникальные параметры функции `delete`.
- *
- * @typedef osjectTFUDelete
- * @prop {any} _
-*/
-
-/** @arg {osjectTFDelete} t */
-function deleteDeceit(t) {
-
-    try {
-
-        return deleteVerify(t);
-
-    } catch (e) {
-
-        console.log(e);
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {osjectTFDelete} t */
-function deleteVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return deleteHandle(t);
-
-};
-/** @arg {osjectTFDelete} t */
-function deleteHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.fragment = pathGet(t.fragment);
-
-    return deleteComply(t);
-
-};
-/** @arg {osjectTFDelete} t */
-function deleteComply(t) {
-
-    const {
-
-        fragment,
-
-    } = t;
-
-    unlinkSync(fragment);
-
-    return fragment;
-
-};
-
-/**
- * ### osjectDelete
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * - Модуль `osject`
- * ***
- *
- * Функция удаления указанного файла по фрагменту пути.
- *
- * ***
- * @arg {osjectTTFragment} fragment `Фрагмент`
-*/
-export function osjectDelete(fragment) {
-
-    return deleteDeceit({ fragment });
-
-};
-
-//#endregion
-//#region rename 0.1.0
-
-/** ### osjectTFRename
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `osject`
- * ***
- *
- * Результирующие параметры функции `rename`.
- *
- * @typedef {osjectTFURename&osjectTFragment} osjectTFRename
- *
-*/
-/** ### osjectTFURename
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `osject`
- *
- * Уникальные параметры функции `rename`.
- *
- * @typedef osjectTFURename
- * @prop {string} name
-*/
-
-/** @arg {osjectTFRename} t */
-function renameDeceit(t) {
-
-    try {
-
-        return renameVerify(t);
-
-    } catch (e) {
-
-        console.log(e);
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {osjectTFRename} t */
-function renameVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return renameHandle(t);
-
-};
-/** @arg {osjectTFRename} t */
-function renameHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.fragment = pathGet(t.fragment);
-
-    return renameComply(t);
-
-};
-/** @arg {osjectTFRename} t */
-function renameComply(t) {
-
-    const {
-
-        name,
-        fragment
-
-    } = t;
-
-    const expand = osjectGetExpand(fragment);
-    const location = osjectGetLocation(fragment);
-
-    const result = `${location}/${name}${['dir', ''].includes(expand) ? '' : '.' + expand}`;
-
-    renameSync(t.fragment, result);
 
     return result;
 
@@ -985,27 +764,32 @@ function renameComply(t) {
 
 /**
  * ### osjectRename
- * - Версия `0.1.0`
- * - Цепочка `DVHCa`
- * - Модуль `osject`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Функция переименования объекта файловой системы.
- *
+ * 
+ * Функция для переименования объектов os.
+ * 
  * ***
- * @arg {string} name `Наименование`
- * @arg {osjectTTFragment} fragment `Фргамент`
+ * @arg {osjectT['name']} name `Наименование`
+ * @arg {osjectT['expand']} expand `Расширение`
+ * @arg {osjectT['fragment']} fragment `Фрагмент`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function osjectRename(fragment, name) {
+export function osjectRename(fragment, name, expand) {
 
-    return renameDeceit({ fragment, name });
+    return rename({ fragment, name, expand, });
 
 };
 
 //#endregion
 
 /**
- * @osject module.mjs
+ * @file osject/module.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

@@ -1,168 +1,496 @@
 //#region YI
 
-import { Y } from '@syls/y';
-import { existsSync } from "fs";
-import { condIsString } from '@syls/y/cond';
-import { stringUnifyBySymbol } from '@syls/string';
-import { pathBack, pathBackByName, pathExists, pathConcat, pathDecompose, pathGet, pathGetIn, pathGetProject, pathNormalize } from './module.mjs';
-
+import { Y } from "@syls/y";
+import { YArg } from "@syls/y/arg";
+import { configPath as config } from "./config.mjs";
+import { pathBack, pathBackByName, pathCheck, pathDecompose, pathExist, pathGet, pathGetIn, pathGetTo, pathIsRelative, pathNormalize, pathSetExpand, pathSetName } from "./module.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YPathT
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `os\path`
+/** ### pathT
  * 
- * Основной параметр модуля `YPath`.
  * 
- * @typedef {YPathTE&YPathTU} YPathT
  * 
-*/
-/** ### YPathTE
- * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `os\path`
+ * ***
  * 
- * Параметр наследования `YPath`.
  * 
- * @typedef {{[p in Exclude<keyof DPath,keyof SPath>|Exclude<keyof SPath,keyof DPath>]:(DPath[p]&SPath[p])}} YPathTE
  * 
-*/
-/** ### YPathTU
- * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `os\path`
+ * ***
  * 
- * Уникальные параметры `YPath`.
- * 
- * @typedef YPathTU
- * @prop {any} _
+ * @typedef {import("./module.mjs").pathT} pathT
  * 
 */
 
 //#endregion
 
-class SPath extends Y {
+/**
+ * ### YPath
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YPath extends Y {
     
-    /**
-     * ### getProject
-     * - Версия `0.0.0`
-     * - Модуль `os\path`
-     * ***
-     *
-     * Метод получения объекта пути от проекта.
-     *
-     * ***
-     * @arg {...string} concats `Фрагменты`
-     *
-     * Соединяются с путем проекта.
-     *
-     * @public
-    */
-    static getProject(...concats) {
-
-        const path = new YPath(pathGetProject());
-
-        concats.filter(c => c.constructor === String).forEach(c => path.concat(c));
-
-        return path;
-
+    //#region static
+    
+    static {
+        
+        
+        
     };
     
-};
-class DPath extends SPath {
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YPath[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
     
     /**
-     * ### value
+     * ### isRelative
      * 
-     * Значение.
+     * ***
+     * 
+     * Функция {@link pathIsRelative|проверки пути на относительность}.
+     * 
+     * ***
+     * @arg {string|RegExp} fragment `Фргамент`
+     * 
+     * 
+     * ***
+     * @static
+     * @method
+     * @public
+    */
+    static isRelative(fragment) {
+        
+        return pathIsRelative(fragment)
+        
+    };
+    /**
+     * ### get
+     * 
+     * ***
+     * 
+     * Метод {@link pathGet|получения пути до файла/директории по указанному фрагменту пути}.
+     * 
+     * ***
+     * @arg {boolean} cacheMode `Кеширование`
+     * @arg {string|RegExp} fragment `Фрагмент` 
+     * 
+     * 
+     * ***
+     * @static
+     * @method
+     * @public
+     * @since `1.0.0`
+     * @version `1.0.0`
+    */
+    static get(fragment, cacheMode) {
+        
+        return pathGet(fragment, cacheMode);
+        
+    };
+    /**
+     * ### getTo
+     * 
+     * ***
+     * 
+     * Метод {@link pathGetTo|получения относительного пути от одного объекта файловой системы к другому}.
+     * 
+     * ***
+     * @arg {string|RegExp} to `Куда`
+     * @arg {string|RegExp} from `Откуда`
+     * 
+     * 
+     * ***
+     * @static
+     * @method
+     * @public
+    */
+    static getTo(to, from) {
+        
+        return pathGetTo(to, from);
+        
+    };
+    /**
+     * ### getIn
+     * 
+     * ***
+     * 
+     * Функция {@link pathGetIn|получения внутренних путей}. 
+     * 
+     * ***
+     * @arg {string|RegExp} fragment `fragment`
+     * 
+     * 
+     * ***
+     * @static
+     * @method
+     * @public
+    */
+    static getIn(fragment) {
+        
+        return pathGetIn(fragment);
+        
+    };
+    /**
+     * @arg {...YPath} args `Аргументы`
+     * @returns {YPath[]}
+    */
+    static create(...args) {
+        
+        return Object.getPrototypeOf(this).create.apply(this, args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&Y1)?}
+     * @template {YPath} Y1
+    */
+    static becomePrototype(value) {
+        
+        return Object.getPrototypeOf(this).becomePrototype.apply(this, [value]);
+        
+    };
+    
+    //#endregion
+    //#region field
+    
+    /**
+     * ### url
+     * 
+     * Путь до файла.
      * 
      * *** 
-     * @type {string?} 
-     * @public
+     * @type {string}
+     * @field
+     * @protected
     */
-    value;
+    url;
     
-};
-class IPath extends DPath {
-    
-    
-    
-};
-class MPath extends IPath {
-    
-    
-    
-};
-class FPath extends MPath {
+    //#endregion
+    //#region method
     
     /**
-     * ### YPath.constructor
+     * ### isRelative
+     * 
+     * ***
+     * 
+     * Метод проверки путь на относительность.
+     * 
+     * ***
      * 
      * 
      * 
      * ***
-     * @arg {YPathT} t
+     * @method
+     * @public
     */
-    constructor(t) {
+    isRelative() {
         
-        t = [...arguments];
+        return pathIsRelative(this.url);
         
-        super(Object.assign(t = FPath.#before(t), {}));
+    };
+    /**
+     * ### get
+     * 
+     * ***
+     * 
+     * Метод получения пути.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    get() {
         
-        FPath.#deceit.apply(this, [t]);
+        return this.url;
+        
+    };
+    /**
+     * ### getTo
+     * 
+     * ***
+     * 
+     * Метод получения относительного пути от текущего пути до указанного пути.
+     * 
+     * ***
+     * @arg {string} to `Куда`
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    getTo(to) {
+        
+        return pathGetTo(to, this.url);
+        
+    };
+    /**
+     * ### getIn
+     * 
+     * ***
+     * 
+     * Метод получения вложенных путей.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    getIn() {
+        
+        return pathGetIn(this.url);
+        
+    };
+    /**
+     * ### getDecompose
+     * 
+     * ***
+     * 
+     * Метод получения разложения пути.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    getDecompose() {
+        
+        return pathDecompose(this.url);
+        
+    };
+    /**
+     * ### set
+     * 
+     * ***
+     * 
+     * Метод указания пути.
+     * 
+     * ***
+     * @arg {import("./module.mjs").pathTFragment} fragment
+     * @method
+     * @public
+    */
+    set(fragment) {
+        
+        this.url = pathGet(fragment);
+
+        if (!this.url) this.url = pathNormalize(fragment);
+
+        return this;
+        
+    };
+    /**
+     * ### setName
+     * 
+     * ***
+     * 
+     * Метод установки имени в указанном пути.
+     * 
+     * ***
+     * @arg {pathT['name']} name `Имя`
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    setName(name) {
+        
+        this.url = pathSetName(this.url, name);
+
+        return this;
+        
+    };
+    /**
+     * ### setExpand
+     * 
+     * ***
+     * 
+     * Метод установки расширения.
+     * 
+     * ***
+     * @arg {pathT['expand']} expand `Расширение`
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    setExpand(expand) {
+        
+        this.url = pathSetExpand(this.url, expand);
+
+        return this;
+        
+    };
+    /**
+     * ### back
+     * 
+     * ***
+     * 
+     * Метод подъёма по пути.
+     * 
+     * ***
+     * @arg {number} deapth `Глубина`
+     * ***
+     * @method
+     * @public
+    */
+    back(deapth) {
+        
+        this.url = pathBack(this.url, deapth);
+
+        return this;
+        
+    };
+    /**
+     * ### backByName
+     * 
+     * ***
+     * 
+     * Метод подъёма по текущему пути до встречной папки с указанным именем.
+     * 
+     * ***
+     * @arg {string} name `Имя`
+     * ***
+     * @method
+     * @public
+    */
+    backByName(name) {
+        
+        this.url = pathBackByName(this.url, name);
+
+        return this;
+        
+    };
+    /**
+     * ### check
+     * 
+     * ***
+     * 
+     * Метод проверки пути на корректность.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    check() {
+        
+        return pathCheck(this.url);
+        
+    };
+    /**
+     * ### exist
+     * 
+     * ***
+     * 
+     * Метод проверки наличия пути.
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    exist() {
+        
+        return pathExist(this.url);
         
     };
     
-    /** @arg {any[]} t */
-    static #before(t) {
-        
-        /** @type {YPathT} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YPath].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (t?.length) {
-            
-            if (t[0]?._ytp) {
-            
-                t = [...t[0]._ytp];
-            
-            };
-            
-            switch (t.length) {
-                
-                case 3: 
-                case 2: 
-                case 1: r.value = t[0];
-                
-            };
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
-            
-        };
-        
-        return r;
-        
-    };
-    /** @arg {YPathT} t @this {YPath} */
-    static #deceit(t) {
+    //#endregion
+    
+    /**
+     * ### YPathConstructor
+     * 
+     * 
+     * 
+     * ***
+     * @arg {YPathT} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @constructor
+    */
+    constructor(...args) {
         
         try {
             
-            FPath.#verify.apply(this, [t]);
+            //#region before
             
-        } catch (e) {
+            /** @type {YArg<YPath>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
             
-            throw e;
+            yarg.set(
+
+                ['url', 'string'],
+
+            );
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+                .set(this.url)
+            
+            
+        } catch (err) {
+            
+            if (config.value.strictMode) {
+                
+                throw err;
+                
+            };
             
         } finally {
             
@@ -171,278 +499,12 @@ class FPath extends MPath {
         };
         
     };
-    /** @arg {YPathT} t @this {YPath} */
-    static #verify(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        FPath.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YPathT} t @this {YPath} */
-    static #handle(t) {
-        
-        t.value = pathGet(t.value, 1);
-        
-        FPath.#create.apply(this, [t]);
-        
-    };
-    /** @arg {YPathT} t @this {YPath} */
-    static #create(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
-        
-    };
     
 };
 
 /**
- * ### YPath
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `os\path`
- * - Цепочка `BDVHC`
- * ***
- * 
- * 
- * 
- * ***
- * 
-*/
-export class YPath extends FPath {
-    
-    /**
-     * ### set
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод установки пути.
-     *
-     * ***
-     * @arg {import('./module.mjs').pathTTFragment} fragment `Фрагмент`
-     * @public
-    */
-    set(fragment) {
-
-        if (condIsString(fragment) && pathExists(fragment)) {
-
-            this.value = fragment;
-
-        };
-
-        return this;
-
-    };
-
-    /**
-     * ### get
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод получения пути.
-     *
-     * ***
-     * @public
-    */
-    get() {
-
-        return this.value;
-
-    };
-    /**
-     * ### getIn
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод получения вложенных путей.
-     *
-     * ***
-     *
-     * @public
-    */
-    getIn() {
-
-        return pathGetIn(this.get());
-
-    };
-    /**
-     * ### getDecompose
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод полкчения докомпозиции пути.
-     *
-     * ***
-     *
-     * @public
-    */
-    getDecompose() {
-
-        return pathDecompose(this.get());
-
-    };
-
-    /**
-     * ### move
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод перемещения по пути.
-     *
-     * Перемещается только в том случае, если путь существует.
-     *
-     * В противном случае выбрасывает ошибку и сохраняет исходный путь.
-     *
-     * ***
-     * @arg {string} fragment `Фрагмент`
-     * @public
-    */
-    move(fragment) {
-
-        if (fragment) {
-
-            fragment = stringUnifyBySymbol(fragment, '/');
-
-            const result = pathConcat(this.value, fragment);
-
-            if (existsSync(result)) {
-
-                this.value = result;
-
-            } else {
-
-                throw new Error();
-
-            };
-
-        };
-
-        return this;
-
-    };
-
-    /**
-     * ### back
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод для подъема на уровень выше по указанному пути.
-     *
-     * ***
-     * @arg {number} repeat `Потворения`
-     * @public
-    */
-    back(repeat = 1) {
-
-        this.value = pathBack(this.value, repeat);
-
-        return this;
-
-    };
-    /**
-     * ### backByName
-     * - Версия `0.0.0`
-     * - Модуль `os\path`
-     * ***
-     * 
-     * Метод подъема пути до директории с указанным именем.
-     * 
-     * ***
-     * @arg {string} name `Имя`
-     * @public
-    */
-    backByName(name) {
-
-        this.value = pathBackByName(this, name);
-
-        return this;    
-        
-    };
-
-    /**
-     * ### exists
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод проверки действительности пути.
-     *
-     * ***
-     *
-     * @public
-    */
-    exists() {
-
-        return pathExists(this.value);
-
-    };
-
-    /**
-     * ### concat
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод склейки текущего пути с указанными.
-     *
-     * ***
-     * @arg {string} concat `Путь`
-     * @public
-    */
-    concat(concat) {
-
-        this.value = pathConcat(this.value, concat);
-
-        return this;
-
-    };
-
-    /**
-     * ### normalize
-     * - Версия `0.0.0`
-     * - Модуль `YPath`
-     * ***
-     *
-     * Метод нормализации пути.
-     *
-     * ***
-     *
-     * @public
-    */
-    normalize() {
-
-        this.value = pathNormalize(this.value);
-
-        return this;
-
-    };
-    
-};
-
-/**
- * @file class.mjs
+ * @file path/class.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

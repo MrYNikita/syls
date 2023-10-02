@@ -1,5 +1,22 @@
-export const configPath = {
+import { YConfig } from "@syls/y/config";
+import configOS from "../../../-module/config.mjs";
 
+/** @type {configOS['value']} */
+const config = {
+    
+    
+    
+};
+
+/** ### configPath
+ * 
+ * Конфигуратор модуля `path`.
+ * 
+ * ***
+ * @public
+*/
+export const configPath = new YConfig(Object.assign(config, {
+    
     /**
      * ### cacheMode
      * 
@@ -12,7 +29,6 @@ export const configPath = {
      * @public
     */
     cacheMode: true,
-
     /**
      * ### defaultValue
      * 
@@ -22,14 +38,28 @@ export const configPath = {
      * @type {string?} 
      * @public
     */
-    defaultValue: '',
-
-};
+    valueDefault: '',
+    /**
+     * ### expandDefault
+     * 
+     * ***
+     * 
+     * Дефолт расширение.
+     * 
+     * *** 
+     * @type {import("./module.mjs").pathT['expand']}
+     * @public
+     * @property
+    */
+    expandDefault: 'txt',
+    
+}), configOS);
 
 export default configPath;
 
 /**
- * @file config.mjs
+ * @file path/config.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

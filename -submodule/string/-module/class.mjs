@@ -33,9 +33,9 @@ import { YCorrecter } from '../-submodule/correcter/-module/class.mjs';
  * 
 */
 export class YString extends YMany {
-    
+
     //#region field
-    
+
     /**
      * ### layout
      * 
@@ -69,10 +69,10 @@ export class YString extends YMany {
      * @protected
     */
     postfix;
-    
+
     //#endregion
     //#region method
-    
+
     /**
      * ### toString
      * 
@@ -166,9 +166,9 @@ export class YString extends YMany {
      * @version `1.0.0`
     */
     getStat() {
-        
+
         return new YStat(this.get(false));
-        
+
     };
     /**
      * ### getRows
@@ -201,9 +201,9 @@ export class YString extends YMany {
      * @returns {typeof YString}
     */
     getClass() {
-        
+
         return YString;
-        
+
     };
     /**
      * ### getLayout
@@ -217,9 +217,9 @@ export class YString extends YMany {
      * @public
     */
     getLayout() {
-        
+
         return this.layout;
-        
+
     };
     /**
      * ### getMatrix
@@ -261,7 +261,7 @@ export class YString extends YMany {
             if (typeof string !== 'string') {
 
                 string = string.toString();
-    
+
             };
 
             this.values = string;
@@ -398,7 +398,7 @@ export class YString extends YMany {
         code(this.getLayout());
 
         return this;
-        
+
     };
     /**
      * ### useCorrecter
@@ -413,7 +413,7 @@ export class YString extends YMany {
      * @public
     */
     useCorrecter(...corrects) {
-        
+
         for (const correct of corrects) {
 
             if (!YCond.isFunc(correct)) continue;
@@ -423,7 +423,7 @@ export class YString extends YMany {
         };
 
         return this;
-        
+
     };
 
     /**
@@ -544,7 +544,7 @@ export class YString extends YMany {
     */
     paint(row, index, foreground, background, flow) {
 
-        
+
 
         return this;
 
@@ -578,11 +578,11 @@ export class YString extends YMany {
 
             };
             if (this.postfix) {
-                
+
                 string += this.postfix();
 
             };
-            
+
             string = stringCorrelate(string);
 
             for (const cursor of cursorController.cursors.slice().reverse()) {
@@ -913,16 +913,16 @@ export class YString extends YMany {
         return this;
 
     };
-    
+
     //#endregion
     //#region static
-    
+
     static {
-        
-        
-        
+
+
+
     };
-    
+
     /**
      * ### stock
      * 
@@ -948,17 +948,17 @@ export class YString extends YMany {
      * @public
     */
     static config = config;
-    
+
     /**
      * @arg {...YString} args `Аргументы`
      * @returns {YString[]}
     */
     static create(...args) {
-        
+
         return Object.getPrototypeOf(this).create.apply(this, args);
-        
+
     };
-    
+
     /**
      * @arg {Y1} value `Значение`
      * @static
@@ -968,13 +968,13 @@ export class YString extends YMany {
      * @template {YString} Y1
     */
     static becomePrototype(value) {
-        
+
         return Object.getPrototypeOf(this).becomePrototype.apply(this, [value]);
-        
+
     };
-    
+
     //#endregion
-    
+
     /**
      * ### YStringConstructor
      * 
@@ -989,67 +989,69 @@ export class YString extends YMany {
      * @constructor
     */
     constructor(...args) {
-        
+
         try {
-            
+
             //#region before
-            
+
             /** @type {YArg<YString>} */
             const yarg = args instanceof YArg ? args : new YArg(args);
-            
-            
-            
+
+
+
             super(yarg);
-            
+
             //#endregion
             //#region verify
-            
-            
-            
+
+
+
             //#endregion
             //#region handle
-            
-            
-            
+
+
+
             //#endregion
             //#region comply
-            
-            
-            
+
+
+
             //#endregion
-            
+
             return this
-            
+
                 .adopt(yarg.getData())
-                .do(self => self.getCursorController()
-            
-                .cond(
+                .do(
 
-                    self => self.get(),
-                    self => self
+                    self => self.getCursorController()
 
-                        .get()
-                        .move(0, this.values.length)
+                        .cond(
+
+                            self => self.get(),
+                            self => self
+
+                                .get()
+                                .move(0, this.values.length)
+
+                        )
 
                 )
-            
-            )
-            
-            
+
+
         } catch (err) {
-            
+
             if (config.value.strictMode) {
-                
+
                 throw err;
-                
+
             };
-            
+
         } finally {
-            
-            
-            
+
+
+
         };
-        
+
     };
 
     [Symbol.toPrimitive](to) {
@@ -1057,7 +1059,7 @@ export class YString extends YMany {
         return this.values;
 
     };
-    
+
 };
 
 /**

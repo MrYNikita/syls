@@ -1,23 +1,10 @@
 //#region YI
 
+import { YArg } from '@syls/y/arg';
+import { YCond } from '@syls/y/cond';
+import { configFile as config } from './config.mjs';
 import { readFileSync, writeFileSync } from 'fs';
-import { pathExists, pathGet } from '../../path/-module/export.mjs';
-
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i?.default)
-    .catch(e => e);
+import { pathExist, pathGet } from '../../path/-module/module.mjs';
 
 //#endregion
 //#region YT
@@ -25,98 +12,13 @@ await import('./error.mjs')
 /** ### fileT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `file`
- *
+ * 
  * Основной параметр модуля `file`.
- *
+ * 
  * @typedef fileT
- * @prop {any} _
- *
-*/
-/** ### fileTData
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `file`
- *
- *
- *
- * @typedef fileTData
- * @prop {fileTTData} data
- *
-*/
-/** ### fileTExpand
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `file`
- *
- *
- *
- * @typedef fileTExpand
- * @prop {fileTTExpand} expand
- *
-*/
-/** ### fileTFragment
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `file`
- *
- *
- *
- * @typedef fileTFragment
- * @prop {fileTTFragment} fragment
- *
-*/
-/** ### fileTEncoding
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * 
- * 
- * 
- * @typedef fileTEncoding
- * @prop {fileTTEncoding} encoding
- * 
-*/
-
-/** ### fileTTData
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `file`
- *
- *
- *
- * @typedef {string|[]|[][]|{}} fileTTData
- *
-*/
-/** ### fileTTExpand
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `file`
- *
- *
- *
- * @typedef {'csv'|'txt'|'json'} fileTTExpand
- *
-*/
-/** ### fileTTFragment
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `file`
- *
- *
- *
- * @typedef {import("../path/module.mjs").pathTTFragment} fileTTFragment
- *
-*/
-/** ### fileTTEncoding
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * 
- * 
- * 
- * @typedef {string} fileTTEncoding
- * 
+ * @prop {string} fragment
+ * @prop {string} delimiter
+ * @prop {BufferEncoding|null} encoding
 */
 
 //#endregion
@@ -126,346 +28,285 @@ await import('./error.mjs')
 
 //#endregion
 
-//#region read 0.0.0
+//#region read
 
-/** ### fileTFRead
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\file`
+/**
+ * ### read
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `read`.
  * 
- * @typedef {fileTFURead&fileT&fileTFragment&fileTEncoding} fileTFRead
  * 
+ * ***
+ * @typedef readT
+ * @prop {} _
+ * ***
+ * @arg {fileT&readT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### fileTFURead
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * 
- * Уникальные параметры функции `read`.
- * 
- * @typedef fileTFURead
- * @prop {any} _
-*/
-
-/** @arg {fileTFRead} t */
-function readDeceit(t) {
-
+function read(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            fragment,
+            encoding,    
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        fragment = pathGet(fragment);
 
-        return readVerify(t);
-
-    } catch (e) {
-
-        if (config?.strictMode) {
-
-            throw e;
-
+        if (!encoding) encoding = 'utf8';
+        
+        //#endregion
+        //#region comply
+    
+        result = fragment ? readFileSync(fragment, encoding) : null; 
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {fileTFRead} t */
-function readVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return readHandle(t);
-
-};
-/** @arg {fileTFRead} t */
-function readHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.fragment = pathGet(t.fragment);
-
-    return readComply(t);
-
-};
-/** @arg {fileTFRead} t */
-function readComply(t) {
-
-    const {
-
-        fragment,
-        encoding,
-
-    } = t;
-
-    if (pathExists(fragment)) {
-
-        return readFileSync(fragment, encoding);
-
-    } else {
-
-        return undefined;
-
-    };
-
+    
+    return result;
+    
 };
 
 /**
  * ### fileRead
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\file`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
  * Функция считывания содержимого файла полученного по указанному фрагменту пути.
  * 
  * ***
- * @arg {fileTTFragment} fragment `Фрагмент`
- * @arg {fileTTEncoding} encoding `Кодировка`
+ * @arg {fileT['fragment']} fragment `Фрагмент`
+ * @arg {fileT['encoding']} encoding `Кодировка`
  * 
- * - Дефолт `utf8`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function fileRead(fragment, encoding = 'utf8') {
+export function fileRead(fragment, encoding) {
 
-    return readDeceit({ fragment, encoding, });
+    return read({ fragment, encoding, });
 
 };
 
 //#endregion
-//#region readCsv 0.0.0
+//#region readCsv
 
-/** ### fileTFReadCsv
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\file`
+/**
+ * ### readCsv
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `readCsv`.
  * 
- * @typedef {fileTFUReadCsv&fileT&fileTFRead} fileTFReadCsv
  * 
+ * ***
+ * @typedef readCsvT
+ * @prop {} _
+ * ***
+ * @arg {fileT&readCsvT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### fileTFUReadCsv
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * 
- * Уникальные параметры функции `readCsv`.
- * 
- * @typedef fileTFUReadCsv
- * @prop {string} delimiter
-*/
-
-/** @arg {fileTFReadCsv} t */
-function readCsvDeceit(t) {
-
+function readCsv(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            fragment,
+            encoding,
+            delimiter,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (!delimiter) delimiter = ' '; 
+        
+        //#endregion
+        //#region comply
 
-        return readCsvVerify(t);
+        const rows = fileRead(fragment, encoding).split('\n');
 
-    } catch (e) {
+        result = new Array(rows[0].split(delimiter).length).fill(0).map(_ => []);
 
-        if (config?.strictMode) {
+        for (let row of rows) {
 
-            throw e;
+            const columns = row.split(delimiter);
 
-        };
+            for (const index in columns) {
 
-        return undefined;
+                const column = columns[index];
 
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {fileTFReadCsv} t */
-function readCsvVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return readCsvHandle(t);
-
-};
-/** @arg {fileTFReadCsv} t */
-function readCsvHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return readCsvComply(t);
-
-};
-/** @arg {fileTFReadCsv} t */
-function readCsvComply(t) {
-
-    const {
-
-        fragment,
-        encoding,
-        delimiter,
-
-    } = t;
-
-    return fileRead(fragment, encoding).split('\n').map(row => {
-
-        row = row.split(delimiter).map(cell => {
-
-            if (parseInt(cell)) {
-
-                return +cell;
-
-            } else {
-
-                return cell.match(/\w+/)[0];
+                result[index].push(parseInt(column) ? +column : column.match(/\w+/)[0]);
 
             };
 
-        });
-
-        return row;
-
-    });
-
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
 };
 
 /**
  * ### fileReadCsv
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\file`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
  * Функция считывания содержимого файла полученного по указанному фрагменту пути.
  * 
- * Полученный результат будет представлен js объектом.
+ * ***
+ * @arg {fileT['fragment']} fragment `Фрагмент`
+ * @arg {fileT['encoding']} encoding `Кодировка`
+ * @arg {fileT['delimiter']} delimiter `Разделитель`
  * 
  * ***
- * @arg {fileTTFragment} fragment `Фрагмент`
- * @arg {fileTTEncoding} encoding `Кодировка`
- * 
- * - Дефолт `utf8`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function fileReadCsv(fragment, encoding, delimiter = ' ') {
+export function fileReadCsv(fragment, encoding, delimiter) {
 
-    return readCsvDeceit({ fragment, encoding, delimiter, });
+    return readCsv({ fragment, encoding, delimiter, });
 
 };
 
 //#endregion
-//#region readJson 0.0.0
+//#region readJson
 
-/** ### fileTFReadJson
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\file`
+/**
+ * ### readJson
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `readJson`.
  * 
- * @typedef {fileTFUReadJson&fileT&fileTFRead} fileTFReadJson
  * 
+ * ***
+ * @typedef readJsonT
+ * @prop {} _
+ * ***
+ * @arg {fileT&readJsonT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### fileTFUReadJson
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * 
- * Уникальные параметры функции `readJson`.
- * 
- * @typedef fileTFUReadJson
- * @prop {any} _
-*/
-
-/** @arg {fileTFReadJson} t */
-function readJsonDeceit(t) {
-
+function readJson(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            fragment,
+            encoding,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
 
-        return readJsonVerify(t);
+        fragment = pathGet(fragment);
+        
+        if (!encoding) encoding = config.value.encodingDefault; 
 
-    } catch (e) {
-
-        if (config?.strictMode) {
-
-            throw e;
-
+        //#endregion
+        //#region comply
+        
+        result = JSON.parse(fileRead(fragment, encoding));
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {fileTFReadJson} t */
-function readJsonVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return readJsonHandle(t);
-
-};
-/** @arg {fileTFReadJson} t */
-function readJsonHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return readJsonComply(t);
-
-};
-/** @arg {fileTFReadJson} t */
-function readJsonComply(t) {
-
-    const {
-
-        fragment,
-        encoding,
-
-    } = t;
-
-    const result = JSON.parse(fileRead(fragment, encoding));
-
+    
     return result;
-
+    
 };
 
 /**
  * ### fileReadJson
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\file`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
  * Функция считывания содержимого файла полученного по указанному фрагменту пути.
@@ -473,18 +314,28 @@ function readJsonComply(t) {
  * Полученный результат будет представлен js объектом.
  * 
  * ***
- * @arg {fileTTFragment} fragment `Фрагмент`
- * @arg {fileTTEncoding} encoding `Кодировка`
+ * @arg {fileT['fragment']} fragment `Фрагмент`
+ * @arg {fileT['encoding']} encoding `Кодировка`
  * 
- * - Дефолт `utf8`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function fileReadJson(fragment, encoding) {
 
-    return readJsonDeceit({ fragment, encoding, });
+    return readJson({ fragment, encoding, });
 
 };
 
 //#endregion
+
+/**
+ * @file file/module.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/
 
 //#region write 0.0.0
 

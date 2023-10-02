@@ -1,5 +1,22 @@
-export const configNet = {
+import { YConfig } from "@syls/y/config";
+import configOS from "../../../-module/config.mjs";
 
+/** @type {configOS['value']} */
+const config = {
+    
+    
+    
+};
+
+/** ### configNet
+ * 
+ * Конфигуратор модуля `net`.
+ * 
+ * ***
+ * @public
+*/
+export const configNet = new YConfig(Object.assign(config, {
+    
     /**
      * ### wireless network
      * 
@@ -13,13 +30,14 @@ export const configNet = {
         ru: 'Беспроводная сеть',
 
     },
-
-};
+        
+}), configOS);
 
 export default configNet;
 
 /**
- * @file config.mjs
+ * @file net/config.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

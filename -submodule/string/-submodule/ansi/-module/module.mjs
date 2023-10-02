@@ -383,7 +383,6 @@ export function ansiIsBackground(string) {
 };
 
 //#endregion
-
 //#region get
 
 /**
@@ -766,7 +765,8 @@ export function ansiGetColorParam(foreground, background) {
  * 
  * ***
  * @typedef getColorResetT
- * @prop {} _
+ * @prop {boolean|-1|-2} foreground
+ * @prop {boolean|-1|-2} background
  * ***
  * @arg {getColorResetT} args `Аргументы`
  * @since `1.0.0`
@@ -781,7 +781,8 @@ function getColorReset(args) {
 
         let {
 
-
+            foreground,
+            background,
 
         } = args;
 
@@ -797,7 +798,7 @@ function getColorReset(args) {
         //#endregion
         //#region comply
 
-
+        result = foreground && background ? `${foreground};${background}` : foreground ? foreground : background ? background : null;
 
         //#endregion
 
@@ -818,6 +819,25 @@ function getColorReset(args) {
     };
 
     return result;
+
+};
+
+/**
+ * ### ansiGetColorReset
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения `ansi` вставки сброса цвета.
+ *
+ * ***
+ * @arg {boolean|-1|-2} foreground `Символы`
+ * @arg {boolean|-1|-2} background `Фон`
+ * @function
+*/
+export function ansiGetColorReset(foreground, background) {
+
+    return getColorReset({ foreground, background, });
 
 };
 
@@ -908,6 +928,92 @@ export function ansiGetParams(string) {
 };
 
 //#endregion
+//#region getPoints
+
+/**
+ * ### getPoints
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getPointsT
+ * @prop {string} string
+ * ***
+ * @arg {getPointsT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getPoints(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### ansiGetPoints
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения позиций ansi вставок в тексте.
+ * 
+ * ***
+ * @arg {string} string `Строка`
+ * @function
+*/
+export function ansiGetPoints(string) {
+
+    return getPoints({ string, });
+
+};
+
+//#endregion
 //#region getCodeColor
 
 /**
@@ -994,7 +1100,6 @@ export function ansiGetCodeColor(color) {
 };
 
 //#endregion
-
 //#region join
 
 /**
@@ -1015,55 +1120,55 @@ export function ansiGetCodeColor(color) {
  * @function
 */
 function join(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             ansi,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
+
         ansi = ansi.filter(ansi => ansiIsANSI(ansi));
-        
+
         //#endregion
         //#region comply
-        
+
         result = [];
 
         for (const a of ansi) result.push(...ansiGetParams(a));
 
         return ansiGet(...result);
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.value.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1081,6 +1186,138 @@ function join(args) {
 export function ansiJoin(...ansi) {
 
     return join({ ansi, });
+
+};
+
+//#endregion
+//#region paint
+
+/**
+ * ### paint
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef paintT
+ * @prop {number} y1
+ * @prop {number} x1
+ * @prop {number} y2
+ * @prop {number} x2
+ * @prop {string} string
+ * @prop {boolean} squareMode
+ * @prop {ansiTColors} foreground
+ * @prop {ansiTColors} background
+ * ***
+ * @arg {paintT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function paint(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            y1,
+            y2,
+            x1,
+            x2,
+            string,
+            squareMode,
+            foreground,
+            background,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const color = ansiGetColor(foreground, background);
+        const reset = ansiGet(ansiGetColorReset());
+
+        if (!YCond.isNumberInt(x1, x2, y1, y2)) return color + string + reset;
+
+        const rows = stringGetRows(string);
+
+        if (squareMode) {
+
+            for (let index = y1; index <= y2; index++) {
+
+                const row = rows[index];
+                const paste = squareMode ? row.slice(x1, x2) : row.slice(x1);
+    
+                rows[index] = stringPaste(row, color + paste + reset, x1, paste.length);
+    
+            };
+
+        } else {
+
+            rows[y1] = stringPaste(rows[y1], color, x1);
+            rows[y2] = stringPaste(rows[y2], reset, x2);
+
+        };
+
+        result = rows.join('\n');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### ansiPaint
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция перекраски строки.
+ *
+ * ***
+ * @arg {number} y1 `Y1`
+ * @arg {number} y2 `Y2`
+ * @arg {number} x1 `X1`
+ * @arg {number} x2 `X2`
+ * @arg {string} string `Строка`
+ * @arg {boolean} squareMode `Режим периметра`
+ * @arg {ansiTColors} foreground `Символы`
+ * @arg {ansiTColors} background `Фон`
+ * @function
+*/
+export function ansiPaint(string, foreground, background, y1, x1, y2, x2, squareMode) {
+
+    return paint({ string, foreground, background, y1, x1, y2, x2, squareMode, });
 
 };
 
@@ -1111,26 +1348,26 @@ export function ansiJoin(...ansi) {
  * @function
 */
 function change(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             ansi,
             value,
             property,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
+
         value = value.toString();
 
         switch (property) {
@@ -1138,10 +1375,10 @@ function change(args) {
             case 'foreground': case 'background': value = ansiGetCodeColor(value); break;
 
         };
-        
+
         //#endregion
         //#region comply
-        
+
         result = ansiGetParams(ansi);
 
         switch (property) {
@@ -1180,27 +1417,27 @@ function change(args) {
         };
 
         result = ansiGet(...result);
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.value.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1227,105 +1464,6 @@ export function ansiChange(ansi, property, value) {
 
 //#endregion
 
-// //#region get
-
-// /** ### ansiTFGet
-//  * - Тип `TF`
-//  * ***
-//  *
-//  * Результирующие параметры функции `get`.
-//  *
-//  * @typedef {ansiTFUGet&ansiT} ansiTFGet
-//  *
-// */
-// /** ### ansiTFUGet
-//  * - Тип `TFU`
-//  *
-//  * Уникальные параметры функции `get`.
-//  *
-//  * @typedef ansiTFUGet
-//  * @prop {string[]} strings
-// */
-
-// /** @arg {ansiTFGet} args */
-// function getDeceit(args) {
-
-//     try {
-
-//         return getVerify(args);
-
-//     } catch (e) {
-
-//         if (config?.strictMode) {
-
-//             throw e;
-
-//         };
-
-//         return undefined;
-
-//     } finally {
-
-
-
-//     };
-
-// };
-// /** @arg {ansiTFGet} args */
-// function getVerify(args) {
-
-//     const {
-
-
-
-//     } = args;
-
-//     return getHandle(args);
-
-// };
-// /** @arg {ansiTFGet} args */
-// function getHandle(args) {
-
-//     const {
-
-
-
-//     } = args;
-
-//     return getComply(args);
-
-// };
-// /** @arg {ansiTFGet} args */
-// function getComply(args) {
-
-//     const {
-
-//         strings,
-
-//     } = args;
-
-//     return config.value.code + strings.join(config.value.delimiter) + config.value.codeEnd;
-
-// };
-
-// /**
-//  * ### ansiGet
-//  *
-//  * ***
-//  *
-//  * Метод объединения `ansi` вставок.
-//  *
-//  * ***
-//  * @arg {...string} strings `Вставки`
-//  * @function
-// */
-// export function ansiGet(...strings) {
-
-//     return getDeceit({ strings });
-
-// };
-
-// //#endregion
 // //#region getMap
 
 // /** ### ansiTFGetMap

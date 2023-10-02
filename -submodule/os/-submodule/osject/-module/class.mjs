@@ -1,160 +1,247 @@
 //#region YI
 
-import { Y } from '@syls/y';
-import { YCond } from '@syls/y/cond';
-import { YPath, pathExists } from '../../path/-module/export.mjs';
-import { osjectExists, osjectDelete, osjectMove, osjectRename } from './module.mjs';
-
+import { YArg } from "@syls/y/arg";
+import { configOsject as config } from "./config.mjs";
+import { YEntity } from "@syls/y/entity";
+import { YPath } from "../../path/-module/class.mjs";
+import { osjectRemove, osjectMove, osjectRename } from "./module.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YOsjectT
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * Основной параметр модуля `YOsject`.
- * 
- * @typedef {YOsjectTE&YOsjectTU} YOsjectT
- * 
-*/
-/** ### YOsjectTE
- * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * Параметр наследования `YOsject`.
- * 
- * @typedef {{[p in Exclude<keyof DOsject,keyof SOsject>|Exclude<keyof SOsject,keyof DOsject>]:(DOsject[p]&SOsject[p])}} YOsjectTE
- * 
-*/
-/** ### YOsjectTU
- * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * 
- * Уникальные параметры `YOsject`.
- * 
- * @typedef YOsjectTU
- * @prop {any} _
+/**
+ * @typedef YOsjectT
+ * @prop {} _
  * 
 */
 
 //#endregion
 
-class SOsject extends Y {
+/**
+ * ### YOsject
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YOsject extends YEntity {
     
-    /** ### config
-     * 
-     * Конфигуратор.
+    //#region static
+    
+    static {
+        
+        
+        
+    };
+    
+    /**
+     * ### stock
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YOsject[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
      * @public
     */
     static config = config;
     
-};
-class DOsject extends SOsject {
+    /**
+     * @arg {...YOsject} args `Аргументы`
+     * @returns {YOsject[]}
+    */
+    static create(...args) {
+        
+        return Object.getPrototypeOf(this).create.apply(this, args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&Y1)?}
+     * @template {YOsject} Y1
+    */
+    static becomePrototype(value) {
+        
+        return Object.getPrototypeOf(this).becomePrototype.apply(this, [value]);
+        
+    };
+    
+    //#endregion
+    //#region field
     
     /**
      * ### path
      * 
-     * Путь до файла.
+     * Путь.
      * 
      * *** 
-     * @type {YPath?} 
-     * @public
+     * @type {YPath?}
+     * @field
+     * @protected
     */
     path;
     
-};
-class IOsject extends DOsject {
+    //#endregion
+    //#region method
     
     /**
-     * ### status
+     * ### move
      * 
-     * Статус.
+     * ***
      * 
-     * *** 
-     * @type {boolean} 
-     * @protected
+     * Метод перемещения объекта.
+     * 
+     * ***
+     * @arg {string|RegExp} location `Локация`
+     * @arg {string|RegExp} fragment `Фрагмент`
+     * 
+     * 
+     * ***
+     * @method
+     * @public
     */
-    status;
-    
-};
-class MOsject extends IOsject {
-    
-    
-    
-};
-class FOsject extends MOsject {
-    
+    move(fragment, location) {
+        
+        const pathNew = osjectMove(fragment, location);
+
+        if (pathNew) this.path.set(pathNew);
+
+        return this;
+        
+    };
     /**
-     * ### YOsject.constructor
+     * ### rename
+     * 
+     * ***
+     * 
+     * Метод переименования объекта.
+     * 
+     * ***
+     * @arg {string} name `Имя`
+     * @arg {string} expand `Расширение`
+     * 
+     * 
+     * ***
+     * @method
+     * @public
+    */
+    rename(name, expand) {
+        
+        const pathNew = osjectRename(this.path.get(), name, expand);
+
+        if (pathNew) this.path.set(pathNew);
+
+        return this;
+        
+    };
+    /**
+     * ### delete
+     * 
+     * ***
+     * 
+     * Метод удаления объекта.
+     * 
+     * ***
      * 
      * 
      * 
      * ***
-     * @arg {YOsjectT} t
+     * @method
+     * @public
     */
-    constructor(t) {
+    delete() {
         
-        t = [...arguments];
-        
-        super(Object.assign(t = FOsject.#before(t), {}));
-        
-        FOsject.#deceit.apply(this, [t]);
+        osjectRemove(this.path.get());
+
+        return this;
         
     };
     
-    /** @arg {any[]} t */
-    static #before(t) {
-        
-        /** @type {YOsjectT} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YOsject].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (t?.length) {
-            
-            if (t[0]?._ytp) {
-            
-                t = [...t[0]._ytp];
-            
-            };
-            
-            switch (t.length) {
-                
-                case 3: 
-                case 2: 
-                case 1: r.path = t[0];
-                
-            };
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
-            
-        };
-        
-        return r;
-        
-    };
-    /** @arg {YOsjectT} t @this {YOsject} */
-    static #deceit(t) {
+    //#endregion
+    
+    /**
+     * ### YOsjectConstructor
+     * 
+     * 
+     * 
+     * ***
+     * @arg {YOsjectT} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @constructor
+    */
+    constructor(...args) {
         
         try {
             
-            FOsject.#verify.apply(this, [t]);
+            //#region before
             
-        } catch (e) {
+            /** @type {YArg<YOsject>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
             
-            throw e;
+            yarg.set(
+
+                ['path', 'string'],
+
+            );
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            yarg.dataUsed.path = new YPath(yarg.dataUsed.path);
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+            
+            
+        } catch (err) {
+            
+            if (config.value.strictMode) {
+                
+                throw err;
+                
+            };
             
         } finally {
             
@@ -163,143 +250,12 @@ class FOsject extends MOsject {
         };
         
     };
-    /** @arg {YOsjectT} t @this {YOsject} */
-    static #verify(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        FOsject.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YOsjectT} t @this {YOsject} */
-    static #handle(t) {
-        
-        if (YCond.isString(t.path)) {
-
-            t.path = new YPath(t.path);
-
-        };
-
-        t.status = pathExists(t.path.get());
-        
-        FOsject.#create.apply(this, [t]);
-        
-    };
-    /** @arg {YOsjectT} t @this {YOsject} */
-    static #create(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
-        
-    };
     
 };
 
 /**
- * ### YOsject
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `os\osject`
- * - Цепочка `BDVHC`
- * ***
- * 
- * 
- * 
- * ***
- * 
+ * @file osject/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */
-export class YOsject extends FOsject {
-    
-    /**
-     * ### move
-     * - Версия `0.0.0`
-     * - Модуль `os\file`
-     * ***
-     * 
-     * Метод перемещения файла.
-     * 
-     * ***
-     * @arg {string} location `Положение`
-     * @public
-    */
-    move(location) {
-
-        osjectMove(this.path.get(), location);
-        
-        this.path.set(location);
-
-        return this;
-        
-    };
-    /**
-     * ### exists
-     * - Версия `0.0.0`
-     * - Модуль `os\file`
-     * ***
-     * 
-     * Метод проверки на принадлежность к файлам.
-     * 
-     * ***
-     * @public
-    */
-    exists() {
-        
-        return osjectExists(this.path.get());
-        
-    };
-    /**
-     * ### delete
-     * - Версия `0.0.0`
-     * - Модуль `os\file`
-     * ***
-     * 
-     * Метод удаления файла.
-     * 
-     * ***
-     * @public
-    */
-    delete() {
-
-        this.status = false;
-
-        osjectDelete(this.path.get());
-
-        return this;
-        
-    };
-    /**
-     * ### rename
-     * - Версия `0.0.0`
-     * - Модуль `os\osject`
-     * ***
-     * 
-     * Метод переименования объекта файловой системы.
-     * 
-     * ***
-     * @arg {string} name `Наименование`
-     * @public
-    */
-    rename(name) {
-
-        this.path.set(osjectRename(this.path.get(), name));
-
-        return this;
-        
-    };
-    
-};

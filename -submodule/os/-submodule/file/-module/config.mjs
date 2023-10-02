@@ -1,7 +1,7 @@
 import { YConfig } from "@syls/y/config";
-import configOsject from "../../osject/-module/config.mjs";
+import { configOsject } from "../../osject/-module/config.mjs";
 
-/** @type {configOsject} */
+/** @type {configOsject['value']} */
 const config = {
     
     
@@ -17,7 +17,19 @@ const config = {
 */
 export const configFile = new YConfig(Object.assign(config, {
     
-    
+    /**
+     * ### encodingDefault
+     * 
+     * ***
+     * 
+     * Дефолт кодировка.
+     * 
+     * *** 
+     * @type {BufferEncoding?}
+     * @public
+     * @property
+    */
+    encodingDefault: 'utf8',
     
 }), configOsject);
 

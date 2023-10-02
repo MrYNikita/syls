@@ -1,23 +1,11 @@
 //#region YI
 
-import { stringUnifyBySymbol } from "@syls/string";
-import { existsSync, lstatSync, readdirSync, } from "fs";
-
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
+import { YArg } from '@syls/y/arg';
+import { YCond } from '@syls/y/cond';
+import { configPath as config } from './config.mjs';
+import { stringPaste, stringUnifyBySymbol } from "@syls/string";
+import { existsSync, lstatSync, readdirSync, statSync, } from "fs";
+import path from 'path';
 
 //#endregion
 //#region YT
@@ -25,69 +13,19 @@ await import('./error.mjs')
 /** ### pathT
  * - Тип `T`
  * - Версия `0.0.0`
- * - Модуль `os\path`
  * 
  * Основной параметр модуля `path`.
  * 
  * @typedef pathT
+ * @prop {string} name
  * @prop {string} path
- * 
-*/
-/** ### pathTLimit
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- *
- *
- * @typedef {import("../../array/array.mjs").arrayTLimit} pathTLimit
- *
-*/
-/** ### pathTPaths
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- *
- *
- * @typedef pathTPaths
+ * @prop {number} limit
  * @prop {string[]} paths
- *
-*/
-/** ### pathTFragment
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `os.path`
- *
- *
- *
- * @typedef pathTFragment
- * @prop {pathTTFragment} fragment
- *
-*/
-/** ### pathTModeCache
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `os\path`
+ * @prop {boolean} cacheMode
+ * @prop {string|RegExp} fragment
+ * @prop {pathT['fragment'][]} fragments
+ * @prop {'ps'|'cmd'|'txt'|'csv'|'mjs'|'js'|'cjs'|'json'} expand
  * 
- * 
- * 
- * @typedef pathTModeCache
- * @prop {boolean} modeCache
- * 
-*/
-
-/** ### pathTTFragment
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- * Параметр фрагмент.
- *
- * Данный тип позволяет указывать в качестве фрагмента пути строки или регулярные выражения.
- *
- * @typedef {string|RegExp} pathTTFragment
- *
 */
 
 //#endregion
@@ -106,582 +44,813 @@ export const pathVRETempalte = /^(\w:|\.|\.\.)\/((\.|\.\.|(\d|\w| |\.|\,|\-)+)\/
 
 //#endregion
 
-//#region get 0.4.0
+//#region isRelative
 
-/** ### pathTFGet
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `path`
+/**
+ * ### isRelative
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Результирующие параметры функции `get`.
- *
- * @typedef {pathTFUGet&pathTFragment&pathTPaths&pathTModeCache} pathTFGet
- *
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isRelativeT
+ * @prop {string} fragment
+ * ***
+ * @arg {pathT&isRelativeT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUGet
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- * Уникальные параметры функции `get`.
- *
- * @typedef pathTFUGet
- * @prop {any} _
-*/
+function isRelative(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            fragment,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = /^\/?\.\/|^\/?\.\.\//.test(fragment);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
 
-/** @arg {pathTFGet} t */
-function getDeceit(t) {
+/**
+ * ### pathIsRelative
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция проверки пути на относительность.
+ * 
+ * ***
+ * @arg {pathTFragment} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathIsRelative(fragment) {
+
+    return isRelative({ fragment, });
+
+};
+
+//#endregion
+//#region get
+
+/**
+ * ### get
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getT
+ * @prop {} _
+ * ***
+ * @arg {pathT&getT&pathTFragment&pathTCacheMode} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function get(args) {
+
+    let result;
 
     try {
 
-        return getVerify(t);
+        let {
 
-    } catch (e) {
+            fragment,
 
-        console.log(e)
+        } = args;
 
-        if (config?.strictMode) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {pathTFGet} t */
-function getVerify(t) {
-
-    const {
+        //#region verify
 
 
 
-    } = t;
+        //#endregion
+        //#region handle
 
-    return getHandle(t);
+        fragment = pathNormalize(fragment);
 
-};
-/** @arg {pathTFGet} t */
-function getHandle(t) {
+        if (pathIsRelative(fragment)) fragment = pathGetFragment(fragment);
 
-    const {
+        //#endregion
+        //#region comply
 
+        if (pathExist(fragment)) {
 
+            result = fragment;
 
-    } = t;
+        } else {
 
-    t.fragment = pathNormalize(t.fragment);
+            const pathProject = pathGetProject();
 
-    if (!t.paths || !t.paths.length) {
+            const paths = readdirSync(pathProject);
 
-        const pathProject = pathGetProject();
+            for (const index in paths) paths[index] = pathConcat(pathProject, paths[index]);
 
-        t.paths = readdirSync(pathProject).map(p => pathConcat(pathProject, p));
+            while (paths.length && !result) {
 
-    };
+                for (const index in paths) {
 
-    return getComply(t);
+                    if (paths[index].match(fragment)) {
 
-};
-/** @arg {pathTFGet} t */
-function getComply(t) {
+                        result = paths[index];
 
-    const {
+                        break;
 
-        paths,
-        limit,
-        fragment,
-        modeCache,
-
-    } = t;
-
-    /** @type {string[]} */
-    const results = [];
-    /** @type {string[]} */
-    const resultsCache = [];
-
-    const pathProject = pathGetProject();
-
-    if (limit === 1 && pathExists(fragment)) {
-
-        results.push(fragment.startsWith(pathProject) ? fragment : pathConcat(pathProject, fragment));
-
-    } else if (fragment && limit) {
-
-        while (paths.length && results.length < limit) {
-
-            const p = paths.pop();
-
-            if (p.match(fragment)) {
-
-                results.push(p);
-
-            };
-
-            if (results.length === limit) {
-
-                break;
-
-            } else {
-
-                const ps = pathGetIn(p);
-
-                if (ps) {
-
-                    paths.push(...ps);
+                    };
 
                 };
 
+                if (result) break;
+
+                const appends = pathGetIn(paths.pop());
+
+                if (appends?.length) paths.push(...appends);
+
             };
+
+            if (!result) result = null;
 
         };
 
-    } else if (fragment && !limit) {
+        //#endregion
 
-        while (paths.length) {
+    } catch (err) {
 
-            const p = paths.pop();
+        if (config.value.strictMode) {
 
-            if (p.match(fragment)) {
-
-                results.push(p);
-
-            };
-
-            const ps = pathGetIn(p);
-
-            if (ps) {
-
-                paths.push(...ps);
-
-            };
+            throw err;
 
         };
 
-    } else if (!fragment && limit) {
 
-        while (paths.length && results.length < limit) {
 
-            const p = paths.pop();
+    } finally {
 
-            results.push(p);
 
-            if (results.length === limit) {
-
-                break;
-
-            } else {
-
-                const ps = pathGetIn(p);
-
-                paths.push(...ps);
-
-            };
-
-        };
-
-    } else {
-
-        while (paths.length) {
-
-            const p = paths.pop();
-            const ps = pathGetIn(p);
-
-            if (ps) {
-
-                paths.push(...ps);
-
-            };
-
-            results.push(p);
-
-        };
 
     };
 
-    return [...results, ...resultsCache];
+    return result;
 
 };
 
 /**
  * ### pathGet
- * - Версия `0.3.0`
- * - Цепочка `DVHCa`
- * - Модуль `path`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
+ * 
+ * Функция получения пути до файла/директории по указанному фрагменту пути.
+ * Если фрагмент пути уникальный и не повторяется в проекте, то с помощью данной функции можно получить его без необходимости указывать полный путь.
  *
- * Функция получения пути по указанному фрагменту в текущем проекте.
- *
+ * Новая версия `1.0.0` ускорила работу функции за счёт изменения работы алгоритма, направленного на получение первого совпадения, для которого не требуются
+ * дополнительные проверки и выделение памяти. Были также убраны любые использования непроизводительных ES6 методов массивов.
+ * 
  * ***
- * @arg {boolean?} modeCache `Режим кэширования`
- * @arg {pathTTFragment} fragment `Фрагмент`
+ * @arg {pathT['fragment']} fragment `Фрагмент`
+ * @arg {pathT['cacheMode']} cacheMode `Режим кэширования`
+ * @returns {string|null}
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function pathGet(fragment, modeCache) {
+export function pathGet(fragment, cacheMode) {
 
-    return getDeceit({ fragment, limit: 1, modeCache, })?.[0];
+    return get({ fragment, cacheMode, });
 
 };
 /**
- * ### pathGetAll
- * - Версия `0.3.0`
- * - Цепочка `DVHCa`
- * - Модуль `path`
+ * ### pathGetMany
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Функция получения всех путей текущего проекта.
- *
+ * 
+ * Функция {@link pathGet|получения пути до файла/директории по указанному фрагменту пути} для множества путей.
+ * 
  * ***
- * @arg {number?} limit `Предел`
- * @arg {boolean?} modeCache `Режим кэширования`
- * @arg {pathTTFragment} fragment `Фрагмент`
+ * @arg {pathT['fragments']} fragments `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function pathGetAll(fragment, limit, modeCache) {
+export function pathGetMany(...fragments) {
 
-    return getDeceit({ fragment, limit, modeCache, });
+    const result = [];
+
+    for (const fragment of fragments) result.push(pathGet(fragment));
+
+    return result;
 
 };
 
 //#endregion
-//#region getIn 0.0.0
+//#region getTo
 
-/** ### pathTFGetIn
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `path`
+/**
+ * ### getTo
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Результирующие параметры функции `getIn`.
- *
- * @typedef {pathTFUGetIn&pathTFragment} pathTFGetIn
- *
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getToT
+ * @prop {string} to
+ * @prop {string} from
+ * ***
+ * @arg {pathT&getToT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUGetIn
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- * Уникальные параметры функции `getIn`.
- *
- * @typedef pathTFUGetIn
- * @prop {any} _
-*/
+function getTo(args) {
 
-/** @arg {pathTFGetIn} t */
-function getInDeceit(t) {
+    let result;
 
     try {
 
-        return getInVerify(t);
+        let {
 
-    } catch (e) {
+            to,
+            from,
 
-        if (config.strict) throw e;
+        } = args;
 
-        return undefined;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        result = [];
+
+        if (!from) from = pathGetProject();
+
+        //#endregion
+        //#region comply
+
+        const toParts = pathDecompose(to);
+        const fromParts = pathDecompose(from);
+
+        let pointAdjacent = null;
+
+        for (const index in toParts.length > fromParts.length ? toParts : fromParts) {
+
+            const toPart = toParts[index];
+            const fromPart = fromParts[index];
+
+            if (toPart !== fromPart) {
+
+                pointAdjacent = index - 1;
+
+                break;
+
+            };
+
+        };
+
+        for (let index = fromParts.length - 2; index > pointAdjacent; index--) result.push('..');
+
+        for (let index = pointAdjacent + 1; index < toParts.length; index++) result.push(toParts[index]);
+
+        result = result[0] === '..' ? pathConcat(...result) : pathConcat('.', ...result);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
 
     };
 
-};
-/** @arg {pathTFGetIn} t */
-function getInVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getInHandle(t);
+    return result;
 
 };
-/** @arg {pathTFGetIn} t */
-function getInHandle(t) {
 
-    const {
+/**
+ * ### pathGetTo
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения относительного пути от одного объекта файловой системы к другому.
+ * 
+ * ***
+ * @arg {string} to `Куда`
+ * @arg {string} from `Откуда`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathGetTo(to, from) {
 
-
-
-    } = t;
-
-    return getInComply(t);
+    return getTo({ from, to, });
 
 };
-/** @arg {pathTFGetIn} t */
-function getInComply(t) {
 
-    const {
+//#endregion
+//#region getIn
 
-        fragment,
+/**
+ * ### getIn
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getInT
+ * @prop {} _
+ * ***
+ * @arg {pathT&getInT&pathTFragment} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getIn(args) {
 
-    } = t;
+    let result;
 
-    if (existsSync(fragment) && lstatSync(fragment).isDirectory()) {
+    try {
 
-        return readdirSync(fragment).map(f => pathConcat(fragment, f));
+        let {
+
+            fragment,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        if (existsSync(fragment) && lstatSync(fragment).isDirectory()) {
+
+            return readdirSync(fragment).map(f => pathConcat(fragment, f));
+
+        };
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
 
     };
 
-    return null;
+    return result;
 
 };
 
 /**
  * ### pathGetIn
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `path`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
+ * 
  * Функция получения внутренних путей.
  *
  * Извлекаются все пути, лежащие в указанном пути.
  *
  * ***
  * @arg {pathTTFragment} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function pathGetIn(fragment) {
 
-    return getInDeceit({ fragment });
+    return getIn({ fragment, });
 
 };
 
 //#endregion
-//#region getDisk 0.0.1
+//#region getAll
 
-/** ### pathTFGetDisk
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `path`
+/**
+ * ### getAll
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Результирующие параметры функции `getDisk`.
- *
- * @typedef {pathTFUGetDisk&pathT} pathTFGetDisk
- *
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getAllT
+ * @prop {} _
+ * ***
+ * @arg {pathT&getAllT&pathTFragment&pathTLimit&pathTCacheMode} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUGetDisk
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- * Уникальные параметры функции `getDisk`.
- *
- * @typedef pathTFUGetDisk
- * @prop {any} _
-*/
+function getAll(args) {
 
-/** @arg {pathTFGetDisk} t */
-function getDiskDeceit(t) {
+    let result;
 
     try {
 
-        return getDiskVerify(t);
+        let {
 
-    } catch (e) {
+            fragment,
+            cacheMode,
 
-        if (config.strict) throw e;
+        } = args;
 
-        return undefined;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        result = [];
+
+        fragment = pathNormalize(fragment);
+
+        //#endregion
+        //#region comply
+
+        const pathProject = pathGetProject();
+
+        const paths = readdirSync(pathProject);
+
+        for (const index in paths) paths[index] = pathConcat(pathProject, paths[index]);
+
+        while (paths.length) {
+
+            const path = paths.pop();
+            const pathsNew = pathGetIn(path);
+
+            if (pathsNew) paths.push(...pathsNew);
+            if ((fragment && path.match(fragment)) || !fragment) result.push(path);
+
+        };
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
 
     };
 
-};
-/** @arg {pathTFGetDisk} t */
-function getDiskVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getDiskHandle(t);
+    return result;
 
 };
-/** @arg {pathTFGetDisk} t */
-function getDiskHandle(t) {
 
-    const {
+/**
+ * ### pathGetAll
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения всех путей проекта.
+ * 
+ * ***
+ * @arg {number} limit `Предел`
+ * @arg {pathTTFragment} fragment `Фрагмент`
+ * @function
+*/
+export function pathGetAll(fragment, limit) {
 
-
-
-    } = t;
-
-    return getDiskComply(t);
+    return getAll({ fragment, limit, });
 
 };
-/** @arg {pathTFGetDisk} t */
-function getDiskComply(t) {
 
-    const {
+//#endregion
+//#region getNow
+
+/**
+ * ### getNow
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getNowT
+ * @prop {ImportMeta} meta
+ * ***
+ * @arg {pathT&getNowT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getNow(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            meta,
+
+        } = args;
+
+        //#region verify
 
 
 
-    } = t;
+        //#endregion
+        //#region handle
 
-    return import.meta.url.match(/\/\/\/(\w+?):/)[1];
+
+
+        //#endregion
+        //#region comply
+
+        result = (meta?.url ? meta.url : import.meta.url).slice(8);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### pathGetNow
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения пути текущего расположения в файловой системе.
+ * 
+ * ***
+ * @arg {ImportMeta} meta `Метаданные`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathGetNow(meta) {
+
+    return getNow({ meta });
+
+};
+
+//#endregion
+//#region getDisk
+
+/**
+ * ### getDisk
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getDiskT
+ * @prop {} _
+ * ***
+ * @arg {pathT&getDiskT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getDisk(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            path,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        
+
+        //#endregion
+        //#region comply
+
+        result = path ? path[0] : import.meta.url.match(/\/\/\/(\w+?):/)[1];
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
 
 };
 
 /**
  * ### pathGetDisk
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `path`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Функция получения текущего диска расположения проекта.
- *
+ * 
+ * Функция получения диска, на котором расположен проект.
+ * 
  * ***
- *
+ * @arg {pathT['path']} path `Путь`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function pathGetDisk() {
+export function pathGetDisk(path) {
 
-    return getDiskDeceit({});
+    return getDisk({ path, });
 
 };
 
 //#endregion
-//#region getProject 0.0.1
-
-/** ### pathTFgetProject
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `path`
- * ***
- *
- * Результирующие параметры функции `getProject`.
- *
- * @typedef {pathTFUgetProject} pathTFgetProject
- *
-*/
-/** ### pathTFUgetProject
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- * Уникальные параметры функции `getProject`.
- *
- * @typedef pathTFUgetProject
- * @prop {any} _
-*/
-
-/** @arg {pathTFgetProject} t */
-function getProjectDeceit(t) {
-
-    try {
-
-        return getProjectVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {pathTFgetProject} t */
-function getProjectVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getProjectHandle(t);
-
-};
-/** @arg {pathTFgetProject} t */
-function getProjectHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getProjectComply(t);
-
-};
-/** @arg {pathTFgetProject} t */
-function getProjectComply(t) {
-
-    const {
-
-
-
-    } = t;
-
-    const fragments = import.meta.url.slice(8).split('/');
-    const index = fragments.findIndex(fragment => fragment === 'syls');
-
-    return fragments.slice(0, index + 1 ?? 0).join('/');
-
-};
+//#region getName
 
 /**
- * ### pathgetProject
- * - Версия `0.0.1`
- * - Цепочка `DVHCa`
- * - Модуль `path`
- * ***
- *
- * Функция получения полного пути до корневой папки текущего проекта.
- *
- * ***
- *
-*/
-export function pathGetProject() {
-
-    return getProjectDeceit({});
-
-};
-
-//#endregion
-
-//#region back 0.0.0
-
-/** ### pathTFBack
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\path`
+ * ### getName
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `back`.
  * 
- * @typedef {pathTFUBack&pathT} pathTFBack
  * 
+ * ***
+ * @typedef getNameT
+ * @prop {} _
+ * ***
+ * @arg {pathT&getNameT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUBack
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\path`
- * 
- * Уникальные параметры функции `back`.
- * 
- * @typedef pathTFUBack
- * @prop {string} path
- * @prop {number} repeat 
-*/
-
-/** @arg {pathTFBack} t */
-function backDeceit(t) {
+function getName(args) {
+    
+    let result;
     
     try {
         
-        return backVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
+        let {
             
-            throw e;
+            path,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = pathGetNameFull(path).split('.')[0];
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
             
         };
         
-        return undefined;
+        
         
     } finally {
         
@@ -689,172 +858,783 @@ function backDeceit(t) {
         
     };
     
-};
-/** @arg {pathTFBack} t */
-function backVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return backHandle(t);
-   
-};
-/** @arg {pathTFBack} t */
-function backHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return backComply(t);
-   
-};
-/** @arg {pathTFBack} t */
-function backComply(t) {
-   
-    const {
-    
-        path,
-        repeat,
-    
-    } = t;
-
-    return path.split('/').reverse().splice(repeat).reverse().join('/');
+    return result;
     
 };
 
 /**
+ * ### pathGetName
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция полкчения имени объекта os по указанному пути.
+ * 
+ * ***
+ * @arg {pathT['path']} path `Путь`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathGetName(path) {
+
+    return getName({ path, });
+
+};
+
+//#endregion
+//#region getNameFull
+
+/**
+ * ### getNameFull
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getNameFullT
+ * @prop {} _
+ * ***
+ * @arg {pathT&getNameFullT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getNameFull(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            path,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+
+        result = path.split('/').at(-1);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### pathGetNameFull
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения полного имени объекта os по указанному пути.
+ * 
+ * ***
+ * @arg {pathT['path']} path `Путь`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathGetNameFull(path) {
+
+    return getNameFull({ path, });
+
+};
+
+//#endregion
+//#region getExpand
+
+/**
+ * ### getExpand
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getExpandT
+ * @prop {} _
+ * ***
+ * @arg {pathT&getExpandT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getExpand(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            fragment,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        fragment = pathGet(fragment) ?? fragment;
+        
+        //#endregion
+        //#region comply
+        
+        const name = pathDecompose(fragment).at(-1);
+
+        result = name.match(/\./) ? name.slice(name.indexOf('.') + 1) : statSync(fragment).isDirectory() ? 'dir' : '';
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### pathGetExpand
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения расширения объекта os по указанному пути.
+ * 
+ * ***
+ * @arg {pathT['fragment']} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathGetExpand(fragment) {
+
+    return getExpand({ fragment });
+
+};
+
+//#endregion
+//#region getProject
+
+/**
+ * ### getProject
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getProjectT
+ * @prop {} _
+ * ***
+ * @arg {pathT&getProjectT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getProject(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const fragments = import.meta.url.slice(8).split('/');
+        const index = fragments.findIndex(fragment => fragment === 'syls');
+
+        result = fragments.slice(0, index + 1 ?? 0).join('/');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### pathGetProject
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения полного пути до корневой папки текущего проекта.
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathGetProject() {
+
+    return getProject({});
+
+};
+
+//#endregion
+//#region getFragment
+
+/**
+ * ### getFragment
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getFragmentT
+ * @prop {string|RegExp} fragment
+ * ***
+ * @arg {pathT&getFragmentT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getFragment(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            fragment,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = [];
+        
+        const paths = pathDecompose(fragment);
+
+        for (const part of paths) {
+
+            if (['.', '..'].includes(part)) continue;
+
+            result.push(part);
+
+        };
+
+        result = pathConcat(...result);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### pathGetFragment
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция получения существенного фрагмента пути из относительных путей.
+ * 
+ * ***
+ * @arg {string|RegExp} fragment `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathGetFragment(fragment) {
+
+    return getFragment({ fragment, });
+
+};
+
+//#endregion
+//#region setName
+
+/**
+ * ### setName
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setNameT
+ * @prop {} _
+ * ***
+ * @arg {pathT&setNameT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setName(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            path,
+            name,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const nameOld = pathGetName(path);
+
+        result = stringPaste(path, name, path.lastIndexOf(nameOld), nameOld.length);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### pathSetName
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция изменения имени пути.
+ * 
+ * ***
+ * @arg {pathT['path']} path `Путь`
+ * @arg {pathT['name']} name `Наименование`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathSetName(path, name) {
+
+    return setName({ path, name, });
+
+};
+
+//#endregion
+//#region setExpand
+
+/**
+ * ### setExpand
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setExpandT
+ * @prop {} _
+ * ***
+ * @arg {pathT&setExpandT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setExpand(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            path,
+            expand,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (!expand) expand = config.value.expandDefault;
+        
+        //#endregion
+        //#region comply
+        
+        result = path.slice(0, path.match(pathGetExpand(path)).index) + expand;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.value.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### pathSetExpand
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция для изменения пути, с заменой текущего расширения на указанное.
+ * 
+ * ***
+ * @arg {pathT['path']} path `Путь`
+ * @arg {pathT['expand']} expand `Расширение`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function pathSetExpand(path, expand) {
+
+    return setExpand({ path, expand, });
+
+};
+
+//#endregion
+//#region back
+
+/**
+ * ### back
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef backT
+ * @prop {number} deapth
+ * ***
+ * @arg {pathT&backT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function back(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            path,
+            deapth,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        if (!deapth && deapth !== 0) deapth = 1;
+
+        //#endregion
+        //#region comply
+
+        result = path.split('/').reverse().splice(deapth).reverse().join('/');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
  * ### pathBack
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\path`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
  * Функция получения строки пути с подъёмом на указанное кол-во уровней для указанного пути.
  * 
  * ***
  * @arg {string} path `Путь`
- * @arg {number} repeat `Повторения`
+ * @arg {number} deapth `Повторения`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function pathBack(path, repeat = 1) {
+export function pathBack(path, deapth) {
 
-    return backDeceit({ path, repeat, });
+    return back({ path, deapth, });
 
 };
 
 //#endregion
-//#region backByName 0.0.0
+//#region backByName
 
-/** ### pathTFBackByName
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\path`
+/**
+ * ### backByName
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `backByName`.
  * 
- * @typedef {pathTFUBackByName&pathT} pathTFBackByName
  * 
-*/
-/** ### pathTFUBackByName
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\path`
- * 
- * Уникальные параметры функции `backByName`.
- * 
- * @typedef pathTFUBackByName
+ * ***
+ * @typedef backByNameT
  * @prop {string} name
+ * ***
+ * @arg {pathT&backByNameT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
+function backByName(args) {
 
-/** @arg {pathTFBackByName} t */
-function backByNameDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return backByNameVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
-            
-            throw e;
-            
+
+        let {
+
+            name,
+            path,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = path.split('/');
+
+        for (let i = result.length - 1; i >= 0; i--) {
+
+            if (result[i] === name) {
+
+                break;
+
+            } else {
+
+                result.splice(i);
+
+            };
+
         };
-        
-        return undefined;
-        
+
+        result = result.join('/');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
     } finally {
-        
-        
-        
-    };
-    
-};
-/** @arg {pathTFBackByName} t */
-function backByNameVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return backByNameHandle(t);
-   
-};
-/** @arg {pathTFBackByName} t */
-function backByNameHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return backByNameComply(t);
-   
-};
-/** @arg {pathTFBackByName} t */
-function backByNameComply(t) {
-   
-    const {
-    
-        path,
-        name,
-    
-    } = t;
-    
-    const result = path.split('/');
 
-    for (let i = result.length - 1; i >= 0; i--) {
 
-        if (result[i] === name) {
-
-            break;
-
-        } else {
-
-            result.splice(i);
-
-        };
 
     };
 
-    return result.join('/');
-    
+    return result;
+
 };
 
 /**
  * ### pathBackByName
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\path`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
  * Функция перехода на вышестояющую директорию до тех пор, пока не удастся найти указанное наименование.
@@ -862,535 +1642,491 @@ function backByNameComply(t) {
  * ***
  * @arg {string} path `Путь`
  * @arg {string} name `Имя`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function pathBackByName(path, name) {
 
-    return backByNameDeceit({ path, name });
+    return backByName({ path, name, });
 
 };
 
 //#endregion
+//#region check
 
-//#region check 0.0.0
-
-/** ### pathTFCheck
- * - Тип `TF`
- * - Версия `0.0.0`
+/**
+ * ### check
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `check`.
  * 
- * @typedef {pathTFUCheck&pathT} pathTFCheck
  * 
+ * ***
+ * @typedef checkT
+ * @prop {} _
+ * ***
+ * @arg {pathT&checkT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUCheck
- * - Тип `TFU`
- * - Версия `0.0.0`
- * 
- * Уникальные параметры функции `check`.
- * 
- * @typedef pathTFUCheck
- * @prop {any} _
-*/
+function check(args) {
 
-/** @arg {pathTFCheck} t */
-function checkDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return checkVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
-            
-            throw e;
-            
+
+        let {
+
+            path,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = pathVRETempalte.test(path);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
         };
-        
-        return undefined;
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
-};
-/** @arg {pathTFCheck} t */
-function checkVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return checkHandle(t);
-   
-};
-/** @arg {pathTFCheck} t */
-function checkHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return checkComply(t);
-   
-};
-/** @arg {pathTFCheck} t */
-function checkComply(t) {
-   
-    const {
-    
-        path,
-    
-    } = t;
-    
-    return pathVRETempalte.test(path);
-    
+
+    return result;
+
 };
 
 /**
  * ### pathCheck
- * - Версия `0.0.0`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
  * Функция проверки корректности пути.
  * 
  * ***
  * @arg {string} path `Путь`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function pathCheck(path) {
 
-    return checkDeceit({ path, });
+    return check({ path, });
 
 };
 
 //#endregion
-//#region exists 0.0.0
+//#region exist
 
-/** ### pathTFExists
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `os\path`
+/**
+ * ### exist
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `exists`.
  * 
- * @typedef {pathTFUExists&pathT} pathTFExists
  * 
+ * ***
+ * @typedef existT
+ * @prop {} _
+ * ***
+ * @arg {pathT&existT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUExists
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `os\path`
- * 
- * Уникальные параметры функции `exists`.
- * 
- * @typedef pathTFUExists
- * @prop {any} _
-*/
+function exist(args) {
 
-/** @arg {pathTFExists} t */
-function existsDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return existsVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
-            
-            throw e;
-            
+
+        let {
+
+            path,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = existsSync(path);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
         };
-        
-        return undefined;
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
-};
-/** @arg {pathTFExists} t */
-function existsVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return existsHandle(t);
-   
-};
-/** @arg {pathTFExists} t */
-function existsHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return existsComply(t);
-   
-};
-/** @arg {pathTFExists} t */
-function existsComply(t) {
-   
-    const {
-    
-        path,
-    
-    } = t;
-    
-    return existsSync(path);
-    
+
+    return result;
+
 };
 
 /**
- * ### pathExists
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `os\path`
+ * ### pathExist
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
  * Функция проверки наличия пути. 
  * 
  * ***
  * @arg {string} path `Путь`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function pathExists(path) {
+export function pathExist(path) {
 
-    return existsDeceit({ path });
+    return exist({ path, });
 
 };
 
 //#endregion
-//#region concat 0.0.0
+//#region concat
 
-/** ### pathTFConcat
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `path`
+/**
+ * ### concat
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Результирующие параметры функции `concat`.
- *
- * @typedef {pathTFUConcat&pathT} pathTFConcat
- *
+ * 
+ * 
+ * 
+ * ***
+ * @typedef concatT
+ * @prop {...string} concats
+ * ***
+ * @arg {pathT&concatT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUConcat
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- * Уникальные параметры функции `concat`.
- *
- * @typedef pathTFUConcat
- * @prop {string} concat
-*/
+function concat(args) {
 
-/** @arg {pathTFConcat} t */
-function concatDeceit(t) {
+    let result;
 
     try {
 
-        return concatVerify(t);
+        let {
 
-    } catch (e) {
+            path,
+            concats,
 
-        if (config.strict) throw e;
+        } = args;
 
-        return undefined;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        path = pathNormalize(path);
+
+        for (const index in concats) concats[index] = pathNormalize(concats[index]);
+
+        //#endregion
+        //#region comply
+
+        result = [path, ...concats].join('/');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
 
     };
 
-};
-/** @arg {pathTFConcat} t */
-function concatVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return concatHandle(t);
-
-};
-/** @arg {pathTFConcat} t */
-function concatHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    [t.path, t.concat] = [t.path, t.concat].map(p => pathNormalize(p));
-
-    return concatComply(t);
-
-};
-/** @arg {pathTFConcat} t */
-function concatComply(t) {
-
-    const {
-
-        path,
-        concat,
-
-    } = t;
-
-    return path + '/' + concat;
+    return result;
 
 };
 
 /**
  * ### pathConcat
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `path`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
+ * 
  * Функция склейки указанных путей.
- *
- * Порядок важен: первый путь склеится с первым.
  *
  * ***
  * @arg {string} path
- * @arg {string} concat
+ * @arg {...string} concats
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function pathConcat(path, concat) {
+export function pathConcat(path, ...concats) {
 
-    return concatDeceit({ path, concat, });
+    return concat({ path, concats, });
 
 };
 
 //#endregion
-//#region normalize 0.0.0
+//#region normalize
 
-/** ### pathTFNormalize
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `path`
+/**
+ * ### normalize
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Результирующие параметры функции `normalize`.
- *
- * @typedef {pathTFUNormalize&pathT} pathTFNormalize
- *
+ * 
+ * 
+ * 
+ * ***
+ * @typedef normalizeT
+ * @prop {} _
+ * ***
+ * @arg {pathT&normalizeT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUNormalize
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- * Уникальные параметры функции `normalize`.
- *
- * @typedef pathTFUNormalize
- * @prop {any} _
-*/
+function normalize(args) {
 
-/** @arg {pathTFNormalize} t */
-function normalizeDeceit(t) {
+    let result;
 
     try {
 
-        return normalizeVerify(t);
+        let {
 
-    } catch (e) {
+            path,
 
-        if (config.strict) throw e;
+        } = args;
 
-        return undefined;
-
-    };
-
-};
-/** @arg {pathTFNormalize} t */
-function normalizeVerify(t) {
-
-    const {
+        //#region verify
 
 
 
-    } = t;
-
-    return normalizeHandle(t);
-
-};
-/** @arg {pathTFNormalize} t */
-function normalizeHandle(t) {
-
-    const {
+        //#endregion
+        //#region handle
 
 
 
-    } = t;
+        //#endregion
+        //#region comply
 
-    return normalizeComply(t);
+        path = stringUnifyBySymbol(path, '/');
 
-};
-/** @arg {pathTFNormalize} t */
-function normalizeComply(t) {
+        if (path[0] === '/') path = path.slice(1);
 
-    let path = stringUnifyBySymbol(t.path, '/');
+        if (path.at(-1) === '/') path = path.slice(0, -1);
 
-    if (path[0] === '/') {
+        result = path;
 
-        path = path.slice(1);
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
 
     };
 
-    if (path.at(-1) === '/') {
-
-        path = path.slice(0, -1);
-
-    };
-
-    return path;
+    return result;
 
 };
 
 /**
  * ### pathNormalize
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `path`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
+ * 
  * Функция нормолизации пути.
  *
  * Нормализация убирает возможные дефекты пути, по типу избыточных слешей.
  *
  * ***
  * @arg {string} path `Путь`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function pathNormalize(path) {
 
-    return normalizeDeceit({ path, });
+    return normalize({ path, });
 
 };
 
 //#endregion
-//#region decompose 0.0.2
+//#region decompose
 
-/** ### pathTFDecompose
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `path`
+/**
+ * ### decompose
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- * Результирующие параметры функции `decompose`.
- *
- * @typedef {pathTFUDecompose&pathT} pathTFDecompose
- *
+ * 
+ * 
+ * 
+ * ***
+ * @typedef decomposeT
+ * @prop {} _
+ * ***
+ * @arg {pathT&decomposeT} args `Аргументы`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### pathTFUDecompose
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `path`
- *
- * Уникальные параметры функции `decompose`.
- *
- * @typedef pathTFUDecompose
- * @prop {any} _
-*/
+function decompose(args) {
 
-/** @arg {pathTFDecompose} t */
-function decomposeDeceit(t) {
+    let result;
 
     try {
 
-        return decomposeVerify(t);
+        let {
 
-    } catch (e) {
+            path,
 
-        if (config.strict) throw e;
+        } = args;
 
-        return undefined;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        path = pathNormalize(path);
+
+        //#endregion
+        //#region comply
+
+        result = path.split('/');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.value.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
 
     };
 
-};
-/** @arg {pathTFDecompose} t */
-function decomposeVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return decomposeHandle(t);
-
-};
-/** @arg {pathTFDecompose} t */
-function decomposeHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return decomposeComply(t);
-
-};
-/** @arg {pathTFDecompose} t */
-function decomposeComply(t) {
-
-    const {
-
-
-
-    } = t;
-
-    const {
-
-        fragment,
-
-    } = t;
-
-    const parts = fragment.match(fileVREPart);
-
-    if (parts) return parts.map((e, i, a) => a.slice(0, i + 1).join(''));
-    else return [path.match(fileVREName)[1]];
+    return result;
 
 };
 
 /**
  * ### pathDecompose
- * - Версия `0.0.2`
- * - Цепочка `DVHCa`
- * - Модуль `path`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
- *
- *
+ * 
+ * Функция разбиения пути на директории.
  *
  * ***
- * @arg {pathTTFragment} fragment `Фрагмент`
+ * @arg {pathTTFragment} path `Фрагмент`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function pathDecompose(fragment) {
+export function pathDecompose(path) {
 
-    return decomposeDeceit({ fragment, });
+    return decompose({ path, });
 
 };
 
 //#endregion
 
 /**
- * @file module.mjs
+ * @file path/module.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

@@ -1,41 +1,29 @@
-import { YString } from "@syls/string";
+import { YConfig } from "@syls/y/config";
+import configOS from "../../../-module/config.mjs";
 
-/** ### configObject
- * - Модуль `os\object`
- * 
- * Конфигуратор модуля `object`.
- * 
-*/
-export const configOsject = {
+/** @type {configOS['value']} */
+const config = {
     
-    /**
-     * ### reportBlocksRequired
-     * 
-     * 
-     * 
-     * *** 
-     * @public
-    */
-    reportBlocksRequired: [
-
-        ['Данные', t => {
-
-            return new YString()
-
-                .setPrefix(' * ')
-                .setPostfix(';\n')
-                .paste(
-
-                    `Статус: ${t.status}`,
-                    `Расположение: ${t.path.get()}`,
-
-                )
-                .get()
-
-        }],
-
-    ],
+    
     
 };
 
-export default configOsject;
+/** ### configOsject
+ * 
+ * Конфигуратор модуля `osject`.
+ * 
+ * ***
+ * @public
+*/
+export const configOsject = new YConfig(Object.assign(config, {
+    
+    
+    
+}), configOS);
+
+/**
+ * @file osject/config.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/

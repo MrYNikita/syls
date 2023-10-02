@@ -1,38 +1,47 @@
 {
     "name": "@syls/web",
+    "type": "module",
     "files": [
-        "./html",
-        "./server",
-        "./export.mjs",
-        "./class.mjs",
-        "./config.mjs",
-        "./module.mjs",
-        "./package.json",
-        "./changelog.md"
+        "./-module",
+        "./-submodule",
+        "./package.json"
     ],
     "author": {
         "name": "Yakhin Nikita Artemovich",
         "email": "mr.y.nikita@gmail.com"
     },
-    "version": "0.0.1",
+    "version": "1.0.0",
     "license": "Apache-2.0",
+    "funding": {
+        "url": "https://boosty.to/mr.y.nikita",
+        "type": "boosty"
+    },
     "exports": {
         ".": {
-            "types": "./export.mjs",
-            "import": "./export.mjs"
+            "types": "./-module/type.d.ts",
+            "import": "./-module/export.mjs"
         }
+    },
+    "scripts": {
+        "test": "node ./-module/module.test.js"
+    },
+    "engines": {
+        "node": ">=18.0.0"
     },
     "keywords": [
         "y",
         "lib",
-        "web"
+        "syls"
     ],
     "repository": {
         "url": "https://github.com/MrYNikita/Y.git",
         "type": "git"
     },
+    "description": "",
     "dependencies": {
-       "@syls/y": "*"
+        "@syls/y": "*"
     },
-    "description": "Web manipulation lib."
+    "devDependencies": {
+        "@syls/test": "*"
+    }
 }
