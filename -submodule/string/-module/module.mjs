@@ -2,9 +2,10 @@
 
 import { configString as config } from './config.mjs';
 import { funcBypass } from '@syls/func';
-import { yClassifyProp, yGetProperty } from '@syls/y';
+import { yGetProp } from '@syls/y';
 import { dateGetMesuares } from '@syls/y/date';
-import { condIsNumberLimit, condIsString } from '@syls/y/cond';
+import { condIsNumberSig, condIsString } from '@syls/y/cond';
+import { argClassify } from '@syls/y/arg';
 // import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
 
 //#endregion
@@ -18,7 +19,14 @@ import { condIsNumberLimit, condIsString } from '@syls/y/cond';
  * Основной параметр модуля `string`.
  *
  * @typedef stringT
+ * @prop {string} fill
+ * @prop {number} limit
+ * @prop {-1|0|1} align
+ * @prop {number} count
  * @prop {string} string
+ * @prop {string} spliterPart
+ * @prop {string} spliterDischarge
+ * @prop {string|number} number
  *
 */
 /** ### stringTRow
@@ -132,7 +140,7 @@ import { condIsNumberLimit, condIsString } from '@syls/y/cond';
  * 
  * ***
  * 
- * @typedef {Omit<config.value['value']['symbols'], 'table'>} stringTTsymbolFilter
+ * @typedef {config['params']['symbols']} stringTTsymbolFilter
  * @typedef {{[K in keyof stringTTsymbolFilter]: keyof stringTTsymbolFilter[K]}[keyof stringTTsymbolFilter]} stringTTSymbol
  * 
 */
@@ -187,7 +195,7 @@ function toWordsFromNumberDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -491,7 +499,7 @@ function setRowDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -608,7 +616,7 @@ function getDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -666,7 +674,7 @@ function getComply(t) {
 
     const rows = string.split('\n');
 
-    if (condIsNumberLimit(y)) {
+    if (condIsNumberSig(y)) {
 
         return rows[y][x];
 
@@ -734,7 +742,7 @@ function getRowDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -850,7 +858,7 @@ function getRowsDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -951,7 +959,7 @@ function getIndexDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -1076,7 +1084,7 @@ function getMatrixDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -1176,7 +1184,7 @@ function getSymbolDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -1224,7 +1232,7 @@ function getSymbolComply(t) {
 
     } = t;
 
-    return yGetProperty(config.value.symbols, symbol);
+    return yGetProp(config.params.symbols, symbol);
 
 };
 
@@ -1237,6 +1245,7 @@ function getSymbolComply(t) {
  * 
  * ***
  * @arg {stringTTSymbol} symbol `Символ`
+ * @returns {string}
 */
 export function stringGetSymbol(symbol) {
 
@@ -1274,7 +1283,7 @@ function getDimensionDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -1346,499 +1355,605 @@ export function stringGetDimension(string) {
 
 //#endregion
 
-//#region pad 1.0.0
+//#region pad
 
-/** ### stringTFPad
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### pad
+ * - Тип `S`
+ * - Версия `1.1.0`
  * ***
- *
- * Результирующие параметры функции `pad`.
- *
- * @typedef {stringTFUPad&stringT&stringTIndex&stringTLimit} stringTFPad
- *
+ * 
+ * 
+ * 
+ * ***
+ * @typedef padT
+ * @prop {} _
+ * ***
+ * @arg {stringT&padT} args `Аргументы`
+ * *** 
+ * @since `1.1.0`
+ * @version `1.1.0`
+ * @function
 */
-/** ### stringTFUPad
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `pad`.
- *
- * @typedef stringTFUPad
- * @prop {string} pad
- * @prop {boolean} modeCut
-*/
-
-/** @arg {stringTFPad} t */
-function padDeceit(t) {
-
+function pad(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            fill,
+            limit,
+            align,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (!fill) fill = config.params.padFillDefault;
+        if (!align && align !== 0) align = config.params.alignDefault;
 
-        return padVerify(t);
+        //#endregion
+        //#region comply
 
-    } catch (e) {
+        switch (align) {
 
-        if (config.value?.strictMode) {
+            case 0: {
 
-            throw e;
+                const value = (limit - string.length) / 2;
+
+                result = fill.repeat(Math.ceil(value)) + string + fill.repeat(Math.floor(value)); break;
+
+            }; break;
+            case 1: result = string.padStart(limit, fill); break;
+            case -1: result = string.padEnd(limit, fill); break;
 
         };
-
-        return undefined;
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFPad} t */
-function padVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return padHandle(t);
-
-};
-/** @arg {stringTFPad} t */
-function padHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return padComply(t);
-
-};
-/** @arg {stringTFPad} t */
-function padComply(t) {
-
-    const {
-
-        pad,
-        limit,
-        index,
-        string,
-        modeCut,
-
-    } = t;
-
-    let result = string;
-
-    if (string.length <= limit && limit && pad) {
-
-        const count = Math.floor((limit - string.length) / pad.length);
-        // const overflow = t.limit - (count * pad.length + string.length);
-
-        result += pad.repeat(count);
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
  * ### stringPad
- * - Версия `1.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * 
+ * 
+ * 
  * ***
- *
- * Функция доведения указанной `строки` до указанного `лимита` символов `строкой доведения`.
- *
- * В отличии от обычной функции `pad` позволяет доводить строку до указанного лимита с указанной позиции.
- *
+ * @arg {stringT['fill']} fill `Заполнитель`
+ * @arg {stringT['limit']} limit `Лимит`
+ * @arg {stringT['align']} align `Выравнивание`
+ * @arg {stringT['string']} string `Строка`
  * ***
- * @arg {string} pad `Строка доведения`
- * @arg {number} limit `Лимит`
- * @arg {number} index `Позиция`
- * @arg {string} string `Строка`
- * @arg {boolean} modeCut `Режим отсечения`
  * @since `1.0.0`
- * @function
- *
- * Режим отсечения позволяет обрезать ту часть дополнения, что превзошла указанный лимит.
- *
- * - Дефолт `true`
-*/
-export function stringPad(string, pad, limit, index = string?.length ?? 0, modeCut = true) {
-
-    return padDeceit({ string, limit, index, pad, modeCut });
-
-};
-
-//#endregion
-//#region padRow 0.0.0
-
-/** ### stringTFPadRow
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `padColumn`.
- *
- * @typedef {stringTFUPadRow&stringT&stringTFPad} stringTFPadRow
- *
-*/
-/** ### stringTFUPadRow
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `padColumn`.
- *
- * @typedef stringTFUPadRow
- * @prop {} _
-*/
-
-/** @arg {stringTFPadRow} t */
-function padRowDeceit(t) {
-
-    try {
-
-        return padRowVerify(t);
-
-    } catch (e) {
-
-        if (config.value?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFPadRow} t */
-function padRowVerify(t) {
-
-    const {
-
-        limit,
-        string,
-
-    } = t;
-
-    if (!limit || limit <= stringGetRows(string).length) {
-
-        return t.string;
-
-    };
-
-    return padRowHandle(t);
-
-};
-/** @arg {stringTFPadRow} t */
-function padRowHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return padRowComply(t);
-
-};
-/** @arg {stringTFPadRow} t */
-function padRowComply(t) {
-
-    const {
-
-        pad,
-        limit,
-        string,
-
-    } = t;
-
-    return string + pad.repeat(limit - string.split('\n').length, pad);
-
-};
-
-/**
- * ### stringPadColumn
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция приведения указанной строки к указанному количеству строк.
- *
- * ***
- * @arg {string} pad `Дополнитель`
- *
- * - Дефолт `\n`
- * @arg {string} string `Строка`
- * @arg {number} limit `Лимит`
-*/
-export function stringPadRow(string, limit, pad = config.value.rowEnd) {
-
-    return padRowDeceit({ string, limit, pad, });
-
-};
-
-//#endregion
-//#region padColumn 0.0.0
-
-/** ### stringTFPadColumn
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `padColumn`.
- *
- * @typedef {stringTFUPadColumn&stringT&stringTFPad} stringTFPadColumn
- *
-*/
-/** ### stringTFUPadColumn
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `padColumn`.
- *
- * @typedef stringTFUPadColumn
- * @prop {any} _
-*/
-
-/** @arg {stringTFPadColumn} t */
-function padColumnDeceit(t) {
-
-    try {
-
-        return padColumnVerify(t);
-
-    } catch (e) {
-
-        if (config.value?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFPadColumn} t */
-function padColumnVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return padColumnHandle(t);
-
-};
-/** @arg {stringTFPadColumn} t */
-function padColumnHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return padColumnComply(t);
-
-};
-/** @arg {stringTFPadColumn} t */
-function padColumnComply(t) {
-
-    const {
-
-        pad,
-        limit,
-        string,
-
-    } = t;
-
-    return string.split('\n').map(y => {
-
-        const r = stringPad(y, pad, limit);
-
-        return r;
-
-    }).join('\n');
-
-};
-
-/**
- * ### stringPadColumn
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция приведения каждой линии указанной строки к указанному кол-ву столбцов.
- *
- * ***
- * @arg {string} pad `Дополнитель`
- *
- * - Дефолт ` `
- * @arg {string} string `Строка`
- * @arg {number} limit `Лимит`
-*/
-export function stringPadColumn(string, limit, pad = ' ') {
-
-    return padColumnDeceit({ string, limit, pad, });
-
-};
-
-//#endregion
-//#region padToPosition 0.0.0
-
-/** ### stringTFPadToPosition
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `padToPosition`.
- *
- * @typedef {stringTFUPadToPosition&stringT&stringTPosition} stringTFPadToPosition
- *
-*/
-/** ### stringTFUPadToPosition
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `padToPosition`.
- *
- * @typedef stringTFUPadToPosition
- * @prop {number} row
- * @prop {number} column
- * @prop {string} space
- * @prop {string} rowEnd
-*/
-
-/** @arg {stringTFPadToPosition} t */
-function padToPositionDeceit(t) {
-
-    try {
-
-        return padToPositionVerify(t);
-
-    } catch (e) {
-
-        if (config.value?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFPadToPosition} t */
-function padToPositionVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return padToPositionHandle(t);
-
-};
-/** @arg {stringTFPadToPosition} t */
-function padToPositionHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return padToPositionComply(t);
-
-};
-/** @arg {stringTFPadToPosition} t */
-function padToPositionComply(t) {
-
-    let {
-
-        row,
-
-    } = t;
-
-    const {
-
-        col,
-        space,
-        string,
-        rowEnd,
-
-    } = t;
-
-    let result = string;
-
-    result = stringPadRow(result, row + 1, rowEnd).split('\n');
-    result[row] = stringPad(result[row], space, col);
-    result = result.join(rowEnd);
-
-    return result;
-
-};
-
-/**
- * ### stringPadToPosition
- * - Версия `1.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция приведения указанной строки до указанной позиции.
- *
- * ***
- * @arg {string} string `Текст`
- * @arg {number} row `Строка`
- * @arg {number} col `Столбец`
- * @arg {string?} space `Заполнитель`
- * @arg {string?} rowEnd `Конец линии`
- * @since `1.0.0`
+ * @version `1.1.0`
  * @function
 */
-export function stringPadToPosition(string, row, col, space = config.value.space, rowEnd = config.value.rowEnd) {
+export function stringPad(string, limit, fill, align) {
 
-    return padToPositionDeceit({ string, row, col, space, rowEnd, });
+    return pad({ string, limit, fill, align, });
 
 };
 
 //#endregion
+// //#region pad 1.0.0
+
+// /** ### stringTFPad
+//  * - Тип `TF`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Результирующие параметры функции `pad`.
+//  *
+//  * @typedef {stringTFUPad&stringT&stringTIndex&stringTLimit} stringTFPad
+//  *
+// */
+// /** ### stringTFUPad
+//  * - Тип `TFU`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  *
+//  * Уникальные параметры функции `pad`.
+//  *
+//  * @typedef stringTFUPad
+//  * @prop {string} pad
+//  * @prop {boolean} modeCut
+// */
+
+// /** @arg {stringTFPad} t */
+// function padDeceit(t) {
+
+//     try {
+
+//         return padVerify(t);
+
+//     } catch (e) {
+
+//         if (config.params?.strictMode) {
+
+//             throw e;
+
+//         };
+
+//         return undefined;
+
+//     } finally {
+
+
+
+//     };
+
+// };
+// /** @arg {stringTFPad} t */
+// function padVerify(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return padHandle(t);
+
+// };
+// /** @arg {stringTFPad} t */
+// function padHandle(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return padComply(t);
+
+// };
+// /** @arg {stringTFPad} t */
+// function padComply(t) {
+
+//     const {
+
+//         pad,
+//         limit,
+//         index,
+//         string,
+//         modeCut,
+
+//     } = t;
+
+//     let result = string;
+
+//     if (string.length <= limit && limit && pad) {
+
+//         const count = Math.floor((limit - string.length) / pad.length);
+//         // const overflow = t.limit - (count * pad.length + string.length);
+
+//         result += pad.repeat(count);
+
+//     };
+
+//     return result;
+
+// };
+
+// /**
+//  * ### stringPad
+//  * - Версия `1.0.0`
+//  * - Цепочка `DVHCa`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Функция доведения указанной `строки` до указанного `лимита` символов `строкой доведения`.
+//  *
+//  * В отличии от обычной функции `pad` позволяет доводить строку до указанного лимита с указанной позиции.
+//  *
+//  * ***
+//  * @arg {string} pad `Строка доведения`
+//  * @arg {number} limit `Лимит`
+//  * @arg {number} index `Позиция`
+//  * @arg {string} string `Строка`
+//  * @arg {boolean} modeCut `Режим отсечения`
+//  * @since `1.0.0`
+//  * @function
+//  *
+//  * Режим отсечения позволяет обрезать ту часть дополнения, что превзошла указанный лимит.
+//  *
+//  * - Дефолт `true`
+// */
+// export function stringPad(string, pad, limit, index = string?.length ?? 0, modeCut = true) {
+
+//     return padDeceit({ string, limit, index, pad, modeCut });
+
+// };
+
+// //#endregion
+// //#region padRow 0.0.0
+
+// /** ### stringTFPadRow
+//  * - Тип `TF`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Результирующие параметры функции `padColumn`.
+//  *
+//  * @typedef {stringTFUPadRow&stringT&stringTFPad} stringTFPadRow
+//  *
+// */
+// /** ### stringTFUPadRow
+//  * - Тип `TFU`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  *
+//  * Уникальные параметры функции `padColumn`.
+//  *
+//  * @typedef stringTFUPadRow
+//  * @prop {} _
+// */
+
+// /** @arg {stringTFPadRow} t */
+// function padRowDeceit(t) {
+
+//     try {
+
+//         return padRowVerify(t);
+
+//     } catch (e) {
+
+//         if (config.params?.strictMode) {
+
+//             throw e;
+
+//         };
+
+//         return undefined;
+
+//     } finally {
+
+
+
+//     };
+
+// };
+// /** @arg {stringTFPadRow} t */
+// function padRowVerify(t) {
+
+//     const {
+
+//         limit,
+//         string,
+
+//     } = t;
+
+//     if (!limit || limit <= stringGetRows(string).length) {
+
+//         return t.string;
+
+//     };
+
+//     return padRowHandle(t);
+
+// };
+// /** @arg {stringTFPadRow} t */
+// function padRowHandle(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return padRowComply(t);
+
+// };
+// /** @arg {stringTFPadRow} t */
+// function padRowComply(t) {
+
+//     const {
+
+//         pad,
+//         limit,
+//         string,
+
+//     } = t;
+
+//     return string + pad.repeat(limit - string.split('\n').length, pad);
+
+// };
+
+// /**
+//  * ### stringPadColumn
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Функция приведения указанной строки к указанному количеству строк.
+//  *
+//  * ***
+//  * @arg {string} pad `Дополнитель`
+//  *
+//  * - Дефолт `\n`
+//  * @arg {string} string `Строка`
+//  * @arg {number} limit `Лимит`
+// */
+// export function stringPadRow(string, limit, pad = config.params.rowEnd) {
+
+//     return padRowDeceit({ string, limit, pad, });
+
+// };
+
+// //#endregion
+// //#region padColumn 0.0.0
+
+// /** ### stringTFPadColumn
+//  * - Тип `TF`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Результирующие параметры функции `padColumn`.
+//  *
+//  * @typedef {stringTFUPadColumn&stringT&stringTFPad} stringTFPadColumn
+//  *
+// */
+// /** ### stringTFUPadColumn
+//  * - Тип `TFU`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  *
+//  * Уникальные параметры функции `padColumn`.
+//  *
+//  * @typedef stringTFUPadColumn
+//  * @prop {any} _
+// */
+
+// /** @arg {stringTFPadColumn} t */
+// function padColumnDeceit(t) {
+
+//     try {
+
+//         return padColumnVerify(t);
+
+//     } catch (e) {
+
+//         if (config.params?.strictMode) {
+
+//             throw e;
+
+//         };
+
+//         return undefined;
+
+//     } finally {
+
+
+
+//     };
+
+// };
+// /** @arg {stringTFPadColumn} t */
+// function padColumnVerify(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return padColumnHandle(t);
+
+// };
+// /** @arg {stringTFPadColumn} t */
+// function padColumnHandle(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return padColumnComply(t);
+
+// };
+// /** @arg {stringTFPadColumn} t */
+// function padColumnComply(t) {
+
+//     const {
+
+//         pad,
+//         limit,
+//         string,
+
+//     } = t;
+
+//     return string.split('\n').map(y => {
+
+//         const r = stringPad(y, pad, limit);
+
+//         return r;
+
+//     }).join('\n');
+
+// };
+
+// /**
+//  * ### stringPadColumn
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Функция приведения каждой линии указанной строки к указанному кол-ву столбцов.
+//  *
+//  * ***
+//  * @arg {string} pad `Дополнитель`
+//  *
+//  * - Дефолт ` `
+//  * @arg {string} string `Строка`
+//  * @arg {number} limit `Лимит`
+// */
+// export function stringPadColumn(string, limit, pad = ' ') {
+
+//     return padColumnDeceit({ string, limit, pad, });
+
+// };
+
+// //#endregion
+// //#region padToPosition 0.0.0
+
+// /** ### stringTFPadToPosition
+//  * - Тип `TF`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Результирующие параметры функции `padToPosition`.
+//  *
+//  * @typedef {stringTFUPadToPosition&stringT&stringTPosition} stringTFPadToPosition
+//  *
+// */
+// /** ### stringTFUPadToPosition
+//  * - Тип `TFU`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  *
+//  * Уникальные параметры функции `padToPosition`.
+//  *
+//  * @typedef stringTFUPadToPosition
+//  * @prop {number} row
+//  * @prop {number} column
+//  * @prop {string} space
+//  * @prop {string} rowEnd
+// */
+
+// /** @arg {stringTFPadToPosition} t */
+// function padToPositionDeceit(t) {
+
+//     try {
+
+//         return padToPositionVerify(t);
+
+//     } catch (e) {
+
+//         if (config.params?.strictMode) {
+
+//             throw e;
+
+//         };
+
+//         return undefined;
+
+//     } finally {
+
+
+
+//     };
+
+// };
+// /** @arg {stringTFPadToPosition} t */
+// function padToPositionVerify(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return padToPositionHandle(t);
+
+// };
+// /** @arg {stringTFPadToPosition} t */
+// function padToPositionHandle(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return padToPositionComply(t);
+
+// };
+// /** @arg {stringTFPadToPosition} t */
+// function padToPositionComply(t) {
+
+//     let {
+
+//         row,
+
+//     } = t;
+
+//     const {
+
+//         col,
+//         space,
+//         string,
+//         rowEnd,
+
+//     } = t;
+
+//     let result = string;
+
+//     result = stringPadRow(result, row + 1, rowEnd).split('\n');
+//     result[row] = stringPad(result[row], space, col);
+//     result = result.join(rowEnd);
+
+//     return result;
+
+// };
+
+// /**
+//  * ### stringPadToPosition
+//  * - Версия `1.0.0`
+//  * - Цепочка `DVHCa`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Функция приведения указанной строки до указанной позиции.
+//  *
+//  * ***
+//  * @arg {string} string `Текст`
+//  * @arg {number} row `Строка`
+//  * @arg {number} col `Столбец`
+//  * @arg {string?} space `Заполнитель`
+//  * @arg {string?} rowEnd `Конец линии`
+//  * @since `1.0.0`
+//  * @function
+// */
+// export function stringPadToPosition(string, row, col, space = config.params.space, rowEnd = config.params.rowEnd) {
+
+//     return padToPositionDeceit({ string, row, col, space, rowEnd, });
+
+// };
+
+// //#endregion
 
 //#region skip 0.0.0
 
@@ -1874,7 +1989,7 @@ function skipDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -1996,7 +2111,7 @@ function trimDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -2120,7 +2235,7 @@ function trimRowDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -2240,7 +2355,7 @@ function markInsertDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -2366,7 +2481,7 @@ function splitDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -2453,112 +2568,112 @@ export function stringSplit(string, separator, count) {
 };
 
 //#endregion
-//#region splitByCount 0.0.0
+// //#region splitByCount 0.0.0
 
-/** ### stringTFSplitByCount
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `splitByCount`.
- *
- * @typedef {stringTFUSplitByCount&stringT} stringTFSplitByCount
- *
-*/
-/** ### stringTFUSplitByCount
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `splitByCount`.
- *
- * @typedef stringTFUSplitByCount
- * @prop {number} count
-*/
+// /** ### stringTFSplitByCount
+//  * - Тип `TF`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Результирующие параметры функции `splitByCount`.
+//  *
+//  * @typedef {stringTFUSplitByCount&stringT} stringTFSplitByCount
+//  *
+// */
+// /** ### stringTFUSplitByCount
+//  * - Тип `TFU`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  *
+//  * Уникальные параметры функции `splitByCount`.
+//  *
+//  * @typedef stringTFUSplitByCount
+//  * @prop {number} count
+// */
 
-/** @arg {stringTFSplitByCount} t */
-function splitByCountDeceit(t) {
+// /** @arg {stringTFSplitByCount} t */
+// function splitByCountDeceit(t) {
 
-    try {
+//     try {
 
-        return splitByCountVerify(t);
+//         return splitByCountVerify(t);
 
-    } catch (e) {
+//     } catch (e) {
 
-        if (config.value?.strictMode) {
+//         if (config.params?.strictMode) {
 
-            throw e;
+//             throw e;
 
-        };
+//         };
 
-        return undefined;
+//         return undefined;
 
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFSplitByCount} t */
-function splitByCountVerify(t) {
-
-    const {
+//     } finally {
 
 
 
-    } = t;
+//     };
 
-    return splitByCountHandle(t);
+// };
+// /** @arg {stringTFSplitByCount} t */
+// function splitByCountVerify(t) {
 
-};
-/** @arg {stringTFSplitByCount} t */
-function splitByCountHandle(t) {
-
-    const {
+//     const {
 
 
 
-    } = t;
+//     } = t;
 
-    return splitByCountComply(t);
+//     return splitByCountHandle(t);
 
-};
-/** @arg {stringTFSplitByCount} t */
-function splitByCountComply(t) {
+// };
+// /** @arg {stringTFSplitByCount} t */
+// function splitByCountHandle(t) {
 
-    const {
+//     const {
 
-        count,
-        string,
 
-    } = t;
 
-    return arrayGetDevideByCount(string, count);
+//     } = t;
 
-};
+//     return splitByCountComply(t);
 
-/**
- * ### stringSplitByCount
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция разбиения указанной строки на подстроки указанной длины.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {number} count `Счётчик`
-*/
-export function stringSplitByCount(string, count) {
+// };
+// /** @arg {stringTFSplitByCount} t */
+// function splitByCountComply(t) {
 
-    return splitByCountDeceit({ string, count, });
+//     const {
 
-};
+//         count,
+//         string,
 
-//#endregion
+//     } = t;
+
+//     return arrayDevideByCount(string, count);
+
+// };
+
+// /**
+//  * ### stringSplitByCount
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * - Модуль `string`
+//  * ***
+//  *
+//  * Функция разбиения указанной строки на подстроки указанной длины.
+//  *
+//  * ***
+//  * @arg {string} string `Строка`
+//  * @arg {number} count `Счётчик`
+// */
+// export function stringSplitByCount(string, count) {
+
+//     return splitByCountDeceit({ string, count, });
+
+// };
+
+// //#endregion
 
 //#region unify 0.0.1
 
@@ -2593,7 +2708,7 @@ function unifyDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -2738,7 +2853,7 @@ function pasteDeceit(t) {
 
     } catch (e) {
 
-        if (config.value.strict) throw e;
+        if (config.params.strict) throw e;
 
         return undefined;
 
@@ -2766,7 +2881,7 @@ function pasteHandle(t) {
 
     } = t;
 
-    const args = yClassifyProp(t);
+    const args = argClassify(t);
 
     if (args.arrayNumber.length) {
 
@@ -2777,7 +2892,7 @@ function pasteHandle(t) {
 
     if (t.modeSkip) {
 
-        t.paste = stringSkip(t.string.slice(t.index, (t.length + t.index) ?? undefined), t.paste, config.value.skipValue).slice(0, t.length ?? t.paste.length);
+        t.paste = stringSkip(t.string.slice(t.index, (t.length + t.index) ?? undefined), t.paste, config.params.skipValue).slice(0, t.length ?? t.paste.length);
 
     };
 
@@ -2848,7 +2963,7 @@ function pasteComply(t) {
  * @version `1.0.0`
  * @function
 */
-export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.value.modeSkip) {
+export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.params.modeSkip) {
 
     return pasteDeceit({ string, paste, index, length, modeSkip, });
 
@@ -2889,7 +3004,7 @@ function pasteWrapDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -3012,7 +3127,7 @@ function pasteSymbolDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -3061,7 +3176,7 @@ function pasteSymbolComply(t) {
 
     } = t;
 
-    const symbol = config.value.getProperty(t.symbol);
+    const symbol = config.params.getProperty(t.symbol);
 
     if (symbol) {
 
@@ -3125,7 +3240,7 @@ function pasteByPositionDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -3231,7 +3346,7 @@ function appendDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -3267,7 +3382,7 @@ function appendHandle(t) {
 
     } = t;
 
-    const args = yClassifyProp(t);
+    const args = argClassify(t);
 
     if (args.arrayNumber.length) {
 
@@ -3291,7 +3406,7 @@ function appendComply(t) {
 
     let result = string;
 
-    if (condIsNumberLimit(index) && index >= 0) {
+    if (condIsNumberSig(index) && index >= 0) {
 
         return result.slice(0, index) + appends.join('') + result.slice(index);
 
@@ -3321,6 +3436,100 @@ function appendComply(t) {
 export function stringAppend(string, index, ...appends) {
 
     return appendDeceit({ string, index, appends, });
+
+};
+
+//#endregion
+
+//#region devideByCount
+
+/**
+ * ### devideByCount
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef devideByCountT
+ * @prop {} _
+ * ***
+ * @arg {stringT&devideByCountT} args `Аргументы`
+ * @returns {string[]}
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function devideByCount(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            count,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = string.match(new RegExp(`.{1,${count}}`, 'gmsi'));
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringDevideByCount
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция разделения строки на части по счётчику.
+ * 
+ * ***
+ * @arg {stringT['count']} count `Счётчик`
+ * @arg {stringT['string']} string `Строка`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringDevideByCount(string, count) {
+
+    return devideByCount({ string, count, });
 
 };
 
@@ -3356,7 +3565,7 @@ function recodeDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -3488,7 +3697,7 @@ function removeDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -3524,7 +3733,7 @@ function removeHandle(t) {
 
     } = t;
 
-    const args = yClassifyProp(t);
+    const args = argClassify(t);
 
     if (args.arrayNumber.length) {
 
@@ -3689,7 +3898,7 @@ function filterDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -3813,7 +4022,7 @@ function shieldDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -3974,7 +4183,7 @@ function replaceManyDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4097,7 +4306,7 @@ function insertDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4137,7 +4346,7 @@ function insertHandle(t) {
 
         if (condIsString(e)) {
 
-            a[i] = stringSplit(e, config.value.insertSpliter, 1);
+            a[i] = stringSplit(e, config.params.insertSpliter, 1);
 
         };
 
@@ -4249,7 +4458,7 @@ function insertBypassDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4372,7 +4581,7 @@ function matchDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4475,7 +4684,7 @@ function matchManyDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4602,7 +4811,7 @@ function matchCountDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4703,7 +4912,7 @@ function matchCountEqualsDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4823,7 +5032,7 @@ function formatUrlDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4926,7 +5135,7 @@ function formatDateDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -4981,7 +5190,7 @@ function formatDateComply(t) {
 
     mesuares[mesuares.length - 1] = mesuares.at(-1).padStart(4, 0);
 
-    let result = funcBypass(config.value.templatesDate[local ?? 'ru'],
+    let result = funcBypass(config.params.templatesDate[local ?? 'ru'],
 
         [stringInsert, 'ss', mesuares[5]],
         [stringInsert, 'mm', mesuares[4]],
@@ -5064,7 +5273,7 @@ function formatPhoneDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -5100,7 +5309,7 @@ function formatPhoneHandle(t) {
 
     } = t;
 
-    t.string = stringPad(t.string, '0', config.value.templatesPhone[t.local ?? 'ru'].length);
+    t.string = stringPad(t.string, '0', config.params.templatesPhone[t.local ?? 'ru'].length);
 
     return formatPhoneComply(t);
 
@@ -5115,7 +5324,7 @@ function formatPhoneComply(t) {
 
     } = t;
 
-    let result = stringInsertBypass(config.value.templatesPhone[local ?? 'ru'], '.', ...string.split('').filter(symbol => symbol.match(/\d/)));
+    let result = stringInsertBypass(config.params.templatesPhone[local ?? 'ru'], '.', ...string.split('').filter(symbol => symbol.match(/\d/)));
 
     return result;
 
@@ -5141,120 +5350,104 @@ export function stringFormatPhone(string, local) {
 };
 
 //#endregion
-//#region formatNumber 0.0.0
+//#region formatNumber
 
-/** ### stringTFFormatNumber
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### formatNumber
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
- * Результирующие параметры функции `formatNumber`.
  * 
- * @typedef {stringTFUFormatNumber&stringT} stringTFFormatNumber
  * 
+ * ***
+ * @typedef formatNumberT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatNumberT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUFormatNumber
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- * 
- * Уникальные параметры функции `formatNumber`.
- * 
- * @typedef stringTFUFormatNumber
- * @prop {string} spliterPart
- * @prop {string} spliterDischarge
- * @prop {number|string} number
-*/
-
-/** @arg {stringTFFormatNumber} t */
-function formatNumberDeceit(t) {
-
+function formatNumber(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            number,
+            spliterPart,
+            spliterDischarge,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (typeof number === 'number') number = number.toString();
+        
+        //#endregion
+        //#region comply
+        
+        result = new Array(2).fill('');
 
-        return formatNumberVerify(t);
+        const parts = number.split('.');
 
-    } catch (e) {
+        for (const index in parts) result[+index] = parts[index];
 
-        if (config.value?.strictMode) {
+        for (const partIndex in result) {
 
-            throw e;
+            let part = result[partIndex];
+
+            if (!part.length) continue;
+
+            part = stringReverse(part);
+
+            part = stringDevideByCount(part, 3);
+
+            part = part.join(spliterDischarge);
+
+            part = stringReverse(part);
+
+            result[+partIndex] = part;
 
         };
+        
+        result = parts.length === 2 ? result.join(spliterPart) : result[0];
 
-        return undefined;
-
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFFormatNumber} t */
-function formatNumberVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatNumberHandle(t);
-
-};
-/** @arg {stringTFFormatNumber} t */
-function formatNumberHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatNumberComply(t);
-
-};
-/** @arg {stringTFFormatNumber} t */
-function formatNumberComply(t) {
-
-    const {
-
-        number,
-        spliterPart,
-        spliterDischarge,
-
-    } = t;
-
-    let parts = number.toString().split('.');
-
-    if (spliterDischarge) {
-
-        parts = parts.map(part => funcBypass(part,
-
-            [stringReverse],
-            [stringSplitByCount, 3],
-            [arrayJoin, spliterDischarge === true ? config.value.spliterDischarge : spliterDischarge],
-            [stringReverse]
-
-        ));
-
-    };
-    if (spliterPart) {
-
-        parts = parts.join(spliterPart === true ? config.value.spliterPart : spliterPart);
-
-    };
-
-    return parts;
-
+    
+    return result;
+    
 };
 
 /**
  * ### stringFormatNumber
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * - Тип `S`
+ * - Версия `1.0.0`
  * ***
  * 
  * Функция форматирования числа в строку.
@@ -5265,17 +5458,170 @@ function formatNumberComply(t) {
  * При необходимости, можно указать свой разделитель - достаточно лишь указать его в качестве значения.
  * 
  * ***
- * @arg {number|string} number `Число`
- * @arg {boolean|string} spliterPart `Разделитель частей`
- * @arg {boolean|string} spliterDischarge `Разделитель велечин`
+ * @arg {stringT['number']} number `Строка`
+ * @arg {stringT['spliterPart']} spliterPart `Разделитель частей`
+ * @arg {stringT['spliterDischarge']} spliterDischarge `Разделитель велечин`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringFormatNumber(number, spliterPart = config.value.spliterPart, spliterDischarge = config.value.spliterDischarge) {
+export function stringFormatNumber(number, spliterPart, spliterDischarge) {
 
-    return formatNumberDeceit({ number, spliterPart, spliterDischarge, });
+    return formatNumber({ number, spliterPart, spliterDischarge, });
 
 };
 
 //#endregion
+// //#region formatNumber 0.0.0
+
+// /** ### stringTFFormatNumber
+//  * - Тип `TF`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  * ***
+//  * 
+//  * Результирующие параметры функции `formatNumber`.
+//  * 
+//  * @typedef {stringTFUFormatNumber&stringT} stringTFFormatNumber
+//  * 
+// */
+// /** ### stringTFUFormatNumber
+//  * - Тип `TFU`
+//  * - Версия `0.0.0`
+//  * - Модуль `string`
+//  * 
+//  * Уникальные параметры функции `formatNumber`.
+//  * 
+//  * @typedef stringTFUFormatNumber
+//  * @prop {string} spliterPart
+//  * @prop {string} spliterDischarge
+//  * @prop {number|string} number
+// */
+
+// /** @arg {stringTFFormatNumber} t */
+// function formatNumberDeceit(t) {
+
+//     try {
+
+//         return formatNumberVerify(t);
+
+//     } catch (e) {
+
+//         if (config.params?.strictMode) {
+
+//             throw e;
+
+//         };
+
+//         return undefined;
+
+//     } finally {
+
+
+
+//     };
+
+// };
+// /** @arg {stringTFFormatNumber} t */
+// function formatNumberVerify(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return formatNumberHandle(t);
+
+// };
+// /** @arg {stringTFFormatNumber} t */
+// function formatNumberHandle(t) {
+
+//     const {
+
+
+
+//     } = t;
+
+//     return formatNumberComply(t);
+
+// };
+// /** @arg {stringTFFormatNumber} t */
+// function formatNumberComply(t) {
+
+//     const {
+
+//         number,
+//         spliterPart,
+//         spliterDischarge,
+
+//     } = t;
+
+//     let parts = number.toString().split('.');
+
+//     if (spliterDischarge) {
+
+//         // parts = parts.map(part => stringReverse(part));
+        
+        
+//         // parts = parts.map(part => stringSplitByCount(part, 3));
+        
+        
+//         // parts = parts.map(part => string)
+//         // console.log(parts);
+//         // parts = parts.join(spliterDischarge);
+//         // parts => parts.map(part => stringReverse(part))
+        
+        
+//         // parts = stringReverse(parts);
+//         // arrayForeach(parts, part => stringReverse(stringSplitByCount(stringReverse(part), 3).join(spliterDischarge)))
+//         // parts = parts.map(part => funcBypass(part,
+
+//         //     [stringReverse],
+//         //     [stringSplitByCount, 3],
+//         //     [(v, j) => v.join(j), spliterDischarge === true ? config.params.spliterDischarge : spliterDischarge],
+//         //     [stringReverse]
+
+//         // ));
+
+//     };
+//     if (spliterPart) {
+
+//         parts = parts.join(spliterPart === true ? config.params.spliterPart : spliterPart);
+
+//     };
+
+//     return parts;
+
+// };
+
+// /**
+//  * ### stringFormatNumber
+//  * - Версия `0.0.0`
+//  * - Цепочка `DVHCa`
+//  * - Модуль `string`
+//  * ***
+//  * 
+//  * Функция форматирования числа в строку.
+//  * В итоговой строке числа будут размещены знаки разделения разрядов и частей.
+//  * 
+//  * Если разделители не определены, то они не будут использоваться.
+//  * В противном случае, если разделитель `true` то он будет применен со значением конфигуратора.
+//  * При необходимости, можно указать свой разделитель - достаточно лишь указать его в качестве значения.
+//  * 
+//  * ***
+//  * @arg {number|string} number `Число`
+//  * @arg {boolean|string} spliterPart `Разделитель частей`
+//  * @arg {boolean|string} spliterDischarge `Разделитель велечин`
+// */
+// export function stringFormatNumber(number, spliterPart = config.params.spliterPart, spliterDischarge = config.params.spliterDischarge) {
+
+//     return formatNumberDeceit({ number, spliterPart, spliterDischarge, });
+
+// };
+
+// //#endregion
 //#region formatSample 0.0.0
 
 /** ### stringTFFormatSample
@@ -5309,7 +5655,7 @@ function formatSampleDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -5417,7 +5763,7 @@ function formatReportDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -5532,7 +5878,7 @@ function reverseDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -5644,7 +5990,7 @@ function reflectDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -5770,7 +6116,7 @@ function mesuareDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -5898,7 +6244,7 @@ function truncateDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -6043,7 +6389,7 @@ function correlateDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 
@@ -6095,7 +6441,7 @@ function correlateComply(t) {
 
     for (const match of Array.from(result.matchAll(/_(\p{L}+)/gmsu))) {
 
-        let value = yGetProperty(config.value.symbols, match[1]);
+        let value = yGetProp(config.params.symbols, match[1]);
 
         if (value) {
 
@@ -6103,7 +6449,7 @@ function correlateComply(t) {
 
         } else {
 
-            for (const section of Object.values(config.value.symbols)) {
+            for (const section of Object.values(config.params.symbols)) {
 
                 for (const key of Object.keys(section)) {
 
@@ -6178,7 +6524,7 @@ function substringDeceit(t) {
 
     } catch (e) {
 
-        if (config.value.strict) throw e;
+        if (config.params.strict) throw e;
 
         return undefined;
 
@@ -6355,7 +6701,7 @@ function capitalizeDeceit(t) {
 
     } catch (e) {
 
-        if (config.value?.strictMode) {
+        if (config.params?.strictMode) {
 
             throw e;
 

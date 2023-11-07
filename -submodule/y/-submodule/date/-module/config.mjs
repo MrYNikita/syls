@@ -1,7 +1,7 @@
-import { configY } from "@syls/y";
-import { YConfig } from "@syls/y/config";
+import { configY } from "../../../-module/export.mjs";
+import { YConfig } from "../../config/-module/export.mjs";
 
-/** @type {configY} */
+/** @type {configY['params']} */
 const config = {
     
     
@@ -13,42 +13,20 @@ const config = {
  * Конфигуратор модуля `date`.
  * 
  * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @public
 */
-export const configDate = new YConfig(Object.assign(config, {
+export const configDate = new YConfig({
     
-    /**
-     * ### valueDefault
-     * 
-     * ***
-     * 
-     * Дефолт дата.
-     * 
-     * *** 
-     * @type {Date?}
-     * @public
-    */
-    valueDefault: null,
-    /**
-     * ### valueDropDefault
-     * 
-     * ***
-     * 
-     * Дефолт дата сброса.
-     * 
-     * *** 
-     * @type {Date?}
-     * @public
-    */
-    valueDropDefault: null,
-    
+    ...config,
+
     /**
      * ### months
      * 
      * 
      * 
-     * *** 
-     * @type {} 
+     * ***
      * @public
     */
     months: {
@@ -72,17 +50,19 @@ export const configDate = new YConfig(Object.assign(config, {
 
     },
     /**
-     * ### defaultYear
-     *
+     * ### yearDefault
+     * 
      * Дефолт год.
-     *
-     * ***
+     * 
+     * *** 
+     * @since `1.0.0`
      * @type {number}
      * @public
+     * @property
     */
-    defaultYear: 2001,
+    yearDefault: 2001,
     
-}), configY);
+}, configY);
 
 export default configDate;
 

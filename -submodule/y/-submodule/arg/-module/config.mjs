@@ -1,7 +1,7 @@
 import { YConfig } from "../../config/-module/export.mjs";
-import configY from "../../../-module/config.mjs";
+import { configY } from "../../../-module/export.mjs";
 
-/** @type {configY} */
+/** @type {configY['params']} */
 const config = {
     
     
@@ -13,13 +13,15 @@ const config = {
  * Конфигуратор модуля `arg`.
  * 
  * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @public
 */
-export const configArg = new YConfig(Object.assign(config, {
+export const configArg = new YConfig({
     
+    ...config,
     
-    
-}), configY);
+}, configY);
 
 export default configArg;
 

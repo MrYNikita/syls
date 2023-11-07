@@ -1,7 +1,7 @@
 import { YConfig } from "@syls/y/config";
 import { configEntity } from "@syls/y/entity";
 
-/** @type {configEntity['value']} */
+/** @type {configEntity['params']} */
 const config = {
     
     

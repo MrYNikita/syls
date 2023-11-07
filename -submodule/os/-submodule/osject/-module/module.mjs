@@ -79,7 +79,7 @@ function getName(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -170,7 +170,7 @@ function getNameFull(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -263,7 +263,7 @@ function getExpand(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -354,7 +354,7 @@ function getLocation(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -448,7 +448,7 @@ function setExpand(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -549,7 +549,7 @@ function move(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -642,7 +642,7 @@ function remove(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -744,7 +744,7 @@ function rename(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 

@@ -1,41 +1,44 @@
 //#region YI
 
-import { Y } from '../../../-module/class.mjs';
-import { YArg } from '../../arg/-module/class.mjs';
-import { configCond as config } from './config.mjs';
+import { Y } from "../../../-module/class.mjs";
+import { YArg } from "../../arg/-module/export.mjs";
+import { configCond as config } from "./config.mjs";
+import { condIsBool, condIsFunc, condIsJect, condIsNumber, condIsNumberInt, condIsNumberSig, condIsString, condIsStringSem, condIsStringSig } from "./export.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YCondT
- * - Тип `T`
- * 
- * Основной параметр модуля `YCond`.
- * 
- * @typedef {YCondTE&YCondTU&Y} YCondT
- * 
+/** ### condTC
+ * @typedef condTC
+ * @prop {}
 */
-/** ### YCondTE
- * - Тип `TE`
- * 
- * Параметр наследования `YCond`.
- * 
- * @typedef {Omit<DCond, keyof SCond>} YCondTE
- * 
-*/
-/** ### YCondTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YCond`.
- * 
- * @typedef YCondTU
- * @prop {any} _
- * 
-*/
+
+/** @typedef {import('./module.mjs').condT&condTC} condT */
 
 //#endregion
 
-class SCond extends Y {
+/**
+ * ### YCond
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YCond extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
     
     /**
      * ### stock
@@ -69,236 +72,302 @@ class SCond extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SCond).create.apply(this, args);
+        return super.create(...args);
         
     };
-
     /**
-     * ### isFunc
-     * 
-     * ***
-     * 
-     * Метод проверки значений на принадлежность к функциям.
-     * 
-     * ***
-     * @arg {...any} values `Значения`
+     * @arg {Y1} value `Значение`
      * @static
      * @method
      * @public
+     * @returns {(Y1&YCond)?}
+     * @template {YCond} Y1
+     * @override
     */
-    static isFunc(...values) {
+    static setClass(value) {
         
-        for (const value of values) {
-
-            if (typeof value !== 'function') {
-
-                return false;
-
-            };
-
-        };
-
-        return true;
+        return super.setClass(value);
         
     };
     /**
      * ### isBool
-     * - Версия `0.0.1`
-     * - Модуль `bool\cond`
-     * ***
-     *
-     * Метод проверки значений на принадлежность к логическим значениям.
-     *
-     * ***
-     * @arg {...any} values `Значения`
-     * @public
-    */
-    static isBool(...values) {
-
-        return condIsBool(...values);
-
-    };
-    /**
-     * ### isFloat
-     * - Версия `0.0.1`
-     * - Модуль `bool\cond`
-     * ***
-     *
-     * Метод проверки значений на принадлежность к дробным числам.
-     *
-     * ***
-     * @arg {...any} values `Значения`
-     * @public
-    */
-    static isFloat(...values) {
-
-        return condIsFloat(...values);
-
-    };
-    /**
-     * ### isArray
+     * 
+     * Метод проверки указанных значений на принадлежность к логическим значениям.
      * 
      * ***
+     * @arg {...condT['bool']} bools `Логические значения`
      * 
-     * Метод проверки значений на принадлежность к массивам.
      * 
      * ***
-     * @arg {...any} values `Значения`
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @static
      * @method
      * @public
     */
-    static isArray(...values) {
+    static isBool(...bools) {
         
-        for (const value of values) {
-
-            if (!(value instanceof Array)) {
-
-                return false;
-
-            };
-
-        };
-
-        return true;
+        return condIsBool(...bools);
+        
+    };
+    /**
+     * ### isFunc
+     * 
+     * Метод проверки указанных значений на принадлежность к функциям.
+     * 
+     * ***
+     * @arg {...condT['func']} funcs `Функции`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @static
+     * @method
+     * @public
+    */
+    static isFunc(...funcs) {
+        
+        return condIsFunc(...funcs);
+        
+    };
+    /**
+     * ### isJect
+     * 
+     * Метод проверки указанных значений на принадлежность к объектам.
+     * 
+     * ***
+     * @arg {...condT['ject']} jects `Объекты`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @static
+     * @method
+     * @public
+    */
+    static isJect(...jects) {
+        
+        return condIsJect(...jects);
         
     };
     /**
      * ### isString
-     * - Версия `1.0.0`
+     * 
+     * Метод проверки указанных значений на принадлежность к строкам.
+     * 
+     * ***
+     * @arg {...condT['string']} strings `Строки`
      * 
      * 
      * ***
-     *
-     * Метод проверки значений на принадлежность к строкам.
-     *
-     * ***
-     * @arg {...any} values `Значения`
-     * @public
-    */
-    static isString(...values) {
-
-        for (const value of values) {
-
-            if (!(value instanceof String || typeof value === 'string')) return false;
-
-        };
-
-        return true;
-
-    };
-    /**
-     * ### isNumber
-     * - Версия `1.0.0`
-     * ***
-     *
-     * Метод проверки значений на принадлежнсоть к числу.
-     *
-     * ***
-     * @arg {...any} values `Значения`
-     * @public
-    */
-    static isNumber(...values) {
-
-        for (const value of values) {
-
-            if (!(value instanceof Number || typeof value === 'number')) return false;
-
-        };
-
-        return true;
-
-    };
-    /**
-     * ### isNumberInt
-     * 
-     * ***
-     * 
-     * Метод проверки значений на принадлежнсоть к целым числам.
-     * 
-     * ***
-     * @arg {...any} values `Значения`
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @static
      * @method
      * @public
     */
-    static isNumberInt(...values) {
+    static isString(...strings) {
         
-        if (!this.isNumber(...values)) return false;
+        return condIsString(...strings);
+        
+    };
+    /**
+     * ### isStringSig
+     * 
+     * Метод проверки указанных значений на принадлежность к значимым строкам.
+     * 
+     * Значимыми строками считаются строки отличные от ``.
+     * 
+     * ***
+     * @arg {...condT['string']} strings `Строки`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @static
+     * @method
+     * @public
+    */
+    static isStringSig(...strings) {
+        
+        return condIsStringSig(...strings);
+        
+    };
+    /**
+     * ### isStringSem
+     * 
+     * Метод проверки указанных значений на принадлежность к смысловым строкам.
+     * 
+     * ***
+     * @arg {...condT['string']} strings `Строки`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @static
+     * @method
+     * @public
+    */
+    static isStringSem(...strings) {
+        
+        return condIsStringSem(...strings);
+        
+    };
+    /**
+     * ### isNumber
+     * 
+     * Метод проверки указанных значений на принадлежность к числам.
+     * 
+     * ***
+     * @arg {...condT['number']} numbers `Числа`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @static
+     * @method
+     * @public
+    */
+    static isNumber(...numbers) {
+        
+        return condIsNumber(...numbers)
+        
+    };
+    /**
+     * ### isNumberSig
+     * 
+     * Метод проверки указанных значений на принадлежность к значимым числам.
+     * 
+     * Значимыми числами считаются числа отличные от NaN.
+     * 
+     * ***
+     * @arg {...condT['number']} numbers `Числа`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @static
+     * @method
+     * @public
+    */
+    static isNumberSig(...numbers) {
+        
+        return condIsNumberSig(...numbers);
+        
+    };
+    /**
+     * ### isNumberInt
+     * 
+     * Метод проверки указанных значений на принадлежность к целым числам.
+     * 
+     * ***
+     * @arg {...condT['number']} numbers `Числа`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @static
+     * @method
+     * @public
+    */
+    static isNumberInt(...numbers) {
+        
+        return condIsNumberInt(...numbers);
+        
+    };
 
-        for (const value of values) {
-
-            if (value % 1 !== 0) return false;
-
-        };
-
-        return true;
+    //#endregion
+    //#region field
+    
+    
+    
+    //#endregion
+    //#region method
+    
+    /**
+     * @method
+     * @public
+     * @returns {YCond}
+     * @override
+    */
+    getClass() {
+        
+        return YCond;
         
     };
     
-};
-class DCond extends SCond {
-    
-    
-    
-};
-class ICond extends DCond {
-    
-    
-    
-};
-class MCond extends ICond {
-    
-    
-    
-};
-class FCond extends MCond {
+    //#endregion
     
     /**
-     * ### YCond.constructor
+     * ### YCondConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
      * 
      * 
      * 
      * ***
-     * @arg {YCondT} args
+     * 
+     * @arg {condTC} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
     */
-    constructor(args) {
-        
-        super(args = FCond.#before(args = arguments));
-        
-        FCond.#deceit.apply(this, [args]);
-        
-        return this.correlate();
-        
-    };
-    
-    /** @arg {DCond} args */
-    static #before(args) {
-        
-        /** @type {YArg<ICond>} */
-        const yarg = args instanceof YArg ? args : new YArg(args);
-        
-        
-        
-        return yarg;
-        
-    };
-    /** @arg {YArg<ICond>} args @this {YCond} */
-    static #deceit(args) {
+    constructor(...args) {
         
         try {
             
-            FCond.#verify.apply(this, arguments);
+            //#region before
             
-        } catch (e) {
+            /** @type {YArg<YCond>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
             
-            if (config?.strictMode) {
+            
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
                 
-                throw e;
+                throw err;
                 
             };
-            
-            return new YCond();
             
         } finally {
             
@@ -307,150 +376,8 @@ class FCond extends MCond {
         };
         
     };
-    /** @arg {YArg<ICond>} args @this {YCond} */
-    static #verify(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        FCond.#handle.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<ICond>} args @this {YCond} */
-    static #handle(args) {
-        
-        
-        
-        FCond.#create.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<ICond>} args @this {YCond} */
-    static #create(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        this
-        
-            .adopt(args.getData());
-        
-    };
     
 };
-
-/**
- * ### YCond
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YCond`.
- * 
- * ***
- * @class
- * 
-*/
-export class YCond extends FCond {
-    
-    /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * @method
-     * @public
-     * @returns {typeof YCond}
-    */
-    getClass() {
-        
-        return YCond;
-        
-    };
-
-    /**
-     * ### check
-     * - Версия `0.0.0`
-     * - Модуль `bool\cond`
-     * ***
-     *
-     * Метод выполнения проверки для указанных аргументов.
-     *
-     * ***
-     * @arg {...any} transmits `Аргументы`
-     * @public
-    */
-    check(...transmits) {
-
-        if (this.condition(...transmits) && this.conds.every(cond => cond.check(...transmits))) {
-
-            this.funcSucs && this.funcSucs() && this.conds.forEach(cond => cond.funcSucs());
-
-            if (this.sucs) {
-
-                return this.sucs;
-
-            } else {
-
-                return true;
-
-            };
-
-        } else {
-
-            this.funcsFail && this.funcFail() && this.conds.forEach(cond => cond.funcFail());
-
-            if (this.fail !== undefined) {
-
-                return this.fail;
-
-            } else {
-
-                return false;
-
-            };
-
-        };
-
-    };
-    /**
-     * ### combine
-     * - Версия `0.0.0`
-     * - Модуль `bool\cond`
-     * ***
-     *
-     * Метод комбинирования условий.
-     *
-     * ***
-     * @arg {...YCond} conds Условия.
-     * @public
-    */
-    combine(...conds) {
-
-        this.conds.push(...conds.filter(cond => !this.conds.includes(cond)));
-
-        return this;
-
-    };
-    
-};
-
-//#region YE
-
-YCond.getY()['modules'].push(YCond);
-
-//#endregion
 
 /**
  * @file cond/class.mjs

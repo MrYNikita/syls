@@ -3,12 +3,12 @@
 import { configLang } from '../../../-module/export.mjs';
 import { fileRead } from '@syls/os/file';
 
-/** @type {import('./config.mjs')['default']['value']?} */
+/** @type {import('./config.mjs')['default']['params']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(c => config = c.default.value ?? configLang)
+    .then(c => config = c.default.params ?? configLang)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */

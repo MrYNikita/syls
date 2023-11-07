@@ -2,7 +2,7 @@
 
 import { YArg } from '@syls/y/arg';
 import { YEntity } from '@syls/y/entity';
-import { YCond, condIsNumberLimit } from '@syls/y/cond';
+import { YCond } from '@syls/y/cond';
 import { configNumber as config } from './config.mjs';
 
 //#endregion
@@ -160,7 +160,7 @@ class SNumber extends YEntity {
      * @returns {(Y1&Y1)?}
      * @template {YNumber} Y1
     */
-    static becomePrototype(value) {
+    static setClass(value) {
 
         if (!(value instanceof Object)) return null;
 

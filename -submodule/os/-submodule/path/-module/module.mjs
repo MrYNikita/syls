@@ -93,7 +93,7 @@ function isRelative(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -222,7 +222,7 @@ function get(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -371,7 +371,7 @@ function getTo(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -465,7 +465,7 @@ function getIn(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -575,7 +575,7 @@ function getAll(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -662,7 +662,7 @@ function getNow(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -753,7 +753,7 @@ function getDisk(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -844,7 +844,7 @@ function getName(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -935,7 +935,7 @@ function getNameFull(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -1028,7 +1028,7 @@ function getExpand(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -1122,7 +1122,7 @@ function getProject(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1225,7 +1225,7 @@ function getFragment(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -1319,7 +1319,7 @@ function setName(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -1401,7 +1401,7 @@ function setExpand(args) {
         //#endregion
         //#region handle
         
-        if (!expand) expand = config.value.expandDefault;
+        if (!expand) expand = config.params.expandDefault;
         
         //#endregion
         //#region comply
@@ -1412,7 +1412,7 @@ function setExpand(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -1504,7 +1504,7 @@ function back(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1613,7 +1613,7 @@ function backByName(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1705,7 +1705,7 @@ function check(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1796,7 +1796,7 @@ function exist(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1890,7 +1890,7 @@ function concat(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1988,7 +1988,7 @@ function normalize(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -2081,7 +2081,7 @@ function decompose(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 

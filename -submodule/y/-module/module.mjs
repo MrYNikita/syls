@@ -1,120 +1,1128 @@
 //#region YI
 
-import { Y } from './class.mjs';
 import { configY as config } from './config.mjs';
 
 //#endregion
 //#region YT
 
 /** ### yT
- * - Тип `T`
- * - Версия `0.0.0`
  * 
- * Основной параметр модуля `y`.
+ * Типы модуля `y`.
  * 
  * @typedef yT
- * @prop {{}} y
- * 
-*/
-
-/** ### yTArg
- * 
- * @typedef {[string, Y1]} yTArg
- * @template Y1
- * 
-*/
-/** ### yTArgs
- * 
- * @typedef yTArgs
- * @prop {yTArg<null>[]} null 
- * @prop {yTArg<Date>[]} date 
- * @prop {yTArg<Object>[]} ject 
- * @prop {yTArg<boolean>[]} bool 
- * @prop {yTArg<function>[]} func
- * @prop {yTArg<number>[]} number
- * @prop {yTArg<string>[]} string 
- * @prop {yTArg<RegExp>[]} regexp 
- * @prop {yTArg<bigint>[]} bigint 
- * @prop {yTArg<any[]>[]} array 
- * @prop {yTArg<null[]>[]} arrayNull 
- * @prop {yTArg<Date[]>[]} arrayDate 
- * @prop {yTArg<Object[]>[]} arrayJect 
- * @prop {yTArg<boolean[]>[]} arrayBool 
- * @prop {yTArg<function[]>[][]} arrayFunc 
- * @prop {yTArg<number[]>[][]} arrayNumber 
- * @prop {yTArg<string[]>[][]} arrayString 
- * @prop {yTArg<RegExp[]>[][]} arrayRegexp 
- * @prop {yTArg<bigint[]>[][]} arrayBigint 
- * 
-*/
-/** ### yTPropClassify
- * 
- * @typedef yTPropClassify
- * @prop {null[]} null 
- * @prop {Date[]} date 
- * @prop {Object[]} ject 
- * @prop {boolean[]} bool 
- * @prop {function[]} func
- * @prop {number[]} number
- * @prop {string[]} string 
- * @prop {RegExp[]} regexp 
- * @prop {bigint[]} bigint 
- * @prop {any[]} array 
- * @prop {null[][]} arrayNull 
- * @prop {Date[][]} arrayDate 
- * @prop {Object[][]} arrayJect 
- * @prop {boolean[][]} arrayBool 
- * @prop {function[][]} arrayFunc 
- * @prop {number[][]} arrayNumber 
- * @prop {string[][]} arrayString 
- * @prop {RegExp[][]} arrayRegexp 
- * @prop {bigint[][]} arrayBigint 
- * 
+ * @prop {any} ject
+ * @prop {yT['ject']} j1
+ * @prop {yT['ject']} j2
+ * @prop {any} lead
+ * @prop {any} value
+ * @prop {any} image
+ * @prop {any} proto
+ * @prop {any} target
+ * @prop {any} follower
+ * @prop {any[]} followers
+ * @prop {any[]} jects
+ * @prop {any[]} instances
+ * @prop {string} key
+ * @prop {string[]} keys
+ * @prop {string[]} path
+ * @prop {string[]} options
+ * @prop {'ru'|'en'} locales
+ * @prop {yT['conf']} def
+ * @prop {yT['mode'][]} modes
+ * @prop {typeof Object} cl
+ * @prop {[string, boolean]} mode
+ * @prop {import('../-submodule/config/-module/class.mjs').YConfig} conf
+ * @prop {{ set: (ject: any, key: string, value: any, followers: any[]) => boolean, }} trap
 */
 
 //#endregion
 //#region YV
 
-
+/** ### yPrimitives
+ * 
+ * Значение примитивов.
+ * 
+*/
+export const yPrimitives = ['number', 'string', 'null', 'undefined', 'boolean'];
 
 //#endregion
 
-//#region fill
+//#region toMap
 
-/** ### yTFFill
- * - Тип `TF`
+/**
+ * ### toMap
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `fill`.
- * 
- * @typedef {yTFUFill&yT} yTFFill
- * 
+ * @typedef toMapT
+ * @prop {} _
+ * ***
+ * @arg {yT&toMapT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### yTFUFill
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `fill`.
- * 
- * @typedef yTFUFill
- * @prop {any} _
-*/
+function toMap(args) {
 
-/** @arg {yTFFill} t */
-function fillDeceit(t) {
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = new Map();
+
+        for (const step of yForDeep(ject)) result.set(step.path.join('.'), step.value);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yToMap
+ * 
+ * Функция получения `map` версии объекта.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @template Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yToMap(ject) {
+
+    return toMap({ ject, });
+
+};
+
+//#endregion
+//#region toMapSubscribe
+
+/**
+ * ### toMapSubscribe
+ * 
+ * 
+ * 
+ * ***
+ * @typedef toMapSubscribeT
+ * @prop {} _
+ * ***
+ * @arg {yT&toMapSubscribeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function toMapSubscribe(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = yToMap(ject);
+
+        result.set = new Proxy(result.set, {
+
+            apply(target, thisArg, argList) {
+
+                target.apply(thisArg, argList);
+
+                if (target.name === 'set') ySetPropByKeys(ject, argList[0].split('.'), argList[1]);
+
+            },
+
+        })
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yToMapSubscribe
+ * 
+ * Функция получения `map` на основе `ject` с подпиской.
+ * 
+ * Подписанный `map` при изменении того или иного свойства будет вносить изменения также и в исходный `ject`.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @template Y1
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yToMapSubscribe(ject) {
+
+    return toMapSubscribe({ ject, });
+
+};
+
+//#endregion
+//#region isInstance
+
+/**
+ * ### isInstance
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isInstanceT
+ * @prop {} _
+ * ***
+ * @arg {yT&isInstanceT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isInstance(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+            instances,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        result = false;
+
+        //#endregion
+        //#region comply
+
+        for (const instance of instances) {
+
+            if (ject instanceof instance) {
+
+                result = true;
+
+                break;
+
+            };
+
+        };
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yIsInstance
+ * 
+ * Функция аналог `instanceof`.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @arg {...Y2} instances `Инстанции`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yIsInstance(ject, ...instances) {
+
+    return isInstance({ ject, instances, });
+
+};
+
+//#endregion
+//#region isInstanceAll
+
+/**
+ * ### isInstanceAll
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isInstanceAllT
+ * @prop {} _
+ * ***
+ * @arg {yT&isInstanceAllT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isInstanceAll(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+            instances,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        result = true;
+
+        //#endregion
+        //#region comply
+
+        for (const instance of instances) {
+
+            if (!(ject instanceof instance)) {
+
+                result = false;
+
+                break;
+
+            };
+
+        };
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yIsInstanceAll
+ * 
+ * Функция {@link yIsInstance|аналог instanceof} проводящая строгую проверку для всех приведенных типов.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @arg {...Y2} instances `Инстанции`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yIsInstanceAll(ject, ...instances) {
+
+    return isInstanceAll({ ject, instances, });
+
+};
+
+//#endregion
+//#region getPropByKeys
+
+/**
+ * ### getPropByKeys
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getPropByKeysT
+ * @prop {} _
+ * ***
+ * @arg {yT&getPropByKeysT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getPropByKeys(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+            path,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = ject;
+
+        for (const subpath of path) {
+
+            result = result[subpath];
+
+            if (result === undefined) {
+
+                break;
+
+            };
+
+        };
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yGetPropByPath
+ * 
+ * Функция получения свойства объекта через глубокий поиск по указанному пути.
+ * 
+ * ***
+ * @arg {yT['ject']} ject `Объект`
+ * @arg {...yT['key']} path `Путь`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yGetPropByKeys(ject, ...path) {
+
+    return getPropByKeys({ ject, path, });
+
+};
+
+//#endregion
+//#region getProp
+
+/**
+ * ### getProp
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getPropT
+ * @prop {} _
+ * ***
+ * @arg {yT&getPropT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getProp(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            key,
+            ject,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const gen = yForDeep(ject);
+
+        for (const step of gen) if (step.key === key) return step.value;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yGetProp
+ * 
+ * Функция получения свойства по указанному ключу через глубойкий поиск.
+ * 
+ * ***
+ * @arg {yT['key']} key `Ключ`
+ * @arg {yT['ject']} ject `Объект`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yGetProp(ject, key) {
+
+    return getProp({ ject, key, });
+
+};
+
+//#endregion
+//#region getProps
+
+/**
+ * ### getProps
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getPropsT
+ * @prop {} _
+ * ***
+ * @arg {yT&getPropsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getProps(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+            keys,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        result = [];
+
+        //#endregion
+        //#region comply
+
+        for (const step of yForDeep(ject)) if (keys.includes(step.key)) result.push(step.value);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yGetProps
+ * 
+ * Функция получения множества свойств объекта по ключам с помощью глубокого поиска.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @arg {...yT['key']} keys `Ключи`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yGetProps(ject, ...keys) {
+
+    return getProps({ ject, keys, });
+
+};
+
+//#endregion
+//#region getPaths
+
+/**
+ * ### getPaths
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getPathsT
+ * @prop {} _
+ * ***
+ * @arg {yT&getPathsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getPaths(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        result = [];
+
+        //#endregion
+        //#region comply
+
+        const gen = yForDeep(ject);
+
+        for (const step of gen) result.push(step.path);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yGetPaths
+ * 
+ * Функция получения путей.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @returns {string[]}
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yGetPaths(ject) {
+
+    return getPaths({ ject, });
+
+};
+
+//#endregion
+//#region getProto
+
+/**
+ * ### getProto
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getProtoT
+ * @prop {} _
+ * ***
+ * @arg {yT&getProtoT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getProto(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = Object.getPrototypeOf(ject);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yGetProto
+ * 
+ * Функция получения прототипа указанного объекта.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @returns {Y1['__proto__']}
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yGetProto(ject) {
+
+    return getProto({ ject, });
+
+};
+
+//#endregion
+//#region setProp
+
+/**
+ * ### setProp
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setPropT
+ * @prop {} _
+ * ***
+ * @arg {yT&setPropT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setProp(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            key,
+            ject,
+            value,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        for (const step of yForDeep(ject)) {
+
+            if (step.key === key) {
+
+                step.level[step.key] = value;
+
+                break;
+
+            };
+
+        };
+
+        return ject;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### ySetProp
+ * 
+ * Функция установки значения по указанному ключу.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @arg {yT['key']} key `Ключ`
+ * @arg {yT['params']} value `Значение`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ySetProp(ject, key, value) {
+
+    return setProp({ ject, key, value, });
+
+};
+
+//#endregion
+//#region setProto
+
+/**
+ * ### setProto
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setProtoT
+ * @prop {} _
+ * ***
+ * @arg {yT&setProtoT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setProto(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+            proto,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        Object.setPrototypeOf(ject, proto);
+
+        result = ject;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### ySetProto
+ * 
+ * Функция установки прототипа для указанного объекта.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @arg {Y2} proto `Прототип`
+ * @returns {Y1}
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ySetProto(ject, proto) {
+
+    return setProto({ ject, proto, });
+
+};
+
+//#endregion
+//#region setClass
+
+/**
+ * ### setClass
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setClassT
+ * @prop {} _
+ * ***
+ * @arg {yT&setClassT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setClass(args) {
+    
+    let result;
     
     try {
         
-        return fillVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.value?.strictMode) {
+        let {
             
-            throw e;
+            cl,
+            target,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (!yIsInstance(target, Object)) return null;
+        
+        //#endregion
+        //#region comply
+
+        Object.setPrototypeOf(target, cl.prototype);
+
+        // if (typeof target === 'function' && 'prototype' in target) Object.setPrototypeOf(target['prototype'], cl.prototype);
+
+        result = target;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
             
         };
         
-        return undefined;
+        
         
     } finally {
         
@@ -122,660 +1130,1531 @@ function fillDeceit(t) {
         
     };
     
-};
-/** @arg {yTFFill} t */
-function fillVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return fillHandle(t);
-   
-};
-/** @arg {yTFFill} t */
-function fillHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return fillComply(t);
-   
-};
-/** @arg {yTFFill} t */
-function fillComply(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-    
-    
+    return result;
     
 };
 
+/**
+ * ### ySetClass
+ * 
+ * Функция установки класса для указанного объекта.
+ * 
+ * ***
+ * @arg {Y1} target `Цель`
+ * @arg {Y2} cl `Класс`
+ * @returns {(Y1&Y2)|null}
+ * @template Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ySetClass(target, cl) {
 
+    return setClass({ target, cl, });
+
+};
+
+//#endregion
+//#region setPropByKeys
+
+/**
+ * ### setPropByKeys
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setPropByKeysT
+ * @prop {} _
+ * ***
+ * @arg {yT&setPropByKeysT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setPropByKeys(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+            keys,
+            value,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const begin = ject;
+
+        for (const key of keys.slice(0, -1)) {
+
+            if (!(ject[key] instanceof Object)) return begin;
+
+            ject = ject[key];
+
+        };
+
+        ject[keys.at(-1)] = value;
+
+        result = begin;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### ySetPropByPath
+ * 
+ * Функция установки значения по указанному пути.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @arg {yT['keys']} keys `Путь`
+ * @arg {yT['params']} value `Значение`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ySetPropByKeys(ject, keys, value) {
+
+    return setPropByKeys({ ject, keys, value, });
+
+};
+
+//#endregion
+//#region forDeep
+
+/**
+ * ### forDeep
+ * 
+ * 
+ * 
+ * ***
+ * @typedef forDeepT
+ * @prop {} _
+ * ***
+ * @arg {yT&forDeepT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function* forDeep(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+        
+        const sequence = Object.entries(ject);
+        
+        for (const index in sequence) sequence[index].push(ject);
+
+        const points = new Set().add(ject);
+
+        while (sequence.length) {
+
+            let [key, value, level, path] = sequence.pop();
+
+            (path = path ? path.slice() : []).push(key);
+
+            yield { value, key, level, path, };
+
+            if (!yIsInstance(value, Object) || points.has(value)) continue;
+
+            points.add(value);
+
+            const adds = Object.entries(value);
+
+            for (const index in adds) adds[index].push(value, path);
+
+            sequence.push(...adds);
+
+        };
+
+        result = ject;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yForDeep
+ * 
+ * Функция глубокого перебора свойств.
+ * 
+ * Перебор осуществляется через генеративную функцию.
+ * Генератор перебирает свойства в том числе и самые вложенные.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+ * @generator
+*/
+export function yForDeep(ject) {
+
+    return forDeep({ ject, });
+
+};
+
+//#endregion
+//#region stat
+
+/**
+ * ### stat
+ * 
+ * 
+ * 
+ * ***
+ * @typedef statT
+ * @prop {} _
+ * ***
+ * @arg {yT&statT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function stat(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = {
+
+            precent: 0,
+            propNum: 0,
+            byteNum: 8,
+            levelNum: 0,
+            prototype: Object.getPrototypeOf(ject) === Object.prototype ? false : true,
+
+        };
+
+        for (const step of yForDeep(ject)) {
+
+            result.propNum++;
+
+            if (step.path.length - 1 > result.levelNum) result.levelNum = step.path.length - 1;
+
+            switch (typeof step.value) {
+
+                case 'string': result.byteNum += step.value.length * 2; break;
+                case 'boolean': result.byteNum += 4; break;
+                case 'number': case 'object': result.byteNum += 8; break;
+                case 'function': result.byteNum += ((step.value.name.length ?? 0) + step.value.toString().length) * 2; break;
+
+            };
+
+        };
+
+        result.precent = result.byteNum / ((process?.memoryUsage?.()?.heapUsed ?? performance?.memory?.usedJSHeapSize) / 100);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yStat
+ * 
+ * Функция получения статистики по объекту.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yStat(ject) {
+
+    return stat({ ject, });
+
+};
+
+//#endregion
+//#region fill
+
+/**
+ * ### fill
+ * 
+ * 
+ * 
+ * ***
+ * @typedef fillT
+ * @prop {} _
+ * ***
+ * @arg {yT&fillT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function fill(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            image,
+            target,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        for (const prop in target) {
+
+            if (prop in image) {
+
+                target[prop] = image[prop];
+
+            };
+
+        };
+
+        return target;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yFill
+ * 
+ * Функция заполнения свойств объекта `target` совпадающими свойствами из `image`.
+ * 
+ * ***
+ * @arg {Y1} target `Цель`
+ * @arg {Y2} image `Образ`
+ * @returns {Y1}
+ * @template Y1,Y2
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yFill(target, image) {
+
+    return fill({ target, image, });
+
+};
+
+//#endregion
+//#region seal
+
+/**
+ * ### seal
+ * 
+ * 
+ * 
+ * ***
+ * @typedef sealT
+ * @prop {} _
+ * ***
+ * @arg {yT&sealT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function seal(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        result = ject;
+
+        //#endregion
+        //#region comply
+
+        Object.seal(ject);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### ySeal
+ * 
+ * Функция запечатывания объекта.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @returns {Y1}
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ySeal(ject) {
+
+    return seal({ ject, });
+
+};
+
+//#endregion
+//#region mode
+
+/**
+ * ### mode
+ * 
+ * 
+ * 
+ * ***
+ * @typedef modeT
+ * @prop {} _
+ * ***
+ * @arg {yT&modeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function mode(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+            modes,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        for (const mode of modes) {
+
+            if (!mode.length || typeof mode[0] !== 'string') continue;
+
+            else ySetProp(ject, mode[0], mode[1] === undefined ? !yGetProp(ject, mode[0]) : !!mode[1]);
+
+        };
+
+        result = ject;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yMode
+ * 
+ * Функция переключения логичких свойств или их явную установку.
+ * 
+ * ***
+ * @arg {Y1} ject `Объект`
+ * @arg {...yT['mode']} mode `Режимы`
+ * @returns {Y1}
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yMode(ject, ...modes) {
+
+    return mode({ ject, modes, });
+
+};
+
+//#endregion
+//#region turn
+
+/**
+ * ### turn
+ * 
+ * 
+ * 
+ * ***
+ * @typedef turnT
+ * @prop {} _
+ * ***
+ * @arg {yT&turnT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function turn(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            j1,
+            j2,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const shell = new Proxy({
+
+            getPrev() {
+
+                return j1;
+
+            },
+
+        }, {
+
+            get(t, p) {
+
+                return j2[p] ?? t[p];
+
+            },
+            set(t, p, v) {
+
+                j2[p] = v;
+
+                return true;
+
+            },
+
+        });
+
+        Object.setPrototypeOf(shell, j2);
+
+        return shell;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yTurn
+ * 
+ * Функция перехода с объекта `j1` на объект `j2`.
+ * 
+ * ***
+ * 
+ * @arg {Y1} j1 `Объект первый`
+ * @arg {Y2} j2 `Объект второй`
+ * @returns {Y2&{ unturn(): Y1, }}
+ * @template Y1,Y2
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yTurn(j1, j2) {
+
+    return turn({ j1, j2 });
+
+};
 
 //#endregion
 //#region clone
 
-/** ### yTFClone
- * - Тип `TF`
+/**
+ * ### clone
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `clone`.
- * 
- * @typedef {yTFUClone&yT} yTFClone
- * 
+ * @typedef cloneT
+ * @prop {} _
+ * ***
+ * @arg {yT&cloneT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.1.0`
+ * @function
 */
-/** ### yTFUClone
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `clone`.
- * 
- * @typedef yTFUClone
- * @prop {boolean} link
-*/
+function clone(args) {
 
-/** @arg {yTFClone} t */
-function cloneDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return cloneVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.value?.strictMode) {
-            
-            throw e;
-            
+
+        let {
+
+            target,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        if (target.constructor) {
+
+            if (yIsInstance(target, RegExp, Date)) {
+
+                result = new target.constructor(target);
+
+                return result;
+
+            } else if (yIsInstance(target, Function)) {
+
+                ''.startsWith
+
+                const fstr = target.toString();
+                const fname = target.name;
+                const farg = fstr.slice(fname.length + (fstr.startsWith('function') ? 10 : 1), fstr.indexOf(')')).match(/\w+/ig).join(', ');
+                const fin = fstr.match(/\{(.+)/msi)[1].slice(0, -1);
+
+                console.log(fstr);
+
+                eval(`result = function ${fname}(${farg}) {${fin}}`);
+
+                return result;
+
+            } else result = new target.constructor();
+
+        } else {
+
+            result = {};
+
+            Object.setPrototypeOf(result, Object.getPrototypeOf(target));
+
         };
-        
-        return undefined;
-        
+
+        //#endregion
+        //#region comply
+
+        const mirrors = [];
+
+        for (const step of yForDeep(target)) {
+
+            if (!(step.value instanceof Object)) {
+
+                ySetPropByKeys(result, step.path, step.value);
+
+                continue;
+
+            };
+
+            let index = mirrors.findIndex(mirror => mirror[0] === step.value);
+
+            if (index !== -1) {
+
+                ySetPropByKeys(result, step.path, step.value);
+
+                continue;
+
+            };
+
+            let prop;
+
+            if (step.value.constructor) {
+
+                if (yIsInstance(step.value, RegExp, Date)) {
+
+                    prop = new step.value.constructor(step.value);
+
+                } else prop = new step.value.constructor();
+
+            } else {
+
+                prop = {};
+
+                Object.setPrototypeOf(prop, Object.getPrototypeOf(step.value));
+
+            };
+
+            ySetPropByKeys(result, step.path, prop);
+
+            mirrors.push([step.value, prop]);
+
+        };
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
-};
-/** @arg {yTFClone} t */
-function cloneVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return cloneHandle(t);
-   
-};
-/** @arg {yTFClone} t */
-function cloneHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return cloneComply(t);
-   
-};
-/** @arg {yTFClone} t */
-function cloneComply(t) {
-   
-    const {
-    
-        y,
-        link,
-    
-    } = t;
-    
-    if (y instanceof Object) {
 
-        const result = new y.constructor();
-        const mirror = [[result, y]];
-        const subjects = [];
+    return result;
 
-        const clone = (n, p, v) => {
-
-            const subject = subjects.find(s => s[0] === v);
-
-            if (link && subject) {
-
-                n[p] = subject[1];
-
-            } else if (v instanceof Object) {
-
-                switch (v.constructor) {
-
-                    case Function: n[p] = v; break;
-                    default: n[p] = new v.constructor();
-
-                };
-
-                mirror.push([n[p], v]);
-                subjects.push([v, n[p]]);
-
-            } else {
-
-                n[p] = v;
-
-            };
-
-        };
-
-        while (mirror.length) {
-
-            const [n, o] = mirror.pop();
-
-            if (o instanceof Array) {
-
-                o.forEach((e, ei) => clone(n, ei, e));
-
-            } else {
-
-                Object.entries(o).forEach(e => clone(n, e[0], e[1]));
-
-            };
-
-        };
-
-        return result;
-
-    } else return y;
-    
 };
 
 /**
  * ### yClone
  * 
- * ***
- * 
- * Функция клонирования объекта.
+ * Функция клонирования `target`.
  * 
  * ***
- * @arg {Y1} y `Объект`
- * @arg {boolean} link `Ссылки`
+ * @arg {Y1} target `Цель`
  * @returns {Y1}
  * @template Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function yClone(y, link) {
+export function yClone(target) {
 
-    return cloneDeceit({ y, link, });
+    return clone({ target, });
+
+};
+
+//#endregion
+//#region unite
+
+/**
+ * ### unite
+ * 
+ * 
+ * 
+ * ***
+ * @typedef uniteT
+ * @prop {} _
+ * ***
+ * @arg {yT&uniteT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function unite(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            j1,
+            j2,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = new Proxy(yCombine(j1, j2), {
+
+            get(t, p, r) {
+
+                return t[p];
+
+            },
+            set(t, p, v, r) {
+
+                t[p] = v;
+
+                return true;
+
+            },
+
+
+        });
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yUnite
+ * 
+ * Функция объединения объектов.
+ * 
+ * Данная функция отличается от функции {@link yCombine}.
+ * 
+ * Она позволяет:
+ * - Объединить несколько объектов.
+ * - Использовать прототипы обоих объектов.
+ * 
+ * Приоритетным объектом для слияния является первый указанный объект.
+ * В паре со вторым указанным объектом он будет иметь доминирующее значение.
+ * Это означает, что поля, методы и прототип первого объекта будут иметь приоритетное
+ * значение при создании объекта через объединение и люыбе последующие обращения к нему.
+ * 
+ * ***
+ * @arg {Y1} j1 `Объект первый`
+ * @arg {Y2} j2 `Объект второй`
+ * @returns {Y1&Y2}
+ * @template Y1,Y2
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yUnite(j1, j2) {
+
+    return unite({ j1, j2, });
 
 };
 
 //#endregion
 //#region equal
 
-/** ### yTFEqual
- * - Тип `TF`
+/**
+ * ### equal
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `equal`.
- * 
- * @typedef {yTFUEqual&yT} yTFEqual
- * 
+ * @typedef equalT
+ * @prop {} _
+ * ***
+ * @arg {yT&equalT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `2.0.0`
+ * @function
 */
-/** ### yTFUEqual
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `equal`.
- * 
- * @typedef yTFUEqual
- * @prop {{}} equal
-*/
+function equal(args) {
 
-/** @arg {yTFEqual} t */
-function equalDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return equalVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.value?.strictMode) {
-            
-            throw e;
-            
+
+        let {
+
+            jects,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        result = true;
+
+        //#endregion
+        //#region comply
+
+        for (const step of yForDeep(jects.pop())) {
+
+            let flag = false;
+
+            for (const ject of jects) {
+
+                const mirror = yGetPropByKeys(ject, ...step.path);
+
+                if ((step.value instanceof Object && mirror instanceof Object) || mirror === step.value) continue;
+
+                flag = true;
+                result = false;
+                break;
+
+            };
+
+            if (flag) break;
+
         };
-        
-        return undefined;
-        
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
     } finally {
-        
-        
-        
-    };
-    
-};
-/** @arg {yTFEqual} t */
-function equalVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return equalHandle(t);
-   
-};
-/** @arg {yTFEqual} t */
-function equalHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return equalComply(t);
-   
-};
-/** @arg {yTFEqual} t */
-function equalComply(t) {
-   
-    const {
 
-        y,
-        equal,
 
-    } = t;
-
-    if (y === equal) {
-
-        return true;
 
     };
 
-    const u = [y, equal];
-    const s = [[y, equal]];
+    return result;
 
-    while (s.length) {
-
-        const [j, e] = s.pop();
-        const [jks, eks] = [j, e].map(e => Object.keys(e));
-
-        if (jks.length !== eks.length) {
-
-            return false;
-
-        };
-
-        for (const jk of jks) {
-
-            if (j[jk].constructor !== e[jk].constructor) {
-
-                return false;
-
-            };
-
-            if (j[jk] instanceof Array) {
-
-                if (u.every(u => u[0] !== j[jk] && u[1] !== e[jk])) {
-
-                    const a = [j[jk].slice().sort((p, c) => p - c), e[jk].slice().sort((p, c) => p - c)];
-
-                    [s, u].forEach(e => e.push(a));
-
-                };
-
-            } else if (j[jk] instanceof Object) {
-
-                if (u.every(u => u[0] !== j[jk] && u[1] !== e[jk])) {
-
-                    const a = [j[jk], e[jk]];
-
-                    [s, u].forEach(e => e.push(a));
-
-                };
-
-            } else if (j[jk] !== e[jk]) {
-
-                return false;
-
-            };
-
-        };
-
-    };
-
-    return true;
-    
 };
 
 /**
  * ### yEqual
  * 
- * ***
+ * Функция проверки объектов на подобие.
  * 
- * Функция определения эквивалентности двух объектов.
+ * Подобными объектами называются те объекты, которые являются взаимозаменяемыми по свойствам.
  * 
  * ***
- * @arg {Y1} y `Объект`
- * @arg {Y2} equal `Эквивалент`
- * @returns {boolean}
- * @template Y1,Y2
+ * @arg {...any} jects `Объекты`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `2.0.0`
+ * @function
 */
-export function yEqual(y, equal) {
+export function yEqual(...jects) {
 
-    return equalDeceit({ y, equal, });
+    return equal({ jects, });
 
 };
 
 //#endregion
-
 //#region adopt
 
-/** ### yTFAdopt
- * - Тип `TF`
+/**
+ * ### adopt
+ * - Тип `S`
+ * - Версия `2.0.0`
  * ***
  * 
- * Результирующие параметры функции `adopt`.
  * 
- * @typedef {yTFUAdopt&yT} yTFAdopt
  * 
+ * ***
+ * @typedef adoptT
+ * @prop {} _
+ * ***
+ * @arg {yT&adoptT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### yTFUAdopt
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `adopt`.
- * 
- * @typedef yTFUAdopt
- * @prop {any} conf
-*/
+function adopt(args) {
 
-/** @arg {yTFAdopt} t */
-function adoptDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return adoptVerify(t);
-        
-    } catch (e) {
 
-        if (config?.value?.strictMode) {
-            
-            throw e;
-            
+        let {
+
+            conf,
+            image,
+            target,
+
+        } = args;
+
+        //#region verify
+
+        if (!image) return;
+
+        //#endregion
+        //#region handle
+
+        if (!conf) {
+
+            if (target.constructor?.config) {
+
+                conf = target.constructor.config;
+
+            };
+
         };
 
-        console.log(e);
-        
-        return undefined;
-        
+        //#endregion
+        //#region comply
+
+        for (const step of yForDeep(target)) {
+
+            if (step.level[step.key] === undefined) {
+
+                const prop = yGetPropByKeys(image, ...step.path);
+
+                if (prop) step.level[step.key] = prop;
+
+            };
+
+        };
+
+        if (conf) yAdoptDefault(target, conf);
+
+        result = target;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
     } finally {
-        
-        
-        
-    };
-    
-};
-/** @arg {yTFAdopt} t */
-function adoptVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return adoptHandle(t);
-   
-};
-/** @arg {yTFAdopt} t */
-function adoptHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
 
-    if (!t.conf) {
 
-        if (t.y instanceof Y && t.y.constructor.config) {
-
-            t.conf = t.y.constructor.config;
-
-        };
-
-    };
-   
-    return adoptComply(t);
-   
-};
-/** @arg {yTFAdopt} t */
-function adoptComply(t) {
-   
-    const {
-    
-        y,
-        owner,
-        conf,
-    
-    } = t;
-
-    if (!owner) {
-
-        return y;
 
     };
 
-    for (const s of Object.keys(y)) {
+    return result;
 
-        owner[s] !== undefined && (y[s] = owner[s])
-
-    };
-
-    if (conf) {
-
-        yAdoptDefault(y, conf);
-
-    };
-
-    return y;
-    
 };
 
 /**
  * ### yAdopt
- * 
  * ***
  * 
- * Функция перенятия свойств у указанного объекта.
+ * Функция перенятия свойств от `image` к `target`.
+ * 
+ * Перенятие подразумевает назначение смежных с `image` свойств в том случае, если таковое свойство из `target` отсутствует.
  * 
  * ***
- * @arg {Y1} y `Значение`
- * @arg {Y2} owner `Обладатель`
+ * @arg {yT['conf']} conf `Конфигуратор`
+ * @arg {Y2} image `Владелец`
+ * @arg {Y1} target `Объект`
  * @returns {Y1}
  * @template Y1,Y2
+ * ***
+ * @since `1.0.0`
+ * @version `2.0.0`
+ * @function
 */
-export function yAdopt(y, owner, conf) {
+export function yAdopt(target, image, conf) {
 
-    return adoptDeceit({ y, owner, conf, });
+    return adopt({ target, conf, image, });
 
 };
 
 //#endregion
 //#region adoptDefault
 
-/** ### yTFAdoptDefault
- * - Тип `TF`
+/**
+ * ### adoptDefault
+ * 
+ * 
+ * 
  * ***
  * 
- * Результирующие параметры функции `adoptDefault`.
  * 
- * @typedef {yTFUAdoptDefault&yT&yTFAdopt} yTFAdoptDefault
  * 
+ * ***
+ * @typedef adoptDefaultT
+ * @prop {} _
+ * ***
+ * @arg {yT&adoptDefaultT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.1.0`
+ * @function
 */
-/** ### yTFUAdoptDefault
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `adoptDefault`.
- * 
- * @typedef yTFUAdoptDefault
- * @prop {any} _
-*/
+function adoptDefault(args) {
 
-/** @arg {yTFAdoptDefault} t */
-function adoptDefaultDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return adoptDefaultVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
-            
-            throw e;
-            
-        };
-        
-        return undefined;
-        
-    } finally {
-        
-        
-        
-    };
-    
-};
-/** @arg {yTFAdoptDefault} t */
-function adoptDefaultVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return adoptDefaultHandle(t);
-   
-};
-/** @arg {yTFAdoptDefault} t */
-function adoptDefaultHandle(t) {
-   
-    if (t.owner.constructor.name === 'YConfig' || t.owner === config) {
 
-        t.owner = t.owner.value;
+        let {
 
-    };
-   
-    return adoptDefaultComply(t);
-   
-};
-/** @arg {yTFAdoptDefault} t */
-function adoptDefaultComply(t) {
-   
-    const {
-    
-        y,
-        owner,
-    
-    } = t;
+            def,
+            target,
 
-    if (!y || !owner) {
+        } = args;
 
-        return y;
+        //#region verify
 
-    };
 
-    for (const property of Object.keys(y)) {
-        
-        const propertyDefault = property + 'Default';
-        
-        if (!y[property]) {
 
-            if (owner[propertyDefault] === undefined) {
+        //#endregion
+        //#region handle
 
-                y[property] = y.constructor.config.value.defaultValue;
 
+
+        //#endregion
+        //#region comply
+
+        for (const step of yForDeep(target)) {
+
+            if (step.value !== undefined) continue;
+
+            const keyDefault = step.key + 'Default';
+
+            let param;
+
+            if (def.params[keyDefault] === undefined) {
+
+                param = target?.constructor?.config?.params?.defaultValue;
+                
+            } else if (typeof def.params[keyDefault] === 'object') {
+                
+                param = yClone(def.params[keyDefault]);
+                
             } else {
 
-                y[property] = typeof owner[propertyDefault] === 'object' ? yClone(owner[propertyDefault]) : owner[propertyDefault];
+                param = def.params[keyDefault];
 
             };
+            
+            ySetPropByKeys(target, step.path, param);
+        
+        };
+
+        result = target;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
 
         };
-        
+
+
+
+    } finally {
+
+
+
     };
 
-    return y;
-    
+    return result;
+
 };
 
 /**
  * ### yAdoptDefault
  * 
- * ***
- * 
- * Функция перенятия дефолтных значений.
+ * Функция перенятия дефолтных свойств от `def` к `target`.
  * 
  * ***
- * @arg {Y1} y `Значение`
- * @arg {Y2} owner `Обладатель`
+ * @arg {Y1} target `Цель`
+ * @arg {yT['def']} def `Дефолт`
  * @returns {Y1}
- * @template Y1,Y2
+ * @template Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function yAdoptDefault(y, owner) {
+export function yAdoptDefault(target, def) {
 
-    return adoptDefaultDeceit({ y, owner, });
+    return adoptDefault({ target, def, });
 
 };
 
 //#endregion
+//#region clean
 
-//#region classifyProp
-
-/** ### yTFClassifyProp
- * - Тип `TF`
+/**
+ * ### clean
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `classifyProp`.
- * 
- * @typedef {yTFUClassifyProp&yT} yTFClassifyProp
- * 
+ * @typedef cleanT
+ * @prop {} _
+ * ***
+ * @arg {yT&cleanT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### yTFUClassifyProp
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `classifyProp`.
- * 
- * @typedef yTFUClassifyProp
- * @prop {any} ject
-*/
+function clean(args) {
 
-/** @arg {yTFClassifyProp} t */
-function classifyPropDeceit(t) {
+    let result;
+
+    try {
+
+        let {
+
+            target,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        for (const prop in target) if (target[prop] === undefined) delete target[prop];
+
+        result = target;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yClean
+ * 
+ * Функция очистки объекта.
+ * 
+ * Очистка удаляет из объекта те свойства, которые имеют значение undefined.
+ * 
+ * ***
+ * @arg {Y1} target `Цель`
+ * @returns {Y1}
+ * @template Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yClean(target) {
+
+    return clean({ target, });
+
+};
+
+//#endregion
+//#region select
+
+/**
+ * ### select
+ * 
+ * 
+ * 
+ * ***
+ * @typedef selectT
+ * @prop {} _
+ * ***
+ * @arg {yT&selectT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function select(args) {
+    
+    let result;
     
     try {
         
-        return classifyPropVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
+        let {
             
-            throw e;
+            keys,
+            jects,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = [keys];
+
+        for (const ject of jects) {
+
+            const arr = [];
+
+            result.push(arr);
+
+            for (const keyIndex in keys) {
+
+                const key = keys[keyIndex];
+
+                arr[keyIndex] = yGetPropByKeys(ject, ...key.split('.'));              
+
+            };
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
             
         };
         
-        return undefined;
+        
         
     } finally {
         
@@ -783,774 +2662,606 @@ function classifyPropDeceit(t) {
         
     };
     
-};
-/** @arg {yTFClassifyProp} t */
-function classifyPropVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return classifyPropHandle(t);
-   
-};
-/** @arg {yTFClassifyProp} t */
-function classifyPropHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return classifyPropComply(t);
-   
-};
-/** @arg {yTFClassifyProp} t */
-function classifyPropComply(t) {
-   
-    const {
-
-        ject,
-
-    } = t;
-
-    const result = {
-
-        /** @type {Date[]} */
-        date: [],
-        /** @type {Object[]} */
-        ject: [],
-        /** @type {boolean[]} */
-        bool: [],
-        /** @type {null[]} */
-        null: [],
-        /** @type {any[][]} */
-        array: [],
-        /** @type {number[]} */
-        number: [],
-        /** @type {string[]} */
-        string: [],
-        /** @type {RegExp[]} */
-        regexp: [],
-        /** @type {bigint[]} */
-        bigint: [],
-        /** @type {function[]} */
-        function: [],
-        /** @type {undefined[]} */
-        undefined: [],
-        /** @type {Date[][]} */
-        arrayDate: [],
-        /** @type {boolean[][]} */
-        arrayBool: [],
-        /** @type {Object[][]} */
-        arrayJect: [],
-        /** @type {null[][]} */
-        arrayNull: [],
-        /** @type {number[][]} */
-        arrayNumber: [],
-        /** @type {string[][]} */
-        arrayString: [],
-        /** @type {RegExp[][]} */
-        arrayRegexp: [],
-        /** @type {bigint[][]} */
-        arrayBigint: [],
-        /** @type {function[][]} */
-        arrayFunction: [],
-        /** @type {undefined[][]} */
-        arrayUndefined: [],
-
-    };
-
-    for (const index in ject) {
-
-        let segment = null;
-
-        const value = ject[index];
-
-        switch (typeof value) {
-
-            case 'object': {
-
-                switch (value.constructor.name) {
-
-                    case 'Date': segment = result.date; break;
-                    case 'Array': {
-
-                        if (value.every(element => typeof element === 'number')) segment = result.arrayNumber;
-                        else if (value.every(element => typeof element === 'bigint')) segment = result.arrayBigint;
-                        else if (value.every(element => typeof element === 'boolean')) segment = result.arrayBool;
-                        else if (value.every(element => typeof element === 'string')) segment = result.arrayString;
-                        else if (value.every(element => typeof element === 'function')) segment = result.arrayFunction;
-                        else if (value.every(element => typeof element === 'undefined')) segment = result.arrayUndefined;
-                        else if (value.every(element => element instanceof RegExp)) segment = result.arrayRegexp;
-                        else if (value.every(element => element instanceof Date)) segment = result.arrayDate;
-                        else segment = result.array;
-
-                    } break;
-                    case 'RegExp':
-                    case 'YRegExp': segment = result.regexp; break;
-                    default: segment = result.ject; break;
-
-                };
-
-            }; break;
-            case 'string': segment = result.string; break;
-            case 'number': segment = result.number; break;
-            case 'bigint': segment = result.bigint; break;
-            case 'boolean': segment = result.bool; break;
-            case 'function': segment = result.function; break;
-            case 'undefined': segment = result.undefined; break;
-
-        };
-
-        if (segment) {
-
-            segment.push(value);
-
-        };
-
-    };
-
     return result;
     
 };
 
 /**
- * ### yClassifyProp
- * - Версия `1.0.0`
- * - Цепочка `DVHC`
- * ***
+ * ### ySelect
  * 
- * Функция извлечения и классификации свойств по их типу.
+ * Функция получения свойств из указанных объектов.
  * 
  * ***
- * @arg {any} ject `Объект`
+ * @arg {yT['key']} keys `Ключи`
+ * @arg {...yT['ject']} jects `Объекты`
+ * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function yClassifyProp(ject) {
+export function ySelect(keys, ...jects) {
 
-    return classifyPropDeceit({ ject });
+    return select({ keys, jects, });
 
 };
 
 //#endregion
+//#region combine
 
-//#region correlate
-
-/** ### yTFCorrelate
- * - Тип `TF`
+/**
+ * ### combine
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `correlate`.
- * 
- * @typedef {yTFUCorrelate&yT} yTFCorrelate
- * 
+ * @typedef combineT
+ * @prop {} _
+ * ***
+ * @arg {yT&combineT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### yTFUCorrelate
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `correlate`.
- * 
- * @typedef yTFUCorrelate
- * @prop {string[][]} options
-*/
+function combine(args) {
 
-/** @arg {yTFCorrelate} t */
-function correlateDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return correlateVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
-            
-            throw e;
-            
-        };
-        
-        return undefined;
-        
-    } finally {
-        
-        
-        
-    };
-    
-};
-/** @arg {yTFCorrelate} t */
-function correlateVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return correlateHandle(t);
-   
-};
-/** @arg {yTFCorrelate} t */
-function correlateHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return correlateComply(t);
-   
-};
-/** @arg {yTFCorrelate} t */
-function correlateComply(t) {
-   
-    const {
-    
-        y,
-        options,
-    
-    } = t;
-    
-    const aliases = options.map(option => {
 
-        return {
+        let {
 
-            name: option[0],
-            options: option.slice(1),
+            j1,
+            j2,
 
-        };
+        } = args;
 
-    });
+        //#region verify
 
-    return new Proxy(y, {
 
-        get(t, p) {
 
-            if (t[p] === undefined) {
+        //#endregion
+        //#region handle
 
-                let result = t;
+        result = {};
 
-                const alias = aliases.find(alias => alias.name === p);
+        //#endregion
+        //#region comply
 
-                if (alias) {
+        for (const ject of [j1, j2]) {
 
-                    for (const index in alias.options) {
-                        
-                        const step = alias.options[index];
+            for (const step of yForDeep(ject)) {
 
-                        result = result[step];
+                if (!yGetPropByKeys(result, ...step.path)) {
 
-                    };
-
-                    return result;
+                    ySetPropByKeys(result, step.path, yIsInstance(step.value, Function) ? yClone(step.value) : yIsInstance(step.value, Object) ? {} : step.value);
 
                 };
 
             };
 
-            return t[p];
+        };
 
-        },
-        set(t, p, v) {
+        //#endregion
 
-            if (t[p] === undefined) {
+    } catch (err) {
 
-                const alias = aliases.find(alias => alias.name === p);
+        if (config.params.strictMode) {
 
-                if (alias) {
+            throw err;
 
-                    let link = t;
+        };
 
-                    for (const index in alias.options) {
 
-                        const step = alias.options[index];
 
-                        if (index === alias.options.length - 1) {
+    } finally {
 
-                            link[step] = v;
 
-                        } else {
 
-                            link = link[step];
+    };
+
+    return result;
+
+};
+
+/**
+ * ### yCombine
+ * 
+ * Функция объединения свойств нескольких объектов в новом едином объекте.
+ * 
+ * ***
+ * @arg {Y1} j1 `Объект первый`
+ * @arg {Y2} j2 `Объект второй`
+ * @returns {Y1&Y2}
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function yCombine(j1, j2) {
+
+    return combine({ j1, j2, });
+
+};
+
+//#endregion
+//#region correlate
+
+/**
+ * ### correlate
+ * 
+ * 
+ * 
+ * ***
+ * @typedef correlateT
+ * @prop {} _
+ * ***
+ * @arg {yT&correlateT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function correlate(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            ject,
+            options,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const aliases = [];
+
+        for (const option of options) aliases.push({ name: option[0], options: option.slice(1), });
+
+        result = new Proxy(ject, {
+
+            get(t, p) {
+
+                if (t[p] === undefined) {
+
+                    let result = t;
+
+                    const alias = aliases.find(alias => alias.name === p);
+
+                    if (alias) {
+
+                        for (const index in alias.options) {
+
+                            const step = alias.options[index];
+
+                            result = result[step];
 
                         };
 
+                        return result;
+
                     };
 
-                    return true;
+                };
 
-                }
+                return t[p];
 
-            };
+            },
+            set(t, p, v) {
 
-            t[p] = v;
+                if (t[p] === undefined) {
 
-            return true;
+                    const alias = aliases.find(alias => alias.name === p);
 
-        },
+                    if (alias) {
 
-    });
-    
+                        let link = t;
+
+                        for (const index in alias.options) {
+
+                            const step = alias.options[index];
+
+                            if (index === alias.options.length - 1) {
+
+                                link[step] = v;
+
+                            } else {
+
+                                link = link[step];
+
+                            };
+
+                        };
+
+                        return true;
+
+                    }
+
+                };
+
+                t[p] = v;
+
+                return true;
+
+            },
+
+        });
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
 };
 
 /**
  * ### yCorrelate
  * 
- * ***
- * 
  * Функция корреляции значений.
  * 
  * ***
- * @arg {Y1} y `Значение`
- * @arg {...string[]} options `Опции`
- * @returns {Y1}
- * @template Y1
+ * @arg {Y1} ject `Объект`
+ * @arg {yT['options']} options `Опции`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function yCorrelate(y, ...options) {
+export function yCorrelate(ject, ...options) {
 
-    return correlateDeceit({ y, options, });
+    return correlate({ ject, options, });
 
 };
 
 //#endregion
-//#region supplement
+//#region subscribe
 
-/** ### yTFSupplement
- * - Тип `TF`
+/**
+ * ### subscribe
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `supplement`.
- * 
- * @typedef {yTFUSupplement&yT} yTFSupplement
- * 
+ * @typedef subscribeT
+ * @prop {} _
+ * ***
+ * @arg {yT&subscribeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### yTFUSupplement
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `supplement`.
- * 
- * @typedef yTFUSupplement
- * @prop {any} supplementer
-*/
+function subscribe(args) {
 
-/** @arg {yTFSupplement} t */
-function supplementDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return supplementVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
-            
-            throw e;
-            
-        };
-        
-        return undefined;
-        
-    } finally {
-        
-        
-        
-    };
-    
-};
-/** @arg {yTFSupplement} t */
-function supplementVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return supplementHandle(t);
-   
-};
-/** @arg {yTFSupplement} t */
-function supplementHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return supplementComply(t);
-   
-};
-/** @arg {yTFSupplement} t */
-function supplementComply(t) {
-   
-    const {
-    
-        y,
-        supplementer,
-    
-    } = t;
-    
-    Object.keys(supplementer).forEach(k => [undefined, null, NaN].includes(y[k]) && (y[k] = supplementer[k]));
 
-    return y;
-    
+        let {
+
+            trap,
+            lead,
+            followers,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        if (!lead) lead = {};
+
+        result = { unsubscribe() { return lead; } };
+
+        //#endregion
+        //#region comply
+
+        ySetProto(result, lead);
+
+        result = new Proxy(result, {
+
+            set(t, p, v) {
+
+                trap.set(t, p, v);
+
+                lead[p] = v;
+
+                return true;
+
+            },
+
+        });
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
 };
 
 /**
- * ### ySupplement
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `ject`
+ * ### ySubscribe
+ * 
+ * Функция подписывания указанных объектов на изменения указанного ведущего объекта.
+ * 
  * ***
- *
- * Функция дополнения объекта свойствами указанного дополнителя.
- *
+ * @arg {Y1} lead `Ведущий`
+ * @arg {yT['trap']} trap `Ловушка`
+ * @arg {...yT['follower']} followers `Последователи`
+ * @returns {Y1&{ unsubscribe(): Y1 }}
+ * @template Y1
  * ***
- * @arg {Y1} y `Значение`
- * @arg {Y2} supplementer `Дополнитель`
- * @returns {Y1}
- * @template Y1,Y2
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function ySupplement(y, supplementer) {
+export function ySubscribe(lead, trap, ...followers) {
 
-    return supplementDeceit({ y, supplementer, });
+    return subscribe({ lead, trap, followers, });
 
 };
 
 //#endregion
+//#region subscribeSet
 
-//#region getProperty
-
-/** ### yTFGetProperty
- * - Тип `TF`
+/**
+ * ### subscribeSet
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `getProperty`.
- * 
- * @typedef {yTFUGetProperty&yT} yTFGetProperty
- * 
+ * @typedef subscribeSetT
+ * @prop {} _
+ * ***
+ * @arg {yT&subscribeSetT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### yTFUGetProperty
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `getProperty`.
- * 
- * @typedef yTFUGetProperty
- * @prop {string} property
-*/
+function subscribeSet(args) {
 
-/** @arg {yTFGetProperty} t */
-function getPropertyDeceit(t) {
-    
+    let result;
+
     try {
-        
-        return getPropertyVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
-            
-            throw e;
-            
+
+        let {
+
+            lead,
+            followers,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = ySubscribe(lead, {
+
+            set(ject, key, value) {
+
+                for (const follower of followers) ySetProp(follower, key, value);
+
+            },
+
+        }, ...followers);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
         };
-        
-        return undefined;
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
+    return result;
+
 };
-/** @arg {yTFGetProperty} t */
-function getPropertyVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return getPropertyHandle(t);
-   
+
+/**
+ * ### ySubscribeSet
+ * 
+ * Функция {@link ySubscribe|подписывания указанных объектов на изменения указанного ведущего объекта} ориентированная на изменение.
+ * 
+ * Данная ориентация принуждает `подписчиков` внести измения в свойства аналогичные изменениям `ведущего` объекта.
+ * 
+ * ***
+ * @arg {Y1} lead `Ведущий`
+ * @arg {...yT['follower']} followers `Последователи`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ySubscribeSet(lead, ...followers) {
+
+    return subscribeSet({ lead, followers, });
+
 };
-/** @arg {yTFGetProperty} t */
-function getPropertyHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return getPropertyComply(t);
-   
-};
-/** @arg {yTFGetProperty} t */
-function getPropertyComply(t) {
-   
-    const {
 
-        y,
-        property,
+//#endregion
+//#region subscribeInc
 
-    } = t;
+/**
+ * ### subscribeInc
+ * 
+ * 
+ * 
+ * ***
+ * @typedef subscribeIncT
+ * @prop {} _
+ * ***
+ * @arg {yT&subscribeIncT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function subscribeInc(args) {
 
-    const structures = [y];
+    let result;
 
-    while (structures.length) {
+    try {
 
-        const s = structures.pop();
+        let {
 
-        if (s.hasOwnProperty(property)) {
+            lead,
+            followers,
 
-            return s[property];
+        } = args;
 
-        } else {
+        //#region verify
 
-            for (const v of Object.values(s)) {
 
-                if (typeof v === 'object') {
 
-                    structures.push(v);
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = ySubscribe(lead, {
+
+            set(ject, key, value) {
+
+                const valueNow = yGetProp(lead, key);
+
+                if (typeof valueNow !== 'number') {
+
+                    return;
+
+                } else value -= valueNow;
+
+                for (const follower of followers) {
+
+                    ySetProp(follower, key, yGetProp(follower, key) + value)
 
                 };
 
-            };
+            },
+
+        }, ...followers);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
 
         };
 
-    };
 
-    return undefined;
-    
-};
 
-/**
- * ### yGetProperty
- * - Версия `0.0.1`
- * - Цепочка `DVHCa`
- * ***
- *
- * Функция извлечения указанного свойства из указанного объекта с применением глубокого поиска.
- *
- * ***
- * @arg {{}} y `Объект`
- * Необязательный параметр, типизирующий результат.
- * @arg {string} property `Свойство`
- * @returns {T|undefined}
- * @template T
-*/
-export function yGetProperty(y, property) {
-
-    return getPropertyDeceit({ y, property, });
-
-};
-
-//#endregion
-//#region getPropertyByPath
-
-/** ### yTFGetPropertyByPath
- * - Тип `TF`
- * ***
- * 
- * Результирующие параметры функции `getPropertyByPath`.
- * 
- * @typedef {yTFUGetPropertyByPath&yT} yTFGetPropertyByPath
- * 
-*/
-/** ### yTFUGetPropertyByPath
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `getPropertyByPath`.
- * 
- * @typedef yTFUGetPropertyByPath
- * @prop {string} path
-*/
-
-/** @arg {yTFGetPropertyByPath} t */
-function getPropertyByPathDeceit(t) {
-    
-    try {
-        
-        return getPropertyByPathVerify(t);
-        
-    } catch (e) {
-        
-        if (config?.strictMode) {
-            
-            throw e;
-            
-        };
-        
-        return undefined;
-        
     } finally {
-        
-        
-        
-    };
-    
-};
-/** @arg {yTFGetPropertyByPath} t */
-function getPropertyByPathVerify(t) {
-    
-    const {
-    
-    
-    
-    } = t;
-    
-    return getPropertyByPathHandle(t);
-   
-};
-/** @arg {yTFGetPropertyByPath} t */
-function getPropertyByPathHandle(t) {
-   
-    const {
-    
-    
-    
-    } = t;
-   
-    return getPropertyByPathComply(t);
-   
-};
-/** @arg {yTFGetPropertyByPath} t */
-function getPropertyByPathComply(t) {
-   
-    const {
 
-        y,
-        path,
 
-    } = t;
-
-    let c = 0;
-    let u = [];
-    let r = [y];
-
-    const l = path.length - 1;
-
-    while (c !== l && r.length) {
-
-        const p = path.pop();
-
-        for (const j of r) {
-
-            u.push(j);
-
-            switch (p) {
-
-                case 'f': {
-
-                    const f = Object.values(j).find(v => v instanceof Object && !u.includes(v));
-
-                    if (f) {
-
-                        r = [f];
-
-                        u.push(f);
-                        break;
-
-                    };
-
-                }; break;
-                case 'l': {
-
-                    const f = Object.values(j).reverse().find(v => v instanceof Object && !u.includes(v));
-
-                    if (f) {
-
-                        r = [f];
-
-                        u.push(f);
-                        break;
-
-                    };
-
-                }; break;
-                case '*': {
-
-                    r.push(...Object.values(j).filter(v => v instanceof Object && !u.includes(v)));
-
-                }; break;
-                default: {
-
-                    if (j[p] instanceof Object) {
-
-                        r = [j[p]];
-                        break;
-
-                    };
-
-                }; break;
-
-            };
-
-        };
-
-        if (!r) return undefined;
-
-        c++;
 
     };
 
-    for (const j of r) {
+    return result;
 
-        switch (path[0]) {
-
-            default: {
-
-                if (j[path[0]]) {
-
-                    return j[path[0]];
-
-                };
-
-
-            }; break;
-
-        };
-
-    };
-
-    return undefined;
-    
 };
 
 /**
- * ### yGetPropertyByPath
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
+ * ### ySubscribeInc
+ * 
+ * Функция {@link ySubscribe|подписывания указанных объектов на изменения указанного ведущего объекта} ориентированная на изменение.
+ * 
+ * Данная ориентация принуждает `подписчиков` прирастить свойства аналогичные приращениям свойств `ведущего` объекта.
+ * 
  * ***
- *
- * Функция получения значения свойства полученного из указанного объекта по указанному пути.
- *
+ * @arg {Y1} lead `Ведущий`
+ * @arg {...yT['follower']} followers `Последователи`
+ * 
+ * 
  * ***
- * @arg {Y1} y `Объект`
- * @arg {string} path `Путь`
- * @template Y1
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function yGetPropertyByPath(y, path) {
+export function ySubscribeInc(lead, ...followers) {
 
-    return getPropertyByPathDeceit({ y, path, });
+    return subscribeInc({ lead, followers, });
 
 };
 
 //#endregion
 
+//#endregion
+
 /**
- * @file module.mjs
+ * @file y/module.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

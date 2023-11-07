@@ -1,7 +1,7 @@
 import { YConfig } from "@syls/y/config";
 import { configMany } from "@syls/y/many";
 
-/** @type {configMany['value']} */
+/** @type {configMany['params']} */
 const config = {
     
     

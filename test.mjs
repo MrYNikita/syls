@@ -1,20 +1,17 @@
-import { netRequest } from "@syls/os/net";
-import { YPath, pathGet, pathGetDisk, pathGetName, pathSetExpand, pathSetName } from "@syls/os/path";
+import { YEntity } from "@syls/y/entity";
 
-console.clear();
+new YEntity()
 
-// const path1 = new YPath('test2/test.txt');
-// const path2 = new YPath('test2/test.csv');
+    .print()
+    .getRept()
+    // .appendBlock('test1', 'Информация', 10, [
 
-// path1
+    //     'test',
+    //     'alpha',
 
-//     .setName('eee')
-//     .setExpand('csv')
-//     .print()
+    // ], [
 
-// console.log(pathGetName(pathGet('test2/test.txt')));
-// console.log(pathSetExpand(pathGet('test2/test.txt'), 'cmd'));
-// console.log(pathSetName(pathGet('test2/test.txt'), 'eee'));
-// console.log(pathGetDisk('C:/Config'));
-console.log();
-console.log(await netRequest('habr.com', '/ru/articles/554274/', 'GET'));
+    //     self => ` * Наименование класса: ${self.getClass().name}`,
+
+    // ])
+    .display()

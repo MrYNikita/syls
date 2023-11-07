@@ -15,11 +15,11 @@ const config = {
  * ***
  * @public
 */
-export const configEntity = new YConfig(Object.assign(config, {
-    
-    
-    
-}), configY);
+export const configEntity = new YConfig({
+
+    ...config,
+
+}, configY);
 
 export default configEntity;
 

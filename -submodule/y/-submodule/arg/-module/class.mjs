@@ -1,65 +1,46 @@
 //#region YI
 
-import { Y } from "../../../-module/export.mjs";
-import { configArg as config } from './config.mjs';
+import { Y } from "../../../-module/class.mjs";
 import { argClassify } from "./module.mjs";
+import { configArg as config } from "./config.mjs";
+import { yIsInstance } from "../../../-module/module.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YArgT
- * - Тип `T`
- * 
- * Основной параметр модуля `YArg`.
- * 
- * ***
- * 
- * @typedef {YArgTE&YArgTU} YArgT
-*/
-/** ### YArgTE
- * - Тип `TE`
- * 
- * Параметр наследования `YArg`.
- * 
- * @typedef {Omit<DArg, keyof SArg>} YArgTE
-*/
-/** ### YArgTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YArg`.
- * 
- * @typedef YArgTU
- * @prop {} _
-*/
-/** ### YArgTUG
- * - Тип `TUP`
- * 
- * Уникальные генеративные параметры `YArg`.
- * 
- * @typedef YArgTUG
- * @prop {null} _
+/** ### argTC
+ * @typedef argTC
+ * @prop {}
 */
 
-/** ### argTIArgs
- * 
- * 
- * 
- * ***
- * 
- * 
- * 
- * ***
- * 
- * @typedef {import("./module.mjs").argTArgs} argTIArgs
- * 
-*/
+/** @typedef {import('./module.mjs').argT&argTC} argT */
 
 //#endregion
 
 /**
+ * ### YArg
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @extends Y<Y1>
  * @template Y1
+ * 
 */
-class SArg extends Y {
+export class YArg extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
     
     /**
      * ### stock
@@ -93,203 +74,102 @@ class SArg extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SArg).create.apply(this, [...args]);
+        return super.create(...args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YArg)?}
+     * @template {YArg} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
         
     };
     
-};
-/**
- * @extends SArg<Y1>
- * @template Y1
-*/
-class DArg extends SArg {
+    //#endregion
+    //#region field
     
     /**
-     * ### used
+     * ### dataUsed
      * 
-     * Используемые аргументы.
+     * Используемые данные.
      * 
      * *** 
-     * @type {Y1}
+     * @since `1.0.0`
      * @field
      * @public
     */
     dataUsed = {};
     /**
-     * ### free
+     * ### dataFree
      * 
-     * Свободные аргументы.
+     * Свободные данные.
      * 
      * *** 
-     * @type {import("../../../-module/module.mjs").yTArgs}
+     * @since `1.0.0`
+     * @type {import("./module.mjs").argTArgs}
      * @field
      * @public
     */
     dataFree;
     
-};
-/**
- * @extends DArg<Y1>
- * @template Y1
-*/
-class IArg extends DArg {
-    
-
-    
-};
-/**
- * @extends IArg<Y1>
- * @template Y1
-*/
-class MArg extends IArg {
-    
-    
-    
-};
-/**
- * @extends MArg<Y1>
- * @template Y1
-*/
-class FArg extends MArg {
+    //#endregion
+    //#region method
     
     /**
-     * ### YArg.constructor
-     * 
-     * 
-     * 
-     * ***
-     * @arg {YArgT&G} args
+     * @method
+     * @public
+     * @returns {YArg}
+     * @override
     */
-    constructor(args) {
+    
+    getClass() {
         
-        super(args = FArg.#before(args = arguments));
-        
-        FArg.#deceit.apply(this, [args]);
+        return YArg;
         
     };
-    
-    /** @arg {DArg} args */
-    static #before(args) {
-        
-        return {
 
-            dataFree: argClassify(...args),
-
-        };
-        
-    };
-    /** @arg {YArgT} args @this {YArg} */
-    static #deceit(args) {
-        
-        try {
-            
-            FArg.#verify.apply(this, [args = { ...args }]);
-            
-        } catch (e) {
-            
-            if (config?.strictMode) {
-                
-                throw e;
-                
-            };
-            
-            return new YArg();
-            
-        } finally {
-            
-            
-            
-        };
-        
-    };
-    /** @arg {YArgT} args @this {YArg} */
-    static #verify(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        FArg.#handle.apply(this, arguments);
-        
-    };
-    /** @arg {YArgT} args @this {YArg} */
-    static #handle(args) {
-        
-        
-        
-        FArg.#create.apply(this, arguments);
-        
-    };
-    /** @arg {YArgT} args @this {YArg} */
-    static #create(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        this
-        
-            .adopt(args);
-        
-    };
-    
-};
-
-/**
- * ### YArg
- * - Тип `SDIMFY`
- * - Версия `1.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YArg`.
- * 
- * ***
- * @class
- * @template Y1
- * @extends FArg<YArgTUG&Y1>
- * 
-*/
-export class YArg extends FArg {
-    
-    /** @arg {Y1} args */
-    constructor(args) { super(...arguments); };
-    
     /**
-     * ### set
+     * ### isJectTransmit
+     * 
+     * Метод проверки аргумента на `объект-носитель`.
+     * 
+     * `Объект-носитель` - это объект, переносящий аргументы. Его свойства испотльзуются как неупорядоченные аргументы, размеченные названиями, по которым
+     * удаётся определить его предназначение и истинный порядок.
      * 
      * ***
      * 
-     * Метод утсановки значений.
+     * 
      * 
      * ***
-     * @arg {...[keyof Y1, keyof argTIArgs]} values `Значения`
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    set(...values) {
+    isJectTransmit() {
         
-        for (const value of values) {
+        if (!this.dataFree.ject.length) return false;
 
-            for (const type of value.slice(1)) {
+        for (const key in this.dataFree) {
 
-                if (!(type in this.dataFree && this.dataFree[type].length)) continue;
+            if (this.dataFree[key].length > 0 && key !== 'ject') {
 
-                this.dataUsed[value[0]] = this.extract(type);
-                break;
+                return false;
 
             };
 
         };
 
-        return this;
+        return true;
         
     };
-
     /**
      * ### getData
      * 
@@ -325,7 +205,64 @@ export class YArg extends FArg {
         return YArg;
         
     };
+    /**
+     * ### set
+     * 
+     * ***
+     * 
+     * Метод утсановки значений.
+     * 
+     * ***
+     * @arg {...[keyof Y1, ...(keyof import("./module.mjs").argTArgs)[]]} values `Значения`
+     * @method
+     * @public
+    */
+    set(...values) {
+        
+        for (const value of values) {
 
+            const key = value[0];
+            const types = value.slice(1);
+
+            if (!types.length) {
+
+                continue;
+
+            } else if (types.length > 1) {
+
+                this.dataUsed[key] = [];
+
+                for (const type of types) {
+
+                    if (!(type in this.dataFree && this.dataFree[type].length)) continue;
+    
+                    const ext = this.extract(type);
+
+                    if (yIsInstance(ext, Array)) {
+
+                        this.dataUsed[key].push(...ext);
+
+                    } else {
+
+                        this.dataUsed[key].push(ext);
+
+                    };
+    
+                };
+
+            } else {
+
+                if (!(types[0] in this.dataFree && this.dataFree[types[0]].length)) continue;
+
+                this.dataUsed[key] = this.extract(types[0]);
+
+            };
+
+        };
+
+        return this;
+        
+    };
     /**
      * ### extract
      * 
@@ -432,53 +369,84 @@ export class YArg extends FArg {
 
         if (this.isJectTransmit()) {
 
-            this.values = argClassify(this.values.ject[0][1]);
+            this.dataFree = argClassify(this.dataFree.ject[0][1]);
 
         };
 
         return this;
 
     };
+    
+    //#endregion
+    
     /**
-     * ### isJectTransmit
+     * ### YArgConstructor
+     * - Версия `1.0.0`
+     * 
      * 
      * ***
      * 
-     * Метод проверки аргумента на `объект-носитель`.
      * 
-     * `Объект-носитель` - это объект, переносящий аргументы. Его свойства испотльзуются как неупорядоченные аргументы, размеченные названиями, по которым
-     * удаётся определить его предназначение и истинный порядок.
      * 
      * ***
-     * @method
+     * 
+     * @arg {argTC&Y1} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
      * @public
+     * @version `1.0.0`
+     * @constructor
     */
-    isJectTransmit() {
-
-        let result = true;
-
-        for (const key in this.values) {
-
-            if ((key === 'ject' && this.values[key].length !== 1) || (key !== 'ject' && this.values[key].length)) {
-
-                result = false;
-                break;
-
+    constructor(...args) {
+        
+        try {
+            
+            //#region before
+            
+            super();
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt({ dataFree: argClassify(...args) })
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
             };
-
+            
+        } finally {
+            
+            
+            
         };
-
-        return result;
-
+        
     };
     
 };
-
-//#region YE
-
-YArg.getY().appendModule(YArg);
-
-//#endregion YE
 
 /**
  * @file arg/class.mjs

@@ -15,11 +15,11 @@ const config = {
  * ***
  * @public
 */
-export const configCond = new YConfig(Object.assign(config, {
+export const configCond = new YConfig({
     
+    ...config,
     
-    
-}), configY);
+}, configY);
 
 export default configCond;
 

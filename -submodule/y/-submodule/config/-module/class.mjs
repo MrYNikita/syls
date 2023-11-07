@@ -1,48 +1,46 @@
 //#region YI
 
-import { Y } from "../../../-module/export.mjs";
-import { configConfig as config } from './config.mjs';
+import { Y } from "../../../-module/class.mjs";
+import configY from "../../../-module/config.mjs";
+import { configConfig as config } from "./config.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YConfigT
- * - Тип `T`
- * 
- * Основной параметр модуля `YConfig`.
- * 
- * ***
- * 
- * @typedef {YConfigTE&YConfigTU} YConfigT
+/** ### configTC
+ * @typedef configTC
+ * @prop {}
 */
-/** ### YConfigTE
- * - Тип `TE`
- * 
- * Параметр наследования `YConfig`.
- * 
- * @typedef {Omit<DConfig, keyof SConfig>} YConfigTE
-*/
-/** ### YConfigTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YConfig`.
- * 
- * @typedef YConfigTU
- * @prop {} _
-*/
-/** ### YConfigTUG
- * - Тип `TUP`
- * 
- * Уникальные генеративные параметры `YConfig`.
- * 
- * @typedef YConfigTUG
- * @prop {null} _
-*/
+
+/** @typedef {import('./module.mjs').configT&configTC} configT */
 
 //#endregion
 
-class SConfig extends Y {
-
+/**
+ * ### YConfig
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @template Y1,Y2
+ * 
+*/
+export class YConfig extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+            .setClass(configY)
+        
+    };
+    
     /**
      * ### stock
      * 
@@ -68,207 +66,145 @@ class SConfig extends Y {
      * @public
     */
     static config = config;
-
+    
     /**
      * @arg {...YConfig} args `Аргументы`
      * @returns {YConfig[]}
     */
     static create(...args) {
-
-        return Object.getPrototypeOf(SConfig).create.apply(this, args);
-
+        
+        return super.create(...args);
+        
     };
-
-};
-/**
- * @template Y1
- * @template Y2
-*/
-class DConfig extends SConfig {
-
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YConfig)?}
+     * @template {YConfig} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
+        
+    };
+    
+    //#endregion
+    //#region field
+    
     /**
      * ### value
      * 
      * Значение.
      * 
      * *** 
-     * @type {Y1&Y2}
+     * @type {Y1&Y2['params']}
      * @field
      * @public
     */
-    value;
-
-};
-/**
- * @extends DConfig<Y1,Y2>
- * @template Y1,Y2
-*/
-class IConfig extends DConfig {
-
-
-
-};
-/**
- * @extends IConfig<Y1,Y2>
- * @template Y1,Y2
-*/
-class MConfig extends IConfig {
-
-
-
-};
-/**
- * @extends MConfig<Y1,Y2>
- * @template Y1,Y2
-*/
-class FConfig extends MConfig {
-
+    params;
+    
+    //#endregion
+    //#region method
+    
     /**
-     * ### YConfig.constructor
+     * @method
+     * @public
+     * @override
+    */
+    getClass() {
+        
+        return YConfig;
+        
+    };
+    
+    
+    //#endregion
+    
+    /**
+     * ### YConfigConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
      * 
      * 
      * 
      * ***
-     * @arg {YConfigT&G} args
+     * @arg {Y1} conf1
+     * @arg {Y2} conf2
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
     */
-    constructor(args) {
-
-        super(args = FConfig.#before(args = arguments));
-
-        FConfig.#deceit.apply(this, [args]);
-
-    };
-
-    /** @arg {DConfig} args */
-    static #before(args) {
-
-        return { value: args[0], prototype: args[1] }
-
-    };
-    /** @arg {YArg<IConfig>} args @this {YConfig} */
-    static #deceit(args) {
-
+    constructor(conf1, conf2) {
+        
         try {
 
-            FConfig.#verify.apply(this, arguments);
+            //#region before
 
-        } catch (e) {
+            super();
 
-            if (config?.strictMode) {
+            let args = {
 
-                throw e;
+                value: conf1,
+                prototype: conf2,
 
             };
 
-            return new YConfig();
+            //#endregion
+            //#region verify
+
+
+
+            //#endregion
+            //#region handle
+
+
+
+            //#endregion
+            //#region comply
+
+            this
+
+                .do(self => {
+
+                    self.params = conf1;
+
+                    if (self.params && args.prototype) {
+
+                        Object.setPrototypeOf(self.params, args.prototype instanceof YConfig ? args.prototype.params : args.prototype);
+
+                    };
+
+                });
+
+            //#endregion
+
+        } catch (err) {
+
+            if (config.params.strictMode) {
+
+                throw err;
+
+            };
 
         } finally {
 
 
 
         };
-
+        
     };
-    /** @arg {YArg<IConfig>} args @this {YConfig} */
-    static #verify(args) {
-
-        const {
-
-
-
-        } = args;
-
-        FConfig.#handle.apply(this, arguments);
-
-    };
-    /** @arg {YArg<IConfig>} args @this {YConfig} */
-    static #handle(args) {
-
-
-
-        FConfig.#create.apply(this, arguments);
-
-    };
-    /** @arg {YArg<IConfig>} args @this {YConfig} */
-    static #create(args) {
-
-        const {
-
-
-
-        } = args;
-
-        this
-
-            .adopt(args)
-            .do(self => {
-
-                if (self.value && args.prototype) {
-
-                    Object.setPrototypeOf(self.value, args.prototype instanceof YConfig ? args.prototype.value : args.prototype);
-
-                };
-
-            })
-
-    };
-
+    
 };
-
-/**
- * ### YConfig
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YConfig`.
- * 
- * ***
- * @class
- * @extends FConfig<YConfigTUG&Y1,Y2>
- * @template Y1
- * @template Y2
- * 
-*/
-export class YConfig extends FConfig {
-
-    /**
-     * @arg {Y1} config
-     * @arg {Y2} prototype
-    */
-    constructor(config, prototype) { super(...arguments); };
-
-    /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * @method
-     * @public
-     * @returns {typeof YConfig}
-    */
-    getClass() {
-
-        return YConfig;
-
-    };
-
-};
-
-//#region YE
-
-YConfig
-
-    .appendModule(YConfig)
-    .becomePrototype(config);
-
-//#endregion
 
 /**
  * @file config/class.mjs

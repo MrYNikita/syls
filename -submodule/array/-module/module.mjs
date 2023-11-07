@@ -14,8 +14,8 @@ import { numberGetRandomReal } from '@syls/number';
  * Основной параметр модуля `array`.
  * 
  * @typedef arrayT
- * @prop {any} _
- * 
+ * @prop {any[]} array
+ * @prop {number} count
 */
 
 //#endregion
@@ -87,7 +87,7 @@ function to(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -207,7 +207,7 @@ function toClass(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -321,7 +321,7 @@ function get(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -415,7 +415,7 @@ function getOut(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -530,7 +530,7 @@ function set(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -637,7 +637,7 @@ function mix(args) {
 
         //#endregion
         //#region comply
-
+        
         for (; iter > 0; iter--) {
 
             for (let count = 0; count < result.length; count++) {
@@ -655,7 +655,7 @@ function mix(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -795,7 +795,7 @@ function pad(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -925,7 +925,7 @@ function move(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1049,7 +1049,7 @@ function swap(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1174,7 +1174,7 @@ function swapByElem(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1288,7 +1288,7 @@ function paste(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1400,7 +1400,7 @@ function clear(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -1459,6 +1459,104 @@ export function arrayClearNew(array) {
 };
 
 //#endregion
+//#region devideByCount
+
+/**
+ * ### devideByCount
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @typedef devideByCountT
+ * @prop {} _
+ * ***
+ * @arg {arrayT&devideByCountT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function devideByCount(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            array,
+            count,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = new Array(Math.ceil(array.length / count)).fill(0);
+
+        for (const index in result) result[+index] = [];
+
+        for (let index = 0; index < array.length; index++) result[Math.floor(index / count)].push(array[index]); 
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### arrayDevideByCount
+ * - Тип `S`
+ * - Версия `1.0.0`
+ * ***
+ * 
+ * Функция разделения массива на подмассивы по указанному количеству элементов.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {arrayT['count']} count `Счётчик`
+ * @returns {Y1}
+ * @template {any[]} Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function arrayDevideByCount(array, count) {
+
+    return devideByCount({ array, count, });
+
+};
+
+//#endregion
 //#region create
 
 /**
@@ -1508,7 +1606,7 @@ function create(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -1617,7 +1715,7 @@ function select(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -1720,7 +1818,7 @@ function append(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1834,7 +1932,7 @@ function remove(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1953,7 +2051,7 @@ function unique(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -2086,7 +2184,7 @@ function convey(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -2217,7 +2315,7 @@ function repeat(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -2327,7 +2425,7 @@ function extract(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -2466,7 +2564,7 @@ function foreach(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -2587,7 +2685,7 @@ function compress(args) {
         
     } catch (err) {
         
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
             
             throw err;
             
@@ -2699,7 +2797,7 @@ function rearrange(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 

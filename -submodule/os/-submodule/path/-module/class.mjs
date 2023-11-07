@@ -168,7 +168,7 @@ export class YPath extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(this).create.apply(this, args);
+        return super.create(...args);
         
     };
     /**
@@ -179,9 +179,9 @@ export class YPath extends Y {
      * @returns {(Y1&Y1)?}
      * @template {YPath} Y1
     */
-    static becomePrototype(value) {
+    static setClass(value) {
         
-        return Object.getPrototypeOf(this).becomePrototype.apply(this, [value]);
+        return super.setClass(value);
         
     };
     
@@ -486,7 +486,7 @@ export class YPath extends Y {
             
         } catch (err) {
             
-            if (config.value.strictMode) {
+            if (config.params.strictMode) {
                 
                 throw err;
                 

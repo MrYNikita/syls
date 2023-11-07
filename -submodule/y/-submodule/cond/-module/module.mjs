@@ -6,34 +6,20 @@ import { configCond as config } from './config.mjs';
 //#region YT
 
 /** ### condT
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Основной параметр модуля `cond`.
- *
+ * 
+ * Типы модуля `cond`.
+ * 
  * @typedef condT
- * @prop {} _
- *
-*/
-/** ### condTValue
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- *
- *
- * @typedef condTValue
- * @prop {any} value
- *
-*/
-/** ### condTValues
- * - Тип `T`
- * 
- * 
- * 
- * @typedef condTValues
- * @prop {any[]} values
+ * @prop {boolean} bool
+ * @prop {any} ject
+ * @prop {number} number
+ * @prop {string} string
+ * @prop {function} func
+ * @prop {any[]} jects
+ * @prop {number[]} numbers
+ * @prop {string[]} strings
+ * @prop {boolean[]} bools
+ * @prop {function[]} funcs
  * 
 */
 
@@ -44,925 +30,854 @@ import { configCond as config } from './config.mjs';
 
 //#endregion
 
-//#region isType 0.0.1
-
-/** ### condTFIsType
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- * ***
- *
- * Результирующие параметры функции `isType`.
- *
- * @typedef {condTFUIsType&condT&condTValue} condTFIsType
- *
-*/
-/** ### condTFUIsType
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isType`.
- *
- * @typedef condTFUIsType
- * @prop {} type
-*/
-
-/** @arg {condTFIsType} t */
-function isTypeDeceit(t) {
-
-    try {
-
-        return isTypeVerify(t);
-
-    } catch (e) {
-
-        if (config?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {condTFIsType} t */
-function isTypeVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isTypeHandle(t);
-
-};
-/** @arg {condTFIsType} t */
-function isTypeHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isTypeComply(t);
-
-};
-/** @arg {condTFIsType} t */
-function isTypeComply(t) {
-
-    const {
-
-        type,
-        value,
-
-    } = t;
-
-    if (value?.constructor === type) {
-
-        return true;
-
-    } else {
-
-        return false;
-
-    };
-
-};
+//#region isBool
 
 /**
- * ### condIsType
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
+ * ### isBool
+ * 
+ * 
+ * 
  * ***
- *
- * Функция проверки значения на принадлежность к указанному типу.
- *
- * ***
- * @arg value `Значение`
- * @arg {G} type `Тип`
- * @template G
-*/
-export function condIsType(value, type) {
-
-    return isTypeDeceit({ value, type, });
-
-};
-
-//#endregion
-//#region isBool 0.0.1
-
-/** ### condTFIsBool
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- * ***
- *
- * Результирующие параметры функции `isBool`.
- *
- * @typedef {condTFUIsBool&condT&condTValue} condTFIsBool
- *
-*/
-/** ### condTFUIsBool
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isBool`.
- *
- * @typedef condTFUIsBool
+ * @typedef isBoolT
  * @prop {} _
+ * ***
+ * @arg {condT&isBoolT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-
-/** @arg {condTFIsBool} t */
-function isBoolDeceit(t) {
-
+function isBool(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            bools,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const bool of bools) {
 
-        return isBoolVerify(t);
+            if (typeof bool === 'boolean') continue;
 
-    } catch (e) {
+            result = false;
 
-        if (config?.strictMode) {
-
-            throw e;
+            break;
 
         };
-
-        return undefined;
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {condTFIsBool} t */
-function isBoolVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isBoolHandle(t);
-
-};
-/** @arg {condTFIsBool} t */
-function isBoolHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isBoolComply(t);
-
-};
-/** @arg {condTFIsBool} t */
-function isBoolComply(t) {
-
-    const {
-
-        values,
-
-    } = t;
-
-    for (const value of values) {
-
-        if (value?.constructor !== Boolean) {
-
-            return false;
-
-        };
-
-    };
-
-    return true;
-
+    
+    return result;
+    
 };
 
 /**
  * ### condIsBool
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
+ * 
+ * Функция проверки указанных значений на принадлежность к логическим значениям.
+ * 
  * ***
- *
- * Функция проверки значений на принадлежнсоть к логическим значениям.
- *
+ * @arg {...condT['bool']} bools `Логические значения`
+ * 
+ * 
  * ***
- * @arg {...any} values
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function condIsBool(...values) {
+export function condIsBool(...bools) {
 
-    return isBoolDeceit({ values });
+    return isBool({ bools, });
 
 };
 
 //#endregion
-//#region isMany 0.0.1
+//#region isFunc
 
-/** ### condTFIsMany
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
+/**
+ * ### isFunc
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `isMany`.
- *
- * @typedef {condTFUIsMany&condT&condTValues} condTFIsMany
- *
+ * @typedef isFuncT
+ * @prop {} _
+ * ***
+ * @arg {condT&isFuncT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### condTFUIsMany
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isMany`.
- *
- * @typedef condTFUIsMany
- * @prop {any} _
-*/
-
-/** @arg {condTFIsMany} t */
-function isManyDeceit(t) {
-
+function isFunc(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            funcs,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const func of funcs) {
 
-        return isManyVerify(t);
+            if (typeof func === 'function') continue;
 
-    } catch (e) {
+            result = false;
 
-        if (config?.strictMode) {
-
-            throw e;
+            break;
 
         };
-
-        return undefined;
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {condTFIsMany} t */
-function isManyVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isManyHandle(t);
-
-};
-/** @arg {condTFIsMany} t */
-function isManyHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isManyComply(t);
-
-};
-/** @arg {condTFIsMany} t */
-function isManyComply(t) {
-
-    const {
-
-        values,
-
-    } = t;
-
-    for (const value of values) {
-
-        if (![Set, Map, YMany, Array, String].some(type => value?.constructor === type || value instanceof type)) {
-
-            return false;
-
-        };
-
-    };
-
-    return true;
-
+    
+    return result;
+    
 };
 
 /**
- * ### condIsMany
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
+ * ### condIsFunc
+ * 
+ * Функция проверки указанных значений на принадлежность к функциям.
+ * 
  * ***
- *
- * Функция проверки значений на принадлежность ко множествам.
- *
- * Ко множествам относятся:
- * - Set;
- * - Map;
- * - YMany;
- * - Array;
- * - String;
- * - Наследуемые от них элементы;
- *
+ * @arg {...condT['func']} funcs `Функции`
+ * 
+ * 
  * ***
- * @arg values `Значения`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function condIsMany(...values) {
+export function condIsFunc(...funcs) {
 
-    return isManyDeceit({ values });
+    return isFunc({ funcs, });
 
 };
 
 //#endregion
+//#region isJect
 
-//#region isString 0.0.1
-
-/** ### condTFIsString
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
+/**
+ * ### isJect
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `isString`.
- *
- * @typedef {condTFUIsString&condT&condTValues} condTFIsString
- *
-*/
-/** ### condTFUIsString
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isString`.
- *
- * @typedef condTFUIsString
+ * @typedef isJectT
  * @prop {} _
+ * ***
+ * @arg {condT&isJectT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-
-/** @arg {condTFIsString} t */
-function isStringDeceit(t) {
-
+function isJect(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+           jects, 
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const ject of jects) {
 
-        return isStringVerify(t);
+            if (typeof ject === 'object') continue;
 
-    } catch (e) {
+            result = false;
 
-        if (config?.strictMode) {
-
-            throw e;
+            break;
 
         };
-
-        return undefined;
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsJect
+ * 
+ * Функция проверки указанных значений на принадлежность к объектам.
+ * 
+ * ***
+ * @arg {...condT['ject']} jects `Объекты`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsJect(...jects) {
+
+    return isJect({ jects, });
 
 };
-/** @arg {condTFIsString} t */
-function isStringVerify(t) {
 
-    const {
+//#endregion
+//#region isString
 
+/**
+ * ### isString
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isStringT
+ * @prop {} _
+ * ***
+ * @arg {condT&isStringT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isString(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            strings,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const string of strings) {
 
+            if (typeof string === 'string') continue;
 
-    } = t;
+            result = false;
 
-    return isStringHandle(t);
-
-};
-/** @arg {condTFIsString} t */
-function isStringHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isStringComply(t);
-
-};
-/** @arg {condTFIsString} t */
-function isStringComply(t) {
-
-    const {
-
-        values,
-
-    } = t;
-
-    for (const value of values) {
-
-        if (!condIsType(value, String)) {
-
-            return false;
+            break;
 
         };
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
     };
-
-    return true;
-
+    
+    return result;
+    
 };
 
 /**
  * ### condIsString
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
+ * 
+ * Функция проверки указанных значений на принадлежность к строкам.
+ * 
  * ***
- *
- * Функция проверки значений на принадлежность к строке.
- *
+ * @arg {...condT['string']} strings `Строки`
+ * 
+ * 
  * ***
- * @arg {...any} values `Значения`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function condIsString(...values) {
+export function condIsString(...strings) {
 
-    return isStringDeceit({ values, });
+    return isString({ strings, });
 
 };
 
 //#endregion
-//#region isStringValid 0.0.1
-
-/** ### condTFIsStringValid
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- * ***
- *
- * Результирующие параметры функции `isStringValid`.
- *
- * @typedef {condTFUIsStringValid&condT&condTValues} condTFIsStringValid
- *
-*/
-/** ### condTFUIsStringValid
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isStringValid`.
- *
- * @typedef condTFUIsStringValid
- * @prop {} _
-*/
-
-/** @arg {condTFIsStringValid} t */
-function isStringValidDeceit(t) {
-
-    try {
-
-        return isStringValidVerify(t);
-
-    } catch (e) {
-
-        if (config?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {condTFIsStringValid} t */
-function isStringValidVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isStringValidHandle(t);
-
-};
-/** @arg {condTFIsStringValid} t */
-function isStringValidHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isStringValidComply(t);
-
-};
-/** @arg {condTFIsStringValid} t */
-function isStringValidComply(t) {
-
-    const {
-
-        values,
-
-    } = t;
-
-    for (const value of values) {
-
-        if (!(condIsString(value) && value !== '')) {
-
-            return false;
-
-        };
-
-    };
-
-    return true;
-
-};
+//#region isStringSig
 
 /**
- * ### condIsStringValid
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
+ * ### isStringSig
+ * 
+ * 
+ * 
  * ***
- *
- * Функция проверки значений на принадлежнсоть к валидным строкам.
- *
- * ***
- * @arg {...any} values `Значения`
-*/
-export function condIsStringValid(...values) {
-
-    return isStringValidDeceit({ values });
-
-};
-
-//#endregion
-
-//#region isFloat 0.0.1
-
-/** ### condTFIsFloat
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- * ***
- *
- * Результирующие параметры функции `isFloat`.
- *
- * @typedef {condTFUIsFloat&condT&condTValues} condTFIsFloat
- *
-*/
-/** ### condTFUIsFloat
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isFloat`.
- *
- * @typedef condTFUIsFloat
+ * @typedef isStringSigT
  * @prop {} _
-*/
-
-/** @arg {condTFIsFloat} t */
-function isFloatDeceit(t) {
-
-    try {
-
-        return isFloatVerify(t);
-
-    } catch (e) {
-
-        if (config?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {condTFIsFloat} t */
-function isFloatVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isFloatHandle(t);
-
-};
-/** @arg {condTFIsFloat} t */
-function isFloatHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isFloatComply(t);
-
-};
-/** @arg {condTFIsFloat} t */
-function isFloatComply(t) {
-
-    const {
-
-        values,
-
-    } = t;
-
-    for (const value of values) {
-
-        if (!(condIsNumber(value) && value % 1 !== 0)) {
-
-            return false;
-
-        };
-
-    };
-
-    return true;
-
-};
-
-/**
- * ### condIsFloat
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
  * ***
- *
- * Функция для проверки значениий на принадлежность к дробным числам.
- *
- * ***
- * @arg {...any} values `Значения`
+ * @arg {condT&isStringSigT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function condIsFloat(values) {
-
-    return isFloatDeceit({ values });
-
-};
-
-//#endregion
-//#region isNumber 0.0.1
-
-/** ### condTFIsNumber
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- * ***
- *
- * Результирующие параметры функции `isNumber`.
- *
- * @typedef {condTFUIsNumber&condT&condTValues} condTFIsNumber
- *
-*/
-/** ### condTFUIsNumber
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isNumber`.
- *
- * @typedef condTFUIsNumber
- * @prop {} _
-*/
-
-/** @arg {condTFIsNumber} t */
-function isNumberDeceit(t) {
-
-    try {
-
-        return isNumberVerify(t);
-
-    } catch (e) {
-
-        if (config?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {condTFIsNumber} t */
-function isNumberVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isNumberHandle(t);
-
-};
-/** @arg {condTFIsNumber} t */
-function isNumberHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isNumberComply(t);
-
-};
-/** @arg {condTFIsNumber} t */
-function isNumberComply(t) {
-
-    const {
-
-        values,
-
-    } = t;
-
-    for (const value of values) {
-
-        if (!((value && condIsType(value, Number)) || value === 0)) {
-
-            return false;
+function isStringSig(args) {
     
+    let result;
+    
+    try {
+        
+        let {
+            
+            strings,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const string of strings) {
+
+            if (condIsString(string) && string !== '') continue;
+
+            result = false;
+
+            break;
+
         };
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
     };
+    
+    return result;
+    
+};
 
-    return true;
+/**
+ * ### condIsStringSig
+ * 
+ * Функция проверки указанных значений на принадлежность к значимым строкам.
+ * 
+ * Значимыми строками считаются строки отличные от \`\`.
+ * 
+ * ***
+ * @arg {...condT['string']} strings `Строки`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsStringSig(...strings) {
 
+    return isStringSig({ strings, });
+
+};
+
+//#endregion
+//#region isStringSem
+
+/**
+ * ### isStringSem
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isStringSemT
+ * @prop {} _
+ * ***
+ * @arg {condT&isStringSemT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isStringSem(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            strings,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const string of strings) {
+
+            if (condIsStringSig(string) && string.match(/[^ \n]/msi)) continue;
+
+            result = false;
+
+            break;
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsStringSem
+ * 
+ * Функция проверки указанных значений на принадлежность к смысловым строкам.
+ * 
+ * Смысловой считается строка, которая содержит какую-либо информацию.
+ * 
+ * ***
+ * @arg {...condT['string']} strings `Строки`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsStringSem(...strings) {
+
+    return isStringSem({ strings, });
+
+};
+
+//#endregion
+//#region isNumber
+
+/**
+ * ### isNumber
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isNumberT
+ * @prop {} _
+ * ***
+ * @arg {condT&isNumberT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isNumber(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            numbers,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const number of numbers) {
+
+            if (typeof number === 'number') continue;
+
+            result = false;
+
+            break;
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
 };
 
 /**
  * ### condIsNumber
- * - Версия `0.0.1`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
- * ***
- *
+ * 
  * Функция проверки указанных значений на принадлежность к числам.
- *
+ * 
  * ***
- * @arg {...any} values `Значения`
+ * @arg {...condT['number']} numbers `Числа`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function condIsNumber(...values) {
+export function condIsNumber(...numbers) {
 
-    return isNumberDeceit({ values });
+    return isNumber({ numbers, });
 
 };
 
 //#endregion
-//#region isNumberLimit 0.0.1
+//#region isNumberSig
 
-/** ### condTFIsNumberLimit
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
+/**
+ * ### isNumberSig
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `isNumberLimit`.
- *
- * @typedef {condTFUIsNumberLimit&condT&condTValues} condTFIsNumberLimit
- *
-*/
-/** ### condTFUIsNumberLimit
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `bool\cond`
- *
- * Уникальные параметры функции `isNumberLimit`.
- *
- * @typedef condTFUIsNumberLimit
+ * @typedef isNumberSigT
  * @prop {} _
+ * ***
+ * @arg {condT&isNumberSigT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-
-/** @arg {condTFIsNumberLimit} t */
-function isNumberLimitDeceit(t) {
-
+function isNumberSig(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            numbers,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const number of numbers) {
 
-        return isNumberLimitVerify(t);
+            if (condIsNumber(number) && !isNaN(number)) continue;
 
-    } catch (e) {
+            result = false;
 
-        if (config?.strictMode) {
-
-            throw e;
+            break;
 
         };
-
-        return undefined;
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {condTFIsNumberLimit} t */
-function isNumberLimitVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isNumberLimitHandle(t);
-
-};
-/** @arg {condTFIsNumberLimit} t */
-function isNumberLimitHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return isNumberLimitComply(t);
-
-};
-/** @arg {condTFIsNumberLimit} t */
-function isNumberLimitComply(t) {
-
-    const {
-
-        values,
-
-    } = t;
-
-    for (const value of values) {
-
-        if (!(condIsNumber(value) && Math.abs(value) !== Infinity)) {
-
-            return false;
-
-        };
-
-    };
-
-    return true;
-
+    
+    return result;
+    
 };
 
 /**
- * ### condIsNumberLimit
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `bool\cond`
+ * ### condIsNumberSig
+ * 
+ * Функция проверки указанных значений на принадлежность к значимым числам.
+ * 
+ * Значимыми числами считаются числа отличные от `NaN`.
+ * 
  * ***
- *
- * Функция проверки значений на принадлежность к конечным числам, отличным от бесконечности.
- *
+ * @arg {...condT['number']} numbers `Числа`
+ * 
+ * 
  * ***
- * @arg {...any} values `Значения`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function condIsNumberLimit(...values) {
+export function condIsNumberSig(...numbers) {
 
-    return isNumberLimitDeceit({ values });
+    return isNumberSig({ numbers, });
+
+};
+
+//#endregion
+//#region isNumberInt
+
+/**
+ * ### isNumberInt
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isNumberIntT
+ * @prop {} _
+ * ***
+ * @arg {condT&isNumberIntT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isNumberInt(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            numbers,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        result = true;
+        
+        //#endregion
+        //#region comply
+        
+        for (const number of numbers) {
+
+            if (condIsNumberSig(number) && number % 1 === 0) continue;
+
+            result = false;
+
+            break;
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsNumberInt
+ * 
+ * Функция проверки указанных значений на принадлежность к целым числам.
+ * 
+ * ***
+ * @arg {...condT['number']} numbers `Числа`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsNumberInt(...numbers) {
+
+    return isNumberInt({ numbers, });
 
 };
 

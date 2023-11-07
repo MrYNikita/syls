@@ -294,7 +294,7 @@ async function request(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 

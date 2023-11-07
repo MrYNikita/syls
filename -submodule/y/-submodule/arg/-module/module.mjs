@@ -1,6 +1,5 @@
 //#region YI
 
-import { condIsNumber } from '../../cond/-module/module.mjs';
 import { configArg as config } from './config.mjs';
 
 //#endregion
@@ -13,7 +12,7 @@ import { configArg as config } from './config.mjs';
  * Основной параметр модуля `arg`.
  * 
  * @typedef argT
- * @prop {any} _
+ * @prop {}
  * 
 */
 /** ### argTArg
@@ -211,7 +210,7 @@ function classifyComply(t) {
 
             if (segment) {
 
-                segment.push([condIsNumber(+index) ? null : index, value]);
+                segment.push([typeof +index === 'number' ? null : index, value]);
 
             };
 

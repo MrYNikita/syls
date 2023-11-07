@@ -1,9 +1,10 @@
 //#region YI
 
-import { Y, yClassifyProp } from '@syls/y';
+import { Y } from '@syls/y';
 import { YCursor } from '../../cursor/-module/class.mjs';
 import { YMany } from '../../../-module/class.mjs';
 import { configCursorContoller as config } from './config.mjs';
+import { argClassify } from '../../../../arg/-module/module.mjs';
 
 //#endregion
 //#region YT
@@ -155,8 +156,6 @@ class FCursorContoller extends MCursorContoller {
             t = [...t[0]._ytp];
         
         };
-
-        const arg = yClassifyProp(t);
         
         if (!Object.values(r).length) {
             
@@ -442,7 +441,7 @@ export class YCursorContoller extends FCursorContoller {
     */
     selectByIndex(index = 0) {
 
-        const args = yClassifyProp(arguments);
+        const args = argClassify(arguments);
         const result = [];
 
         let count = 0;

@@ -1,9 +1,10 @@
 {
     "include": [
         "./**/*",
-        "./-submodule/**/*",
-        "./.scripts/**/*",
+        "./.apps/**/*",
         "./.games/**/*",
+        "./.scripts/**/*",
+        "./-submodule/**/*",
     ],
     "typeAcquisition": {
         "include": [
@@ -12,9 +13,9 @@
     },
     "compilerOptions": {
         "outDir": ".build",
-        "rootDir": "./",
         "target": "ES2022",
         "module": "NodeNext",
+        "rootDir": "./",
         "esModuleInterop": true,
         "moduleResolution": "NodeNext",
         "resolveJsonModule": true,

@@ -1,8 +1,10 @@
 //#region YI
 
-import { Y, yClassifyProp } from '@syls/y';
+import { Y } from '@syls/y';
 import { configCursor as config } from './config.mjs';
 import { YArg } from '../../../../arg/-module/class.mjs';
+import { YMany } from '../../../-module/class.mjs';
+import { argClassify } from '../../../../arg/-module/module.mjs';
 
 //#endregion
 //#region YT
@@ -335,7 +337,7 @@ export class YCursor extends FCursor {
 
         };
 
-        const arg = yClassifyProp(arguments);
+        const arg = argClassify(arguments);
 
         if (arg.array.length) {
 
@@ -518,7 +520,7 @@ export class YCursor extends FCursor {
 // import { YMany } from '../../../-module/class.mjs';
 // import { condIsString } from '../../../../cond/-module/module.mjs';
 
-// /** @type {import('./config.mjs')['default']['value']?} */
+// /** @type {import('./config.mjs')['default']['params']?} */
 // let config = null;
 
 // await import('./config.mjs')

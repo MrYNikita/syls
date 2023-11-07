@@ -1,7 +1,8 @@
 import { YConfig } from "../../config/-module/export.mjs";
 import configY from "../../../-module/config.mjs";
+import { YBlock } from "../-submodule/block/-module/class.mjs";
 
-/** @type {configY} */
+/** @type {configY['params']} */
 const config = {
     
     
@@ -15,8 +16,39 @@ const config = {
  * ***
  * @public
 */
-export const configRept = new YConfig(Object.assign(config, {
+export const configRept = new YConfig({
     
+    ...config,
+
+    /**
+     * ### blocks
+     * 
+     * 
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {YBlock[]}
+     * @public
+     * @property
+    */
+    blocks: [
+
+        new YBlock({
+            
+            tags: ['system'],
+            label: 'general',
+            title: 'Сведения',
+            points: [
+
+                target => ` * ID: ${target._y.id};`,
+                target => ` * Дата: ${target._y.date.value};`,
+                target => ` * Класс: ${target.getClass().name};`,
+
+            ],
+        
+        })
+
+    ],
     /**
      * ### blocksDefault
      * 
@@ -44,7 +76,7 @@ export const configRept = new YConfig(Object.assign(config, {
     */
     iterateDefault: 0,
     
-}), configY);
+}, configY);
 
 export default configRept;
 

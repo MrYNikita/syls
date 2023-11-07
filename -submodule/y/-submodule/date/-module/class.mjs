@@ -1,94 +1,106 @@
 //#region YI
 
-import { Y, yClassifyProp } from '@syls/y';
-import { dateChange, dateGetMesuares, } from './export.mjs';
-
-/** @type {import('./config.mjs')['default']['value']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default?.value ? c.default.value : c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(e => error = e.default)
-    .catch(e => e);
+import { Y } from "../../../-module/class.mjs";
+import { YArg } from "../../arg/-module/export.mjs";
+import { configDate as config } from "./config.mjs";
+import { dateDrop, dateFlow, dateGet, dateGetMesuares } from "./module.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YDateT
- * - Тип `T`
- * 
- * Основной параметр модуля `YDate`.
- * 
- * @typedef {YDateTE&YDateTU&Y} YDateT
- * 
+/** ### dateTC
+ * @typedef dateTC
+ * @prop {}
 */
-/** ### YDateTE
- * - Тип `TE`
- * 
- * Параметр наследования `YDate`.
- * 
- * @typedef {Omit<DDate, keyof SDate>} YDateTE
- * 
-*/
-/** ### YDateTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YDate`.
- * 
- * @typedef YDateTU
- * @prop {any} _
- * 
-*/
+
+/** @typedef {import('./module.mjs').dateT&dateTC} dateT */
 
 //#endregion
 
-class SDate extends Y {
-    
-    /** ### stock
+/**
+ * ### YDate
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YDate extends Y {
+
+    //#region static
+
+    static {
+
+        this
+
+            .appendModule(this)
+
+    };
+
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
      * @type {YDate[]}
+     * @field
+     * @static
      * @public
     */
     static stock = [];
-    /** ### config
+    /**
+     * ### config
+     * 
+     * 
      * 
      * ***
+     * @field
+     * @static
      * @public
     */
     static config = config;
-    
+
     /**
      * @arg {...YDate} args `Аргументы`
      * @returns {YDate[]}
     */
     static create(...args) {
-        
-        return Object.getPrototypeOf(SDate).create.apply(this, [...args]);
-        
+
+        return super.create(...args);
+
     };
-    
-};
-class DDate extends SDate {
-    
-    
-    
-};
-class IDate extends DDate {
-    
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YDate)?}
+     * @template {YDate} Y1
+    */
+    static setClass(value) {
+
+        return super.setClass(value);
+
+    };
+
+    //#endregion
+    //#region field
+
     /**
      * ### value
      * 
      * Значение.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {Date}
+     * @field
      * @protected
     */
     value;
@@ -98,511 +110,740 @@ class IDate extends DDate {
      * Значение сброса.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {Date}
+     * @field
      * @protected
     */
     valueDrop;
-    
-};
-class MDate extends IDate {
-    
-    
-    
-};
-class FDate extends MDate {
-    
+
+    //#endregion
+    //#region method
+
     /**
-     * ### YDate.constructor
+     * @method
+     * @public
+     * @override
+    */
+    getClass() {
+
+        return YDate;
+
+    };
+
+    /**
+     * ### get
      * 
+     * Метод получения текущего значения даты.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {Date|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    get() {
+        
+        return this.value ?? null;
+        
+    };
+    /**
+     * ### getDay
+     * 
+     * Метод получения дня.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {number|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getDay() {
+        
+        return this.value?.getDate?.() ?? null;
+        
+    };
+    /**
+     * ### getHour
+     * 
+     * Метод получения часа.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {number|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getHour() {
+        
+        return this.value?.getHours?.() ?? null;
+        
+    };
+    /**
+     * ### getYear
+     * 
+     * Метод получения года.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {number|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getYear() {
+        
+        return this.value?.getFullYear?.() ?? null;
+        
+    };
+    /**
+     * ### getMonth
+     * 
+     * Метод получения месяца.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {number|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getMonth() {
+        
+        return (this.value?.getMonth?.() + 1) ?? null;
+        
+    };
+    /**
+     * ### getMinute
+     * 
+     * Метод получения минуты.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {number|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getMinute() {
+        
+        return this.value?.getMinutes?.() ?? null;
+        
+    };
+    /**
+     * ### getSecond
+     * 
+     * Метод получения секунды.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {number|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getSecond() {
+        
+        return this.value?.getSeconds?.() ?? null;
+        
+    };
+    /**
+     * ### getMilisecond
+     * 
+     * Метод получения милисекунды.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {number|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getMilisecond() {
+        
+        return this.value?.getMilliseconds?.() ?? null;
+        
+    };
+    /**
+     * ### getMesuares
+     * 
+     * Метод получения велечин текущей даты от большей к меньшей.
+     * 
+     * ***
+     * 
+     * 
+     * @returns {number[]|null}
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getMesuares() {
+        
+        return dateGetMesuares(this.value) ?? null;
+        
+    };
+    /**
+     * ### set
+     * 
+     * Метод установки значения даты.
+     * 
+     * ***
+     * @arg {dateT['day']} day `День`
+     * @arg {dateT['date']} date `Дата`
+     * @arg {dateT['year']} year `Год`
+     * @arg {dateT['hour']} hour `Час`
+     * @arg {dateT['month']} month `Месяц`
+     * @arg {dateT['second']} second `Секунда`
+     * @arg {dateT['minute']} minute `Минута`
+     * @arg {dateT['milisecond']} milisecond `Милисекунда`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    set(year, month, day, hour, minute, second, milisecond) {
+        
+        this.value = dateGet(year, month, day, hour, minute, second, milisecond);
+
+        return this;
+        
+    };
+    /**
+     * ### setDay
+     * 
+     * Метод установки дня.
+     * 
+     * ***
+     * @arg {dateT['day']} day `День`
      * 
      * 
      * ***
-     * @arg {YDateT} t
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
     */
-    constructor(t) {
+    setDay(day) {
         
-        t = [...arguments];
-        
-        super(Object.assign(t = FDate.#before(t), {}));
-        
-        FDate.#deceit.apply(this, [t]);
-        
-        return this.correlate();
+        const mesuares = dateGetMesuares(this.value);
+
+        mesuares[2] = day;
+
+        this.value = dateGet(...mesuares);
+
+        return this;
         
     };
-    
-    /** @arg {any[]} t */
-    static #before(t) {
+    /**
+     * ### setHour
+     * 
+     * Метод установки часа.
+     * 
+     * ***
+     * @arg {dateT['hour']} hour `Час`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setHour(hour) {
         
-        /** @type {YDateT} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YDate].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (!t.length) {
-            
-            return r;
-            
-        };
-        
-        if (t[0]?._ytp) {
-        
-            t = [...t[0]._ytp];
-        
-        };
-        
-        const arg = yClassifyProp(t);
-        
-        r.value = arg.date[0];
-        r.valueDrop = arg.date[1];
+        const mesuares = dateGetMesuares(this.value);
 
-        
-        if (!Object.values(r).length) {
-            
-            r = { _ytp: t, };
-            
-        };
-        
-        return r;
+        mesuares[3] = hour;
+
+        this.value = dateGet(...mesuares);
+
+        return this;
         
     };
-    /** @arg {YDateT} t @this {YDate} */
-    static #deceit(t) {
+    /**
+     * ### setYear
+     * 
+     * Метод установки года.
+     * 
+     * ***
+     * @arg {dateT['year']} year `Год`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setYear(year) {
         
-        try {
-            
-            FDate.#verify.apply(this, [t]);
-            
-        } catch (e) {
-            
-            throw e;
-            
-        } finally {
-            
-            
-            
-        };
+        const mesuares = dateGetMesuares(this.value);
+
+        mesuares[0] = year;
+
+        this.value = dateGet(...mesuares);
+
+        return this;
         
     };
-    /** @arg {YDateT} t @this {YDate} */
-    static #verify(t) {
+    /**
+     * ### setMonth
+     * 
+     * Метод установки месяца.
+     * 
+     * ***
+     * @arg {dateT['month']} month `Месяц`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setMonth(month) {
         
-        const {
-            
-            
-            
-        } = t;
-        
-        FDate.#handle.apply(this, [t]);
+        const mesuares = dateGetMesuares(this.value);
+
+        mesuares[1] = month;
+
+        this.value = dateGet(...mesuares);
+
+        return this;
         
     };
-    /** @arg {YDateT} t @this {YDate} */
-    static #handle(t) {
+    /**
+     * ### setMinute
+     * 
+     * Метод установки минуты.
+     * 
+     * ***
+     * @arg {dateT['minute']} minute `Минута`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setMinute(minute) {
         
-        if (!t.value) {
+        const mesuares = dateGetMesuares(this.value);
 
-            t.value = new Date();
+        mesuares[4] = minute;
 
-        };
-        if (!t.valueDrop) {
+        this.value = dateGet(...mesuares);
 
-            t.valueDrop = t.value;
-
-        };
-        
-        FDate.#create.apply(this, [t]);
+        return this;
         
     };
-    /** @arg {YDateT} t @this {YDate} */
-    static #create(t) {
+    /**
+     * ### setSecond
+     * 
+     * Метод установки секунды.
+     * 
+     * ***
+     * @arg {dateT['second']} second `Секунда`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setSecond(second) {
         
-        const {
-            
-            
-            
-        } = t;
-        
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(this.constructor.config ?? config);
-            
-        };
+        const mesuares = dateGetMesuares(this.value);
+
+        mesuares[5] = second;
+
+        this.value = dateGet(...mesuares);
+
+        return this;
         
     };
-    
-};
+    /**
+     * ### setMilisecond
+     * 
+     * Метод установки милисекунд.
+     * 
+     * ***
+     * @arg {dateT['milisecond']} milisecond `Милисекунды`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setMilisecond(milisecond) {
+        
+        const mesuares = dateGetMesuares(this.value);
 
-/**
- * ### YDate
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс YDate.
- * 
- * ***
- * @class
- * 
-*/
-export class YDate extends FDate {
-    
+        mesuares[6] = milisecond;
+
+        this.value = dateGet(...mesuares);
+
+        return this;
+        
+    };
     /**
      * ### drop
-     * - Версия `0.0.0`
-     * - Модуль `YDate`
+     * 
+     * Метод сброса указанных параметров даты.
+     * 
      * ***
-     *
-     * Метод сброса мер времени.
-     *
+     * @arg {dateT['day']} day `День`
+     * @arg {dateT['date']} date `Дата`
+     * @arg {dateT['year']} year `Год`
+     * @arg {dateT['hour']} hour `Час`
+     * @arg {dateT['month']} month `Месяц`
+     * @arg {dateT['second']} second `Секунда`
+     * @arg {dateT['minute']} minute `Минута`
+     * @arg {dateT['milisecond']} milisecond `Милисекунда`
      * ***
-     * @arg {boolean} day `Сброс дней`
-     * @arg {boolean} year `Сброс лет`
-     * @arg {boolean} hour `Сброс часов`
-     * @arg {boolean} month `Сброс месяцев`
-     * @arg {boolean} second `Сброс секунд`
-     * @arg {boolean} minute `Сброс минут`
-     * @arg {boolean} milisecond `Сброс милисекунд`
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
     drop(year, month, day, hour, minute, second, milisecond) {
 
-        if (this.valueDrop) {
-
-            this.value = this.valueDrop;
-
-        } else {
-
-            this.value = dateDrop(this.value, year, month, day, hour, minute, second, milisecond);
-
-        };
-
-        return this;
+        return dateDrop(this.value, year, month, day, hour, minute, second, milisecond);
 
     };
-
     /**
      * ### flow
-     * - Версия `0.0.0`
-     * ***
      * 
      * Метод течения времени.
      * 
      * ***
-     * @arg {import('./module.mjs').dateTMesuare} date `Изменения`
+     * @arg {dateT['day']} day `День`
+     * @arg {dateT['date']} date `Дата`
+     * @arg {dateT['year']} year `Год`
+     * @arg {dateT['hour']} hour `Час`
+     * @arg {dateT['month']} month `Месяц`
+     * @arg {dateT['second']} second `Секунда`
+     * @arg {dateT['minute']} minute `Минута`
+     * @arg {dateT['milisecond']} milisecond `Милисекунда`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    flowByJect(date) {
-
-        this.flow(date.year, date.month, date.day, date.hour, date.minute, date.second, date.milisecond);
+    flow(year, month, day, hour, minute, second, milisecond) {
+        
+        this.value = dateFlow(this.value, year, month, day, hour, minute, second, milisecond);
 
         return this;
         
-    };
-    /**
-     * ### flow
-     * - Версия `0.0.0`
-     * - Модуль `YDate`
-     * ***
-     *
-     * Метод {@link dateChange|изменения} даты.
-     *
-     * ***
-     * @arg {number} day `Дни`
-     * @arg {number} hour `Часы`
-     * @arg {number} year `Года`
-     * @arg {number} month `Месяца`
-     * @arg {number} second `Секунды`
-     * @arg {number} minute `Минуты`
-     * @arg {number} milisecond `Милисекунды`
-     * @public
-    */
-    flow(year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0, milisecond = 0) {
-
-        this.value = dateChange(this.value, year, month, day, hour, minute, second, milisecond);
-
-        return this;
-
     };
     /**
      * ### flowDay
-     * - Версия `0.0.0`
-     * ***
      * 
-     * Метод течения дней.
+     * Метод течения времени по дням.
      * 
      * ***
-     * @arg {number} day `Дни`
+     * @arg {dateT['day']} day `День`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    flowDay(day = 1) {
+    flowDay(day) {
         
-        this.flowByJect({ day });
+        const mesuares = new Array(7).fill(0);
+
+        mesuares[2] += day;
+
+        this.value = dateFlow(this.value, ...mesuares);
 
         return this;
         
     };
     /**
      * ### flowHour
-     * - Версия `0.0.0`
-     * ***
      * 
-     * Метод течения часов.
+     * Метод течения времени по часам.
      * 
      * ***
-     * @arg {number} hour `Часы`
+     * @arg {dateT['hour']} hour `Час`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    flowHour(hour = 1) {
+    flowHour(hour) {
         
-        this.flowByJect({ hour });
+        const mesuares = new Array(7).fill(0);
+
+        mesuares[3] += hour;
+
+        this.value = dateFlow(this.value, ...mesuares);
 
         return this;
         
     };
     /**
      * ### flowYear
-     * - Версия `0.0.0`
-     * ***
      * 
-     * Метод течения лет.
+     * Метод течения времени по годам.
      * 
      * ***
-     * @arg {number} year `Год`
+     * @arg {dateT['year']} year `Год`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    flowYear(year = 1) {
+    flowYear(year) {
         
-        this.flowByJect({ year });
+        const mesuares = new Array(7).fill(0);
+
+        mesuares[0] += year;
+
+        this.value = dateFlow(this.value, ...mesuares);
 
         return this;
         
     };
     /**
      * ### flowMonth
-     * - Версия `0.0.0`
-     * ***
      * 
-     * Метод течения месяцев.
+     * Метод течения времени по месяцам.
      * 
      * ***
-     * @arg {number} month `Месяца`
+     * @arg {dateT['month']} month `Месяц`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    flowMonth(month = 1) {
+    flowMonth(month) {
+        
+        const mesuares = new Array(7).fill(0);
 
-        this.flowByJect({ month });
+        mesuares[1] += month;
+
+        this.value = dateFlow(this.value, ...mesuares);
 
         return this;
         
     };
     /**
      * ### flowMinute
-     * - Версия `0.0.0`
-     * ***
      * 
-     * Метод течения минут.
+     * Метод течения времени по минутам.
      * 
      * ***
-     * @arg {number} minute `Минута`
+     * @arg {dateT['minute']} minute `Минуты`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    flowMinute(minute = 1) {
+    flowMinute(minute) {
         
-        this.flowByJect({ minute });
+        const mesuares = new Array(7).fill(0);
+
+        mesuares[4] += minute;
+
+        this.value = dateFlow(this.value, ...mesuares);
 
         return this;
         
     };
     /**
      * ### flowSecond
-     * - Версия `0.0.0`
-     * ***
      * 
-     * Метод течения секунд.
+     * Метод течения времени по секундам.
      * 
      * ***
-     * @arg {number} second `Секунда`
+     * @arg {dateT['second']} second `Секунды`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    flowSecond(second = 1) {
+    flowSecond(second) {
         
-        this.flowByJect({ second });
+        const mesuares = new Array(7).fill(0);
+
+        mesuares[5] += second;
+
+        this.value = dateFlow(this.value, ...mesuares);
 
         return this;
         
     };
     /**
      * ### flowMilisecond
-     * - Версия `0.0.0`
-     * ***
      * 
-     * Метод течения милисекунд.
+     * Метод течения времени по секундам.
      * 
      * ***
-     * @arg {number} milisecond `Милисекунды`
+     * @arg {dateT['milisecond']} milisecond `Милисекунды`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    flowMilisecond(milisecond = 1) {
+    flowMilisecond(milisecond) {
         
-        this.flowByJect({ milisecond });
+        const mesuares = new Array(7).fill(0);
+
+        mesuares[6] += milisecond;
+
+        this.value = dateFlow(this.value, ...mesuares);
 
         return this;
         
     };
 
-    /**
-     * ### getDay
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения дней.
-     * 
-     * ***
-     * @public
-    */
-    getDay() {
-        
-        return this.value.getDate();
-        
-    };
-    /**
-     * ### getYear
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения года.
-     * 
-     * ***
-     * @public
-    */
-    getYear() {
-        
-        return this.value.getFullYear();
-        
-    };
-    /**
-     * ### getHour
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения часов.
-     * 
-     * ***
-     * @public
-    */
-    getHour() {
-        
-        return this.value.getHours();
-        
-    };
-    /**
-     * ### getMonth
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения месяцев.
-     * 
-     * ***
-     * @public
-    */
-    getMonth() {
-        
-        return this.value.getMonth() + 1;
-        
-    };
-    /**
-     * ### getMinute
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения минут.
-     * 
-     * ***
-     * @public
-    */
-    getMinute() {
-        
-        return this.value.getMinutes();
-        
-    };
-    /**
-     * ### getSecond
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения секунд.
-     * 
-     * ***
-     * @public
-    */
-    getSecond() {
-        
-        return this.value.getSeconds();
-        
-    };
-    /**
-     * ### getMilisecond
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод получения милисекунд.
-     * 
-     * ***
-     * @public
-    */
-    getMilisecond() {
-        
-        return this.value.getMilisecond();
-        
-    };
+    //#endregion
 
     /**
-     * ### toDate
-     * - Версия `0.0.1`
-     * - Модуль `YDate`
+     * ### YDateConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
      * ***
-     *
-     * Метод получения даты.
-     *
+     * 
+     * 
+     * 
      * ***
+     * 
+     * @arg {dateTC} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
      * @public
-     * @return {Date}
+     * @version `1.0.0`
+     * @constructor
     */
-    getDate() {
+    constructor(...args) {
 
-        return this.value;
+        try {
+
+            //#region before
+
+            /** @type {YArg<YDate>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
+
+            yarg.set(
+
+                ['value', 'date'],
+                ['valueDrop', 'date'],
+
+            )
+
+            super(yarg);
+
+            //#endregion
+            //#region verify
+
+
+
+            //#endregion
+            //#region handle
+
+            if (!yarg.dataUsed.value) {
+
+                yarg.dataUsed.value = new Date();
+
+            };
+            if (!yarg.dataUsed.valueDrop) {
+
+                yarg.dataUsed.valueDrop = yarg.dataUsed.value;
+
+            };
+
+            //#endregion
+            //#region comply
+
+
+
+            //#endregion
+
+            return this
+
+                .adopt(yarg.getData())
+
+
+        } catch (err) {
+
+            if (config.params.strictMode) {
+
+                throw err;
+
+            };
+
+        } finally {
+
+
+
+        };
 
     };
-    /**
-     * ### getMesuares
-     * - Версия `0.0.0`
-     * - Модуль `YDate`
-     * ***
-     *
-     * Метод получения всех единиц измерения в порядке убывания.
-     *
-     * ***
-     *
-     * @public
-    */
-    getMesuares() {
 
-        return dateGetMesuares(this.getDate());
-
-    };
-    
 };
-
-//#region YE
-
-YDate.getY()['modules'].push(YDate);
-
-//#endregion YE
 
 /**
  * @file date/class.mjs
@@ -610,604 +851,3 @@ YDate.getY()['modules'].push(YDate);
  * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */
-
-// //#region YI
-
-// import { Y } from '@syls/y';
-// import { dateChange, dateGetMesuares } from './module.mjs';
-
-// /** @type {import('./config.mjs')['default']?} */
-// let config = null;
-
-// await import('./config.mjs')
-
-//     .then(i => config = i.default)
-//     .catch(e => e);
-
-// /** @type {import('./error.mjs')['default']?} */
-// let error = null;
-
-// await import('./error.mjs')
-
-//     .then(i => error = i.default)
-//     .catch(e => e);
-
-// //#endregion
-// //#region YT
-
-// /** ### YDateT
-//  * - Тип `T`
-//  * - Версия `0.0.0`
-//  * - Модуль `date`
-//  *
-//  * Основной параметр модуля `YDate`.
-//  *
-//  * @typedef {YDateTE&YDateTU} YDateT
-//  *
-// */
-// /** ### YDateTE
-//  * - Тип `TE`
-//  * - Версия `0.0.0`
-//  * - Модуль `date`
-//  *
-//  * Параметр наследования `YDate`.
-//  *
-//  * @typedef {{[p in Exclude<keyof DDate,keyof SDate>|Exclude<keyof SDate,keyof DDate>]:(DDate[p]&SDate[p])}} YDateTE
-//  *
-// */
-// /** ### YDateTU
-//  * - Тип `TU`
-//  * - Версия `0.0.0`
-//  * - Модуль `date`
-//  *
-//  * Уникальные параметры `YDate`.
-//  *
-//  * @typedef YDateTU
-//  * @prop {Date} date
-//  * @prop {number} day
-//  * @prop {number} year
-//  * @prop {number} hour
-//  * @prop {number} month
-//  * @prop {number} second
-//  * @prop {number} minute
-//  * @prop {number} setYear
-//  * @prop {number} milisecond
-//  *
-// */
-
-// //#endregion
-
-// class SDate extends Y {
-
-
-
-// };
-// class DDate extends SDate {
-
-//     /**
-//      * ### valueDrop
-//      *
-//      * Значение сброса.
-//      *
-//      * ***
-//      * @type {Date?}
-//      * @public
-//     */
-//     valueDrop = null;
-
-// };
-// class IDate extends DDate {
-
-//     /**
-//      * ### value
-//      *
-//      * Значение.
-//      *
-//      * ***
-//      * @type {Date}
-//      * @protected
-//     */
-//     value;
-
-// };
-// class MDate extends IDate {
-
-
-
-// };
-// class FDate extends MDate {
-
-//     /**
-//      * ### YDate.constructor
-//      *
-//      *
-//      *
-//      * ***
-//      * @arg {...YDateT} t
-//     */
-//     constructor(...t) {
-
-//         super(Object.assign(t = FDate.#before(t), {}));
-
-//         FDate.#deceit.apply(this, [t]);
-
-//     };
-
-//     /** @arg {any[]} t */
-//     static #before(t) {
-
-//         /** @type {YDateT} */
-//         let r = {};
-
-//         if (t?.length === 1 && [Object, YDate].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-//             r = t[0];
-
-//         } else if (t?.length) {
-
-//             if (t[0]?._ytp) {
-
-//                 t = [...t[0]._ytp];
-
-//             };
-
-//             switch (t.length) {
-
-//                 case 3:
-//                 case 2:
-//                 case 1: r.value = t[0];
-
-//             };
-
-//             if (!Object.values(r).length) {
-
-//                 r = { _ytp: t, };
-
-//             };
-
-//         };
-
-//         return r;
-
-//     };
-//     /** @arg {YDateT} t @this {YDate} */
-//     static #deceit(t) {
-
-//         try {
-
-//             FDate.#verify.apply(this, [t]);
-
-//         } catch (e) {
-
-//             throw e;
-
-//         } finally {
-
-
-
-//         };
-
-//     };
-//     /** @arg {YDateT} t @this {YDate} */
-//     static #verify(t) {
-
-//         const {
-
-
-
-//         } = t;
-
-//         FDate.#handle.apply(this, [t]);
-
-//     };
-//     /** @arg {YDateT} t @this {YDate} */
-//     static #handle(t) {
-
-//         if (!t.date) {
-
-//             if (t.setYear) {
-
-//                 t.date = new Date(t.setYear + 1, 0, 0);
-//                 t.date = new Date(t.date.getFullYear(), 0, 1);
-
-//             } else {
-
-//                 t.date = new Date();
-
-//             };
-
-//         };
-
-//         t.value = t.date;
-
-//         FDate.#create.apply(this, [t]);
-
-//     };
-//     /** @arg {YDateT} t @this {YDate} */
-//     static #create(t) {
-
-//         const {
-
-
-
-//         } = t;
-
-//         this.adopt(t);
-
-//         if (config) {
-
-//             this.adoptDefault(config);
-
-//         };
-
-//     };
-
-// };
-
-// /**
-//  * ### YDate
-//  * - Тип `SDIMFY`
-//  * - Версия `0.0.0`
-//  * - Модуль `date`
-//  * - Цепочка `BDVHC`
-//  * ***
-//  *
-//  *
-//  *
-//  * ***
-//  *
-// */
-// export class YDate extends FDate {
-
-//     /**
-//      * ### drop
-//      * - Версия `0.0.0`
-//      * - Модуль `YDate`
-//      * ***
-//      *
-//      * Метод сброса мер времени.
-//      *
-//      * ***
-//      * @arg {boolean} day `Сброс дней`
-//      * @arg {boolean} year `Сброс лет`
-//      * @arg {boolean} hour `Сброс часов`
-//      * @arg {boolean} month `Сброс месяцев`
-//      * @arg {boolean} second `Сброс секунд`
-//      * @arg {boolean} minute `Сброс минут`
-//      * @arg {boolean} milisecond `Сброс милисекунд`
-//      * @public
-//     */
-//     drop(year, month, day, hour, minute, second, milisecond) {
-
-//         if (this.valueDrop) {
-
-//             this.value = this.valueDrop;
-
-//         } else {
-
-//             this.value = dateDrop(this.value, year, month, day, hour, minute, second, milisecond);
-
-//         };
-
-//         return this;
-
-//     };
-
-//     /**
-//      * ### flow
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод течения времени.
-//      * 
-//      * ***
-//      * @arg {import('./module.mjs').dateTMesuare} date `Изменения`
-//      * @public
-//     */
-//     flowByJect(date) {
-
-//         this.flow(date.year, date.month, date.day, date.hour, date.minute, date.second, date.milisecond);
-
-//         return this;
-        
-//     };
-//     /**
-//      * ### flow
-//      * - Версия `0.0.0`
-//      * - Модуль `YDate`
-//      * ***
-//      *
-//      * Метод {@link dateChange|изменения} даты.
-//      *
-//      * ***
-//      * @arg {number} day `Дни`
-//      * @arg {number} hour `Часы`
-//      * @arg {number} year `Года`
-//      * @arg {number} month `Месяца`
-//      * @arg {number} second `Секунды`
-//      * @arg {number} minute `Минуты`
-//      * @arg {number} milisecond `Милисекунды`
-//      * @public
-//     */
-//     flow(year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0, milisecond = 0) {
-
-//         this.value = dateChange(this.value, year, month, day, hour, minute, second, milisecond);
-
-//         return this;
-
-//     };
-//     /**
-//      * ### flowDay
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод течения дней.
-//      * 
-//      * ***
-//      * @arg {number} day `Дни`
-//      * @public
-//     */
-//     flowDay(day = 1) {
-        
-//         this.flowByJect({ day });
-
-//         return this;
-        
-//     };
-//     /**
-//      * ### flowHour
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод течения часов.
-//      * 
-//      * ***
-//      * @arg {number} hour `Часы`
-//      * @public
-//     */
-//     flowHour(hour = 1) {
-        
-//         this.flowByJect({ hour });
-
-//         return this;
-        
-//     };
-//     /**
-//      * ### flowYear
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод течения лет.
-//      * 
-//      * ***
-//      * @arg {number} year `Год`
-//      * @public
-//     */
-//     flowYear(year = 1) {
-        
-//         this.flowByJect({ year });
-
-//         return this;
-        
-//     };
-//     /**
-//      * ### flowMonth
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод течения месяцев.
-//      * 
-//      * ***
-//      * @arg {number} month `Месяца`
-//      * @public
-//     */
-//     flowMonth(month = 1) {
-
-//         this.flowByJect({ month });
-
-//         return this;
-        
-//     };
-//     /**
-//      * ### flowMinute
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод течения минут.
-//      * 
-//      * ***
-//      * @arg {number} minute `Минута`
-//      * @public
-//     */
-//     flowMinute(minute = 1) {
-        
-//         this.flowByJect({ minute });
-
-//         return this;
-        
-//     };
-//     /**
-//      * ### flowSecond
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод течения секунд.
-//      * 
-//      * ***
-//      * @arg {number} second `Секунда`
-//      * @public
-//     */
-//     flowSecond(second = 1) {
-        
-//         this.flowByJect({ second });
-
-//         return this;
-        
-//     };
-//     /**
-//      * ### flowMilisecond
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод течения милисекунд.
-//      * 
-//      * ***
-//      * @arg {number} milisecond `Милисекунды`
-//      * @public
-//     */
-//     flowMilisecond(milisecond = 1) {
-        
-//         this.flowByJect({ milisecond });
-
-//         return this;
-        
-//     };
-
-//     /**
-//      * ### getDay
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод получения дней.
-//      * 
-//      * ***
-//      * @public
-//     */
-//     getDay() {
-        
-//         return this.value.getDate();
-        
-//     };
-//     /**
-//      * ### getYear
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод получения года.
-//      * 
-//      * ***
-//      * @public
-//     */
-//     getYear() {
-        
-//         return this.value.getFullYear();
-        
-//     };
-//     /**
-//      * ### getHour
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод получения часов.
-//      * 
-//      * ***
-//      * @public
-//     */
-//     getHour() {
-        
-//         return this.value.getHours();
-        
-//     };
-//     /**
-//      * ### getMonth
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод получения месяцев.
-//      * 
-//      * ***
-//      * @public
-//     */
-//     getMonth() {
-        
-//         return this.value.getMonth() + 1;
-        
-//     };
-//     /**
-//      * ### getMinute
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод получения минут.
-//      * 
-//      * ***
-//      * @public
-//     */
-//     getMinute() {
-        
-//         return this.value.getMinutes();
-        
-//     };
-//     /**
-//      * ### getSecond
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод получения секунд.
-//      * 
-//      * ***
-//      * @public
-//     */
-//     getSecond() {
-        
-//         return this.value.getSeconds();
-        
-//     };
-//     /**
-//      * ### getMilisecond
-//      * - Версия `0.0.0`
-//      * ***
-//      * 
-//      * Метод получения милисекунд.
-//      * 
-//      * ***
-//      * @public
-//     */
-//     getMilisecond() {
-        
-//         return this.value.getMilisecond();
-        
-//     };
-
-//     /**
-//      * ### toDate
-//      * - Версия `0.0.1`
-//      * - Модуль `YDate`
-//      * ***
-//      *
-//      * Метод получения даты.
-//      *
-//      * ***
-//      * @public
-//      * @return {Date}
-//     */
-//     getDate() {
-
-//         return this.value;
-
-//     };
-//     /**
-//      * ### getMesuares
-//      * - Версия `0.0.0`
-//      * - Модуль `YDate`
-//      * ***
-//      *
-//      * Метод получения всех единиц измерения в порядке убывания.
-//      *
-//      * ***
-//      *
-//      * @public
-//     */
-//     getMesuares() {
-
-//         return dateGetMesuares(this.getDate());
-
-//     };
-
-// };
-
-// /**
-//  * @file class.mjs
-//  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
-//  * @copyright Yakhin Nikita Artemovich 2023
-// */

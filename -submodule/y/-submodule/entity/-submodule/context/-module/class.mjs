@@ -5,50 +5,43 @@ import { YArg } from '../../../../arg/-module/export.mjs';
 import { YLog } from '../../../../log/-module/export.mjs';
 import { YDate } from '../../../../date/-module/export.mjs';
 import { YHandler } from '../../handler/-module/class.mjs';
-import { configContext as config } from './config.mjs';
+import { configContext as config } from "./config.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YContextT
- * - Тип `T`
- * 
- * Основной параметр модуля `YContext`.
- * 
- * ***
- * 
- * @typedef {YContextTE&YContextTU} YContextT
+/** ### contextTC
+ * @typedef contextTC
+ * @prop {}
 */
-/** ### YContextTE
- * - Тип `TE`
- * 
- * Параметр наследования `YContext`.
- * 
- * @typedef {Omit<DContext, keyof SContext>} YContextTE
-*/
-/** ### YContextTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YContext`.
- * 
- * @typedef YContextTU
- * @prop {} _
-*/
-/** ### YContextTUG
- * - Тип `TUP`
- * 
- * Уникальные генеративные параметры `YContext`.
- * 
- * @typedef YContextTUG
- * @prop {null} _
-*/
+
+/** @typedef {import('./module.mjs').contextT&contextTC} contextT */
 
 //#endregion
 
 /**
+ * ### YContext
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @template Y1
+ * 
 */
-class SContext extends Y {
+export class YContext extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
     
     /**
      * ### stock
@@ -82,45 +75,49 @@ class SContext extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SContext).create.apply(this, args);
+        return super.create(...args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YContext)?}
+     * @template {YContext} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
         
     };
     
-};
-/**
- * @extends SContext<Y1>
- * @template Y1
-*/
-class DContext extends SContext {
+    //#endregion
+    //#region field
     
     /**
      * ### id
      * 
-     * Идентификатор.
+     * ID.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {number}
      * @field
      * @public
     */
     id;
-    
-};
-/**
- * @extends DContext<Y1>
- * @template Y1
-*/
-class IContext extends DContext {
-    
     /**
      * ### log
      * 
      * Журнал.
      * 
      * *** 
-     * @type {YLog}
+     * @since `1.0.0`
+     * @type {YLog?}
      * @field
-     * @protected
+     * @public
     */
     log;
     /**
@@ -129,9 +126,10 @@ class IContext extends DContext {
      * Дата.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {YDate}
      * @field
-     * @protected
+     * @public
     */
     date = new YDate();
     /**
@@ -140,71 +138,93 @@ class IContext extends DContext {
      * Обработчики.
      * 
      * *** 
-     * @type {YHandler<Y1>[]}
+     * @since `1.0.0`
+     * @type {YHandler[]}
      * @field
-     * @protected
+     * @public
     */
     handlers;
     
-};
-/**
- * @extends IContext<Y1>
- * @template Y1
-*/
-class MContext extends IContext {
-    
-    
-    
-};
-/**
- * @extends MContext<Y1>
- * @template Y1
-*/
-class FContext extends MContext {
+    //#endregion
+    //#region method
     
     /**
-     * ### YContext.constructor
+     * @method
+     * @public
+     * @override
+    */
+    getClass() {
+        
+        return YContext;
+        
+    };
+    
+    
+    //#endregion
+    
+    /**
+     * ### YContextConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
      * 
      * 
      * 
      * ***
-     * @arg {YContextT&G} args
+     * 
+     * @arg {...contextTC&Y1} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
     */
-    constructor(args) {
-        
-        super(args = FContext.#before(args = arguments));
-        
-        FContext.#deceit.apply(this, [args]);
-        
-    };
-    
-    /** @arg {DContext} args */
-    static #before(args) {
-        
-        /** @type {YArg<IContext>} */
-        const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
-        
-        
-        
-        return yarg;
-        
-    };
-    /** @arg {YArg<IContext>} args @this {YContext} */
-    static #deceit(args) {
+    constructor(...args) {
         
         try {
             
-            FContext.#verify.apply(this, arguments);
+            //#region before
             
-        } catch (e) {
+            /** @type {YArg<YContext>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
             
-            if (config?.strictMode) {
+            
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
                 
-                throw e;
+                throw err;
                 
             };
-            
-            return new YContext();
             
         } finally {
             
@@ -213,90 +233,8 @@ class FContext extends MContext {
         };
         
     };
-    /** @arg {YArg<IContext>} args @this {YContext} */
-    static #verify(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        FContext.#handle.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IContext>} args @this {YContext} */
-    static #handle(args) {
-        
-        
-        
-        FContext.#create.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IContext>} args @this {YContext} */
-    static #create(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        this
-        
-            .adopt(args.getData());
-        
-    };
     
 };
-
-/**
- * ### YContext
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YContext`.
- * 
- * ***
- * @class
- * @template Y1
- * @extends FContext<YContextTUG&Y1>
- * 
-*/
-export class YContext extends FContext {
-    
-    /** @arg {Y1} args */
-    constructor(args) { super(...arguments); };
-    
-    /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * @method
-     * @public
-     * @returns {typeof YContext}
-    */
-    getClass() {
-        
-        return YContext;
-        
-    };
-    
-};
-
-//#region YE
-
-YContext.getY()['modules'].push(YContext);
-
-//#endregion
 
 /**
  * @file context/class.mjs

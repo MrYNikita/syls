@@ -2,6 +2,8 @@
 import { YConfig } from "@syls/y/config";
 import { configMany } from "@syls/y/many";
 
+/** @typedef {import('./class.mjs').stringT} stringT */
+
 /** @type {configMany} */
 const config = {
     
@@ -18,6 +20,34 @@ const config = {
 */
 export const configString = new YConfig(Object.assign(config, {
     
+    /**
+     * ### padFillDefault
+     * 
+     * ***
+     * 
+     * Дефолт заполнитель функции `pad`.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {string}
+     * @public
+     * @property
+    */
+    padFillDefault: ' ',
+    /**
+     * ### alignDefault
+     * 
+     * ***
+     * 
+     * Дефолт выравнивание. 
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {stringT['align']}
+     * @public
+     * @property
+    */
+    alignDefault: -1,
     /**
      * ### tab
      *
@@ -264,6 +294,39 @@ export const configString = new YConfig(Object.assign(config, {
     */
     symbols: {
 
+        spec: {
+
+            
+            /** @type {'♂'} */
+            male: '♂',
+            /** @type {'♀'} */
+            female: '♀',
+            /** @type {'✶'} */
+            star: '✶',
+            /** @type {'ᴪ'} */
+            psi: 'ᴪ',
+            /** @type {'♯'} */
+            sharp: '♯',
+            /** @type {'♣'} */
+            cros: '♣',
+            /** @type {'♠'} */
+            peak: '♠',
+            /** @type {'♥'} */
+            heart: '♥',
+            /** @type {'♦'} */
+            diamond: '♦',
+
+        },
+        right: {
+
+            /** @type {'©'} */
+            copyright: '©',
+            /** @type {'™'} */
+            trademark: '™',
+            /** @type {'®'} */
+            trademarkReg: '®',
+            
+        },
         text: {
 
             /** @type {'\t'} */
@@ -278,6 +341,8 @@ export const configString = new YConfig(Object.assign(config, {
         },
         math: {
             
+            /** @type {'∑'} */
+            for: '∑',
             /** @type {'µ'} */
             nu: 'µ',
             /** @type {'≥'} */
@@ -290,6 +355,8 @@ export const configString = new YConfig(Object.assign(config, {
             ne: '≠',
             /** @type {'∞'} */
             inf: '∞',
+            /** @type {'∆'} */
+            delta: '∆',
             /** @type {'∫'} */
             integr: '∫',
             /** @type {'±'} */
@@ -298,9 +365,91 @@ export const configString = new YConfig(Object.assign(config, {
         },
         table: {
 
-            thin: ['│', '─', '┌', '┐', '└', '┘', '├', '┬', '┴', '┤', '┼'],
-            double: ['║', '═', '╔', '╗', '╚', '╝', '╠', '╦', '╩', '╣', '╬'],
-            dotted: ['┊', '┄'],
+            /** @type {'┼'} */
+            thinCro: '┼',
+            /** @type {'│'} */
+            thinVer: '│',
+            /** @type {'┤'} */
+            thinVerJL: '┤',
+            /** @type {'├'} */
+            thinVerJR: '├',
+            /** @type {'─'} */
+            thinHor: '─',
+            /** @type {'┴'} */
+            thinHorJU: '┴',
+            /** @type {'┬'} */
+            thinHorJD: '┬',
+            /** @type {'┐'} */
+            thinCorUL: '┐',
+            /** @type {'┌'} */
+            thinCorUR: '┌',
+            /** @type {'┘'} */
+            thinCorDL: '┘',
+            /** @type {'└'} */
+            thinCorDR: '└',
+            
+            /** @type {''} */
+            doubleCro: '╬',
+            /** @type {''} */
+            doubleVer: '║',
+            /** @type {'╣'} */
+            doubleVerJL: '╣',
+            /** @type {'╠'} */
+            doubleVerJR: '╠',
+            /** @type {'═'} */
+            doubleHor: '═',
+            /** @type {'╩'} */
+            doubleHorJU: '╩',
+            /** @type {'╦'} */
+            doubleHorJD: '╦',
+            /** @type {'╗'} */
+            doubleCorUL: '╗',
+            /** @type {'╔'} */
+            doubleCorUR: '╔',
+            /** @type {'╝'} */
+            doubleCorDL: '╝',
+            /** @type {'╚'} */
+            doubleCorDR: '╚',
+            
+            /** @type {'┊'} */
+            dottedVer: '┊',
+            /** @type {'┄'} */
+            dottedHor: '┄',
+            
+        },
+        figure: {
+
+
+            /** @type {'○'} */
+            circle: '○',
+            /** @type {'●'} */
+            circleFill: '●',
+            /** @type {'◌'} */
+            circleDotted: '◌',
+            /** @type {'▫'} */
+            squareAM: '▫',
+            /** @type {'□'} */
+            squareAB: '□',
+            /** @type {'▪'} */
+            squareFM: '▪',
+            /** @type {'■'} */
+            squareFB: '■',
+            /** @type {'▲'} */
+            trinagleBU: '▲',
+            /** @type {'▼'} */
+            trinagleBD: '▼',
+            /** @type {'◄'} */
+            trinagleBL: '◄',
+            /** @type {'►'} */
+            trinagleBR: '►',
+            /** @type {'▴'} */
+            trinagleMU: '▴',
+            /** @type {'▾'} */
+            trinagleMD: '▾',
+            /** @type {'◂'} */
+            trinagleML: '◂',
+            /** @type {'▸'} */
+            trinagleMR: '▸',
             
         },
         valute: {
@@ -326,6 +475,26 @@ export const configString = new YConfig(Object.assign(config, {
             /** @type {'Rs'} */
             rupi: 'Rs',
 
+        },
+        background: {
+
+            /** @type {'▌'} */
+            bgHL: '▌',
+            /** @type {'▐'} */
+            bgHR: '▐',
+            /** @type {'█'} */
+            bg: '█',
+            /** @type {'▀'} */
+            bgHU: '▀',
+            /** @type {'▄'} */
+            bgHD: '▄',
+            /** @type {'░'} */
+            bgR1: '░',
+            /** @type {'▒'} */
+            bgR2: '▒',
+            /** @type {'▓'} */
+            bgR3: '▓',
+            
         },
     },
 

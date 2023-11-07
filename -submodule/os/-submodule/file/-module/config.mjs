@@ -1,7 +1,7 @@
 import { YConfig } from "@syls/y/config";
 import { configOsject } from "../../osject/-module/config.mjs";
 
-/** @type {configOsject['value']} */
+/** @type {configOsject['params']} */
 const config = {
     
     

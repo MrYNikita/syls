@@ -2,12 +2,12 @@
 
 import { Y, yClassifyProp } from '@syls/y';
 
-/** @type {import('./config.mjs')['default']['value']?} */
+/** @type {import('./config.mjs')['default']['params']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(c => config = c.default?.value ? c.default.value : c.default)
+    .then(c => config = c.default?.params ? c.default.params : c.default)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */

@@ -2,7 +2,7 @@
 
 import { Y, argClassify, } from "../../y/-module/type.js";
 
-/** @type {import('./config.mjs')['default']['value']?} */
+/** @type {import('./config.mjs')['default']['params']?} */
 let config = null;
 
 await import('./config.mjs')

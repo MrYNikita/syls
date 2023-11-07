@@ -12,7 +12,12 @@ import { YCorrecter } from '../-submodule/correcter/-module/class.mjs';
 //#endregion
 //#region YT
 
+/** ### stringTC
+ * @typedef stringTC
+ * @prop {}
+*/
 
+/** @typedef {import('./module.mjs').stringT&stringTC} stringT */
 
 //#endregion
 
@@ -955,7 +960,7 @@ export class YString extends YMany {
     */
     static create(...args) {
 
-        return Object.getPrototypeOf(this).create.apply(this, args);
+        return super.create(...args);
 
     };
 
@@ -967,9 +972,9 @@ export class YString extends YMany {
      * @returns {(Y1&Y1)?}
      * @template {YString} Y1
     */
-    static becomePrototype(value) {
+    static setClass(value) {
 
-        return Object.getPrototypeOf(this).becomePrototype.apply(this, [value]);
+        return super.setClass(value);
 
     };
 
@@ -981,7 +986,7 @@ export class YString extends YMany {
      * 
      * 
      * ***
-     * @arg {YStringT} args `Аргументы`
+     * @arg {stringT&Y1} args `Аргументы`
      * 
      * Представлены единым объектом носителем аргументов.
      * 
@@ -1040,7 +1045,7 @@ export class YString extends YMany {
 
         } catch (err) {
 
-            if (config.value.strictMode) {
+            if (config.params.strictMode) {
 
                 throw err;
 

@@ -1,43 +1,18 @@
 //#region YI
 
-/** @type {import('./config.mjs')['default']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(i => error = i.default)
-    .catch(e => e);
+import { YArg } from '@syls/y/arg';
+import { YCond } from '@syls/y/cond';
+import { configDate as config } from './config.mjs';
 
 //#endregion
 //#region YT
 
 /** ### dateT
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `date`
- *
- * Основной параметр модуля `date`.
- *
+ * 
+ * Типы модуля `date`.
+ * 
  * @typedef dateT
- * @prop {any} _
- *
-*/
-/** ### dateTMesuare
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `date`
- *
- *
- *
- * @typedef dateTMesuare
+ * @prop {Date} date
  * @prop {number} day
  * @prop {number} year
  * @prop {number} hour
@@ -45,24 +20,7 @@ await import('./error.mjs')
  * @prop {number} second
  * @prop {number} minute
  * @prop {number} milisecond
- *
-*/
-/** ### dateTMesuareModes
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `date`
- *
- *
- *
- * @typedef dateTMesuareModes
- * @prop {boolean} day
- * @prop {boolean} year
- * @prop {boolean} hour
- * @prop {boolean} month
- * @prop {boolean} second
- * @prop {boolean} minute
- * @prop {boolean} milisecond
- *
+ * 
 */
 
 //#endregion
@@ -72,193 +30,88 @@ await import('./error.mjs')
 
 //#endregion
 
-//#region drop 0.0.0
-
-/** ### dateTFDrop
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `date`
- * ***
- *
- * Результирующие параметры функции `drop`.
- *
- * @typedef {dateTFUDrop&dateT&dateTMesuareModes} dateTFDrop
- *
-*/
-/** ### dateTFUDrop
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `date`
- *
- * Уникальные параметры функции `drop`.
- *
- * @typedef dateTFUDrop
- * @prop {any} _
-*/
-
-/** @arg {dateTFDrop} t */
-function dropDeceit(t) {
-
-    try {
-
-        return dropVerify(t);
-
-    } catch (e) {
-
-        if (config.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {dateTFDrop} t */
-function dropVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return dropHandle(t);
-
-};
-/** @arg {dateTFDrop} t */
-function dropHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return dropComply(t);
-
-};
-/** @arg {dateTFDrop} t */
-function dropComply(t) {
-
-    const {
-
-        day,
-        date,
-        hour,
-        year,
-        month,
-        second,
-        minute,
-        milisecond,
-
-    } = t;
-
-    const md = [year, month, day, hour, minute, second, milisecond];
-
-    return new Date(...dateGetMesuares(date).map((m, mi) => {
-
-        if (md[mi]) {
-
-            switch (mi) {
-
-                case 0: {
-
-                    return configDate.defaultYear ?? 0;
-
-                };
-                case 2: {
-
-                    return 1;
-
-                };
-                default: {
-
-                    return 0;
-
-                };
-
-            };
-
-        } else {
-
-            return m;
-
-        };
-
-    }));
-
-};
+//#region get
 
 /**
- * ### dateDrop
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `date`
+ * ### get
+ * 
+ * 
+ * 
  * ***
- *
- * Функция сброса даты.
- *
- * Сброс изменяет указанные меры даты. Для года происходит установка значения из конфигуратора,
- * месяц и день равняются 1, а оставшиеся секунды, минуты, часы и милисекунды обнуляются.
- *
- * Если значение не было указано, как сбрасываемое, то оно будет сохранено.
- *
+ * @typedef getT
+ * @prop {} _
  * ***
- * @arg {Date} date `Дата`
- * @arg {boolean} day `Сброс дней`
- * @arg {boolean} year `Сброс лет`
- * @arg {boolean} hour `Сброс часов`
- * @arg {boolean} month `Сброс месяцев`
- * @arg {boolean} second `Сброс секунд`
- * @arg {boolean} minute `Сброс минут`
- * @arg {boolean} milisecond `Сброс милисекунд`
+ * @arg {dateT&getT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function dateDrop(date, year, month, day, hour, minute, second, milisecond) {
+function get(args) {
 
-    return dropDeceit({ date, year, month, day, hour, minute, second, milisecond });
-
-};
-
-//#endregion
-//#region change 0.0.0
-
-/** ### dateTFChange
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `date`
- * ***
- *
- * Результирующие параметры функции `change`.
- *
- * @typedef {dateTFUChange&dateT&dateTMesuare} dateTFChange
- *
-*/
-/** ### dateTFUChange
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `date`
- *
- * Уникальные параметры функции `change`.
- *
- * @typedef dateTFUChange
- * @prop {any} _
-*/
-
-/** @arg {dateTFChange} t */
-function changeDeceit(t) {
+    let result;
 
     try {
 
-        return changeVerify(t);
+        let {
 
-    } catch (e) {
+            day = 1,
+            hour = 0,
+            year = config.params.yearDefault,
+            month = 0,
+            minute = 0,
+            second = 0,
+            milisecond = 0,
 
-        if (config?.strictMode) {
+        } = args;
 
-            throw e;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        if (year < 0) year *= -1;
+
+        if (month >= 13) month = 12;
+        else if (month < 1) month = 1;
+
+        month--;
+
+        const dayMax = new Date(year, month, 0).getDate();
+
+        if (day >= dayMax + 1) day = dayMax;
+        else if (day < 1) day = 1;
+
+        if (hour >= 24) hour = 23;
+        else if (hour < 0) hour = 0;
+
+        if (second >= 60) second = 59;
+        else if (second < 0) second = 0;
+
+        if (minute >= 60) minute = 59;
+        else if (minute < 0) minute = 0;
+
+        if (milisecond >= 1000) milisecond = 999;
+        else if (milisecond < 0) milisecond = 0;
+
+        //#endregion
+        //#region comply
+
+        result = new Date(year, month, day, hour, minute, second, milisecond);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
 
         };
 
-        return undefined;
+
 
     } finally {
 
@@ -266,239 +119,352 @@ function changeDeceit(t) {
 
     };
 
-};
-/** @arg {dateTFChange} t */
-function changeVerify(t) {
+    return result;
 
-    const {
-
-
-
-    } = t;
-
-    return changeHandle(t);
-
-};
-/** @arg {dateTFChange} t */
-function changeHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    if (!t.day && t.day !== 0) {
-
-        t.day = 0;
-
-    };
-
-    if (!t.hour && t.hour !== 0) {
-
-        t.hour = 0;
-
-    };
-
-    if (!t.year && t.year !== 0) {
-
-        t.year = 0;
-
-    };
-
-    if (!t.month && t.month !== 0) {
-
-        t.month = -1;
-
-    } else {
-
-        t.month -= 1;
-
-    };
-
-    if (!t.minute && t.minute !== 0) {
-
-        t.minute = 0;
-
-    };
-
-    if (!t.second && t.second !== 0) {
-
-        t.second = 0;
-
-    };
-
-    if (!t.milisecond && t.milisecond !== 0) {
-
-        t.milisecond = 0;
-
-    };
-
-    return changeComply(t);
-
-};
-/** @arg {dateTFChange} t */
-function changeComply(t) {
-
-    const {
-
-        day,
-        year,
-        date,
-        hour,
-        month,
-        minute,
-        second,
-        milisecond,
-
-    } = t;
-
-    const mm = [year, month, day, hour, minute, second, milisecond];
-
-    const mr = dateGetMesuares(date).map((m, mi) => m += mm[mi]);
-
-    return new Date(...mr);
 };
 
 /**
- * ### dateChange
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `date`
+ * ### dateGet
+ * 
+ * Функция получения даты на основе указанных аргументов.
+ * 
  * ***
- *
- * Функция изменения указанной даты.
- *
- * Позволяет сместить указанную дату на указанное кол-во лет, месяцев, дней, часов, минут, секунд и милисекунд, увеличив или уменьшив их без потери точности.
- *
- * В качестве результата возвращает новую результирующую дату.
- *
+ * @arg {dateT['day']} day `День`
+ * @arg {dateT['hour']} hour `Час`
+ * @arg {dateT['year']} year `Год`
+ * @arg {dateT['month']} month `Месяц`
+ * @arg {dateT['minute']} minute `Минута`
+ * @arg {dateT['second']} second `Секунда`
+ * @arg {dateT['milisecond']} milisecond `Милисукунда`
  * ***
- * @arg {Date} date `Дата`
- * @arg {number} day `Дни`
- * @arg {number} hour `Часы`
- * @arg {number} year `Года`
- * @arg {number} month `Месяца`
- * @arg {number} second `Секунды`
- * @arg {number} minute `Минуты`
- * @arg {number} milisecond `Милисекунды`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function dateChange(date, year, month, day, hour, minute, second, milisecond) {
+export function dateGet(year, month, day, hour, minute, second, milisecond) {
 
-    return changeDeceit({ date, year, month, day, hour, minute, second, milisecond });
+    return get({ year, month, day, hour, minute, second, milisecond, });
 
 };
 
 //#endregion
-//#region getMesuares 0.0.0
+//#region getMesuares
 
-/** ### dateTFGetMesuares
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `date`
+/**
+ * ### getMesuares
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `getMesuares`.
- *
- * @typedef {dateTFUGetMesuares&dateT} dateTFGetMesuares
- *
+ * @typedef getMesuaresT
+ * @prop {} _
+ * ***
+ * @arg {dateT&getMesuaresT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### dateTFUGetMesuares
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `date`
- *
- * Уникальные параметры функции `getMesuares`.
- *
- * @typedef dateTFUGetMesuares
- * @prop {any} _
-*/
+function getMesuares(args) {
 
-/** @arg {dateTFGetMesuares} t */
-function getMesuaresDeceit(t) {
+    let result;
 
     try {
 
-        return getMesuaresVerify(t);
+        let {
 
-    } catch (e) {
+            date,
 
-        if (config.strict) throw e;
+        } = args;
 
-        return undefined;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = [
+
+            date.getFullYear(),
+            date.getMonth() + 1,
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds(),
+            date.getMilliseconds(),
+
+        ];
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
 
     };
 
-};
-/** @arg {dateTFGetMesuares} t */
-function getMesuaresVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getMesuaresHandle(t);
-
-};
-/** @arg {dateTFGetMesuares} t */
-function getMesuaresHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getMesuaresComply(t);
-
-};
-/** @arg {dateTFGetMesuares} t */
-function getMesuaresComply(t) {
-
-    const {
-
-        date,
-
-    } = t;
-
-    return [
-
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate(),
-        date.getHours(),
-        date.getMinutes(),
-        date.getSeconds(),
-        date.getMilliseconds(),
-
-    ];
+    return result;
 
 };
 
 /**
  * ### dateGetMesuares
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `date`
+ * 
+ * Функция получения массива данных указанного момента времени.
+ * 
  * ***
- *
- * Функция получения массива всех велечин измерения времени по убыванию.
- *
+ * @arg {dateT['date']} date `Дата`
+ * 
+ * 
  * ***
- * @arg {Date} date `Дата`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function dateGetMesuares(date = new Date()) {
 
-    return getMesuaresDeceit({ date });
+    return getMesuares({ date, });
+
+};
+
+//#endregion
+//#region drop
+
+/**
+ * ### drop
+ * 
+ * 
+ * 
+ * ***
+ * @typedef dropT
+ * @prop {} _
+ * ***
+ * @arg {dateT&dropT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function drop(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            day,
+            hour,
+            year,
+            date,
+            month,
+            minute,
+            second,
+            milisecond,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const mesuares = dateGetMesuares(date);
+
+        if (day) mesuares[2] = 1;
+        if (hour) mesuares[3] = 0;
+        if (year) mesuares[0] = config.params.yearDefault + 1;
+        if (month) mesuares[1] = 0;
+        if (minute) mesuares[4] = 0;
+        if (second) mesuares[5] = 0;
+        if (milisecond) mesuares[6] = 0;
+        
+        return new Date(...mesuares);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### dateDrop
+ * 
+ * Функция сброса указанных параметров приведенной даты.
+ * 
+ * ***
+ * @arg {dateT['day']} day `День`
+ * @arg {dateT['date']} date `Дата`
+ * @arg {dateT['year']} year `Год`
+ * @arg {dateT['hour']} hour `Час`
+ * @arg {dateT['month']} month `Месяц`
+ * @arg {dateT['second']} second `Секунда`
+ * @arg {dateT['minute']} minute `Минута`
+ * @arg {dateT['milisecond']} milisecond `Милисекунда`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function dateDrop(date, year, month, day, hour, minute, second, milisecond) {
+
+    return drop({ date, year, month, day, hour, minute, second, milisecond, });
+
+};
+
+//#endregion
+//#region flow
+
+/**
+ * ### flow
+ * 
+ * 
+ * 
+ * ***
+ * @typedef flowT
+ * @prop {} _
+ * ***
+ * @arg {dateT&flowT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function flow(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            day,
+            hour,
+            year,
+            date,
+            month,
+            minute,
+            second,
+            milisecond,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const mesuares = dateGetMesuares(date);
+
+        if (day) mesuares[2] += day;
+        if (year) mesuares[0] += year;
+        if (hour) mesuares[3] += hour;
+        if (month) mesuares[1] += month;
+        if (minute) mesuares[4] += minute;
+        if (second) mesuares[5] += second;
+        if (milisecond) mesuares[6] += milisecond;
+
+        result = new Date(...mesuares);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### dateFlow
+ * 
+ * Функция течения времени.
+ * Позволяет менять указанную дату на указанное отклонение в будущее или прошлое.
+ * 
+ * ***
+ * @arg {dateT['day']} day `День`
+ * @arg {dateT['date']} date `Дата`
+ * @arg {dateT['year']} year `Год`
+ * @arg {dateT['hour']} hour `Час`
+ * @arg {dateT['month']} month `Месяц`
+ * @arg {dateT['second']} second `Секунда`
+ * @arg {dateT['minute']} minute `Минута`
+ * @arg {dateT['milisecond']} milisecond `Милисекунда`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function dateFlow(date, year, month, day, hour, minute, second, milisecond) {
+
+    return flow({ date, year, month, day, hour, minute, second, milisecond, });
 
 };
 
 //#endregion
 
 /**
- * @file module.mjs
+ * @file date/module.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

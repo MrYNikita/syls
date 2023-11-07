@@ -27,7 +27,7 @@ import { stringGetRow, stringGetRows, stringPaste } from '../../../-module/modul
  * 
  * ***
  * 
- * @typedef {keyof config['value']['colors']} ansiTColors
+ * @typedef {keyof config['params']['colors']} ansiTColors
  * 
 */
 /** ### ansiTFBGround
@@ -102,7 +102,7 @@ function isANSI(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -188,7 +188,7 @@ function isUnderline(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -258,7 +258,7 @@ function isForeground(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -346,7 +346,7 @@ function isBackground(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -426,13 +426,13 @@ function get(args) {
         //#endregion
         //#region comply
 
-        result = config.value.code + params.join(';') + config.value.codeEnd;
+        result = config.params.code + params.join(';') + config.params.codeEnd;
 
         //#endregion
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -518,7 +518,7 @@ function getReset(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -588,7 +588,7 @@ function getColor(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -666,14 +666,14 @@ function getColorParam(args) {
         //#endregion
         //#region handle
 
-        if (!(foreground in config.value.colors || (-3 <= foreground && foreground <= 255))) foreground = -2;
-        if (!(background in config.value.colors || (-3 <= background && background <= 255))) background = -2;
+        if (!(foreground in config.params.colors || (-3 <= foreground && foreground <= 255))) foreground = -2;
+        if (!(background in config.params.colors || (-3 <= background && background <= 255))) background = -2;
 
         if (foreground || foreground === 0) {
 
             switch (foreground) {
 
-                case 'resetY': case -2: foreground = config.value.styles[config.value.style].foreground; break;
+                case 'resetY': case -2: foreground = config.params.styles[config.params.style].foreground; break;
 
             };
 
@@ -681,8 +681,8 @@ function getColorParam(args) {
 
             switch (foreground) {
 
-                case -1: foreground = [config.value.codeColorForeground, config.value.codeColorReset].join(config.value.delimiter); break;
-                default: foreground = [config.value.codeColorForeground + config.value.codeColor, foreground].join(config.value.delimiter); break;
+                case -1: foreground = [config.params.codeColorForeground, config.params.codeColorReset].join(config.params.delimiter); break;
+                default: foreground = [config.params.codeColorForeground + config.params.codeColor, foreground].join(config.params.delimiter); break;
 
             };
 
@@ -691,7 +691,7 @@ function getColorParam(args) {
 
             switch (background) {
 
-                case 'resetY': case -2: background = config.value.styles[config.value.style].background; break;
+                case 'resetY': case -2: background = config.params.styles[config.params.style].background; break;
 
             };
 
@@ -699,8 +699,8 @@ function getColorParam(args) {
 
             switch (background) {
 
-                case -1: background = [config.value.codeColorBackground, config.value.codeColorReset].join(config.value.delimiter); break;
-                default: background = [config.value.codeColorBackground + config.value.codeColor, background].join(config.value.delimiter); break;
+                case -1: background = [config.params.codeColorBackground, config.params.codeColorReset].join(config.params.delimiter); break;
+                default: background = [config.params.codeColorBackground + config.params.codeColor, background].join(config.params.delimiter); break;
 
             };
 
@@ -709,13 +709,13 @@ function getColorParam(args) {
         //#endregion
         //#region comply
 
-        result = [foreground, background].filter(value => value).join(config.value.delimiter);
+        result = [foreground, background].filter(value => value).join(config.params.delimiter);
 
         //#endregion
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -804,7 +804,7 @@ function getColorReset(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -891,7 +891,7 @@ function getParams(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -977,7 +977,7 @@ function getPoints(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1057,13 +1057,13 @@ function getCodeColor(args) {
         //#endregion
         //#region comply
 
-        result = YCond.isNumber(color) ? color : config.value.colors[color];
+        result = YCond.isNumber(color) ? color : config.params.colors[color];
 
         //#endregion
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1153,7 +1153,7 @@ function join(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1278,7 +1278,7 @@ function paint(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1422,7 +1422,7 @@ function change(args) {
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 
@@ -1628,14 +1628,14 @@ export function ansiChange(ansi, property, value) {
 
 //     } = args;
 
-//     if (!(args.foreground in config.value.colors || (-3 <= args.foreground && args.foreground <= 255))) args.foreground = -2;
-//     if (!(args.background in config.value.colors || (-3 <= args.background && args.background <= 255))) args.background = -2;
+//     if (!(args.foreground in config.params.colors || (-3 <= args.foreground && args.foreground <= 255))) args.foreground = -2;
+//     if (!(args.background in config.params.colors || (-3 <= args.background && args.background <= 255))) args.background = -2;
 
 //     if (args.foreground || args.foreground === 0) {
 
 //         switch (args.foreground) {
 
-//             case 'resetY': case -2: args.foreground = config.value.styles[config.value.style].foreground; break;
+//             case 'resetY': case -2: args.foreground = config.params.styles[config.params.style].foreground; break;
 
 //         };
 
@@ -1643,8 +1643,8 @@ export function ansiChange(ansi, property, value) {
 
 //         switch (args.foreground) {
 
-//             case -1: args.foreground = [config.value.codeColorForeground, config.value.codeColorReset].join(config.value.delimiter); break;
-//             default: args.foreground = [config.value.codeColorForeground + config.value.codeColor, args.foreground].join(config.value.delimiter); break;
+//             case -1: args.foreground = [config.params.codeColorForeground, config.params.codeColorReset].join(config.params.delimiter); break;
+//             default: args.foreground = [config.params.codeColorForeground + config.params.codeColor, args.foreground].join(config.params.delimiter); break;
 
 //         };
 
@@ -1653,7 +1653,7 @@ export function ansiChange(ansi, property, value) {
 
 //         switch (args.background) {
 
-//             case 'resetY': case -2: args.background = config.value.styles[config.value.style].background; break;
+//             case 'resetY': case -2: args.background = config.params.styles[config.params.style].background; break;
 
 //         };
 
@@ -1661,8 +1661,8 @@ export function ansiChange(ansi, property, value) {
 
 //         switch (args.background) {
 
-//             case -1: args.background = [config.value.codeColorBackground, config.value.codeColorReset].join(config.value.delimiter); break;
-//             default: args.background = [config.value.codeColorBackground + config.value.codeColor, args.background].join(config.value.delimiter); break;
+//             case -1: args.background = [config.params.codeColorBackground, config.params.codeColorReset].join(config.params.delimiter); break;
+//             default: args.background = [config.params.codeColorBackground + config.params.codeColor, args.background].join(config.params.delimiter); break;
 
 //         };
 
@@ -1681,7 +1681,7 @@ export function ansiChange(ansi, property, value) {
 
 //     } = args;
 
-//     return [foreground, background].filter(value => value).join(config.value.delimiter);
+//     return [foreground, background].filter(value => value).join(config.params.delimiter);
 
 // };
 
@@ -1781,7 +1781,7 @@ export function ansiChange(ansi, property, value) {
 
 //     } = args;
 
-//     return YCond.isNumber(color) ? color : config.value.colors[color];
+//     return YCond.isNumber(color) ? color : config.params.colors[color];
 
 // };
 
@@ -1871,12 +1871,12 @@ export function ansiChange(ansi, property, value) {
 
 //     if (!args.foreground) {
 
-//         args.foreground = `${config.value.codeColorForeground}${config.value.codeColorReset}`;
+//         args.foreground = `${config.params.codeColorForeground}${config.params.codeColorReset}`;
 
 //     };
 //     if (!args.background) {
 
-//         args.background = `${config.value.codeColorBackground}${config.value.codeColorReset}`;
+//         args.background = `${config.params.codeColorBackground}${config.params.codeColorReset}`;
 
 //     };
 
@@ -2085,7 +2085,7 @@ export function ansiChange(ansi, property, value) {
 
 //     } catch (e) {
 
-//         if (config.value.strictMode) {
+//         if (config.params.strictMode) {
 
 //             throw e;
 
@@ -2250,7 +2250,7 @@ export function ansiChange(ansi, property, value) {
 
 //         console.log(e);
 
-//         if (config.value?.strictMode) {
+//         if (config.params?.strictMode) {
 
 //             throw e;
 
@@ -2357,7 +2357,7 @@ export function ansiChange(ansi, property, value) {
 
 //         console.log(e);
 
-//         if (config.value?.strictMode) {
+//         if (config.params?.strictMode) {
 
 //             throw e;
 
@@ -2475,7 +2475,7 @@ export function ansiChange(ansi, property, value) {
 
 //     } catch (e) {
 
-//         if (config.value?.strictMode) {
+//         if (config.params?.strictMode) {
 
 //             throw e;
 
@@ -2523,7 +2523,7 @@ export function ansiChange(ansi, property, value) {
 
 //     } = t;
 
-//     process.stdout.write(config.value.codeBackspace.repeat(count));
+//     process.stdout.write(config.params.codeBackspace.repeat(count));
 
 //     return true;
 
@@ -2582,7 +2582,7 @@ export function ansiChange(ansi, property, value) {
 
 //     } catch (e) {
 
-//         if (config.value?.strictMode) {
+//         if (config.params?.strictMode) {
 
 //             throw e;
 
@@ -2699,7 +2699,7 @@ export function ansiChange(ansi, property, value) {
 
 //     } catch (e) {
 
-//         if (config.value?.strictMode) {
+//         if (config.params?.strictMode) {
 
 //             throw e;
 
@@ -2751,7 +2751,7 @@ export function ansiChange(ansi, property, value) {
 
 //     } = t;
 
-//     const result = `${config.value.code}${y};${x}${config.value.codePosition}`;
+//     const result = `${config.params.code}${y};${x}${config.params.codePosition}`;
 
 //     if (result) {
 

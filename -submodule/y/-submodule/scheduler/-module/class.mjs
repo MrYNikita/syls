@@ -133,7 +133,7 @@ class MScheduler extends IScheduler {
     */
     callback(y) {
         
-        y.timeout = setTimeout(y.callback, y.frequency ?? config.value.frequency, y);
+        y.timeout = setTimeout(y.callback, y.frequency ?? config.params.frequency, y);
 
         for (const event of y.events) {
 

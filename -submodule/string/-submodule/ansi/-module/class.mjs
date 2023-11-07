@@ -257,12 +257,12 @@ export class YANSI extends FANSI {
     */
     get() {
         
-        const underline = this.underline ? config.value.codeUnderline : config.value.codeUnderlineReset;
+        const underline = this.underline ? config.params.codeUnderline : config.params.codeUnderlineReset;
 
-        const foreground = this.foreground ? `${config.value.codeColorForeground}${config.value.codeColor};${this.foreground}` : '';
-        const background = this.background ? `${config.value.codeColorBackground}${config.value.codeColor};${this.background}` : '';
+        const foreground = this.foreground ? `${config.params.codeColorForeground}${config.params.codeColor};${this.foreground}` : '';
+        const background = this.background ? `${config.params.codeColorBackground}${config.params.codeColor};${this.background}` : '';
 
-        return `${config.value.code}${[underline, foreground, background].filter(code => code).join(';')}m`;
+        return `${config.params.code}${[underline, foreground, background].filter(code => code).join(';')}m`;
         
     };
     /**

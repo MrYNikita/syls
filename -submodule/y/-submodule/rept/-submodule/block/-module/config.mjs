@@ -15,11 +15,13 @@ const config = {
  * ***
  * @public
 */
-export const configBlock = new YConfig(Object.assign(config, {
-    
-    
-    
-}), configY);
+export const configBlock = new YConfig({
+
+    ...config,
+
+
+
+}, configY);
 
 export default configBlock;
 
@@ -29,52 +31,3 @@ export default configBlock;
  * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */
-
-// /** ### configBlock
-//  * - Модуль `ject\entity\report\block`
-//  * 
-//  * Конфигуратор модуля `block`.
-//  * 
-// */
-// export const configBlock = {
-    
-//     /**
-//      * ### nameDefault
-//      * 
-//      * Дефолт наименование.
-//      * 
-//      * *** 
-//      * @type {string?} 
-//      * @public
-//     */
-//     nameDefault: 'block',
-
-//     /**
-//      * ### priorityDefault
-//      * 
-//      * Дефолт приоритет.
-//      * 
-//      * *** 
-//      * @type {number?} 
-//      * @public
-//     */
-//     priorityDefault: null,
-
-//     /**
-//      * ### describeDefault
-//      * 
-//      * Дефолт описание.
-//      * 
-//      * *** 
-//      * @type {function():string?} 
-//      * @public
-//     */
-//     describeDefault() {
-
-//         return '';
-
-//     },
-    
-// };
-
-// export default configBlock;

@@ -2,7 +2,7 @@
 
 import { yClassifyProp, } from "@syls/y";
 
-/** @type {import('./config.mjs')['default']['value']?} */
+/** @type {import('./config.mjs')['default']['params']?} */
 let config = null;
 
 await import('./config.mjs')

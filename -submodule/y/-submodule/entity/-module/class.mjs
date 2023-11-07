@@ -11,35 +11,37 @@ import { configEntity as config } from './config.mjs';
 //#endregion
 //#region YT
 
-/** ### YEntityT
- * - Тип `T`
- * 
- * Основной параметр модуля `YEntity`.
- * 
- * @typedef {YEntityTE&YEntityTU&Y} YEntityT
- * 
+/** ### entityTC
+ * @typedef entityTC
+ * @prop {}
 */
-/** ### YEntityTE
- * - Тип `TE`
- * 
- * Параметр наследования `YEntity`.
- * 
- * @typedef {Omit<DEntity, keyof SEntity>} YEntityTE
- * 
-*/
-/** ### YEntityTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YEntity`.
- * 
- * @typedef YEntityTU
- * @prop {any} _
- * 
-*/
+
+/** @typedef {import('./module.mjs').entityT&entityTC} entityT */
 
 //#endregion
 
-class SEntity extends Y {
+/**
+ * ### YEntity
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YEntity extends Y {
+
+    //#region static
+
+    static {
+
+        this
+
+            .appendModule(this)
+
+    };
 
     /**
      * ### stock
@@ -73,17 +75,26 @@ class SEntity extends Y {
     */
     static create(...args) {
 
-        return Object.getPrototypeOf(SEntity).create.apply(this, args);
+        return super.create(...args);
+
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YEntity)?}
+     * @template {YEntity} Y1
+     * @override
+    */
+    static setClass(value) {
+
+        return super.setClass(value);
 
     };
 
-};
-class DEntity extends SEntity {
-
-
-
-};
-class IEntity extends DEntity {
+    //#endregion
+    //#region field
 
     /**
      * ### _y
@@ -91,138 +102,39 @@ class IEntity extends DEntity {
      * Контекст.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {YContext<this>}
      * @field
-     * @protected
+     * @public
     */
     _y = new YContext();
 
-};
-class MEntity extends IEntity {
-
-
-
-};
-class FEntity extends MEntity {
+    //#endregion
+    //#region method
 
     /**
-     * ### YEntity.constructor
-     * 
-     * 
-     * 
-     * ***
-     * @arg {YEntityT} args
+     * @method
+     * @public
+     * @override
     */
-    constructor(args) {
+    getClass() {
 
-        super(args = FEntity.#before(args = arguments));
-
-        FEntity.#deceit.apply(this, [args]);
-
-        return this.correlate();
+        return YEntity;
 
     };
-
-    /** @arg {DEntity} args */
-    static #before(args) {
-
-        /** @type {YArg<IEntity>} */
-        const yarg = args instanceof YArg ? args : new YArg(args);
-
-
-
-        return yarg;
-
-    };
-    /** @arg {YArg<IEntity>} args @this {YEntity} */
-    static #deceit(args) {
-
-        try {
-
-            FEntity.#verify.apply(this, arguments);
-
-        } catch (e) {
-
-            if (config?.strictMode) {
-
-                throw e;
-
-            };
-
-            return new YEntity();
-
-        } finally {
-
-
-
-        };
-
-    };
-    /** @arg {YArg<IEntity>} args @this {YEntity} */
-    static #verify(args) {
-
-        const {
-
-
-
-        } = args;
-
-        FEntity.#handle.apply(this, arguments);
-
-    };
-    /** @arg {YArg<IEntity>} args @this {YEntity} */
-    static #handle(args) {
-
-
-
-        FEntity.#create.apply(this, arguments);
-
-    };
-    /** @arg {YArg<IEntity>} args @this {YEntity} */
-    static #create(args) {
-
-        const {
-
-
-
-        } = args;
-
-        this
-
-            .adopt(args.getData())
-            .do(self => {
-
-                self._y.id = self.getClass().count ?? null;
-
-            })
-
-    };
-
-};
-
-/**
- * ### YEntity
- * - Тип `SDIMFY`
- * - Версия `1.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YEntity`.
- * 
- * ***
- * @class
- * 
-*/
-export class YEntity extends FEntity {
 
     /**
      * ### getRept
      * 
-     * ***
-     * 
      * Метод получения отчёта.
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
@@ -232,38 +144,22 @@ export class YEntity extends FEntity {
         
     };
     /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * @method
-     * @public
-     * @returns {typeof YEntity}
-    */
-    getClass() {
-
-        return YEntity;
-
-    };
-    /**
      * ### getHandler
-     * 
-     * ***
      * 
      * Метод получения обработчика по метке.
      * 
      * ***
      * @arg {string} label `Метка`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
     getHandler(label) {
-
+        
         for (const handler of this._y.handlers) {
 
             if (handler.label === label) return handler;
@@ -271,54 +167,20 @@ export class YEntity extends FEntity {
         }
 
         return null;
-
+        
     };
-
-    /**
-     * ### handle
-     * 
-     * ***
-     * 
-     * Метод обработки событий.
-     * 
-     * ***
-     * @arg {...string} labels `Метки` 
-     * @method
-     * @public
-    */
-    handle(...labels) {
-
-        for (const label of labels) {
-
-            const handler = this.getHandler(label);
-
-            if (handler) {
-
-                handler.handle(this);
-
-                if (!handler.procedures.length) {
-
-                    this._y.handlers.splice(this._y.handlers.indexOf(handler), 1);
-
-                };
-
-            };
-
-        };
-
-        return this;
-
-    };
-
     /**
      * ### useRept
-     * 
-     * ***
      * 
      * Метод использования отчёта.
      * 
      * ***
      * @arg {(self:YRept<this>) => void} code `Код`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
@@ -339,11 +201,46 @@ export class YEntity extends FEntity {
         return this;
         
     };
-
     /**
-     * ### appendHandler
+     * ### handle
+     * 
+     * Метод обработки событий.
      * 
      * ***
+     * @arg {...string} labels `Метки` 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    handle(...labels) {
+        
+        for (const label of labels) {
+
+            const handler = this.getHandler(label);
+
+            if (handler) {
+
+                handler.handle(this);
+
+                if (!handler.procedures.length) {
+
+                    this._y.handlers.splice(this._y.handlers.indexOf(handler), 1);
+
+                };
+
+            };
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### appendHandler
      * 
      * Метод добавления обработчиков.
      * 
@@ -352,11 +249,14 @@ export class YEntity extends FEntity {
      * @arg {string} label `Метка`
      * @arg {string} procLabel `Метка процедуры`
      * @arg {boolean} disposable `Одноразовость`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
     appendHandler(label, procLabel, func, disposable) {
-
+        
         const values = YCond.isString(arguments[0]) ? [[label, [procLabel, func, disposable]]] : arguments;
 
         for (const value of values) {
@@ -379,16 +279,84 @@ export class YEntity extends FEntity {
         };
 
         return this;
+        
+    };
+
+    //#endregion
+
+    /**
+     * ### YEntityConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {entityTC} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+
+        try {
+
+            //#region before
+
+            /** @type {YArg<YEntity>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
+
+
+
+            super(yarg);
+
+            //#endregion
+            //#region verify
+
+
+
+            //#endregion
+            //#region handle
+
+
+
+            //#endregion
+            //#region comply
+
+
+
+            //#endregion
+
+            return this
+
+                .adopt(yarg.getData())
+
+
+        } catch (err) {
+
+            if (config.params.strictMode) {
+
+                throw err;
+
+            };
+
+        } finally {
+
+
+
+        };
 
     };
 
 };
-
-//#region YE
-
-YEntity.getY()['modules'].push(YEntity);
-
-//#endregion YE
 
 /**
  * @file entity/class.mjs

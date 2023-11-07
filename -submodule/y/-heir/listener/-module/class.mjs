@@ -81,7 +81,7 @@ class SListener extends YEntity {
      * @returns {(Y1&Y1)?}
      * @template {YListener} Y1
     */
-    static becomePrototype(value) {
+    static setClass(value) {
         
         if (!(value instanceof Object)) return null;
         

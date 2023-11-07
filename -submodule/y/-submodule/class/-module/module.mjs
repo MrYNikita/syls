@@ -65,13 +65,13 @@ function cast(args) {
         if (!to) to = Y;
         if (!conf) conf = {};
 
-        result = [to.becomePrototype(cl), new YConfig(to.config, conf)];
+        result = [to.setClass(cl), new YConfig(to.config, conf)];
 
         result[0].config = result[1];
 
     } catch (err) {
 
-        if (config.value.strictMode) {
+        if (config.params.strictMode) {
 
             throw err;
 

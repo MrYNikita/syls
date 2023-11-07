@@ -1,53 +1,46 @@
 //#region YI
 
-import { Y } from '../../../-module/export.mjs';
+import { Y, yIsInstance } from '../../../-module/export.mjs';
 import { YArg } from '../../arg/-module/export.mjs';
+import { YCond } from '../../cond/-module/class.mjs';
 import { YBlock } from '../-submodule/block/-module/class.mjs';
 import { configRept as config } from './config.mjs';
-import { YCond } from '../../cond/-module/class.mjs';
 
 //#endregion
 //#region YT
 
-/** ### YReptT
- * - Тип `T`
- * 
- * Основной параметр модуля `YRept`.
- * 
- * ***
- * 
- * @typedef {YReptTE&YReptTU} YReptT
+/** ### reptTC
+ * @typedef reptTC
+ * @prop {}
 */
-/** ### YReptTE
- * - Тип `TE`
- * 
- * Параметр наследования `YRept`.
- * 
- * @typedef {Omit<DRept, keyof SRept>} YReptTE
-*/
-/** ### YReptTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YRept`.
- * 
- * @typedef YReptTU
- * @prop {} _
-*/
-/** ### YReptTUG
- * - Тип `TUP`
- * 
- * Уникальные генеративные параметры `YRept`.
- * 
- * @typedef YReptTUG
- * @prop {null} _
-*/
+
+/** @typedef {import('./module.mjs').reptT&reptTC} reptT */
 
 //#endregion
 
 /**
+ * ### YRept
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @template Y1
+ * 
 */
-class SRept extends Y {
+export class YRept extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
     
     /**
      * ### stock
@@ -81,16 +74,26 @@ class SRept extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SRept).create.apply(this, args);
+        return super.create(...args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YRept)?}
+     * @template {YRept} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
         
     };
     
-};
-/**
- * @extends SRept<Y1>
- * @template Y1
-*/
-class DRept extends SRept {
+    //#endregion
+    //#region field
     
     /**
      * ### target
@@ -98,18 +101,12 @@ class DRept extends SRept {
      * Цель.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {Y1}
      * @field
      * @public
     */
     target;
-    
-};
-/**
- * @extends DRept<Y1>
- * @template Y1
-*/
-class IRept extends DRept {
     
     /**
      * ### blocks
@@ -117,6 +114,7 @@ class IRept extends DRept {
      * Блоки.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {YBlock[]}
      * @field
      * @protected
@@ -128,163 +126,60 @@ class IRept extends DRept {
      * Итерация.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {number}
      * @field
      * @protected
     */
     iterate;
     
-};
-/**
- * @extends IRept<Y1>
- * @template Y1
-*/
-class MRept extends IRept {
-    
-    
-    
-};
-/**
- * @extends MRept<Y1>
- * @template Y1
-*/
-class FRept extends MRept {
+    //#endregion
+    //#region method
     
     /**
-     * ### YRept.constructor
-     * 
-     * 
-     * 
-     * ***
-     * @arg {YReptT&G} args
+     * @method
+     * @public
+     * @override
     */
-    constructor(args) {
+    getClass() {
         
-        super(args = FRept.#before(args = arguments));
-        
-        FRept.#deceit.apply(this, [args]);
+        return YRept;
         
     };
-    
-    /** @arg {DRept} args */
-    static #before(args) {
-        
-        /** @type {YArg<IRept>} */
-        const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
-        
-        yarg.set(
-            
-            ['target', 'ject'],
-            
-        );
-        
-        return yarg;
-        
-    };
-    /** @arg {YArg<IRept>} args @this {YRept} */
-    static #deceit(args) {
-        
-        try {
-            
-            FRept.#verify.apply(this, arguments);
-            
-        } catch (e) {
-            
-            if (config?.strictMode) {
-                
-                throw e;
-                
-            };
-            
-            return new YRept();
-            
-        } finally {
-            
-            
-            
-        };
-        
-    };
-    /** @arg {YArg<IRept>} args @this {YRept} */
-    static #verify(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        FRept.#handle.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IRept>} args @this {YRept} */
-    static #handle(args) {
-        
-        
-        
-        FRept.#create.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IRept>} args @this {YRept} */
-    static #create(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        this
-        
-            .adopt(args.getData());
-        
-    };
-    
-};
-
-/**
- * ### YRept
- * - Тип `SDIMFY`
- * - Версия `1.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YRept`.
- * 
- * ***
- * @class
- * @template Y1
- * @extends FRept<YReptTUG&Y1>
- * 
-*/
-export class YRept extends FRept {
-    
-    /** @arg {Y1} args */
-    constructor(args) { super(...arguments); };
     
     /**
      * ### get
      * 
-     * ***
-     * 
      * Метод получения текста отчёта.
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
-     * @returns {string}
     */
     get() {
-        
+
         let result = '';
 
-        for (const block of this.blocks) {
+        const blocks = [
+
+            ...this.blocks,
+            ...config.params.blocks,
+
+        ];
+
+        for (const block of blocks) {
 
             result += `### ${block.title ?? block.label}\n`;
 
-            for (const func of block.funcs) {
+            for (const point of block.points) {
                 
-                result += `${func(this.target)}\n`;
+                result += `${point(this.target)}\n`;
 
             };
 
@@ -294,33 +189,17 @@ export class YRept extends FRept {
         
     };
     /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * @method
-     * @public
-     * @returns {typeof YRept}
-    */
-    getClass() {
-        
-        return YRept;
-        
-    };
-    /**
      * ### getBlock
-     * 
-     * ***
      * 
      * Метод получения блока по метке.
      * 
      * ***
      * @arg {string} label `Метка`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
@@ -329,15 +208,18 @@ export class YRept extends FRept {
         return this.blocks.find(block => block.label === label) ?? null;
         
     };
-
     /**
      * ### display
-     * 
-     * ***
      * 
      * Метод отображения отчёта.
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
@@ -350,11 +232,8 @@ export class YRept extends FRept {
         return this;
         
     };
-
     /**
      * ### appendBlock
-     * 
-     * ***
      * 
      * Метод добавления блоков.
      * 
@@ -364,6 +243,9 @@ export class YRept extends FRept {
      * @arg {number} priority `Приоритет`
      * @arg {string[]} tags `Теги`
      * @arg {((self:Y1)=>string)[]} funcs `Функции`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
@@ -373,7 +255,7 @@ export class YRept extends FRept {
 
         for (const value of values) {
 
-            if (!YCond.isArray(value) || this.getBlock(value[0])) continue;
+            if (!yIsInstance(value, Array) || this.getBlock(value[0])) continue;
 
             this.blocks.push(new YBlock(...value));
 
@@ -383,13 +265,85 @@ export class YRept extends FRept {
         
     };
     
+    //#endregion
+    
+    /**
+     * ### YReptConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {...reptTC&Y1} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+        
+        try {
+            
+            //#region before
+            
+            /** @type {YArg<YRept>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
+            
+            yarg.set(
+
+                ['target', 'ject'],
+
+            );
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
+            };
+            
+        } finally {
+            
+            
+            
+        };
+        
+    };
+    
 };
-
-//#region YE
-
-YRept.getY()['modules'].push(YRept);
-
-//#endregion
 
 /**
  * @file rept/class.mjs
@@ -397,414 +351,3 @@ YRept.getY()['modules'].push(YRept);
  * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */
-
-
-// //#region YI
-
-// import { Y } from '@syls/y';
-// import { YString } from '@syls/string';
-// import { ansiSetColor } from '@syls/string/ansi';
-// import { YBlock } from '../-submodule/block/-module/export.mjs';
-// import { YTag } from '../-submodule/block/-submodule/tag/-module/export.mjs';
-
-
-// //#endregion
-// //#region YT
-
-// /** ### YReptT
-//  * - Тип `T`
-//  * - Версия `0.0.0`
-//  * - Модуль `ject\entity\rept`
-//  * 
-//  * Основной параметр модуля `YRept`.
-//  * 
-//  * ***
-//  * 
-//  * @typedef {YReptTE&YReptTU} YReptT
-// */
-// /** ### YReptTE
-//  * - Тип `TE`
-//  * - Версия `0.0.0`
-//  * - Модуль `ject\entity\Rept`
-//  * 
-//  * Параметр наследования `YRept`.
-//  * 
-//  * @typedef {{[p in Exclude<keyof DRept,keyof SRept>|Exclude<keyof SRept,keyof DRept>]:(DRept[p]&SRept[p])}} YReptTE
-// */
-// /** ### YReptTU
-//  * - Тип `TU`
-//  * - Версия `0.0.0`
-//  * - Модуль `ject\entity\Rept`
-//  * 
-//  * Уникальные параметры `YRept`.
-//  * 
-//  * @typedef YReptTU
-//  * @prop {} _
-// */
-// /** ### YReptTUG
-//  * - Тип `TUP`
-//  * - Версия `0.0.0`
-//  * - Модуль `ject\entity\Rept`
-//  * 
-//  * Уникальные генеративные параметры `YRept`.
-//  * 
-//  * @typedef YReptTUG
-//  * @prop {null=} _
-// */
-
-// //#endregion
-
-// /**
-//  * @template {YReptTUG<G1>} G
-// */
-// class SRept extends Y {
-
-
-
-// };
-// /**
-//  * @extends {SRept<G>}
-//  * @template {YReptTUG} G
-// */
-// class DRept extends SRept {
-
-//     /**
-//      * ### tags
-//      * 
-//      * Теги.
-//      * 
-//      * *** 
-//      * @type {YTag[]} 
-//      * @protected
-//     */
-//     tags = [];
-//     /**
-//      * ### blocks
-//      * 
-//      * Блоки отчета.
-//      * 
-//      * *** 
-//      * @type {YBlock[]} 
-//      * @public
-//     */
-//     blocks = [];
-
-// };
-// /**
-//  * @extends {DRept<G>}
-//  * @template {YReptTUG} G
-// */
-// class IRept extends DRept {
-
-    
-
-// };
-// /**
-//  * @extends {IRept<G>}
-//  * @template {YReptTUG<G1>} G
-// */
-// class MRept extends IRept {
-
-
-
-// };
-// /**
-//  * @extends {MRept<G>}
-//  * @template {YReptTUG} G
-// */
-// class FRept extends MRept {
-
-//     /**
-//      * ### YRept.constructor
-//      * 
-//      * 
-//      * 
-//      * ***
-//      * @arg {YReptT&G} t
-//     */
-//     constructor(t) {
-
-//         t = [...arguments];
-
-//         super(Object.assign(t = FRept.#before(t), {}));
-
-//         FRept.#deceit.apply(this, [t]);
-
-//     };
-
-//     /** @arg {any[]} t */
-//     static #before(t) {
-
-//         /** @type {YReptT} */
-//         let r = {};
-
-//         if (t?.length === 1 && [Object, YRept].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-
-//             r = t[0];
-
-//         } else if (t?.length) {
-
-//             if (t[0]?._ytp) {
-
-//                 t = [...t[0]._ytp];
-
-//             };
-
-//             switch (t.length) {
-
-//                 case 3:
-//                 case 2:
-//                 case 1:
-
-//             };
-
-//             if (!Object.values(r).length) {
-
-//                 r = { _ytp: t, };
-
-//             };
-
-//         };
-
-//         return r;
-
-//     };
-//     /** @arg {YReptT} t @this {YRept} */
-//     static #deceit(t) {
-
-//         try {
-
-//             FRept.#verify.apply(this, [t]);
-
-//         } catch (e) {
-
-//             throw e;
-
-//         } finally {
-
-
-
-//         };
-
-//     };
-//     /** @arg {YReptT} t @this {YRept} */
-//     static #verify(t) {
-
-//         const {
-
-
-
-//         } = t;
-
-//         FRept.#handle.apply(this, [t]);
-
-//     };
-//     /** @arg {YReptT} t @this {YRept} */
-//     static #handle(t) {
-
-
-
-//         FRept.#create.apply(this, [t]);
-
-//     };
-//     /** @arg {YReptT} t @this {YRept} */
-//     static #create(t) {
-
-//         const {
-
-
-
-//         } = t;
-
-//         this.adopt(t);
-
-//         if (config) {
-
-//             this.adoptDefault(config);
-
-//         };
-
-//     };
-
-// };
-
-// /**
-//  * ### YRept
-//  * - Тип `SDIMFY`
-//  * - Версия `0.0.0`
-//  * - Модуль `ject\entity\Rept`
-//  * - Цепочка `BDVHC`
-//  * ***
-//  * 
-//  * 
-//  * 
-//  * ***
-//  * @extends {FRept<G>}
-//  * @template {YReptTUG} G
-// */
-// export class YRept extends FRept {
-
-//     /**
-//      * ### filter
-//      * - Версия `0.0.0`
-//      * - Модуль `ject\entity\rept`
-//      * ***
-//      * 
-//      * Метод фильтрации по тегам.
-//      * 
-//      * ***
-//      * @arg {...string} tags `Теги`
-//      * @public
-//     */
-//     filter(...tags) {
-
-//         this.tags.forEach(tag => {
-
-//             if (tags.includes(tag.name)) {
-
-//                 tag.hide = true;
-
-//             };
-
-//         });
-
-//         return this;
-        
-//     };
-//     /**
-//      * ### display
-//      * - Версия `0.0.0`
-//      * - Модуль `ject\entity\Rept`
-//      * ***
-//      * 
-//      * Метод отображения отчета.
-//      * 
-//      * ***
-//      * @arg {any} entity `Сущность`
-//      * @public
-//     */
-//     display(entity) {
-
-//         const blocks = this.blocks.filter(block => block.tags.every(tag => !tag.hide)).map(block => {
-
-//             const text = block.texts.map(text => text(entity)).join('\n');
-
-//             if (text) {
-
-//                 return new YString()
-
-//                     .setPostfix('\n')
-//                     .paste(`--- ${block.name}`)
-//                     .setPostfix()
-//                     .paste(text)
-//                     .get(true);
-
-//             } else {
-
-//                 return '';
-
-//             };
-
-//         });
-
-//         const result = new YString()
-
-//             .paste(
-
-//                 '###\n',
-//                 ...blocks.filter(block => block),
-//                 '###',
-
-//             )
-//             .formatReport()
-//             .get(true);
-
-//         let format = null;
-
-//         const formats = [
-
-//             { reg: /\p{L}/u, foreground: 'white', },
-//             { reg: /\p{P}/u, foreground: 'cyan', },
-//             { reg: /\p{N}|∞/u, foreground: 'yellow', },
-
-//         ];
-
-//         for (const char of result) {
-
-//             if (!format || !format.reg.test(char)) {
-
-//                 format = formats.find(format => format.reg.test(char)) ?? formats[0];
-
-//                 ansiSetColor(format.foreground);
-
-//             };
-
-//             process.stdout.write(char);
-
-//         };
-
-//         return this;
-
-//     };
-
-//     /**
-//      * ### appendBlocks
-//      * - Версия `0.0.0`
-//      * - Модуль `ject\entity\rept`
-//      * ***
-//      * 
-//      * Метод добавления новых блоков.
-//      * 
-//      * ***
-//      * @arg {...([string, function(G):string, number, ...]|YBlock<G>[])} blocks `Блоки`
-//      * @public
-//     */
-//     appendBlocks(...blocks) {
-
-//         blocks.forEach(block => {
-
-//             if (block.constructor === Array) {
-
-//                 block = new YBlock(...block);
-
-//             };
-
-//             const find = this.blocks.find(blockThis => blockThis.name === block.name);
-
-//             if (find) {
-
-//                 find.texts.push(...block.texts);
-
-//             } else {
-
-//                 this.blocks.push(block);
-
-//             };
-
-//             for (const i in block.tags) {
-
-//                 const tag = block.tags[i];
-
-//                 const find = this.tags.findIndex(tagThis => tagThis.name === tag.name);
-
-//                 if (find === -1) {
-
-//                     this.tags.push(tag);
-
-//                 } else {
-
-//                     block.tags[i] = this.tags[find];
-                    
-//                     this.tags[find].links.push(block);
-                    
-//                 };
-
-//             };
-
-//         });
-
-//         return this;
-
-//     };
-
-// };

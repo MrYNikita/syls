@@ -15,8 +15,10 @@ const config = {
  * ***
  * @public
 */
-export const configContext = new YConfig(Object.assign(config, {
+export const configContext = new YConfig({
     
+    ...config,
+
     /**
      * ### handlersDefault
      * 
@@ -44,7 +46,7 @@ export const configContext = new YConfig(Object.assign(config, {
     */
     instructsDefault: [],
     
-}), configY);
+}, configY);
 
 export default configContext;
 

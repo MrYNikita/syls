@@ -1,21 +1,25 @@
 //#region YI
 
-import { configY as config } from './config.mjs';
-import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yGetProperty, yGetPropertyByPath, ySupplement, yClassifyProp, } from "./module.mjs";
+import { configY as config } from "./config.mjs";
+import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yFill, yForDeep, yGetPropByKeys, ySetClass, ySetPropByKeys, yStat, yTurn } from "./module.mjs";
+
+//#endregion
+//#region YT
+
+/** ### yTC
+ * @typedef yTC
+ * @prop {}
+*/
+
+/** @typedef {import('./module.mjs').yT&yTC} yT */
 
 //#endregion
 
+
 /**
  * ### Y
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
  * 
- * 
- * 
- * ***
- * 
- * 
+ * Базовый класс `SYLS`.
  * 
  * ***
  * @class
@@ -29,7 +33,9 @@ export class Y {
     
     static {
         
-        
+        this
+            
+            .appendModule(this)
         
     };
     
@@ -76,18 +82,19 @@ export class Y {
     /**
      * ### do
      * 
-     * ***
-     * 
      * Метод выполнения кода в контексте данного класса.
      * 
      * ***
+     * 
      * @arg {...((self: typeof Y, ...args) => void)} codes `Коды`
+     * 
+     * ***
      * @static
      * @method
      * @public
     */
     static do(...codes) {
-        
+
         Y.prototype.do.apply(this, codes);
 
         return this;
@@ -111,17 +118,48 @@ export class Y {
         
     };
     /**
+     * ### create
+     * 
+     * Статический метод создания множества экземпляров на основе указанных массивов данных.
+     * 
+     * ***
      * @arg {...Y} args `Аргументы`
      * @returns {Y[]}
+     * ***
+     * @static
+     * @method
+     * @public
+     * @since `1.0.0`
+     * @version `1.0.0`
     */
     static create(...args) {
-
+        
         const result = [];
 
-        for (const index in args) result[index] = new this(args[index]);y
+        for (const index in args) result[index] = new this(args[index]);
 
         return result;
-
+        
+    };
+    /**
+     * ### setClass
+     * 
+     * Метод установки текущего класса, как класс указнного объекта.
+     * 
+     * ***
+     * @arg {Y1} target `Значение`
+     * @template Y1
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @static
+     * @method
+     * @public
+    */
+    static setClass(target) {
+        
+        return ySetClass(target, this);
+        
     };
     /**
      * ### appendModule
@@ -150,133 +188,32 @@ export class Y {
         return this;
         
     };
-    /**
-     * ### becomePrototype
-     * 
-     * ***
-     * 
-     * Метод установки текущего класса, как прототипа указанному объекту.
-     * 
-     * ***
-     * @arg {Y1} value `Значение`
-     * @static
-     * @method
-     * @public
-     * @returns {(Y1&Y)?}
-     * @template Y1
-    */
-    static becomePrototype(value) {
-        
-        if (!(value instanceof Object)) return null;
-
-        Object.setPrototypeOf(value, this);
-
-        if (typeof value === 'function' && 'prototype' in value) {
-
-            Object.setPrototypeOf(value['prototype'], this.prototype);
-
-        };
-
-        return value;
-        
-    };
     
     //#endregion
+    //#region field
+    
+    
+    
+    //#endregion
+    //#region method
     
     /**
-     * ### correlate
-     * 
-     * ***
-     * 
-     * Метод корреляции.
-     * 
-     * ***
-     * @method
-     * @protected
-    */
-    correlate() {
-
-        const aliases = this.constructor?.config?.value?.aliases;
-
-        if (aliases) {
-
-            return yCorrelate(this, ...aliases);
-
-        };
-
-        return this;
-
-    };
-
-    /**
-     * ### YConstructor
-     * 
-     * 
-     * 
-     * ***
-     * @arg {YT} args `Аргументы`
-     * 
-     * Представлены единым объектом носителем аргументов.
-     * 
-     * ***
-     * @constructor
-    */
-    constructor(...args) {
-        
-        try {
-            
-            //#region verify
-            
-
-            
-            //#endregion
-            //#region handle
-            
-            
-            
-            //#endregion
-            //#region comply
-            
-            
-            
-            //#endregion
-            
-            return this
-
-                .correlate()
-            
-            
-        } catch (err) {
-            
-            if (config.strictMode) {
-                
-                throw err;
-                
-            };
-            
-        } finally {
-            
-            
-            
-        };
-        
-    };
-
-    /**
      * ### do
-     * 
-     * ***
      * 
      * Метод выполнения кода в контексте данного экземпляра.
      * 
      * ***
+     * 
      * @arg {...((self: this, ...args) => void)} codes `Коды`
+     * 
+     * ***
      * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
     do(...codes) {
-
+        
         try {
 
             for (const code of codes) {
@@ -294,410 +231,191 @@ export class Y {
         };
 
         return this;
-
+        
     };
     /**
-     * ### gong
+     * ### getStat
+     * 
+     * Метод получения статистики по текущему объекту.
      * 
      * ***
      * 
-     * Метод заглушка.
      * 
-     * Метод без логики для объявления начала методллогического полотна. Используется при форматировании.
      * 
      * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    gong() {
+    getStat() {
         
+        return yStat(this);   
+        
+    };
+    /**
+     * ### getClass
+     * 
+     * Метод получения класса текущего экземпляра.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getClass() {
+        
+        return Y;
+        
+    };
+    /**
+     * ### getPropByKeys
+     * 
+     * Метод получения значения по указанному ключу.
+     * 
+     * ***
+     * @arg {...yT['key']} key `Ключ`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getPropByKeys(...keys) {
+
+        return yGetPropByKeys(this, ...keys);
+        
+    };
+    /**
+     * ### setPropByKeys
+     * 
+     * Метод установки указанного значения свойству текущего объекта по указанным ключам.
+     * 
+     * ***
+     * @arg {yT['params']} value `Значение`
+     * @arg {...yT['key']} keys `Ключи`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setPropByKeys(value, ...keys) {
+        
+        ySetPropByKeys(this, keys, value);
+
         return this;
         
     };
     /**
-     * ### cond
+     * ### forDeep
+     * 
+     * Метод получения генератора для перебора свойств текущего объекта.
      * 
      * ***
      * 
-     * Метод условной проверки.
+     * 
      * 
      * ***
-     * @arg {...any} args `Аргументы`
-     * @arg {((self: this, ...args) => void)?} t `Истина`
-     * @arg {((self: this, ...args) => void)?} f `Ложь`
-     * @arg {(self: this, ...args) => boolean} cond `Условие`
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    cond(cond, t, f, ...args) {
-
-        if (typeof cond !== "function") {
-
-            return this;
-
-        };
-
-        if (cond(this, ...args)) {
-
-            if (typeof t === 'function') t(this, ...args);
-
-        } else {
-
-            if (typeof f === "function") f(this, ...args);
-
-        };
-
-        return this;
-
+    forDeep() {
+        
+        return yForDeep(this);
+        
     };
     /**
      * ### mode
      * 
-     * ***
-     * 
-     * Метод установки режимов.
+     * Метод переключения режимов объекта.
      * 
      * ***
-     * @arg {any} value `Значение`
-     * @arg {string} mode `Режим`
+     * 
+     * @arg {...yT['mode']} modes `Режимы`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    mode(mode, value) {
-
-        const args = yClassifyProp(arguments);
-
-        const options = [...args.array, ...args.string.map(string => [string])];
-
-        for (const option of options) {
-
-            [mode, value] = option;
-
-            if (!(mode in this)) {
-
-                if (!((mode += 'Mode') in this)) {
-
-                    continue;
-
-                };
-
-            };
-
-            this[mode] = value === undefined ? this[mode] ? false : true : !!value;
-
-        };
+    mode(...modes) {
+        
+        yMode(this, ...modes);
 
         return this;
-
-    };
-    /**
-     * ### wrap
-     * 
-     * ***
-     * 
-     * Метод выполнения нового контекста.
-     * 
-     * ***
-     * @arg {Y1} target `Цель`
-     * @arg {(self: Y1) => void} wrapper `Обёртка`
-     * @arg {...any} args `Аргументы`
-     * @method
-     * @public
-     * @template Y1
-    */
-    wrap(wrapper, target, ...args) {
-
-        if (typeof wrapper !== 'function') {
-
-            return this;
-
-        };
-
-        wrapper(target, ...args);
-
-        return this;
-
+        
     };
     /**
      * ### fill
      * 
-     * ***
-     * 
-     * 
+     * Метод заполнения свойств текущего объекта, совпадающими свойствами `image`.
      * 
      * ***
      * 
+     * @arg {yT['image']} image `Образ`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    fill() {
+    fill(image) {
+        
+        yFill(this, image);
 
-
-
+        return this;
+        
     };
     /**
      * ### turn
      * 
-     * ***
-     * 
-     * Метод переопределения метододологического холста.
-     * 
-     * ***
-     * @arg {Y1} y
-     * @method
-     * @public
-     * @returns {Y1&{getPrev()=>Y2}}
-     * @template Y1
-     * @template {this} Y2
-    */
-    turn(y) {
-        
-        const prev = this;
-
-        const shell = new Proxy({
-
-            getPrev() {
-
-                return prev;
-
-            },
-
-        }, {
-
-            get(t, p) {
-
-                if (y[p]) {
-
-                    return y[p];
-
-                } else {
-
-                    return t[p];
-
-                };
-
-            },
-            set(t, p, v) {
-
-                y[p] = v;
-
-                return true;
-
-            },
-
-        });
-
-        Object.setPrototypeOf(shell, y);
-
-        return shell;
-        
-    };
-    /**
-     * ### clone
-     * 
-     * ***
-     * 
-     * Метод клонирования объекта.
-     * 
-     * ***
-     * @arg {boolean?} link `Связь`
-     * @public
-    */
-    clone(link = true) {
-
-        return yClone(this, link);
-
-    };
-    /**
-     * ### equal
-     * 
-     * ***
-     * 
-     * Метод проверки на эквивалентность.
+     * Метод перехода с текущего объекта на `ject` с возможностью возврата.
      * 
      * ***
      * @arg {Y1} ject `Объект`
-     * @public
      * @template Y1
-    */
-    equal(ject) {
-
-        return yEqual(this, ject);
-
-    };
-    /**
-     * ### default
-     * 
      * ***
-     * 
-     * Метод замещения указанных значений объекта на дефолтные.
-     * 
-     * Если не указать ни одного свойства, то заменены будут все свойства.
-     * 
-     * ***
-     * @arg {...(keyof this)} props `Значения`
-     * @method
-     * @public
-    */
-    default(...props) {
-    
-        if (!props.length) {
-
-            props = Object.keys(this);
-
-        } else {
-
-            props = props.filter(prop => prop in this);
-
-        };
-
-        const config = this.constructor.config;
-
-        for (const prop of props) {
-
-            this[prop] = (config.value[prop + 'Default'] ?? config.value.default);
-
-        };
-
-        return this;
-        
-    };
-    /**
-     * ### unstock
-     * 
-     * ***
-     * 
-     * Метод удаления объекта из учёта.
-     * 
-     * Данный метод удаляет объект оптимальным и полным образом.
-     * Если объект представлен в единственном экземпляре, то будет удалён только один экземпляр без перебора.
-     * Если же объектов несколько, то будут удалены все его экземпляры.
-     * 
-     * ***
-     * @method
-     * @public
-    */
-    unstock() {
-        
-        const image = this.getClass();
-
-        let index = image.stock.indexOf(this);
-
-        if (index !== -1) {
-
-            image.stock.splice(index, 1);
-
-        };
-
-        index = image.stock.indexOf(this);
-
-        if (index !== -1) {
-
-            image.stock = image.stock.filter(item => item !== this)
-
-        };
-
-        return this;
-        
-    };
-
-    /**
-     * ### adopt
-     * - Версия `1.0.0`
-     * - Модуль `ject`
-     * ***
-     *
-     * Метод {@link yAdopt|перенятия} свойств обладателя.
-     *
-     * ***
-     * @arg {Y1} owner `Обладатель`
-     * @arg {Y2} config `Конфигуратор`
      * @since `1.0.0`
-     * @public
-     * @method
      * @version `1.0.0`
-     * @template Y1,Y2
-    */
-    adopt(owner, config) {
-
-        return yAdopt(this, owner, config);
-
-    };
-    /**
-     * ### adoptDefault
-     * - Версия `0.0.0`
-     * - Модуль `ject`
-     * ***
-     *
-     * Метод {@link yAdoptDefault|перенятия} дефолт свойств обладателя.
-     *
-     * ***
-     * @arg {{}} owner `Обладатель`
+     * @method
      * @public
     */
-    adoptDefault(owner) {
-
-        return yAdoptDefault(this, owner);
-
+    turn(ject) {
+        
+        return yTurn(this, ject);
+        
     };
-
     /**
      * ### print
      * 
-     * ***
-     * 
-     * Метод отображения объекта.
-     * 
-     * ***
-     * @public
-    */
-    print() {
-
-        console.log(this);
-
-        return this;
-
-    };
-    /**
-     * ### printProp
+     * Метод отображения состояния текущего объекта.
      * 
      * ***
      * 
-     * Метод отображения свойства объекта.
+     * 
      * 
      * ***
-     * @arg {...(keyof this)} props `Свойство`
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    printProp(...props) {
-
-        if (!props.every(elem => elem instanceof Array)) {
-
-            props = [props];
-
-        };
-
-        for (const prop of props) {
-
-            let focus = this;
-
-            for (const part of prop) {
-
-                if (part in focus) {
-
-                    focus = focus[part]
-
-                } else {
-
-                    break;
-
-                };
-
-            };
-
-            console.log(focus);
-
-        };
+    print() {
+        
+        console.log(this);
 
         return this;
         
@@ -705,12 +423,15 @@ export class Y {
     /**
      * ### printExec
      * 
-     * ***
-     * 
      * Метод отображения результата кодовых операций в контексте текущего объекта.
      * 
      * ***
      * @arg {...(self:this)=>any} codes `Коды`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
@@ -726,103 +447,921 @@ export class Y {
         
     };
     /**
-     * ### printTable
+     * ### clone
+     * 
+     * Метод клонирования текущего объекта.
      * 
      * ***
-     * 
-     * Метод отображения данных в табличном виде.
-     * 
+     * @returns {Y1}
+     * @template {this} Y1
      * ***
-     * @arg {...this} jects `Объекты`
      * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    printTable(...jects) {
+    clone() {
+        
+        const clone = yClone(this);
 
-        console.table([this, ...jects]);
-
-        return this;
-
-    };
-
-    /**
-     * ### supplement
-     * - Версия `0.0.0`
-     * - Модуль `ject`
-     * ***
-     *
-     * Метод {@link ySupplement|дополнения} свойствами указанного дополнителя.
-     *
-     * ***
-     * @arg {{}} supplementer `Дополнитель`
-     * @public
-     * @method
-    */
-    supplement(supplementer) {
-
-        return ySupplement(this, supplementer);
-
-    };
-
-    /**
-     * ### getClass
-     * 
-     * ***
-     * 
-     * Метод получения класса экземпляра.
-     * 
-     * ***
-     * @method
-     * @public
-     * @returns {typeof Y}
-    */
-    getClass() {
-
-        return Y;
+        if (!clone) throw new Error();
+        
+        return clone;
         
     };
     /**
-     * ### getProperty
-     * - Версия `0.0.0`
+     * ### equal
+     * 
+     * Метод сравнения `this` с `jects`.
+     * 
      * ***
-     *
-     * Метод {@link yGetProperty|получения} указанного свойства.
-     *
+     * @arg {...yT['ject']} jects `Объекты`
      * ***
-     * @arg {string} property `Свойство`
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    getProperty(property) {
-
-        return yGetProperty(this, property);
-
+    equal(...jects) {
+        
+        return yEqual(this, ...jects);
+        
     };
     /**
-     * ### getPropertyByPath
-     * - Версия `0.0.0`
+     * ### adopt
+     * 
+     * Метод дополнения текущего объекта свойствами из `image` и `conf`.
+     * 
      * ***
-     *
-     * Метод {@link yGetPropertyByPath|получения свойства по указанному пути}.
-     *
+     * @arg {yT['conf']} conf `Конфигуратор`
+     * @arg {yT['image']} image `Образ`
      * ***
-     * @arg {string} path `Путь`
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
-    getPropertyByPath(path) {
+    adopt(image, conf) {
+        
+        yAdopt(this, image, conf);
 
-        return yGetPropertyByPath(this, path);
+        return this;
+        
+    };
+    /**
+     * ### adoptDefault
+     * 
+     * Метод дополнения текущего объекта дефолт-свойствами из указанного `conf`.
+     * 
+     * ***
+     * @arg {yT['conf']} conf `Конфигуратор`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    adoptDefault(conf) {
+        
+        yAdoptDefault(this, conf);
 
+        return this;
+        
+    };
+    /**
+     * ### correlate
+     * 
+     * Метод корреляции.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @protected
+    */
+    correlate() {
+        
+        const aliases = this.constructor?.config?.value?.aliases;
+
+        if (aliases) {
+
+            return yCorrelate(this, ...aliases);
+
+        };
+
+        return this;
+        
+    };
+    
+    //#endregion
+    
+    /**
+     * ### YConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {yTC} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+        
+        try {
+            
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
+            };
+            
+        } finally {
+            
+            
+            
+        };
+        
     };
     
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //#region YI
+
+// import { configY as config } from './config.mjs';
+// import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yGetProp, yGetPropByPath, yMode, } from "./module.mjs";
+
+//#endregion
+
+// /**
+//  * ### Y
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @class
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * 
+// */
+// export class Y {
+    
+//     //#region static
+    
+//     static {
+        
+        
+        
+//     };
+    
+//     /**
+//      * ### stock
+//      * 
+//      * ***
+//      * 
+//      * 
+//      * 
+//      * ***
+//      * @type {Y[]}
+//      * @field
+//      * @static
+//      * @public
+//     */
+//     static stock = [];
+//     /**
+//      * ### config
+//      * 
+//      * 
+//      * 
+//      * ***
+//      * @field
+//      * @static
+//      * @public
+//     */
+//     static config = config;
+//     /**
+//      * ### modules
+//      * 
+//      * ***
+//      * 
+//      * Модули.
+//      * 
+//      * *** 
+//      * @type {any[]}
+//      * @field
+//      * @static
+//      * @private
+//     */
+//     static modules = [];
+    
+//     /**
+//      * ### do
+//      * 
+//      * ***
+//      * 
+//      * Метод выполнения кода в контексте данного класса.
+//      * 
+//      * ***
+//      * @arg {...((self: typeof Y, ...args) => void)} codes `Коды`
+//      * @static
+//      * @method
+//      * @public
+//     */
+//     static do(...codes) {
+        
+//         Y.prototype.do.apply(this, codes);
+
+//         return this;
+        
+//     };
+//     /**
+//      * ### getY
+//      * 
+//      * ***
+//      * 
+//      * Метод получения базового класса.
+//      * 
+//      * ***
+//      * @static
+//      * @method
+//      * @public
+//     */
+//     static getY() {
+
+//         return Y;
+        
+//     };
+//     /**
+//      * @arg {...Y} args `Аргументы`
+//      * @returns {Y[]}
+//     */
+//     static create(...args) {
+
+//         const result = [];
+
+//         for (const index in args) result[index] = new this(args[index]);y
+
+//         return result;
+
+//     };
+//     /**
+//      * ### appendModule
+//      * 
+//      * ***
+//      * 
+//      * Метод добавления модулей.
+//      * 
+//      * ***
+//      * @arg {...Y1} values `Значения`
+//      * @static
+//      * @method
+//      * @public
+//      * @template {typeof Y} Y1
+//     */
+//     static appendModule(...values) {
+
+//         for (const value of values) {
+
+//             if (!(value instanceof Function && value.prototype instanceof Y)) continue;
+
+//             Y.modules.push(value);
+
+//         };
+
+//         return this;
+        
+//     };
+//     /**
+//      * ### setClass
+//      * 
+//      * ***
+//      * 
+//      * Метод установки текущего класса, как прототипа указанному объекту.
+//      * 
+//      * ***
+//      * @arg {Y1} value `Значение`
+//      * @static
+//      * @method
+//      * @public
+//      * @returns {(Y1&Y)?}
+//      * @template Y1
+//     */
+//     static setClass(value) {
+        
+//         if (!(value instanceof Object)) return null;
+
+//         Object.setPrototypeOf(value, this);
+
+//         if (typeof value === 'function' && 'prototype' in value) {
+
+//             Object.setPrototypeOf(value['prototype'], this.prototype);
+
+//         };
+
+//         return value;
+        
+//     };
+    
+//     //#endregion
+    
+//     /**
+//      * ### correlate
+//      * 
+//      * ***
+//      * 
+//      * Метод корреляции.
+//      * 
+//      * ***
+//      * @method
+//      * @protected
+//     */
+//     correlate() {
+
+//         const aliases = this.constructor?.config?.value?.aliases;
+
+//         if (aliases) {
+
+//             return yCorrelate(this, ...aliases);
+
+//         };
+
+//         return this;
+
+//     };
+
+//     /**
+//      * ### YConstructor
+//      * 
+//      * 
+//      * 
+//      * ***
+//      * @arg {YT} args `Аргументы`
+//      * 
+//      * Представлены единым объектом носителем аргументов.
+//      * 
+//      * ***
+//      * @constructor
+//     */
+//     constructor(...args) {
+        
+//         try {
+            
+//             //#region verify
+            
+
+            
+//             //#endregion
+//             //#region handle
+            
+            
+            
+//             //#endregion
+//             //#region comply
+            
+            
+            
+//             //#endregion
+            
+//             return this
+
+//                 .correlate()
+            
+            
+//         } catch (err) {
+            
+//             if (config.strictMode) {
+                
+//                 throw err;
+                
+//             };
+            
+//         } finally {
+            
+            
+            
+//         };
+        
+//     };
+
+//     /**
+//      * ### do
+//      * 
+//      * ***
+//      * 
+//      * Метод выполнения кода в контексте данного экземпляра.
+//      * 
+//      * ***
+//      * @arg {...((self: this, ...args) => void)} codes `Коды`
+//      * @since `1.0.0`
+//      * @method
+//      * @public
+//     */
+//     do(...codes) {
+
+//         try {
+
+//             for (const code of codes) {
+
+//                 if (typeof code !== 'function') continue;
+    
+//                 code(this);
+    
+//             };
+
+//         } catch (error) {
+
+//             console.error(error);
+
+//         };
+
+//         return this;
+
+//     };
+//     // /**
+//     //  * ### mode
+//     //  * 
+//     //  * ***
+//     //  * 
+//     //  * Метод установки режимов.
+//     //  * 
+//     //  * ***
+//     //  * @arg {any} value `Значение`
+//     //  * @arg {string} mode `Режим`
+//     //  * @method
+//     //  * @public
+//     // */
+//     // mode(mode, value) {
+
+//     //     const args = yClassifyProp(arguments);
+
+//     //     const options = [...args.array, ...args.string.map(string => [string])];
+
+//     //     for (const option of options) {
+
+//     //         [mode, value] = option;
+
+//     //         if (!(mode in this)) {
+
+//     //             if (!((mode += 'Mode') in this)) {
+
+//     //                 continue;
+
+//     //             };
+
+//     //         };
+
+//     //         this[mode] = value === undefined ? this[mode] ? false : true : !!value;
+
+//     //     };
+
+//     //     return this;
+
+//     // };
+    
+//     /**
+//      * ### fill
+//      * 
+//      * ***
+//      * 
+//      * 
+//      * 
+//      * ***
+//      * 
+//      * @public
+//     */
+//     fill() {
+
+
+
+//     };
+//     /**
+//      * ### turn
+//      * 
+//      * ***
+//      * 
+//      * Метод переопределения метододологического холста.
+//      * 
+//      * ***
+//      * @arg {Y1} y
+//      * @method
+//      * @public
+//      * @returns {Y1&{getPrev()=>Y2}}
+//      * @template Y1
+//      * @template {this} Y2
+//     */
+//     turn(y) {
+        
+//         const prev = this;
+
+//         const shell = new Proxy({
+
+//             getPrev() {
+
+//                 return prev;
+
+//             },
+
+//         }, {
+
+//             get(t, p) {
+
+//                 if (y[p]) {
+
+//                     return y[p];
+
+//                 } else {
+
+//                     return t[p];
+
+//                 };
+
+//             },
+//             set(t, p, v) {
+
+//                 y[p] = v;
+
+//                 return true;
+
+//             },
+
+//         });
+
+//         Object.setPrototypeOf(shell, y);
+
+//         return shell;
+        
+//     };
+//     /**
+//      * ### clone
+//      * 
+//      * ***
+//      * 
+//      * Метод клонирования объекта.
+//      * 
+//      * ***
+//      * @arg {boolean?} link `Связь`
+//      * @public
+//     */
+//     clone(link = true) {
+
+//         return yClone(this, link);
+
+//     };
+//     /**
+//      * ### equal
+//      * 
+//      * ***
+//      * 
+//      * Метод проверки на эквивалентность.
+//      * 
+//      * ***
+//      * @arg {Y1} ject `Объект`
+//      * @public
+//      * @template Y1
+//     */
+//     equal(ject) {
+
+//         return yEqual(this, ject);
+
+//     };
+//     /**
+//      * ### default
+//      * 
+//      * ***
+//      * 
+//      * Метод замещения указанных значений объекта на дефолтные.
+//      * 
+//      * Если не указать ни одного свойства, то заменены будут все свойства.
+//      * 
+//      * ***
+//      * @arg {...(keyof this)} props `Значения`
+//      * @method
+//      * @public
+//     */
+//     default(...props) {
+    
+//         if (!props.length) {
+
+//             props = Object.keys(this);
+
+//         } else {
+
+//             props = props.filter(prop => prop in this);
+
+//         };
+
+//         const config = this.constructor.config;
+
+//         for (const prop of props) {
+
+//             this[prop] = (config.params[prop + 'Default'] ?? config.params.default);
+
+//         };
+
+//         return this;
+        
+//     };
+//     /**
+//      * ### unstock
+//      * 
+//      * ***
+//      * 
+//      * Метод удаления объекта из учёта.
+//      * 
+//      * Данный метод удаляет объект оптимальным и полным образом.
+//      * Если объект представлен в единственном экземпляре, то будет удалён только один экземпляр без перебора.
+//      * Если же объектов несколько, то будут удалены все его экземпляры.
+//      * 
+//      * ***
+//      * @method
+//      * @public
+//     */
+//     unstock() {
+        
+//         const image = this.getClass();
+
+//         let index = image.stock.indexOf(this);
+
+//         if (index !== -1) {
+
+//             image.stock.splice(index, 1);
+
+//         };
+
+//         index = image.stock.indexOf(this);
+
+//         if (index !== -1) {
+
+//             image.stock = image.stock.filter(item => item !== this)
+
+//         };
+
+//         return this;
+        
+//     };
+
+//     /**
+//      * ### adopt
+//      * - Версия `1.0.0`
+//      * - Модуль `ject`
+//      * ***
+//      *
+//      * Метод {@link yAdopt|перенятия} свойств обладателя.
+//      *
+//      * ***
+//      * @arg {Y1} owner `Обладатель`
+//      * @arg {Y2} config `Конфигуратор`
+//      * @since `1.0.0`
+//      * @public
+//      * @method
+//      * @version `1.0.0`
+//      * @template Y1,Y2
+//     */
+//     adopt(owner, config) {
+
+//         return yAdopt(this, owner, config);
+
+//     };
+//     /**
+//      * ### adoptDefault
+//      * - Версия `0.0.0`
+//      * - Модуль `ject`
+//      * ***
+//      *
+//      * Метод {@link yAdoptDefault|перенятия} дефолт свойств обладателя.
+//      *
+//      * ***
+//      * @arg {{}} owner `Обладатель`
+//      * @public
+//     */
+//     adoptDefault(owner) {
+
+//         return yAdoptDefault(this, owner);
+
+//     };
+
+//     /**
+//      * ### print
+//      * 
+//      * ***
+//      * 
+//      * Метод отображения объекта.
+//      * 
+//      * ***
+//      * @public
+//     */
+//     print() {
+
+//         console.log(this);
+
+//         return this;
+
+//     };
+//     /**
+//      * ### printProp
+//      * 
+//      * ***
+//      * 
+//      * Метод отображения свойства объекта.
+//      * 
+//      * ***
+//      * @arg {...(keyof this)} props `Свойство`
+//      * @method
+//      * @public
+//     */
+//     printProp(...props) {
+
+//         if (!props.every(elem => elem instanceof Array)) {
+
+//             props = [props];
+
+//         };
+
+//         for (const prop of props) {
+
+//             let focus = this;
+
+//             for (const part of prop) {
+
+//                 if (part in focus) {
+
+//                     focus = focus[part]
+
+//                 } else {
+
+//                     break;
+
+//                 };
+
+//             };
+
+//             console.log(focus);
+
+//         };
+
+//         return this;
+        
+//     };
+//     /**
+//      * ### printExec
+//      * 
+//      * ***
+//      * 
+//      * Метод отображения результата кодовых операций в контексте текущего объекта.
+//      * 
+//      * ***
+//      * @arg {...(self:this)=>any} codes `Коды`
+//      * @method
+//      * @public
+//     */
+//     printExec(...codes) {
+        
+//         for (const code of codes) {
+
+//             console.log(code(this));
+
+//         };
+
+//         return this;
+        
+//     };
+//     /**
+//      * ### printTable
+//      * 
+//      * ***
+//      * 
+//      * Метод отображения данных в табличном виде.
+//      * 
+//      * ***
+//      * @arg {...this} jects `Объекты`
+//      * @since `1.0.0`
+//      * @method
+//      * @public
+//     */
+//     printTable(...jects) {
+
+//         console.table([this, ...jects]);
+
+//         return this;
+
+//     };
+
+//     /**
+//      * ### supplement
+//      * - Версия `0.0.0`
+//      * - Модуль `ject`
+//      * ***
+//      *
+//      * Метод {@link ySupplement|дополнения} свойствами указанного дополнителя.
+//      *
+//      * ***
+//      * @arg {{}} supplementer `Дополнитель`
+//      * @public
+//      * @method
+//     */
+//     supplement(supplementer) {
+
+//         return ySupplement(this, supplementer);
+
+//     };
+
+//     /**
+//      * ### getClass
+//      * 
+//      * ***
+//      * 
+//      * Метод получения класса экземпляра.
+//      * 
+//      * ***
+//      * @method
+//      * @public
+//      * @returns {typeof Y}
+//     */
+//     getClass() {
+
+//         return Y;
+        
+//     };
+//     /**
+//      * ### getProperty
+//      * - Версия `0.0.0`
+//      * ***
+//      *
+//      * Метод {@link yGetProp|получения} указанного свойства.
+//      *
+//      * ***
+//      * @arg {string} property `Свойство`
+//      * @public
+//     */
+//     getProperty(property) {
+
+//         return yGetProp(this, property);
+
+//     };
+//     /**
+//      * ### getPropertyByPath
+//      * - Версия `0.0.0`
+//      * ***
+//      *
+//      * Метод {@link yGetPropByPath|получения свойства по указанному пути}.
+//      *
+//      * ***
+//      * @arg {string} path `Путь`
+//      * @public
+//     */
+//     getPropertyByPath(path) {
+
+//         return yGetPropByPath(this, path);
+
+//     };
+    
+// };
+
 //#region YE
 
-Y
+// Y
 
-    .appendModule(Y)
-    .do(self => self.becomePrototype(config))
+//     .appendModule(Y)
+//     .do(self => self.setClass(config))
 
 //#endregion
 

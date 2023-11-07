@@ -6,12 +6,12 @@ import { YPath, pathCheck, pathGet } from '@syls/os/path';
 import { condIsString, condIsStringValid } from '@syls/y/cond';
 import { ChildProcess, fork, spawn } from 'child_process';
 
-/** @type {import('./config.mjs')['default']['value']?} */
+/** @type {import('./config.mjs')['default']['params']?} */
 let config = null;
 
 await import('./config.mjs')
 
-    .then(c => config = c.default?.value ? c.default.value : c.default)
+    .then(c => config = c.default?.params ? c.default.params : c.default)
     .catch(e => e);
 
 /** @type {import('./error.mjs')['default']?} */
