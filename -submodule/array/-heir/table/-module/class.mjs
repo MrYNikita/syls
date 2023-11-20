@@ -1,9 +1,11 @@
 //#region YI
 
-import { Y } from "@syls/y";
+import { Y, yGetProp } from "@syls/y";
 import { YArg } from "@syls/y/arg";
 import { configTable as config } from "./config.mjs";
 import { stringFormatNumber, stringGetSymbol, stringPad } from "@syls/string";
+import { ansiGetColor, ansiGetColorReset } from "@syls/string/ansi";
+import { YCond } from "@syls/y/cond";
 
 //#endregion
 //#region YT
@@ -97,81 +99,70 @@ export class YTable extends Y {
     //#region field
 
     /**
-     * ### value
+     * ### data
      * 
-     * Значение.
+     * Данные.
      * 
      * *** 
-     * @type {Y1}
+     * @since `1.0.0`
+     * @type {Y1[]}
      * @field
      * @protected
     */
-    value;
+    data;
+    /**
+     * ### titles
+     * 
+     * Заголовки таблицы.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {string[]}
+     * @field
+     * @public
+    */
+    titles;
 
     //#endregion
     //#region method
 
     /**
-     * ### getJect
+     * ### getByIndex
+     * 
+     * Метод получения объекта по индексу.
      * 
      * ***
+     * @arg {number} index `Индекс`
      * 
-     * Позволяет получить сущность по её индексу.
-     * 
-     * ***
-     * @arg {tableT['index']} index `Индекс`
      * 
      * ***
      * @since `1.0.0`
      * @version `1.0.0`
-     * ***
      * @method
      * @public
     */
-    getJect(index) {
+    getByIndex(index) {
+        
+        const result = this.data[index];
 
-        index++;
+        if (!result) {
 
-        const result = {};
 
-        for (const column of this.value) {
-
-            result[column[0]] = column[index];
 
         };
 
-        const table = this;
-
-        return new Proxy(result, {
-
-            set(t, p, v) {
-
-                if (t[p] !== undefined && v !== undefined) {
-
-                    t[p] = v;
-
-                    table.getColumnByName(p)[index] = v;
-
-                    return true;
-
-                };
-
-                return false;
-
-            },
-
-        });
-
+        return this.data[index]
+        
     };
     /**
-     * ### getColumnByName
+     * ### getColumnByTitle
      * 
      * ***
      * 
      * Метод получения столбца по имени.
      * 
      * ***
-     * @arg {tableT['name']} name `Имя`
+     * @arg {tableT['name']} title `Заголовк`
      * 
      * 
      * ***
@@ -180,13 +171,13 @@ export class YTable extends Y {
      * @method
      * @public
     */
-    getColumnByName(name) {
+    getColumnByTitle(title) {
 
         let result;
 
         for (const column of this.value) {
 
-            if (column[0] === name) {
+            if (column[0] === title) {
 
                 result = column;
 
@@ -198,11 +189,151 @@ export class YTable extends Y {
 
     };
     /**
-     * ### display
+     * ### setTitles
+     * 
+     * Метод установки заголовков.
      * 
      * ***
+     * @arg {...string} titles `Заголовки`
      * 
      * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setTitles(...titles) {
+
+        this.titles = titles;
+
+        return this;
+
+    };
+    /**
+     * ### sortByTitle
+     * 
+     * Метод сортировки таблицы по названию столбца.
+     * 
+     * ***
+     * @arg {string} title `Заголовок`
+     * @arg {boolean} order `Порядок`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    sortByTitle(title, order) {
+
+        this.data = this.data.sort((p, c) => order ? c[title] - p[title] : p[title] - c[title]);
+
+        return this;
+
+    };
+    /**
+     * ### split
+     * 
+     * Метод разбивки объекта на заголовки.
+     * 
+     * ***
+     * @arg {Y1} ject `Объект`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @protected
+    */
+    split(ject) {
+        
+        if (!YCond.isJect(ject)) return this;
+
+        this.titles.push(...Object.keys(ject));
+
+        return this;
+        
+    };
+    /**
+     * ### append
+     * 
+     * Метод добавления элементов в таблицу.
+     * 
+     * ***
+     * @arg {...any[]} jects
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    append(...jects) {
+
+        this.data.push(...jects);
+
+        return this;
+
+    };
+    /**
+     * ### appendTitles
+     * 
+     * Метод добавления заголовков.
+     * 
+     * ***
+     * @arg {...string} titles `Заголовки`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    appendTitles(...titles) {
+
+        this.titles.push(...titles);
+
+        return this;
+
+    };
+    /**
+     * ### removeTitles
+     * 
+     * Метод удаления заголовков.
+     * 
+     * ***
+     * @arg {...string} titles `Заголовки`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    removeTitles(...titles) {
+        
+        for (const title of titles) {
+
+            const index = this.titles.indexOf(title);
+
+            if (index === -1) continue;
+
+            this.titles.splice(index, 1);
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### display
+     * 
+     * Метод отображения таблицы.
      * 
      * ***
      * 
@@ -216,55 +347,221 @@ export class YTable extends Y {
     */
     display() {
 
-        const lengths = new Array(this.value.length).fill(0);
+        let result = '';
 
-        for (const columnIndex in this.value) {
+        const rowNum = this.data.length;
+        const columnLengths = [];
+        const rowCountLength = rowNum.toString().length;
+        const countSize = rowCountLength + 2;
 
-            const column = this.value[columnIndex];
+        // вычисление длин столбцов по заголовкам
+        for (const title of this.titles) columnLengths.push(title.length);
+        // корректировка длин столбцов по значениям
+        for (const elem of this.data) {
 
-            for (const rowIndex in column) {
+            for (const index in this.titles) {
 
-                const row = parseInt(column[rowIndex]) ? stringFormatNumber(column[rowIndex]) : column[rowIndex] + '';
+                const title = this.titles[index];
 
-                if (row.length > lengths[columnIndex]) lengths[columnIndex] = row.length;
+                let value = yGetProp(elem, title);
+                
+                value = YCond.isNumber(elem[title]) ? stringFormatNumber(elem[title]) : elem[title];
 
-            };
-
-            if (lengths[columnIndex] > this.value[columnIndex][0].length) lengths[columnIndex]++;
-
-        };
-
-        let result = stringGetSymbol('thinCorUR');
-
-        for (const index in this.value) result += stringGetSymbol('thinHor').repeat(2 + lengths[+index]) + (index == this.value.length - 1 ? stringGetSymbol('thinCorUL') + '\n' : stringGetSymbol('thinHorJD'));
-
-        result += stringGetSymbol('thinVerJR');
-
-        for (const columnIndex in this.value) result += ` ${stringPad(this.value[+columnIndex][0], lengths[columnIndex], null, 0)} ` + stringGetSymbol(columnIndex == this.value.length - 1 ? `thinVerJL` : `thinCro`);
-
-        result += '\n';
-
-        for (let rowIndex = 1; rowIndex < this.value[0].length; rowIndex++) {
-
-            for (const columnIndex in this.value) {
-
-                const value = this.value[columnIndex][rowIndex] + '';
-
-                result += `${stringGetSymbol('thinVer')} ${(parseInt(value) ? stringFormatNumber(value, '.', '_') : value).padStart(lengths[columnIndex])} `
+                if (value?.length > columnLengths[index]) columnLengths[index] = value.length;
 
             };
 
-            result += stringGetSymbol('thinVer') + '\n';
+        };
+        // корректировка длин столбцов по центрированию заголовков
+        for (const index in this.titles) {
+
+            const title = this.titles[index];
+            const titleParity = title.length % 2;
+            const columnLengthParity = columnLengths[index] % 2;
+
+            if ((titleParity === 0 && columnLengthParity !== 0) || (titleParity !== 0 && columnLengthParity === 0)) columnLengths[index]++;
+
+            if (title.length === columnLengths[index]) columnLengths[index] += 2;
 
         };
 
-        result += stringGetSymbol('thinCorDR');
-
-        for (const index in this.value) result += stringGetSymbol('thinHor').repeat(2 + lengths[+index]) + (index == this.value.length - 1 ? stringGetSymbol('thinCorDL') + '\n' : stringGetSymbol('thinHorJU'));
+        // верхняя рамка таблицы
+        result += this.getStructureBorderUp(columnLengths, countSize);
+        // заголовки таблицы
+        result += this.getStructureTitles(columnLengths, countSize);
+        // тело таблицы
+        result += this.getStructureBody(columnLengths, countSize);
+        // дно таблицы
+        result += this.getStructureBorderDown(columnLengths, countSize);
         
         console.log(result);
 
         return this;
+
+    };
+
+    /**
+     * ### getStructureBorderUp
+     * 
+     * Метод получения верхней границы таблицы.
+     * 
+     * ***
+     * @arg {number} countSize `Длина счётчика`
+     * @arg {number[]} columnLengths `Длины столбцов`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @protected
+    */
+    getStructureBorderUp(columnLengths, countSize) {
+
+        let result = ' '.repeat(countSize + 1) + stringGetSymbol('thinCorUR');
+        const columns = [];
+
+        for (const length of columnLengths) columns.push(stringGetSymbol('thinHor').repeat(length));
+
+        result += columns.join(stringGetSymbol('thinHorJD')) + stringGetSymbol('thinCorUL') + '\n';
+
+        return result;
+
+    };
+    /**
+     * ### getStructureTitles
+     * 
+     * Метод получения заголовков таблицы.
+     * 
+     * ***
+     * @arg {number} countSize `Длина счётчика`
+     * @arg {number[]} columnLengths `Длины столбцов`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @protected
+    */
+    getStructureTitles(columnLengths, countSize) {
+
+        let result = stringGetSymbol('thinCorUR') + stringGetSymbol('thinHor').repeat(countSize) + stringGetSymbol('thinCro');
+
+        const titles = [];
+
+        for (const index in this.titles) {
+
+            const title = ` ${this.titles[index]} `;
+
+            titles.push(stringPad(title, columnLengths[index], stringGetSymbol('thinHor'), 0));
+
+        };
+        // for (const columnIndex in this.value) {
+
+        //     const column = this.value[columnIndex];
+
+        //     const title = ` ${column[0]} `;
+
+        //     titles.push(stringPad(title, columnLengths[columnIndex], stringGetSymbol('thinHor'), 0));
+
+        // };
+
+        result += titles.join(stringGetSymbol('thinCro')) + stringGetSymbol('thinVerJL') + '\n';
+
+        return result;
+
+    };
+    /**
+     * ### getStructureBody
+     * 
+     * Метод получения тела таблицы.
+     * 
+     * ***
+     * @arg {number} countSize `Длина счётчика`
+     * @arg {number[]} columnLengths `Длины столбцов`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @protected
+    */
+    getStructureBody(columnLengths, countSize) {
+
+        let result = '';
+        let flag = true;
+
+        const thinVer = stringGetSymbol('thinVer');
+        const rowCountLength = countSize - 2;
+
+        for (const index in this.data) {
+
+            const elem = this.data[index];
+
+            result += thinVer;
+
+            const row = [ansiGetColor(flag ? 'gray' : 'reset', 0) + stringPad((+index + 1).toString().padStart(rowCountLength, 0), countSize, ' ', 0) + ansiGetColorReset()];
+
+            for (const columnIndex in this.titles) {
+
+                const title = this.titles[columnIndex];
+
+                let value = yGetProp(elem, title) ?? 'N';
+
+                let flagNum = false;
+                let flagSym = false;
+
+                if (YCond.isNumber(value)) {
+
+                    flagNum = true;
+
+                    value = stringFormatNumber(value, '.', '\'');
+
+                } else if (/^[^\p{L}]$|^N$/u.test(value)) {
+
+                    flagSym = true;
+
+                };
+
+                value = YCond.isNumber(value) ? stringFormatNumber(value, '.', '\'') : value;
+
+                row.push(ansiGetColor(flag ? 'gray' : 'reset', 0) + stringPad(value, columnLengths[columnIndex], ' ', flagSym ? 0 : 1) + ansiGetColorReset());
+
+            };
+
+            result += row.join(thinVer) + thinVer + '\n';
+
+            flag = !flag;
+
+        };
+
+        return result;
+
+    };
+    /**
+     * ### getStructureBorderDown
+     * 
+     * Метод получения дна таблицы.
+     * 
+     * ***
+     * @arg {number} countSize `Длина счётчика`
+     * @arg {number[]} columnLengths `Длины столбцов`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @protected
+    */
+    getStructureBorderDown(columnLengths, countSize) {
+
+        let result = '';
+
+        const thinHor = stringGetSymbol('thinHor');
+
+        const columns = [stringGetSymbol('thinCorDR') + thinHor.repeat(countSize)];
+
+        for (const columnIndex in this.titles) columns.push(thinHor.repeat(columnLengths[columnIndex]));
+
+        result += columns.join(stringGetSymbol('thinHorJU')) + stringGetSymbol('thinCorDL');
+
+        return result;
 
     };
 
@@ -276,7 +573,7 @@ export class YTable extends Y {
      * 
      * 
      * ***
-     * @arg {tableTC&Y1} args `Аргументы`
+     * @arg {...Y1} args `Аргументы`
      * 
      * Представлены единым объектом носителем аргументов.
      * 
@@ -292,11 +589,7 @@ export class YTable extends Y {
             /** @type {YArg<YTable>} */
             const yarg = args instanceof YArg ? args : new YArg(args);
 
-            yarg.set(
-
-                ['value', 'array'],
-
-            );
+            
 
             super(yarg);
 
@@ -320,6 +613,21 @@ export class YTable extends Y {
             return this
 
                 .adopt(yarg.getData())
+                .do(self => {
+
+                    if (yarg.dataFree.ject.length) {
+
+                        for (const ject of yarg.dataFree.ject) this.data.push(ject[1]);
+
+                    };
+
+                    if (!self.titles.length && self.data.length) {
+
+                        self.split(this.data[0]);
+
+                    };
+
+                })
 
 
         } catch (err) {

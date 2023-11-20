@@ -1,1367 +1,1813 @@
 //#region YI
 
+import { YArg } from '@syls/y/arg';
+import { YCond, condIsNumberSig } from '@syls/y/cond';
 import { configString as config } from './config.mjs';
-import { funcBypass } from '@syls/func';
-import { yGetProp } from '@syls/y';
-import { dateGetMesuares } from '@syls/y/date';
-import { condIsNumberSig, condIsString } from '@syls/y/cond';
-import { argClassify } from '@syls/y/arg';
-// import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
+import { funcExecRange } from '@syls/func';
 
 //#endregion
 //#region YT
 
 /** ### stringT
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Основной параметр модуля `string`.
- *
+ * 
+ * Типы модуля `string`.
+ * 
  * @typedef stringT
- * @prop {string} fill
- * @prop {number} limit
  * @prop {-1|0|1} align
- * @prop {number} count
+ * @prop {'ru'|'en'} local
+ * @prop {stringT['local']} localTo
+ * @prop {number} rowIndex
+ * @prop {number} columnIndex
+ * @prop {number} size
+ * @prop {[number, number]} sizes
+ * @prop {[number, number]} position
+ * @prop {number} index
+ * @prop {number[]} indexs
+ * @prop {number} length
+ * @prop {number} indexEnd
+ * @prop {number} indentLength
+ * @prop {string} char
+ * @prop {string[]} chars
+ * @prop {string} fill
  * @prop {string} string
- * @prop {string} spliterPart
- * @prop {string} spliterDischarge
- * @prop {string|number} number
- *
-*/
-/** ### stringTRow
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- *
- *
- * @typedef stringTRow
- * @prop {number} y
- *
-*/
-/** ### stringTLocal
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
+ * @prop {string} indent
+ * @prop {string} substring
+ * @prop {string|RegExp} match
+ * @prop {[string|RegExp][]} matches
+ * @prop {boolean} direction
+ * @prop {boolean} initially
+ * @prop {[string, number]} pairSymbolIndex
+ * @prop {[string, number, number]} pairSymbolPosition
  * 
- * 
- * 
- * @typedef stringTLocal
- * @prop {string} local
- * 
-*/
-/** ### stringTIndex
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- *
- *
- * @typedef {import('../ject/many/module.mjs').manyTIndex} stringTIndex
- *
-*/
-/** ### stringTLimit
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- *
- *
- * @typedef {import('../ject/many/module.mjs').manyTLimit} stringTLimit
- *
-*/
-/** ### stringTLength
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- *
- *
- * @typedef {import('../ject/many/module.mjs').manyTLength} stringTLength
- *
-*/
-/** ### stringTColumn
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- *
- *
- * @typedef stringTColumn
- * @prop {number} x
- *
-*/
-/** ### stringTInsert
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- *
- *
- * @typedef stringTInsert
- * @prop {string} find
- * @prop {string} value
- *
-*/
-/** ### stringTPosition
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- *
- *
- * @typedef {stringTRow&stringTColumn} stringTPosition
- *
-*/
-
-/** ### stringTTCase
- * - Тип `TT`
- * 
- * 
- * 
- * @typedef {'и'|'р'|'д'|'в'|'т'|'п'} stringTTCase
- * 
-*/
-/** ### stringTTGender
- * - Тип `TT`
- * 
- * 
- * 
- * @typedef {'m'|'f'|'n'} stringTTGender
- * 
-*/
-/** ### stringTTSymbol
- * - Тип `TT`
- * 
- * ***
- * 
- * Данный тип описывает все допустимые символы из словоря символов.
- * 
- * ***
- * 
- * @typedef {config['params']['symbols']} stringTTsymbolFilter
- * @typedef {{[K in keyof stringTTsymbolFilter]: keyof stringTTsymbolFilter[K]}[keyof stringTTsymbolFilter]} stringTTSymbol
- * 
-*/
-/** ### stringTTInserts
- * - Тип `TT`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- *
- *
- * @typedef {(string|[string,string])} stringTTInserts
- *
 */
 
 //#endregion
 //#region YV
 
-
+/** ### stringRegExpWord
+ * 
+ * Регулярное выражение поиска слов. 
+ * 
+ * ***
+ * @type {RegExp}
+*/
+export const stringRegExpWord = /\p{L}+/u;
 
 //#endregion
 
-//#region toWordsFromNumber
+//#region toCaseUp
 
-/** ### stringTFToWordsFromNumber
- * - Тип `TF`
+/**
+ * ### toCaseUp
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `toWordsFromNumber`.
- * 
- * @typedef {stringTFUToWordsFromNumber&stringT} stringTFToWordsFromNumber
- * 
+ * @typedef toCaseUpT
+ * @prop {} _
+ * ***
+ * @arg {stringT&toCaseUpT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUToWordsFromNumber
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `toWordsFromNumber`.
- * 
- * @typedef stringTFUToWordsFromNumber
- * @prop {string} local
- * @prop {boolean} declensionMany
- * @prop {stringTTCase} declensionCase
- * @prop {number|string} number
- * @prop {stringTTGender} declensionGender
-*/
-
-/** @arg {stringTFToWordsFromNumber} t */
-function toWordsFromNumberDeceit(t) {
-
+function toCaseUp(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            indexs,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (!indexs.length) indexs.push(0);
+        
+        //#endregion
+        //#region comply
+        
+        for (const index of indexs) {
 
-        return toWordsFromNumberVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+            string = stringPaste(string, string[index].toUpperCase(), index);    
+            
         };
+        
+        result = string;
 
-        return undefined;
-
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFToWordsFromNumber} t */
-function toWordsFromNumberVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return toWordsFromNumberHandle(t);
-
-};
-/** @arg {stringTFToWordsFromNumber} t */
-function toWordsFromNumberHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return toWordsFromNumberComply(t);
-
-};
-/** @arg {stringTFToWordsFromNumber} t */
-function toWordsFromNumberComply(t) {
-
-    const {
-
-        local,
-        number,
-        declensionCase,
-        declensionGender,
-
-    } = t;
-
-    let result = '';
-
-    switch (local) {
-
-        case 'ru': {
-
-            let [unit, dozen, hundred] = number.toString().split('').reverse().map(elem => +elem);
-
-            const roots = [
-
-                'нул',
-                'од',
-                'дв',
-                'тр',
-                'чет',
-                'пят',
-                'шест',
-                'сем',
-                'вос',
-                'девят',
-                'десят'
-
-            ];
-            const hundredPostfix = [
-
-                'сто',
-                'ести',
-                'исто',
-                'ыресто',
-                'ьсот',
-                'стами',
-                'стах'
-
-            ];
-            const dozenPostfix = [
-
-                'инадцать',
-                'ацать',
-                'идцать',
-                'сорок',
-                'ьдесят',
-
-            ];
-
-            if (hundred) {
-
-                const index = hundred;
-
-                switch (declensionCase) {
-
-                    case 'и': {
-
-                        switch (index) {
-
-                            case 1: hundred = 'сто'; break;
-                            case 2: hundred = 'двести'; break;
-                            case 3: hundred = 'тристо'; break;
-                            case 4: hundred = 'черытесто'; break;
-                            case 5: hundred = 'пятьсот'; break;
-
-                        };
-
-                    }; break;
-                    case 'р': {
-
-                        switch (index) {
-
-                            case 1: hundred = 'ста'; break;
-                            case 2: hundred = 'двухста'; break;
-                            case 3: hundred = 'трёхста'; break;
-                            case 4: hundred = 'четырёхста'; break;
-                            case 5: hundred = 'пятиста'; break;
-                            case 6: hundred = 'шестиста'; break;
-                            case 7: hundred = 'семиста'; break;
-                            case 8: hundred = 'восьмиста'; break;
-                            case 9: hundred = 'девятиста'; break;
-
-                        };
-
-                    }; break;
-                    case 'д': {
-
-                        switch (index) {
-
-                            case 1: hundred = 'ста'; break;
-                            case 2: hundred = 'двухстам'; break;
-                            case 3: hundred = 'трёхстам'; break;
-                            case 4: hundred = 'четырёхстам'; break;
-                            case 5: hundred = 'пятистам'; break;
-                            case 6: hundred = 'шестистам'; break;
-                            case 7: hundred = 'семистам'; break;
-                            case 8: hundred = 'восьмиста'; break;
-                            case 9: hundred = 'девятиста'; break;
-
-                        };
-
-                    }; break;
-
-                };
-
-            };
-            if (unit || (!dozen && !hundred && (unit || unit === 0))) {
-
-                const index = unit;
-
-                unit = roots[index];
-
-                switch (declensionCase) {
-
-                    case 'и': {
-
-                        switch (index) {
-
-                            case 1: unit += 'ин'; break;
-                            case 2: unit += 'а'; break;
-                            case 3: unit += 'и'; break;
-                            case 4: unit += 'ыре'; break;
-                            case 8: unit += 'емь'; break;
-                            default: unit += 'ь'; break;
-
-                        };
-
-                    }; break;
-                    case 'р': {
-
-                        switch (index) {
-
-                            case 0: unit += 'я'; break;
-                            case 1: unit += ['m', 'n'].includes(declensionGender) ? 'ного' : 'ой'; break;
-                            case 2: unit += 'ух'; break;
-                            case 3: unit += 'ёх'; break;
-                            case 4: unit += 'ырёх'; break;
-                            case 8: unit += 'ьми'; break;
-                            default: unit += 'и'; break;
-
-                        };
-
-                    }; break;
-                    case 'д': {
-
-                        switch (index) {
-
-                            case 0: unit += 'лю'; break;
-                            case 1: unit += ['m', 'n'].includes(declensionGender) ? 'ному' : 'ой'; break;
-                            case 2: unit += 'ум'; break;
-                            case 3: unit += 'ём'; break;
-                            case 4: unit += 'ыём'; break;
-                            case 8: unit += 'ьми'; break;
-                            default: unit += 'и'; break;
-
-                        };
-
-                    }; break;
-                    case 'т': {
-
-                        switch (index) {
-
-                            case 0: unit += 'ём'; break;
-                            case 1: unit += ['m', 'n'].includes(declensionGender) ? 'ним' : 'ной'; break;
-                            case 2: unit += 'умя'; break;
-                            case 3: unit += 'емя'; break;
-                            case 4: unit += 'ырьмя'; break;
-                            case 8: unit += 'емью'; break;
-                            default: unit += 'ью'; break;
-
-                        };
-
-                    }; break;
-                    case 'п': {
-
-                        switch (index) {
-
-                            case 0: unit += 'е'; break;
-                            case 1: unit += ['m', 'n'].includes(declensionGender) ? 'ном' : 'ной'; break;
-                            case 2: unit += 'ух'; break;
-                            case 3: unit += 'ёх'; break;
-                            case 4: unit += 'ырёх'; break;
-                            case 8: unit += 'ьми'; break;
-                            default: unit += 'и'; break;
-
-                        };
-
-                    }; break;
-
-                };
-
-            };
-
-            result += [hundred, unit].filter(elem => elem).join(' ');
-
-        };
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringToWordsFromNumberRu
+ * ### toCaseUp
+ * 
+ * Функция, которая делает заглавными символы по указанным индексам.
  * 
  * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['index']} indexs `Индексы`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringToCaseUp(string, ...indexs) {
+
+    return toCaseUp({ string, indexs, });
+
+};
+
+//#endregion
+//#region toCaseDown
+
+/**
+ * ### toCaseDown
  * 
- * Функция преобразования числа в прописную форму русского языка с указанным склонением.
+ * 
  * 
  * ***
- * @arg {boolean} declensionMany `Множественность`
- * @arg {stringTTCase} declensionCase `Падеж`
- * @arg {number|string} number `Число`
- * @arg {stringTTGender} declensionGender `Род`
-*/
-export function stringToWordsFromNumberRu(number = 501, declensionCase = 'д', declensionGender = 'm', declensionMany = false) {
-
-    return toWordsFromNumberDeceit({ local: 'ru', number, declensionGender, declensionCase, declensionMany, });
-
-};
-
-//#endregion
-
-//#region setRow 0.0.0
-
-/** ### stringTFSetRow
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+ * @typedef toCaseDownT
+ * @prop {} _
  * ***
- *
- * Результирующие параметры функции `setRow`.
- *
- * @typedef {stringTFUSetRow&stringT} stringTFSetRow
- *
+ * @arg {stringT&toCaseDownT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUSetRow
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `setRow`.
- *
- * @typedef stringTFUSetRow
- * @prop {string} row
- * @prop {number} index
-*/
-
-/** @arg {stringTFSetRow} t */
-function setRowDeceit(t) {
-
+function toCaseDown(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            string,
+            indexs,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (!indexs.length) indexs.push(0); 
+        
+        //#endregion
+        //#region comply
+        
+        for (const index of indexs) {
 
-        return setRowVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+            string = stringPaste(string, string[index].toLowerCase(), index);    
+            
         };
-
-        return undefined;
-
+        
+        result = string;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFSetRow} t */
-function setRowVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return setRowHandle(t);
-
-};
-/** @arg {stringTFSetRow} t */
-function setRowHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return setRowComply(t);
-
-};
-/** @arg {stringTFSetRow} t */
-function setRowComply(t) {
-
-    const {
-
-        row,
-        index,
-        string,
-
-    } = t;
-
-    const result = string.split('\n');
-
-    if (result[index] || result[index] === '') {
-
-        result[index] = row;
-
-    };
-
-    return result.join('\n');
-
+    
+    return result;
+    
 };
 
 /**
- * ### stringSetRow
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### toCaseDown
+ * 
+ * Функция, которая делает строчными символы по указанным индексам.
+ * 
  * ***
- *
- * Функция замены линии в указанной строке.
- *
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['index']} indexs `Индексы`
  * ***
- * @arg {string} row `Линия`
- * @arg {string} string `Строка`
- * @arg {number} index `Индекс`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringSetRow(string, row, index = 0) {
+export function stringToCaseDown(string, ...indexs) {
 
-    return setRowDeceit({ string, index, row, });
+    return toCaseDown({ string, indexs, });
 
 };
 
 //#endregion
+//#region toMatrix
 
-//#region get 0.0.0
-
-/** ### stringTFGet
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### toMatrix
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `get`.
- *
- * @typedef {stringTFUGet&stringT&stringTPosition} stringTFGet
- *
+ * @typedef toMatrixT
+ * @prop {} _
+ * ***
+ * @arg {stringT&toMatrixT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUGet
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `get`.
- *
- * @typedef stringTFUGet
- * @prop {any} _
-*/
-
-/** @arg {stringTFGet} t */
-function getDeceit(t) {
-
+function toMatrix(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = stringGetRows(string);
 
-        return getVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        for (const index in result) result[index] = result[index].match(/./gmsi);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFGet} t */
-function getVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getHandle(t);
-
-};
-/** @arg {stringTFGet} t */
-function getHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    if (!t.x) {
-
-        [t.x, t.y] = [t.y, null];
-
-    };
-
-    return getComply(t);
-
-};
-/** @arg {stringTFGet} t */
-function getComply(t) {
-
-    const {
-
-        y,
-        x,
-        string,
-
-    } = t;
-
-    const rows = string.split('\n');
-
-    if (condIsNumberSig(y)) {
-
-        return rows[y][x];
-
-    } else {
-
-        return rows[0][x];
-
-    };
-
+    
+    return result;
+    
 };
 
 /**
- * ### stringGet
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### stringToMatrix
+ * 
+ * Функция получения матрицы из символов строки.
+ * 
  * ***
- *
- * Метод получения символа указанной строки в указанной позиции.
- *
+ * @arg {stringT['string']} string `Строка`
+ * 
+ * 
  * ***
- * @arg {string} string `Строка`
- * @arg {number} y `Линия`
- *
- * Если указывается без `столбца`, то будет предена как столбец.
- * @arg {number} x `Столбец`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringGet(string, y, x) {
+export function stringToMatrix(string) {
 
-    return getDeceit({ string, y, x });
+    return toMatrix({ string, });
 
 };
 
 //#endregion
-//#region getRow 0.0.0
+//#region getRow
 
-/** ### stringTFGetRow
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### getRow
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `getRow`.
- *
- * @typedef {stringTFUGetRow&stringT&stringTRow} stringTFGetRow
- *
+ * @typedef getRowT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getRowT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUGetRow
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `getRow`.
- *
- * @typedef stringTFUGetRow
- * @prop {any} _
-*/
-
-/** @arg {stringTFGetRow} t */
-function getRowDeceit(t) {
-
+function getRow(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            index,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = stringGetRows(string);
 
-        return getRowVerify(t);
+        if (index >= result.length) return null;
 
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        result = result[index];
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFGetRow} t */
-function getRowVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getRowHandle(t);
-
-};
-/** @arg {stringTFGetRow} t */
-function getRowHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getRowComply(t);
-
-};
-/** @arg {stringTFGetRow} t */
-function getRowComply(t) {
-
-    const {
-
-        y,
-        string,
-
-    } = t;
-
-    const result = string.split('\n')[y];
-
-    if (result || result === '') {
-
-        return result;
-
-    } else {
-
-        return undefined;
-
-    };
-
+    
+    return result;
+    
 };
 
 /**
- * ### stringgetRow
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### stringGetRow
+ * 
+ * Функция получения строки по индексу.
+ * 
  * ***
- *
- * Функция получения указанной линии из указанной строки.
- *
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['string']} string `Строка`
+ * 
  * ***
- * @arg {number} y `Линия`
- * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringGetRow(string, y) {
+export function stringGetRow(string, index) {
 
-    return getRowDeceit({ string, y });
+    return getRow({ string, index, });
 
 };
 
 //#endregion
-//#region getRows 0.0.0
+//#region getRows
 
-/** ### stringTFGetRows
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### getRows
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `getRows`.
- *
- * @typedef {stringTFUGetRows&stringT} stringTFGetRows
- *
+ * @typedef getRowsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getRowsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUGetRows
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `getRows`.
- *
- * @typedef stringTFUGetRows
- * @prop {any} _
-*/
-
-/** @arg {stringTFGetRows} t */
-function getRowsDeceit(t) {
-
+function getRows(args) {
+    
+    let result;
+    
     try {
-
-        return getRowsVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = string.split('\n');
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFGetRows} t */
-function getRowsVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getRowsHandle(t);
-
-};
-/** @arg {stringTFGetRows} t */
-function getRowsHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getRowsComply(t);
-
-};
-/** @arg {stringTFGetRows} t */
-function getRowsComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    return string.split('\n');
-
+    
+    return result;
+    
 };
 
 /**
  * ### stringGetRows
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * 
+ * Функция получения всех строк из текста.
+ * 
  * ***
- *
- * Функция получения всех линий строки в виде массива.
- *
+ * @arg {stringT['string']} string `Строка`
+ * 
+ * 
  * ***
- * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function stringGetRows(string) {
 
-    return getRowsDeceit({ string, });
+    return getRows({ string, });
 
 };
 
 //#endregion
-//#region getIndex 1.0.0
+//#region getStat
 
-/** ### stringTFGetIndex
- * - Тип `TF`
+/**
+ * ### getStat
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `getIndex`.
- * 
- * @typedef {stringTFUGetIndex&stringT} stringTFGetIndex
- * 
+ * @typedef getStatT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getStatT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUGetIndex
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `getIndex`.
- * 
- * @typedef stringTFUGetIndex
- * @prop {number} row
- * @prop {number} col
-*/
-
-/** @arg {stringTFGetIndex} t */
-function getIndexDeceit(t) {
-
+function getStat(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const stat = {
 
-        return getIndexVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
+            length: string.length,
+            rowNum: stringGetRows(string).length,
+            columnNum: stringGetColumns(string).length,
 
         };
 
-        return undefined;
-
+        result = stat;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFGetIndex} t */
-function getIndexVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getIndexHandle(t);
-
-};
-/** @arg {stringTFGetIndex} t */
-function getIndexHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getIndexComply(t);
-
-};
-/** @arg {stringTFGetIndex} t */
-function getIndexComply(t) {
-
-    const {
-
-        row,
-        col,
-        string,
-
-    } = t;
-
-    let result = 0;
-    let y = 0;
-
-    const dimension = stringGetDimension(string);
-
-    for (; y < row; y++) result += dimension[y] + 1;
-
-    if (col < dimension[y]) {
-
-        result += col;
-
-    } else {
-
-        result += dimension[y];
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringGetIndex
+ * ### getStat
+ * 
+ * Функция получения подробной статистики по тексту.
  * 
  * ***
+ * @arg {stringT['string']} string `Текст`
  * 
- * Функция получения индекса в строке по позиции.
  * 
  * ***
- * @arg {number} row `Строка`
- * @arg {number} col `Столбец`
- * @arg {string} string `Строка`
  * @since `1.0.0`
+ * @version `1.0.0`
  * @function
 */
-export function stringGetIndex(string, row, col) {
+export function stringGetStat(string) {
 
-    return getIndexDeceit({ string, row, col, });
-
-};
-
-//#endregion
-//#region getMatrix 0.0.0
-
-/** ### stringTFGetMatrix
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `getMatrix`.
- *
- * @typedef {stringTFUGetMatrix&stringT} stringTFGetMatrix
- *
-*/
-/** ### stringTFUGetMatrix
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `getMatrix`.
- *
- * @typedef stringTFUGetMatrix
- * @prop {any} _
-*/
-
-/** @arg {stringTFGetMatrix} t */
-function getMatrixDeceit(t) {
-
-    try {
-
-        return getMatrixVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFGetMatrix} t */
-function getMatrixVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getMatrixHandle(t);
-
-};
-/** @arg {stringTFGetMatrix} t */
-function getMatrixHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getMatrixComply(t);
-
-};
-/** @arg {stringTFGetMatrix} t */
-function getMatrixComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    return string.split('\n').map(y => y.split(''));
-
-};
-
-/**
- * ### stringGetMatrix
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция получения матрицы символов.
- *
- * ***
- * @arg {string} string `Строка`
-*/
-export function stringGetMatrix(string) {
-
-    return getMatrixDeceit({ string, });
+    return getStat({ string, });
 
 };
 
 //#endregion
-//#region getSymbol
-
-/** ### stringTFGetSymbol
- * - Тип `TF`
- * ***
- * 
- * Результирующие параметры функции `getSymbol`.
- * 
- * @typedef {stringTFUGetSymbol&stringT} stringTFGetSymbol
- * 
-*/
-/** ### stringTFUGetSymbol
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `getSymbol`.
- * 
- * @typedef stringTFUGetSymbol
- * @prop {stringTTSymbol} symbol
-*/
-
-/** @arg {stringTFGetSymbol} t */
-function getSymbolDeceit(t) {
-
-    try {
-
-        return getSymbolVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFGetSymbol} t */
-function getSymbolVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getSymbolHandle(t);
-
-};
-/** @arg {stringTFGetSymbol} t */
-function getSymbolHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getSymbolComply(t);
-
-};
-/** @arg {stringTFGetSymbol} t */
-function getSymbolComply(t) {
-
-    const {
-
-        symbol,
-
-    } = t;
-
-    return yGetProp(config.params.symbols, symbol);
-
-};
+//#region getSizes
 
 /**
- * ### stringGetSymbol
+ * ### getSizes
+ * 
+ * 
  * 
  * ***
- * 
- * Функция получения символа по его названию.
- * 
+ * @typedef getSizesT
+ * @prop {} _
  * ***
- * @arg {stringTTSymbol} symbol `Символ`
- * @returns {string}
-*/
-export function stringGetSymbol(symbol) {
-
-    return getSymbolDeceit({ symbol, });
-
-};
-
-//#endregion
-//#region getDimension 1.0.0
-
-/** ### stringTFGetDimension
- * - Тип `TF`
- * ***
- * 
- * Результирующие параметры функции `getDimension`.
- * 
- * @typedef {stringTFUGetDimension&stringT} stringTFGetDimension
- * 
-*/
-/** ### stringTFUGetDimension
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `getDimension`.
- * 
- * @typedef stringTFUGetDimension
- * @prop {any} _
-*/
-
-/** @arg {stringTFGetDimension} t */
-function getDimensionDeceit(t) {
-
-    try {
-
-        return getDimensionVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFGetDimension} t */
-function getDimensionVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getDimensionHandle(t);
-
-};
-/** @arg {stringTFGetDimension} t */
-function getDimensionHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return getDimensionComply(t);
-
-};
-/** @arg {stringTFGetDimension} t */
-function getDimensionComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    return string.split('\n').map(row => row.length);
-
-};
-
-/**
- * ### stringGetDimension
- * 
- * ***
- * 
- * Функция получения измерений строки.
- * 
- * ***
- * @arg {string} string `Строка`
+ * @arg {stringT&getSizesT} args `Аргументы`
+ * *** 
  * @since `1.0.0`
+ * @version `1.0.0`
  * @function
 */
-export function stringGetDimension(string) {
+function getSizes(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            string,  
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = stringGetRows(string);
 
-    return getDimensionDeceit({ string, });
+        if (result.length === 0) return [0];
+
+        for (const index in result) result[index] = result[index].length;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### getSizes
+ * 
+ * Функция получения размеров текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Строка`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetSizes(string) {
+
+    return getSizes({ string, });
 
 };
 
 //#endregion
+//#region getColumn
 
+/**
+ * ### getColumn
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getColumnT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getColumnT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getColumn(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            index,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = stringGetRows(string);
+
+        if (!result.length) return null;
+
+        for (const rowIndex in result) result[rowIndex] = result[rowIndex][index] ?? null;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringGetColumn
+ * 
+ * Функция получения колоны из текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['index']} index `Индекс`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetColumn(string, index) {
+
+    return getColumn({ string, index, });
+
+};
+
+//#endregion
+//#region getColumns
+
+/**
+ * ### getColumns
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getColumnsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getColumnsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getColumns(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = [];
+
+        const rows = stringGetRows(string);
+        
+        if (!rows.length) return null;
+        
+        let rowLengthMax = 0;
+
+        for (const row of rows) {
+
+            if (row.length > rowLengthMax) rowLengthMax = row.length;
+
+        };
+
+        for (let index = 0; index < rowLengthMax; index++) {
+
+            const column = [];
+
+            for (const row of rows) {
+
+                column.push(row[index] ?? null);
+
+            };
+
+            result.push(column);
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringGetColumns
+ * 
+ * Функция получения массива колонн из указанного текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetColumns(string) {
+
+    return getColumns({ string, });
+
+};
+
+//#endregion
+//#region getIndexByPosition
+
+/**
+ * ### getIndexByPosition
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getIndexByPositionT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getIndexByPositionT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getIndexByPosition(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            string,
+            rowIndex,
+            columnIndex,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const rows = stringGetRows(string);
+
+        if (rowIndex >= rows.length) {
+
+            return [rows.length - 1, rows.at(-1).length];
+
+        };
+
+        let index = 0;
+
+        for (let y = 0; y < rowIndex; y++) {
+
+            if (!rows[y]) {
+
+                break;
+
+            };
+
+            index += rows[y].length + 1;
+
+        };
+
+        const row = rows[rowIndex];
+
+        if (row.length > columnIndex) {
+
+            index += columnIndex;
+
+        } else {
+
+            index += row.length;
+
+        };
+
+        result = index;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringGetIndexByPosition
+ * 
+ * Функция получения индекса по позиции в тексте.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['rowIndex']} rowIndex `Индекс строки`
+ * @arg {stringT['columnIndex']} columnIndex `Индекс столбца`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetIndexByPosition(string, rowIndex, columnIndex) {
+
+    return getIndexByPosition({ string, rowIndex, columnIndex, });
+
+};
+
+//#endregion
+//#region getPositionByIndex
+
+/**
+ * ### getPositionByIndex
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getPositionByIndexT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getPositionByIndexT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getPositionByIndex(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            index,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const rows = stringGetRows(string);
+
+        let y = 0, x = 0;
+
+        for (const rowIndex in rows) {
+
+            const rowLength = rows[+rowIndex].length;
+
+            if (rowLength >= index) break;
+
+            y++;
+
+            index -= rowLength + 1;
+
+        };
+
+        result = [y, x = index];
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringGetPositionByIndex
+ * 
+ * Функция получения позиции по индексу в тексте.
+ * 
+ * ***
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['string']} string `Текст`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetPositionByIndex(string, index) {
+
+    return getPositionByIndex({ string, index, });
+
+};
+
+//#endregion
+//#region getSymbolByIndex
+
+/**
+ * ### getSymbolByIndex
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getSymbolByIndexT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getSymbolByIndexT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getSymbolByIndex(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringGetSymbolByIndex
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetSymbolByIndex() {
+
+    return getSymbolByIndex({});
+
+};
+
+//#endregion
+//#region getSymbolByPosition
+
+/**
+ * ### getSymbolByPosition
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getSymbolByPositionT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getSymbolByPositionT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getSymbolByPosition(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringGetSymbolByPosition
+ * 
+ * Функция получения символа из строки по позиции.
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetSymbolByPosition() {
+
+    return getSymbolByPosition({});
+
+};
+
+//#endregion
+//#region setRow
+
+/**
+ * ### setRow
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setRowT
+ * @prop {} _
+ * ***
+ * @arg {stringT&setRowT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setRow(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### setRow
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSetRow() {
+
+    return setRow({});
+
+};
+
+//#endregion
+//#region setRows
+
+/**
+ * ### setRows
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setRowsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&setRowsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setRows(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### setRows
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSetRows() {
+
+    return setRows({});
+
+};
+
+//#endregion
+//#region setColumn
+
+/**
+ * ### setColumn
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setColumnT
+ * @prop {} _
+ * ***
+ * @arg {stringT&setColumnT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setColumn(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### setColumn
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSetColumn() {
+
+    return setColumn({});
+
+};
+
+//#endregion
+//#region setColumns
+
+/**
+ * ### setColumns
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setColumnsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&setColumnsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setColumns(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### setColumns
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSetColumns() {
+
+    return setColumns({});
+
+};
+
+//#endregion
+//#region setSymbolByIndex
+
+/**
+ * ### setSymbolByIndex
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setSymbolByIndexT
+ * @prop {} _
+ * ***
+ * @arg {stringT&setSymbolByIndexT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setSymbolByIndex(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringSetSymbolByIndex
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSetSymbolByIndex() {
+
+    return setSymbolByIndex({});
+
+};
+
+//#endregion
+//#region setSymbolByPosition
+
+/**
+ * ### setSymbolByPosition
+ * 
+ * 
+ * 
+ * ***
+ * @typedef setSymbolByPositionT
+ * @prop {} _
+ * ***
+ * @arg {stringT&setSymbolByPositionT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function setSymbolByPosition(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### stringSetSymbolByPosition
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSetSymbolByPosition() {
+
+    return setSymbolByPosition({});
+
+};
+
+//#endregion
 //#region pad
 
 /**
  * ### pad
- * - Тип `S`
- * - Версия `1.1.0`
- * ***
  * 
  * 
  * 
@@ -1371,8 +1817,8 @@ export function stringGetDimension(string) {
  * ***
  * @arg {stringT&padT} args `Аргументы`
  * *** 
- * @since `1.1.0`
- * @version `1.1.0`
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @function
 */
 function pad(args) {
@@ -1384,9 +1830,11 @@ function pad(args) {
         let {
             
             fill,
-            limit,
             align,
+            length,
             string,
+            indent,
+            indentLength,
             
         } = args;
         
@@ -1397,23 +1845,22 @@ function pad(args) {
         //#endregion
         //#region handle
         
-        if (!fill) fill = config.params.padFillDefault;
-        if (!align && align !== 0) align = config.params.alignDefault;
-
+        
+        
         //#endregion
         //#region comply
-
+        
         switch (align) {
 
             case 0: {
 
-                const value = (limit - string.length) / 2;
+                const value = (length - string.length) / 2;
 
-                result = fill.repeat(Math.ceil(value)) + string + fill.repeat(Math.floor(value)); break;
+                result = fill.repeat(Math.ceil(value)) + indent.repeat(indentLength) + string + indent.repeat(indentLength) +  fill.repeat(Math.floor(value));
 
             }; break;
-            case 1: result = string.padStart(limit, fill); break;
-            case -1: result = string.padEnd(limit, fill); break;
+            case 1: result = fill.repeat(length) + string.padStart(indentLength, indent); break;
+            case -1: result = string.padEnd(indentLength, indent) + fill.repeat(length); break;
 
         };
         
@@ -1440,2029 +1887,48 @@ function pad(args) {
 };
 
 /**
- * ### stringPad
+ * ### pad
  * 
- * 
+ * Функция доведения текста до указанной длины.
+ * Включает возможность выравнивания.
  * 
  * ***
  * @arg {stringT['fill']} fill `Заполнитель`
- * @arg {stringT['limit']} limit `Лимит`
  * @arg {stringT['align']} align `Выравнивание`
- * @arg {stringT['string']} string `Строка`
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['length']} length `Длина`
+ * @arg {stringT['indent']} indent `Отступ`
+ * @arg {stringT['indentLength']} indentLength `Длина отступов`
  * ***
- * @since `1.0.0`
- * @version `1.1.0`
- * @function
-*/
-export function stringPad(string, limit, fill, align) {
-
-    return pad({ string, limit, fill, align, });
-
-};
-
-//#endregion
-// //#region pad 1.0.0
-
-// /** ### stringTFPad
-//  * - Тип `TF`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Результирующие параметры функции `pad`.
-//  *
-//  * @typedef {stringTFUPad&stringT&stringTIndex&stringTLimit} stringTFPad
-//  *
-// */
-// /** ### stringTFUPad
-//  * - Тип `TFU`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  *
-//  * Уникальные параметры функции `pad`.
-//  *
-//  * @typedef stringTFUPad
-//  * @prop {string} pad
-//  * @prop {boolean} modeCut
-// */
-
-// /** @arg {stringTFPad} t */
-// function padDeceit(t) {
-
-//     try {
-
-//         return padVerify(t);
-
-//     } catch (e) {
-
-//         if (config.params?.strictMode) {
-
-//             throw e;
-
-//         };
-
-//         return undefined;
-
-//     } finally {
-
-
-
-//     };
-
-// };
-// /** @arg {stringTFPad} t */
-// function padVerify(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return padHandle(t);
-
-// };
-// /** @arg {stringTFPad} t */
-// function padHandle(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return padComply(t);
-
-// };
-// /** @arg {stringTFPad} t */
-// function padComply(t) {
-
-//     const {
-
-//         pad,
-//         limit,
-//         index,
-//         string,
-//         modeCut,
-
-//     } = t;
-
-//     let result = string;
-
-//     if (string.length <= limit && limit && pad) {
-
-//         const count = Math.floor((limit - string.length) / pad.length);
-//         // const overflow = t.limit - (count * pad.length + string.length);
-
-//         result += pad.repeat(count);
-
-//     };
-
-//     return result;
-
-// };
-
-// /**
-//  * ### stringPad
-//  * - Версия `1.0.0`
-//  * - Цепочка `DVHCa`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Функция доведения указанной `строки` до указанного `лимита` символов `строкой доведения`.
-//  *
-//  * В отличии от обычной функции `pad` позволяет доводить строку до указанного лимита с указанной позиции.
-//  *
-//  * ***
-//  * @arg {string} pad `Строка доведения`
-//  * @arg {number} limit `Лимит`
-//  * @arg {number} index `Позиция`
-//  * @arg {string} string `Строка`
-//  * @arg {boolean} modeCut `Режим отсечения`
-//  * @since `1.0.0`
-//  * @function
-//  *
-//  * Режим отсечения позволяет обрезать ту часть дополнения, что превзошла указанный лимит.
-//  *
-//  * - Дефолт `true`
-// */
-// export function stringPad(string, pad, limit, index = string?.length ?? 0, modeCut = true) {
-
-//     return padDeceit({ string, limit, index, pad, modeCut });
-
-// };
-
-// //#endregion
-// //#region padRow 0.0.0
-
-// /** ### stringTFPadRow
-//  * - Тип `TF`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Результирующие параметры функции `padColumn`.
-//  *
-//  * @typedef {stringTFUPadRow&stringT&stringTFPad} stringTFPadRow
-//  *
-// */
-// /** ### stringTFUPadRow
-//  * - Тип `TFU`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  *
-//  * Уникальные параметры функции `padColumn`.
-//  *
-//  * @typedef stringTFUPadRow
-//  * @prop {} _
-// */
-
-// /** @arg {stringTFPadRow} t */
-// function padRowDeceit(t) {
-
-//     try {
-
-//         return padRowVerify(t);
-
-//     } catch (e) {
-
-//         if (config.params?.strictMode) {
-
-//             throw e;
-
-//         };
-
-//         return undefined;
-
-//     } finally {
-
-
-
-//     };
-
-// };
-// /** @arg {stringTFPadRow} t */
-// function padRowVerify(t) {
-
-//     const {
-
-//         limit,
-//         string,
-
-//     } = t;
-
-//     if (!limit || limit <= stringGetRows(string).length) {
-
-//         return t.string;
-
-//     };
-
-//     return padRowHandle(t);
-
-// };
-// /** @arg {stringTFPadRow} t */
-// function padRowHandle(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return padRowComply(t);
-
-// };
-// /** @arg {stringTFPadRow} t */
-// function padRowComply(t) {
-
-//     const {
-
-//         pad,
-//         limit,
-//         string,
-
-//     } = t;
-
-//     return string + pad.repeat(limit - string.split('\n').length, pad);
-
-// };
-
-// /**
-//  * ### stringPadColumn
-//  * - Версия `0.0.0`
-//  * - Цепочка `DVHCa`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Функция приведения указанной строки к указанному количеству строк.
-//  *
-//  * ***
-//  * @arg {string} pad `Дополнитель`
-//  *
-//  * - Дефолт `\n`
-//  * @arg {string} string `Строка`
-//  * @arg {number} limit `Лимит`
-// */
-// export function stringPadRow(string, limit, pad = config.params.rowEnd) {
-
-//     return padRowDeceit({ string, limit, pad, });
-
-// };
-
-// //#endregion
-// //#region padColumn 0.0.0
-
-// /** ### stringTFPadColumn
-//  * - Тип `TF`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Результирующие параметры функции `padColumn`.
-//  *
-//  * @typedef {stringTFUPadColumn&stringT&stringTFPad} stringTFPadColumn
-//  *
-// */
-// /** ### stringTFUPadColumn
-//  * - Тип `TFU`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  *
-//  * Уникальные параметры функции `padColumn`.
-//  *
-//  * @typedef stringTFUPadColumn
-//  * @prop {any} _
-// */
-
-// /** @arg {stringTFPadColumn} t */
-// function padColumnDeceit(t) {
-
-//     try {
-
-//         return padColumnVerify(t);
-
-//     } catch (e) {
-
-//         if (config.params?.strictMode) {
-
-//             throw e;
-
-//         };
-
-//         return undefined;
-
-//     } finally {
-
-
-
-//     };
-
-// };
-// /** @arg {stringTFPadColumn} t */
-// function padColumnVerify(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return padColumnHandle(t);
-
-// };
-// /** @arg {stringTFPadColumn} t */
-// function padColumnHandle(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return padColumnComply(t);
-
-// };
-// /** @arg {stringTFPadColumn} t */
-// function padColumnComply(t) {
-
-//     const {
-
-//         pad,
-//         limit,
-//         string,
-
-//     } = t;
-
-//     return string.split('\n').map(y => {
-
-//         const r = stringPad(y, pad, limit);
-
-//         return r;
-
-//     }).join('\n');
-
-// };
-
-// /**
-//  * ### stringPadColumn
-//  * - Версия `0.0.0`
-//  * - Цепочка `DVHCa`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Функция приведения каждой линии указанной строки к указанному кол-ву столбцов.
-//  *
-//  * ***
-//  * @arg {string} pad `Дополнитель`
-//  *
-//  * - Дефолт ` `
-//  * @arg {string} string `Строка`
-//  * @arg {number} limit `Лимит`
-// */
-// export function stringPadColumn(string, limit, pad = ' ') {
-
-//     return padColumnDeceit({ string, limit, pad, });
-
-// };
-
-// //#endregion
-// //#region padToPosition 0.0.0
-
-// /** ### stringTFPadToPosition
-//  * - Тип `TF`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Результирующие параметры функции `padToPosition`.
-//  *
-//  * @typedef {stringTFUPadToPosition&stringT&stringTPosition} stringTFPadToPosition
-//  *
-// */
-// /** ### stringTFUPadToPosition
-//  * - Тип `TFU`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  *
-//  * Уникальные параметры функции `padToPosition`.
-//  *
-//  * @typedef stringTFUPadToPosition
-//  * @prop {number} row
-//  * @prop {number} column
-//  * @prop {string} space
-//  * @prop {string} rowEnd
-// */
-
-// /** @arg {stringTFPadToPosition} t */
-// function padToPositionDeceit(t) {
-
-//     try {
-
-//         return padToPositionVerify(t);
-
-//     } catch (e) {
-
-//         if (config.params?.strictMode) {
-
-//             throw e;
-
-//         };
-
-//         return undefined;
-
-//     } finally {
-
-
-
-//     };
-
-// };
-// /** @arg {stringTFPadToPosition} t */
-// function padToPositionVerify(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return padToPositionHandle(t);
-
-// };
-// /** @arg {stringTFPadToPosition} t */
-// function padToPositionHandle(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return padToPositionComply(t);
-
-// };
-// /** @arg {stringTFPadToPosition} t */
-// function padToPositionComply(t) {
-
-//     let {
-
-//         row,
-
-//     } = t;
-
-//     const {
-
-//         col,
-//         space,
-//         string,
-//         rowEnd,
-
-//     } = t;
-
-//     let result = string;
-
-//     result = stringPadRow(result, row + 1, rowEnd).split('\n');
-//     result[row] = stringPad(result[row], space, col);
-//     result = result.join(rowEnd);
-
-//     return result;
-
-// };
-
-// /**
-//  * ### stringPadToPosition
-//  * - Версия `1.0.0`
-//  * - Цепочка `DVHCa`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Функция приведения указанной строки до указанной позиции.
-//  *
-//  * ***
-//  * @arg {string} string `Текст`
-//  * @arg {number} row `Строка`
-//  * @arg {number} col `Столбец`
-//  * @arg {string?} space `Заполнитель`
-//  * @arg {string?} rowEnd `Конец линии`
-//  * @since `1.0.0`
-//  * @function
-// */
-// export function stringPadToPosition(string, row, col, space = config.params.space, rowEnd = config.params.rowEnd) {
-
-//     return padToPositionDeceit({ string, row, col, space, rowEnd, });
-
-// };
-
-// //#endregion
-
-//#region skip 0.0.0
-
-/** ### stringTFSkip
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `skip`.
- *
- * @typedef {stringTFUSkip&stringT} stringTFSkip
- *
-*/
-/** ### stringTFUSkip
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `skip`.
- *
- * @typedef stringTFUSkip
- * @prop {string} layer
- * @prop {string} symbol
-*/
-
-/** @arg {stringTFSkip} t */
-function skipDeceit(t) {
-
-    try {
-
-        return skipVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFSkip} t */
-function skipVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return skipHandle(t);
-
-};
-/** @arg {stringTFSkip} t */
-function skipHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return skipComply(t);
-
-};
-/** @arg {stringTFSkip} t */
-function skipComply(t) {
-
-    const {
-
-        layer,
-        string,
-        symbol,
-
-    } = t;
-
-    let result = stringPaste(string, layer, 0, layer.length);
-
-    Array.from(layer.matchAll(symbol)).forEach(match => result = stringPaste(result, string[match.index] ?? symbol, match.index, true));
-
-    return result;
-
-};
-
-/**
- * ### stringSkip
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция пропускания слоя через строку.
- *
- * Возвращает в качестве результата исходную строку, в которой:
- * - Часть заменена на слой.
- * - Слой оставляет символы исходной строки, которые он не покрыл или те, которые были указаны в нём как пропускные.
- *
- * Пропускной символ - указатель слоя, который говорит функции, что она должна оставить на данном месте символ исходной строки.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {string} layer `Слой`
- *
- * Слой, эта строка, которая встанет на ту часть исходной строки, которую сможет покрыть от начала и до конца своей длины.
- * @arg {string} symbol `Символ`
-*/
-export function stringSkip(string, layer, symbol) {
-
-    return skipDeceit({ string, layer, symbol, });
-
-};
-
-//#endregion
-
-//#region trim 0.2.0
-
-/** ### stringTFTrim
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `trim`.
- *
- * @typedef {stringTFUTrim&stringT} stringTFTrim
- *
-*/
-/** ### stringTFUTrim
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `trim`.
- *
- * @typedef stringTFUTrim
- * @prop {boolean} end
- * @prop {boolean} start
-*/
-
-/** @arg {stringTFTrim} t */
-function trimDeceit(t) {
-
-    try {
-
-        return trimVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFTrim} t */
-function trimVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return trimHandle(t);
-
-};
-/** @arg {stringTFTrim} t */
-function trimHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return trimComply(t);
-
-};
-/** @arg {stringTFTrim} t */
-function trimComply(t) {
-
-    const {
-
-        end,
-        start,
-        string,
-
-    } = t;
-
-    let result = string;
-
-    if (end && start) {
-
-        result = result.trim();
-
-    } else if (end) {
-
-        result = result.trimEnd();
-
-    } else if (start) {
-
-        result = result.trimStart();
-
-    };
-
-    return result;
-
-};
-
-/**
- * ### stringTrim
- * - Версия `0.2.0`
- * - Цепочка `DVHCa`
- * - Пространство `string`
- *
- * Функция обрезки каждой линии строки и самой строки от свободных линий.
- * ***
- * @arg {string} string `Строка`
- * @arg {boolean} end `Обрезка конца строки`
- * - По умолчанию `true`
- * @arg {boolean} start `Обрезка начала строки`
- * - По умолчанию `false`
-*/
-export function stringTrim(string, end = true, start = false) {
-
-    return trimDeceit({ string, start, end, });
-
-};
-
-//#endregion
-//#region trimRow 0.0.0
-
-/** ### stringTFTrimRow
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `trimRow`.
- *
- * @typedef {stringTFUTrimRow&stringT&stringTFTrim} stringTFTrimRow
- *
-*/
-/** ### stringTFUTrimRow
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `trimRow`.
- *
- * @typedef stringTFUTrimRow
- * @prop {any} _
-*/
-
-/** @arg {stringTFTrimRow} t */
-function trimRowDeceit(t) {
-
-    try {
-
-        return trimRowVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFTrimRow} t */
-function trimRowVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return trimRowHandle(t);
-
-};
-/** @arg {stringTFTrimRow} t */
-function trimRowHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return trimRowComply(t);
-
-};
-/** @arg {stringTFTrimRow} t */
-function trimRowComply(t) {
-
-    const {
-
-        end,
-        start,
-        string,
-
-    } = t;
-
-    return string.split('\n').map(y => {
-
-        if (end) {
-
-            y = y.trimEnd();
-
-        };
-        if (start) {
-
-            y = y.trimStart();
-
-        };
-
-        return y;
-
-    }).join('\n');
-
-};
-
-/**
- * ### stringTrimRow
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция построчного усечения.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {boolean} end `Конец`
- * @arg {boolean} start `Начало`
-*/
-export function stringTrimRow(string, start, end = true) {
-
-    return trimRowDeceit({ string, start, end, });
-
-};
-
-//#endregion
-
-//#region markInsert
-
-/** ### stringTFMarkInsert
- * - Тип `TF`
- * ***
- * 
- * Результирующие параметры функции `markInsert`.
- * 
- * @typedef {stringTFUMarkInsert&stringT} stringTFMarkInsert
- * 
-*/
-/** ### stringTFUMarkInsert
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `markInsert`.
- * 
- * @typedef stringTFUMarkInsert
- * @prop {[string][]} marks
-*/
-
-/** @arg {stringTFMarkInsert} t */
-function markInsertDeceit(t) {
-
-    try {
-
-        return markInsertVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFMarkInsert} t */
-function markInsertVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return markInsertHandle(t);
-
-};
-/** @arg {stringTFMarkInsert} t */
-function markInsertHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return markInsertComply(t);
-
-};
-/** @arg {stringTFMarkInsert} t */
-function markInsertComply(t) {
-
-    const {
-
-        marks,
-        string,
-
-    } = t;
-
-    const labels = [];
-    const fragments = [];
-
-    for (const mark of marks) {
-
-        if (!mark || !mark.length || !mark[0]) continue;
-
-        labels.push(mark.slice(1));
-        fragments.push(mark[0]);
-
-    };
-
-    const matches = string.matchAll(new RegExp(fragments.join('|'), 'gmsu'));
-
-    for (let match = matches.next(); !match.done; match = matches.next()) {
-
-        console.log(match, fragments);
-
-    };
-
-    return this;
-
-};
-
-/**
- * ### stringMarkInsert
- * 
- * ***
- * 
- * Функция маркировки вставок.
- * 
- * ***
- * @arg {string} string `Строка`
- * @arg {...[string, string]} marks `Значения`
-*/
-export function stringMarkInsert(string, ...marks) {
-
-    return markInsertDeceit({ string, marks, });
-
-};
-
-//#endregion
-
-//#region split 0.0.0
-
-/** ### stringTFSplit
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `split`.
- *
- * @typedef {stringTFUSplit&stringT} stringTFSplit
- *
-*/
-/** ### stringTFUSplit
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `split`.
- *
- * @typedef stringTFUSplit
- * @prop {number} count
- * @prop {string} separator
-*/
-
-/** @arg {stringTFSplit} t */
-function splitDeceit(t) {
-
-    try {
-
-        return splitVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFSplit} t */
-function splitVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return splitHandle(t);
-
-};
-/** @arg {stringTFSplit} t */
-function splitHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return splitComply(t);
-
-};
-/** @arg {stringTFSplit} t */
-function splitComply(t) {
-
-    const {
-
-        count,
-        string,
-        separator,
-
-    } = t;
-
-    let result = string.split(separator);
-
-    if (count) {
-
-        return [...result.slice(0, count), result.slice(count).join(separator)];
-
-    } else {
-
-        return result;
-
-    };
-
-};
-
-/**
- * ### stringSplit
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция разбивки указанной строки на подстроки по указанному разделителю.
- *
- * С помощью `счётчика` можно задать кол-во разбиений.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {string} separator `Разделитель`
- * @arg {number} count `Счётчик`
-*/
-export function stringSplit(string, separator, count) {
-
-    return splitDeceit({ string, separator, count, });
-
-};
-
-//#endregion
-// //#region splitByCount 0.0.0
-
-// /** ### stringTFSplitByCount
-//  * - Тип `TF`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Результирующие параметры функции `splitByCount`.
-//  *
-//  * @typedef {stringTFUSplitByCount&stringT} stringTFSplitByCount
-//  *
-// */
-// /** ### stringTFUSplitByCount
-//  * - Тип `TFU`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  *
-//  * Уникальные параметры функции `splitByCount`.
-//  *
-//  * @typedef stringTFUSplitByCount
-//  * @prop {number} count
-// */
-
-// /** @arg {stringTFSplitByCount} t */
-// function splitByCountDeceit(t) {
-
-//     try {
-
-//         return splitByCountVerify(t);
-
-//     } catch (e) {
-
-//         if (config.params?.strictMode) {
-
-//             throw e;
-
-//         };
-
-//         return undefined;
-
-//     } finally {
-
-
-
-//     };
-
-// };
-// /** @arg {stringTFSplitByCount} t */
-// function splitByCountVerify(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return splitByCountHandle(t);
-
-// };
-// /** @arg {stringTFSplitByCount} t */
-// function splitByCountHandle(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return splitByCountComply(t);
-
-// };
-// /** @arg {stringTFSplitByCount} t */
-// function splitByCountComply(t) {
-
-//     const {
-
-//         count,
-//         string,
-
-//     } = t;
-
-//     return arrayDevideByCount(string, count);
-
-// };
-
-// /**
-//  * ### stringSplitByCount
-//  * - Версия `0.0.0`
-//  * - Цепочка `DVHCa`
-//  * - Модуль `string`
-//  * ***
-//  *
-//  * Функция разбиения указанной строки на подстроки указанной длины.
-//  *
-//  * ***
-//  * @arg {string} string `Строка`
-//  * @arg {number} count `Счётчик`
-// */
-// export function stringSplitByCount(string, count) {
-
-//     return splitByCountDeceit({ string, count, });
-
-// };
-
-// //#endregion
-
-//#region unify 0.0.1
-
-/** ### stringTFUnify
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `unify`.
- *
- * @typedef {stringTFUUnify&stringT} stringTFUnify
- *
-*/
-/** ### stringTFUUnify
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `unify`.
- *
- * @typedef stringTFUUnify
- * @prop {string} symbols
-*/
-
-/** @arg {stringTFUnify} t */
-function unifyDeceit(t) {
-
-    try {
-
-        return unifyVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFUnify} t */
-function unifyVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return unifyHandle(t);
-
-};
-/** @arg {stringTFUnify} t */
-function unifyHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return unifyComply(t);
-
-};
-/** @arg {stringTFUnify} t */
-function unifyComply(t) {
-
-    let {
-
-        string,
-
-    } = t;
-
-    const {
-
-        symbols,
-
-    } = t;
-
-    for (let i = 0; i < string.length; i++) {
-
-        if (string[i + 1] && string[i] === string[i + 1] && (!symbols || (symbols && symbols.includes(string[i])))) {
-
-            string = stringRemove(string, i, 1);
-
-            i--;
-
-        };
-
-    };
-
-    return string;
-
-};
-
-/**
- * ### stringUnify
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция унифицирования содержимого строки.
- *
- * Унификация исключает дублирование символов идущих подряд, удаляя дубли.
- *
- * ***
- * @arg {string} string `Строка`
-*/
-export function stringUnify(string) {
-
-    return unifyDeceit({ string, });
-
-};
-/**
- * ### stringUnifyBySymbol
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция {@link stringUnify|унифицирования} по указанным символам.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {string} symbols `Символы`
-*/
-export function stringUnifyBySymbol(string, symbols) {
-
-    return unifyDeceit({ string, symbols, });
-
-};
-
-//#endregion
-
-//#region paste 1.0.0
-
-/** ### stringTFPaste
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `paste`.
- *
- * @typedef {stringTFUPaste&stringTIndex&stringTLength&stringT} stringTFPaste
- *
-*/
-/** ### stringTFUPaste
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `paste`.
- *
- * @typedef stringTFUPaste
- * @prop {string} paste
- * @prop {boolean} modeSkip
- * @prop {stringTPosition} position
-*/
-
-/** @arg {stringTFPaste} t */
-function pasteDeceit(t) {
-
-    try {
-
-        return pasteVerify(t);
-
-    } catch (e) {
-
-        if (config.params.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {stringTFPaste} t */
-function pasteVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return pasteHandle(t);
-
-};
-/** @arg {stringTFPaste} t */
-function pasteHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    const args = argClassify(t);
-
-    if (args.arrayNumber.length) {
-
-        t.string = stringPadToPosition(t.string, ...args.arrayNumber[0]);
-        t.index = stringGetIndex(t.string, ...args.arrayNumber[0]);
-
-    };
-
-    if (t.modeSkip) {
-
-        t.paste = stringSkip(t.string.slice(t.index, (t.length + t.index) ?? undefined), t.paste, config.params.skipValue).slice(0, t.length ?? t.paste.length);
-
-    };
-
-    return pasteComply(t);
-
-};
-/** @arg {stringTFPaste} t */
-function pasteComply(t) {
-
-    let {
-
-        index,
-        string,
-
-    } = t;
-
-    const {
-
-        paste,
-        length,
-
-    } = t;
-
-    if (length) {
-
-        string = stringRemove(string, index, length);
-
-    };
-
-    if (length < -1) {
-
-        const d = index + length;
-
-        if (d < 0) {
-
-            index += length - d;
-
-        } else {
-
-            index += length + 1;
-
-        };
-
-    };
-
-    return stringAppend(string, index, paste);
-
-};
-
-/**
- * ### stringPaste
- * - Версия `1.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция вставки с замещением указанной индексом и размером области в строку.
- *
- * ***
- * @arg {number} length `Размер`
- * @arg {number} index `Индекс`
- *
- * - Дефолт `string.length ?? 0`
- * @arg {string} paste `Вставка`
- * @arg {string} string `Строка`
- * 
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringPaste(string, paste, index = string.length ?? 0, length = 0, modeSkip = config.params.modeSkip) {
+export function stringPad(string, length, fill = config.params.fillPreset, align = config.params.alignPreset, indent = config.params.indentPreset, indentLength = config.params.indentLengthPreset) {
 
-    return pasteDeceit({ string, paste, index, length, modeSkip, });
-
-};
-
-//#endregion
-//#region pasteWrap 1.0.0
-
-/** ### stringTFPasteWrap
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `pasteWrap`.
- *
- * @typedef {stringTFUPasteWrap&stringT&stringTPosition} stringTFPasteWrap
- *
-*/
-/** ### stringTFUPasteWrap
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `pasteWrap`.
- *
- * @typedef stringTFUPasteWrap
- * @prop {string} wrap
- * @prop {boolean} modeSkip
-*/
-
-/** @arg {stringTFPasteWrap} t */
-function pasteWrapDeceit(t) {
-
-    try {
-
-        return pasteWrapVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFPasteWrap} t */
-function pasteWrapVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return pasteWrapHandle(t);
-
-};
-/** @arg {stringTFPasteWrap} t */
-function pasteWrapHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return pasteWrapComply(t);
-
-};
-/** @arg {stringTFPasteWrap} t */
-function pasteWrapComply(t) {
-
-    const {
-
-        y,
-        wrap,
-        x,
-        string,
-        modeSkip,
-
-    } = t;
-
-    let result = string;
-
-    wrap.split('\n').forEach((rowWrap, i) => {
-
-        result = stringPadToPosition(result, y + i, x);
-
-        let row = stringGetRow(result, y + i);
-
-        row = stringPaste(row, rowWrap, x, rowWrap.length, modeSkip);
-
-        result = stringSetRow(result, row, y + i);
-
-    });
-
-    return result;
-
-};
-
-/**
- * ### stringPasteWrap
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция вставки в указанную строку указанную вставку с переносом.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {string} wrap `Вставка`
- * @arg {number} y `Строка`
- * @arg {number} x `Столбец`
- * @arg {boolean} modeSkip `Режим пропуска`
-*/
-export function stringPasteWrap(string, wrap = '', y, x, modeSkip) {
-
-    return pasteWrapDeceit({ string, wrap, y, x, modeSkip, });
+    return pad({ string, length, fill, align, indent, indentLength, });
 
 };
 
 //#endregion
-//#region pasteSymbol
-
-/** ### stringTFPasteSymbol
- * - Тип `TF`
- * ***
- * 
- * Результирующие параметры функции `pasteSymbol`.
- * 
- * @typedef {stringTFUPasteSymbol&stringT} stringTFPasteSymbol
- * 
-*/
-/** ### stringTFUPasteSymbol
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `pasteSymbol`.
- * 
- * @typedef stringTFUPasteSymbol
- * @prop {number} index
- * @prop {string} symbol
-*/
-
-/** @arg {stringTFPasteSymbol} t */
-function pasteSymbolDeceit(t) {
-
-    try {
-
-        return pasteSymbolVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFPasteSymbol} t */
-function pasteSymbolVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return pasteSymbolHandle(t);
-
-};
-/** @arg {stringTFPasteSymbol} t */
-function pasteSymbolHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return pasteSymbolComply(t);
-
-};
-/** @arg {stringTFPasteSymbol} t */
-function pasteSymbolComply(t) {
-
-    const {
-
-        index,
-        string,
-
-    } = t;
-
-    const symbol = config.params.getProperty(t.symbol);
-
-    if (symbol) {
-
-        return stringPaste(string, symbol, index);
-
-    };
-
-    return string;
-
-};
+//#region padRows
 
 /**
- * ### stringPasteSymbol
- * 
- * ***
- * 
- * Функция вставки символа в строку по индексу.
- * 
- * ***
- * @arg {number} index `Индекс`
- * @arg {string} string `Строка`
- * @arg {stringTTSymbol} symbol `Символ`
-*/
-export function stringPasteSymbol(string, symbol, index) {
-
-    return pasteSymbolDeceit({ string, symbol, index, });
-
-};
-
-//#endregion
-//#region pasteByPosition 1.0.0
-
-/** ### stringTFPasteByPosition
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `pasteByPosition`.
- *
- * @typedef {stringTFUPasteByPosition&stringT} stringTFPasteByPosition
- *
-*/
-/** ### stringTFUPasteByPosition
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `pasteByPosition`.
- *
- * @typedef stringTFUPasteByPosition
- * @prop {any} _
-*/
-
-/** @arg {stringTFPasteByPosition} t */
-function pasteByPositionDeceit(t) {
-
-    try {
-
-        return pasteByPositionVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFPasteByPosition} t */
-function pasteByPositionVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return pasteByPositionHandle(t);
-
-};
-/** @arg {stringTFPasteByPosition} t */
-function pasteByPositionHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return pasteByPositionComply(t);
-
-};
-/** @arg {stringTFPasteByPosition} t */
-function pasteByPositionComply(t) {
-
-    const {
-
-
-
-    } = t;
-
-
-
-};
-
-/**
- * ### stringPasteByPosition
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- *
- *
- * ***
- *
-*/
-export function stringPasteByPosition() {
-
-    return pasteByPositionDeceit({});
-
-};
-
-//#endregion
-
-//#region append 1.0.0
-
-/** ### stringTFAppend
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `append`.
- *
- * @typedef {stringTFUAppend&stringT} stringTFAppend
- *
-*/
-/** ### stringTFUAppend
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `append`.
- *
- * @typedef stringTFUAppend
- * @prop {number} index
- * @prop {string[]} appends
-*/
-
-/** @arg {stringTFAppend} t */
-function appendDeceit(t) {
-
-    try {
-
-        return appendVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFAppend} t */
-function appendVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return appendHandle(t);
-
-};
-/** @arg {stringTFAppend} t */
-function appendHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    const args = argClassify(t);
-
-    if (args.arrayNumber.length) {
-
-        t.string = stringPadToPosition(t.string, ...args.arrayNumber[0]);
-        t.index = stringGetIndex(t.string, ...args.arrayNumber[0]);
-    };
-
-    return appendComply(t);
-
-};
-/** @arg {stringTFAppend} t */
-function appendComply(t) {
-
-    const {
-
-        index,
-        string,
-        appends,
-
-    } = t;
-
-    let result = string;
-
-    if (condIsNumberSig(index) && index >= 0) {
-
-        return result.slice(0, index) + appends.join('') + result.slice(index);
-
-    };
-
-    return result;
-
-};
-
-/**
- * ### stringAppend
- * - Версия `1.0.0`
- * - Модуль `string`
- * - Цепочка `DVHCa`
- * ***
- *
- * Функция добавления подстрок к строке по указанной позиции.
- *
- * ***
- * @arg {number} index `Индекс`
- * @arg {string} string `Строка`
- * @arg {...string} appends `Добавления`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-export function stringAppend(string, index, ...appends) {
-
-    return appendDeceit({ string, index, appends, });
-
-};
-
-//#endregion
-
-//#region devideByCount
-
-/**
- * ### devideByCount
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
+ * ### padRows
  * 
  * 
  * 
  * ***
- * @typedef devideByCountT
+ * @typedef padRowsT
  * @prop {} _
  * ***
- * @arg {stringT&devideByCountT} args `Аргументы`
- * @returns {string[]}
+ * @arg {stringT&padRowsT} args `Аргументы`
  * *** 
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-function devideByCount(args) {
+function padRows(args) {
     
     let result;
     
@@ -3470,8 +1936,7 @@ function devideByCount(args) {
         
         let {
             
-            count,
-            string,
+            
             
         } = args;
         
@@ -3487,7 +1952,7 @@ function devideByCount(args) {
         //#endregion
         //#region comply
         
-        result = string.match(new RegExp(`.{1,${count}}`, 'gmsi'));
+        
         
         //#endregion
         
@@ -3512,1840 +1977,2745 @@ function devideByCount(args) {
 };
 
 /**
- * ### stringDevideByCount
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
+ * ### padRows
  * 
- * Функция разделения строки на части по счётчику.
+ * 
  * 
  * ***
- * @arg {stringT['count']} count `Счётчик`
- * @arg {stringT['string']} string `Строка`
+ * 
+ * 
+ * 
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringDevideByCount(string, count) {
+export function stringPadRows() {
 
-    return devideByCount({ string, count, });
+    return padRows({});
 
 };
 
 //#endregion
+//#region padColumns
 
-//#region recode 0.0.0
+/**
+ * ### padColumns
+ * 
+ * 
+ * 
+ * ***
+ * @typedef padColumnsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&padColumnsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function padColumns(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
 
-/** ### stringTFRecode
- * - Тип `TF`
+/**
+ * ### padColumns
+ * 
+ * 
+ * 
  * ***
  * 
- * Результирующие параметры функции `recode`.
  * 
- * @typedef {stringTFURecode&stringT} stringTFRecode
  * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFURecode
- * - Тип `TFU`
+export function stringPadColumns() {
+
+    return padColumns({});
+
+};
+
+//#endregion
+//#region skip
+
+/**
+ * ### skip
  * 
- * Уникальные параметры функции `recode`.
  * 
- * @typedef stringTFURecode
- * @prop {string} localNew
- * @prop {string} localNow
+ * 
+ * ***
+ * @typedef skipT
+ * @prop {} _
+ * ***
+ * @arg {stringT&skipT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-
-/** @arg {stringTFRecode} t */
-function recodeDeceit(t) {
-
+function skip(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
 
-        return recodeVerify(t);
+/**
+ * ### skip
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSkip() {
 
-    } catch (e) {
+    return skip({});
 
-        if (config.params?.strictMode) {
+};
 
-            throw e;
+//#endregion
+//#region trim
+
+/**
+ * ### trim
+ * 
+ * 
+ * 
+ * ***
+ * @typedef trimT
+ * @prop {} _
+ * ***
+ * @arg {stringT&trimT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function trim(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### trim
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringTrim() {
+
+    return trim({});
+
+};
+
+//#endregion
+//#region trimRows
+
+/**
+ * ### trimRows
+ * 
+ * 
+ * 
+ * ***
+ * @typedef trimRowsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&trimRowsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function trimRows(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### trimRows
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringTrimRows() {
+
+    return trimRows({});
+
+};
+
+//#endregion
+//#region split
+
+/**
+ * ### split
+ * 
+ * 
+ * 
+ * ***
+ * @typedef splitT
+ * @prop {} _
+ * ***
+ * @arg {stringT&splitT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function split(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### split
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSplit() {
+
+    return split({});
+
+};
+
+//#endregion
+//#region splitEvery
+
+/**
+ * ### splitEvery
+ * 
+ * 
+ * 
+ * ***
+ * @typedef splitEveryT
+ * @prop {} _
+ * ***
+ * @arg {stringT&splitEveryT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function splitEvery(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            string,
+            length,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const parts = [];
+
+        funcExecRange(0, string.length - 1, index => index % length === 0 ? parts.push(string[index]) : parts[parts.length - 1] += string[index]);
+        
+        result = parts;
+
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### splitEvery
+ * 
+ * Функция разделения текста на отрывки по `length` символов.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['length']} length `Длина`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSplitEvery(string, length = 1) {
+
+    return splitEvery({ string, length, });
+
+};
+
+//#endregion
+//#region unify
+
+/**
+ * ### unify
+ * 
+ * 
+ * 
+ * ***
+ * @typedef unifyT
+ * @prop {} _
+ * ***
+ * @arg {stringT&unifyT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function unify(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            chars,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (let index = 0; index < string.length; index++) {
+            
+            const charNext = string[index + 1];
+
+            if (!charNext || charNext !== string[index] || (chars.length && !chars.includes(charNext))) continue;
+
+            string = stringRemove(string, index--);
 
         };
 
-        return undefined;
-
+        result = string;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
+    
+    return result;
+    
+};
+
+/**
+ * ### unify
+ * 
+ * Функция удаления идущих подряд дублей символов в тексте.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['char']} chars `Символы`
+ * 
+ * При указании параметра, исключчает дубли только для указанных символов.
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringUnify(string, ...chars) {
+
+    return unify({ string, chars, });
 
 };
-/** @arg {stringTFRecode} t */
-function recodeVerify(t) {
 
-    const {
+//#endregion
+//#region paste
 
+/**
+ * ### paste
+ * 
+ * 
+ * 
+ * ***
+ * @typedef pasteT
+ * @prop {} _
+ * ***
+ * @arg {stringT&pasteT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function paste(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            index,
+            length,
+            string,
+            substring,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
 
+        result = stringAppend(stringRemoveRange(string, index, index + length - 1), substring, index);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
 
-    } = t;
+/**
+ * ### paste
+ * 
+ * Функция вставки в текст.
+ * 
+ * ***
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['length']} length `Длина`
+ * @arg {stringT['substring']} substring `Подстрока`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringPaste(string, substring, index = 0, length = substring.length) {
 
-    return recodeHandle(t);
+    return paste({ string, substring, index, length, });
 
 };
-/** @arg {stringTFRecode} t */
-function recodeHandle(t) {
 
-    const {
+//#endregion
+//#region pasteWrap
 
+/**
+ * ### pasteWrap
+ * 
+ * 
+ * 
+ * ***
+ * @typedef pasteWrapT
+ * @prop {} _
+ * ***
+ * @arg {stringT&pasteWrapT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function pasteWrap(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
 
+/**
+ * ### pasteWrap
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringPasteWrap() {
 
-    } = t;
-
-    return recodeComply(t);
+    return pasteWrap({});
 
 };
-/** @arg {stringTFRecode} t */
-function recodeComply(t) {
 
-    const {
+//#endregion
+//#region pasteSymbol
 
-        string,
-        localNow,
-        localNew,
+/**
+ * ### pasteSymbol
+ * 
+ * 
+ * 
+ * ***
+ * @typedef pasteSymbolT
+ * @prop {} _
+ * ***
+ * @arg {stringT&pasteSymbolT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function pasteSymbol(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
 
-    } = t;
+/**
+ * ### pasteSymbol
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringPasteSymbol() {
 
-    let result = string;
+    return pasteSymbol({});
 
-    switch (localNow + '-' + localNew) {
+};
 
-        case 'en-ru': {
+//#endregion
+//#region pasteByPosition
 
-            const replaces = [
+/**
+ * ### pasteByPosition
+ * 
+ * 
+ * 
+ * ***
+ * @typedef pasteByPositionT
+ * @prop {} _
+ * ***
+ * @arg {stringT&pasteByPositionT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function pasteByPosition(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
 
-                ['q', 'й'], ['w', 'ц'], ['e', 'у'], ['r', 'к'], ['t', 'е'], ['y', 'н'], ['u', 'г'], ['i', 'ш'], ['o', 'щ'],
-                ['p', 'з'], ['[', 'х'], [']', 'ъ'], ['a', 'ф'], ['s', 'ы'], ['d', 'в'], ['f', 'а'], ['g', 'п'], ['h', 'р'],
-                ['j', 'о'], ['k', 'л'], ['l', 'д'], [';', 'ж'], ['\'', 'э'], ['z', 'я'], ['x', 'ч'], ['c', 'с'], ['v', 'м'],
-                ['b', 'и'], ['n', 'т'], ['m', 'ь'], [',', 'б'], ['.', 'ю'],
+/**
+ * ### pasteByPosition
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringPasteByPosition() {
 
-            ];
+    return pasteByPosition({});
 
-            for (const replace of replaces) {
+};
 
-                result = stringReplaceMany(result, replace, [replace[0].toUpperCase(), replace[1].toUpperCase()]);
+//#endregion
+//#region append
+
+/**
+ * ### append
+ * 
+ * 
+ * 
+ * ***
+ * @typedef appendT
+ * @prop {} _
+ * ***
+ * @arg {stringT&appendT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function append(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            index,
+            string,
+            substring,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (Array.isArray(index)) {
+
+            index = stringGetIndexByPosition(string, ...index);
+
+            console.log(index);
+
+        } else if (!index && index !== 0) {
+
+            index = 0;
+
+        };
+        
+        //#endregion
+        //#region comply
+        
+        if (index === 0 && Object.is(-0, index)) {
+
+            result = string += substring;
+            
+        } else {
+
+            result = string.slice(0, index) + substring + string.slice(index);
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### append
+ * 
+ * Функция добавления подстроки в строку по указанному индексу.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['substring']} substring `Подстрока`
+ * @arg {stringT['index']|stringT['position']} index `Индекс`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringAppend(string, substring, index = string.length) {
+
+    return append({ string, substring, index, });
+
+};
+
+//#endregion
+//#region appendEvery
+
+/**
+ * ### appendEvery
+ * 
+ * 
+ * 
+ * ***
+ * @typedef appendEveryT
+ * @prop {} _
+ * ***
+ * @arg {stringT&appendEveryT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function appendEvery(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            char,
+            index,
+            length,
+            string,
+            initially,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (Object.is(-0, index)) {
+
+            index = string.length - 1;
+
+        } else if (index < 0) {
+
+            index += string.length;
+
+        };
+        
+        //#endregion
+        //#region comply
+
+        for (let i = index - length - 1; i > 0; i -= length) {
+
+            string = stringAppend(string, char, i);
+
+        };
+
+        for (let i = initially ? index : index + length; i < string.length; i += length + 1) {
+
+            string = stringAppend(string, char, i);
+
+        };
+        
+        result = string;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### appendEvery
+ * 
+ * Функция добавления указанных `char` каждые `length` символов.
+ * 
+ * ***
+ * @arg {stringT['char']} char `Символ`
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['length']} length `Длина`
+ * @arg {stringT['initially']} initially `Изначально`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringAppendEvery(string, char = ' ', length = 1, index = 0, initially = false) {
+
+    return appendEvery({ string, char, length, index, initially, });
+
+};
+
+//#endregion
+//#region recode
+
+/**
+ * ### recode
+ * 
+ * 
+ * 
+ * ***
+ * @typedef recodeT
+ * @prop {} _
+ * ***
+ * @arg {stringT&recodeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function recode(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            local,
+            string,
+            localTo,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+
+        switch (true) {
+
+            case local === 'en' && localTo === 'ru': {
+
+                for (const pair of [
+
+                    ['q', 'й'], ['w', 'ц'], ['e', 'у'], ['r', 'к'], ['t', 'е'], ['y', 'н'], ['u', 'г'], ['i', 'ш'], ['o', 'щ'], ['p', 'з'], ['\\[', 'х'], ['\\]', 'ъ'], 
+                    ['a', 'ф'], ['s', 'ы'], ['d', 'в'], ['f', 'а'], ['g', 'п'], ['h', 'р'], ['j', 'о'], ['k', 'л'], ['l', 'д'], [';', 'ж'], ['\'', 'э'], 
+                    ['z', 'я'], ['x', 'ч'], ['c', 'с'], ['v', 'м'], ['b', 'и'], ['n', 'т'], ['m', 'ь'], [',', 'б'], ['\\.', 'ю'],
+
+                ]) {
+
+                    string = string.replace(new RegExp(pair[0], 'gmsi'), pair[1]);
+
+                };
+
+                break;
 
             };
 
-        }; break;
-
-    };
-
-    return result;
-
-};
-
-/**
- * ### stringRecode
- * 
- * ***
- * 
- * Функция конвертации кода символов в символы указанной раскладки.
- * 
- * ***
- * @arg {string} string `Строка`
- * @arg {string} localNew `Новая локаль`
- * @arg {string} localNow `Текущая локаль`
-*/
-export function stringRecode(string, localNow = 'en', localNew = 'ru') {
-
-    return recodeDeceit({ string, localNow, localNew, });
-
-};
-
-//#endregion
-//#region remove 1.0.0
-
-/** ### stringTFRemove
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `remove`.
- *
- * @typedef {stringTFURemove&stringT} stringTFRemove
- *
-*/
-/** ### stringTFURemove
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `remove`.
- *
- * @typedef stringTFURemove
- * @prop {number} index
- * @prop {number} length
-*/
-
-/** @arg {stringTFRemove} t */
-function removeDeceit(t) {
-
-    try {
-
-        return removeVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
         };
 
-        return undefined;
-
+        result = string;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFRemove} t */
-function removeVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return removeHandle(t);
-
-};
-/** @arg {stringTFRemove} t */
-function removeHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    const args = argClassify(t);
-
-    if (args.arrayNumber.length) {
-
-        t.index = stringGetIndex(t.string, ...args.arrayNumber[0]);
-
-    };
-
-    if (t.index < 0) {
-
-        t.index = 0;
-
-    } else if (t.index >= t.string.length) {
-
-        t.index = t.string.length;
-
-    };
-
-    if (t.length < 0 && t.length + t.index < 0) {
-
-        [t.index, t.length] = [null, t.index + 1];
-
-    } else if (t.length > 0 && t.length + t.index >= t.string.length) {
-
-        [t.index, t.length] = [t.index, null];
-
-    } else if (t.length > 0) {
-
-        [t.index, t.length] = [t.index, t.index + t.length];
-
-    } else {
-
-        [t.index, t.length] = [t.index + t.length + 1, t.index + 1];
-
-    };
-
-    return removeComply(t);
-
-};
-/** @arg {stringTFRemove} t */
-function removeComply(t) {
-
-    const {
-
-        index,
-        length,
-        string,
-
-    } = t;
-
-    if (!index && index !== 0) {
-
-        return string.slice(length);
-
-    } else if (!length && length !== 0) {
-
-        return string.slice(0, index);
-
-    } else {
-
-        return string.slice(0, index) + string.slice(length);
-
-    };
-
+    
+    return result;
+    
 };
 
 /**
- * ### stringRemove
- * - Модуль `string`
- * - Версия `1.0.0`
- * - Цепочка `DVHCa`
+ * ### recode
+ * 
+ * Функция изменения локали всего текста.
+ * 
  * ***
- *
- * Функция удаления подстроки из строки, начиная с указанного индекса.
- *
+ * @arg {stringT['local']} local `Локаль`
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['localTo']} localTo `Новая локаль`
  * ***
- * @arg {number} index `Индекс`
- * @arg {number} length `Длина`
- * @arg {string} string `Строка`
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringRemove(string, index, length) {
+export function stringRecode(string, local, localTo) {
 
-    return removeDeceit({ string, index, length });
-
-};
-/**
- * ### stringRemoveEnd
- * - Версия `1.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция для удаления фрагмента строки начиная с конца строки.
- *
- * ***
- * @arg {number} length `Длина`
- * @arg {string} string `Строка`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-export function stringRemoveEnd(string, length) {
-
-    return removeDeceit({ string, index: string.length - length, length });
-
-};
-/**
- * ### stringRemoveStart
- * - Версия `1.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция для удаления фрагмента строки начиная с начала строки.
- *
- * ***
- * @arg {number} length `Длина`
- * @arg {string} string `Строка`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-export function stringRemoveStart(string, length) {
-
-    return removeDeceit({ string, index: 0, length, });
+    return recode({ string, local, localTo, });
 
 };
 
 //#endregion
-//#region filter 0.0.0
+//#region remove
 
-/** ### stringTFFilter
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### remove
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `filter`.
- *
- * @typedef {stringTFUFilter&stringT} stringTFFilter
- *
+ * @typedef removeT
+ * @prop {} _
+ * ***
+ * @arg {stringT&removeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUFilter
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `filter`.
- *
- * @typedef stringTFUFilter
- * @prop {(string|RegExp)[]} filters
-*/
-
-/** @arg {stringTFFilter} t */
-function filterDeceit(t) {
-
+function remove(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            string,
+            indexs,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = string;
 
-        return filterVerify(t);
+        for (const index of indexs.sort((p, c) => c - p)) {
 
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
+            result = result.slice(0, index) + result.slice(index + 1); 
 
         };
-
-        return undefined;
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFFilter} t */
-function filterVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return filterHandle(t);
-
-};
-/** @arg {stringTFFilter} t */
-function filterHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.filters.forEach((e, i, a) => {
-
-        if (e instanceof RegExp && !e.flags.includes('g')) {
-
-            a[i] = new RegExp(e, 'g');
-
-        };
-
-    });
-
-    return filterComply(t);
-
-};
-/** @arg {stringTFFilter} t */
-function filterComply(t) {
-
-    const {
-
-        string,
-        filters,
-
-    } = t;
-
-    let result = string;
-
-    filters.forEach(filter => {
-
-        result = result.replaceAll(filter, '');
-
-    });
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringFilter
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### remove
+ * 
+ * Функция удаления символа из указанного текста.
+ * 
  * ***
- *
- * Функция фильтрации указанной строки указанными фильтрами.
- *
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['index']} indexs `Индексы`
+ * 
  * ***
- * @arg {string} string `Строка`
- * @arg {...(string|RegExp)} filters `Фильтры`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringFilter(string, ...filters) {
+export function stringRemove(string, ...indexs) {
 
-    return filterDeceit({ string, filters, });
+    return remove({ string, indexs, });
 
 };
 
 //#endregion
-//#region shield 0.1.0
+//#region removeRange
 
-/** ### stringTFShield
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### removeRange
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `shield`.
- *
- * @typedef {stringTFUShield&stringT} stringTFShield
- *
+ * @typedef removeRangeT
+ * @prop {} _
+ * ***
+ * @arg {stringT&removeRangeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUShield
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `shield`.
- *
- * @typedef stringTFUShield
- * @prop {any} _
-*/
-
-/** @arg {stringTFShield} t */
-function shieldDeceit(t) {
-
+function removeRange(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            index,
+            string,
+            indexEnd,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        if (Array.isArray(index)) {
 
-        return shieldVerify(t);
+            index = stringGetIndexByPosition(string, ...index);
 
-    } catch (e) {
+        } else if (index < 0) {
 
-        if (config.params?.strictMode) {
-
-            throw e;
+            index = 0;
 
         };
 
-        return undefined;
+        if (Array.isArray(indexEnd)) {
 
+            indexEnd = stringGetIndexByPosition(string, ...indexEnd);
+
+        };
+        
+        //#endregion
+        //#region comply
+        
+        result = string.slice(0, index) + string.slice(indexEnd + 1);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFShield} t */
-function shieldVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return shieldHandle(t);
-
-};
-/** @arg {stringTFShield} t */
-function shieldHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return shieldComply(t);
-
-};
-/** @arg {stringTFShield} t */
-function shieldComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    let result = string;
-
-    const replaces = [
-
-        '\r',
-        '\n',
-        '\b',
-        '\x1b',
-        '\\',
-        '/',
-        '?',
-        '!',
-        '*',
-        '.',
-        '[',
-        ']',
-        '(',
-        ')',
-        '&',
-        '^',
-        '%',
-        '$',
-        '#',
-        '@',
-        '~',
-        ',',
-        '{',
-        '}',
-        '"',
-        '\'',
-        '+',
-        '-',
-        '_',
-        '=',
-        '`',
-        '|',
-        '>',
-        '<',
-        ':',
-        ';',
-
-    ].map(replace => {
-
-        switch (replace) {
-
-            case '\n': return [replace, '\\n'];
-            case '\r': return [replace, '\\r'];
-            case '\b': return [replace, '\\b'];
-            case '\x1b': return [replace, '\\x1b'];
-
-        };
-
-        return [replace, '\\' + replace];
-
-    }).forEach(replace => {
-
-        result = result.replaceAll(...replace);
-
-    });
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringShield
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### removeRange
+ * 
+ * Функция удаления диапазона символов от `index` до `indexEnd` из текста.
+ * 
  * ***
- *
- * Функция экранирования символов строки.
- *
+ * @arg {stringT['string']} string `Строка`
+ * @arg {stringT['index']|stringT['position']} index `Индекс`
+ * @arg {stringT['indexEnd']|stringT['position']} indexEnd `Конец`
  * ***
- * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringRemoveRange(string, index, indexEnd = string.length) {
+
+    return removeRange({ string, index, indexEnd, });
+
+};
+
+//#endregion
+//#region removeByPosition
+
+/**
+ * ### removeByPosition
+ * 
+ * 
+ * 
+ * ***
+ * @typedef removeByPositionT
+ * @prop {} _
+ * ***
+ * @arg {stringT&removeByPositionT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function removeByPosition(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### removeByPosition
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringRemoveByPosition() {
+
+    return removeByPosition({});
+
+};
+
+//#endregion
+//#region filter
+
+/**
+ * ### filter
+ * 
+ * 
+ * 
+ * ***
+ * @typedef filterT
+ * @prop {} _
+ * ***
+ * @arg {stringT&filterT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function filter(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            string,
+            matches,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const match of matches) {
+
+            string = string.replace(new RegExp(match, 'g'), '');
+
+        };
+
+        result = string;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### filter
+ * 
+ * Функция фильтрации содержимого текста по указаным соответствиям.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['match']} matches `Соответсвия`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringFilter(string, ...matches) {
+
+    return filter({ string, matches, });
+
+};
+
+//#endregion
+//#region shield
+
+/**
+ * ### shield
+ * 
+ * 
+ * 
+ * ***
+ * @typedef shieldT
+ * @prop {} _
+ * ***
+ * @arg {stringT&shieldT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function shield(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        string = string.replace(/[^\p{L} ]/ugmsi, "\\$&");
+        string = string.replace(/\x1b/gmsi, '\\x1b');
+        string = string.replace(/\r/gmsi, '\\r');
+        string = string.replace(/\n/gmsi, '\\n');
+
+        result = string.replaceAll('\b', '\\b');
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### shield
+ * 
+ * Функция экранирования символов текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function stringShield(string) {
 
-    return shieldDeceit({ string, });
+    return shield({ string, });
 
 };
 
 //#endregion
+//#region resize
 
-//#region replaceMany
-
-/** ### stringTFReplaceMany
- * - Тип `TF`
+/**
+ * ### resize
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `replaceMany`.
- * 
- * @typedef {stringTFUReplaceMany&stringT} stringTFReplaceMany
- * 
+ * @typedef resizeT
+ * @prop {} _
+ * ***
+ * @arg {stringT&resizeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUReplaceMany
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `replaceMany`.
- * 
- * @typedef stringTFUReplaceMany
- * @prop {[string[], string][]} replaces
-*/
-
-/** @arg {stringTFReplaceMany} t */
-function replaceManyDeceit(t) {
-
+function resize(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            sizes,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        let rows = stringGetRows(string);
 
-        return replaceManyVerify(t);
+        if (rows.length === sizes[0]) {
 
-    } catch (e) {
 
-        if (config.params?.strictMode) {
 
-            throw e;
+        } else if (rows.length > sizes[0]) {
+
+            rows = rows.splice(0, sizes[0]);
+
+        } else if (rows.length < sizes[0]) {
+
+            const size = sizes[0] - rows.length;
+
+            for (let index = 0; index < size; index++) rows.push('');
 
         };
 
-        return undefined;
+        for (const index in rows) {
 
+            if (rows[+index].length === sizes[1]) {
+
+                continue;
+
+            } else if (rows[+index].length > sizes[1]) {
+
+                rows[+index] = stringRemoveRange(rows[+index], sizes[1]);
+
+            } else if (rows[+index].length < sizes[1]) {
+                
+                rows[+index] = stringPad(rows[+index], sizes[1], ' ', -1);
+
+            };
+
+        };
+
+        result = rows.join('\n');
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFReplaceMany} t */
-function replaceManyVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return replaceManyHandle(t);
-
-};
-/** @arg {stringTFReplaceMany} t */
-function replaceManyHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return replaceManyComply(t);
-
-};
-/** @arg {stringTFReplaceMany} t */
-function replaceManyComply(t) {
-
-    const {
-
-        string,
-        replaces,
-
-    } = t;
-
-    let result = string;
-
-    for (const replace of replaces) {
-
-        if (!(replace[0] instanceof Array)) {
-
-            replace[0] = [replace[0]];
-
-        };
-
-        for (const alias of replace[0]) {
-
-            result = result.replaceAll(alias, replace[1]);
-
-        };
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringReplaceMany
+ * ### resize
+ * 
+ * Функция изменения размеров текста за счёт добавления/удаления строк и столбцов.
  * 
  * ***
- * 
- * Функция замены символов.
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['size']} sizes `Размеры`
  * 
  * ***
- * @arg {string} string `Строка`
- * @arg {...[string[], string]} replaces `Замены`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringReplaceMany(string, ...replaces) {
+export function stringResize(string, ...sizes) {
 
-    return replaceManyDeceit({ string, replaces });
+    return resize({ string, sizes, });
 
 };
 
 //#endregion
+//#region expand
 
-//#region insert 0.0.0
-
-/** ### stringTFInsert
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### expand
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `insert`.
- *
- * @typedef {stringTFUInsert&stringT} stringTFInsert
- *
+ * @typedef expandT
+ * @prop {} _
+ * ***
+ * @arg {stringT&expandT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUInsert
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `insert`.
- *
- * @typedef stringTFUInsert
- * @prop {stringTTInserts} inserts
-*/
-
-/** @arg {stringTFInsert} t */
-function insertDeceit(t) {
-
+function expand(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            sizes,
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const rows = stringGetRows(string);
 
-        return insertVerify(t);
+        if (sizes[1]) for (const index in rows) {
 
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
+            rows[+index] = stringPad(rows[+index], sizes[1], ' ', -1);
 
         };
 
-        return undefined;
+        for (let index = 0; index < sizes[0]; index++) {
 
+            string += '\n' + ' '.repeat(string.length + (sizes[1] ?? 0));
+
+        };
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFInsert} t */
-function insertVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return insertHandle(t);
-
-};
-/** @arg {stringTFInsert} t */
-function insertHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.inserts.forEach((e, i, a) => {
-
-        if (condIsString(e)) {
-
-            a[i] = stringSplit(e, config.params.insertSpliter, 1);
-
-        };
-
-        return e;
-
-    });
-
-    return insertComply(t);
-
-};
-/** @arg {stringTFInsert} t */
-function insertComply(t) {
-
-    const {
-
-        string,
-        inserts,
-
-    } = t;
-
-    let result = string;
-
-    for (const insert of inserts) {
-
-        result = result.replaceAll(insert[0], insert[1]);
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringInsert
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### expand
+ * 
+ * Функция расширения текста добавлением новых строк и колонн.
+ * 
  * ***
- *
- * Функция вставки укзанного значения за место указанного соответсвия во всех местах указанной строки.
- *
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['size']} sizes `Размеры`
+ * 
  * ***
- * @arg {string} find `Поиск`
- * @arg {string} value `Значение`
- * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringInsert(string, find, value) {
+export function stringExpand(string, ...sizes) {
 
-    return insertDeceit({ string, inserts: [[find, value]], });
-
-};
-/**
- * ### stringInsertMany
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция множественной вставки указанных значений в указанные строки.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {...(string|[string, string])} inserts `Вставки`
- *
- * Могут быть указаны двумя вариантами:
- * - Через строки с разделителем `-`, где первая часть - `поиск`, а вторая - `вставка`.
- * - Через массивы с двумя строковыми значениями, где первое значение - `поиск`, а второе - `вставка`.
- *
- * Оба варианта могут использоваться в перемешку друг с другом, но рекомендуется соблюдать единство параметров.
-*/
-export function stringInsertMany(string, ...inserts) {
-
-    return insertDeceit({ string, inserts, });
+    return expand({ string, sizes, });
 
 };
 
 //#endregion
-//#region insertBypass 0.0.0
+//#region search
 
-/** ### stringTFinsertBypass
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### search
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `insertBypass`.
- *
- * @typedef {stringTFUinsertBypass&stringT} stringTFinsertBypass
- *
+ * @typedef searchT
+ * @prop {} _
+ * ***
+ * @arg {stringT&searchT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUinsertBypass
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `insertBypass`.
- *
- * @typedef stringTFUinsertBypass
- * @prop {string} find
- * @prop {string[]} values
-*/
-
-/** @arg {stringTFinsertBypass} t */
-function insertBypassDeceit(t) {
-
+function search(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            string,
+            matches,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
 
-        return insertBypassVerify(t);
+        for (const match of matches) {
 
-    } catch (e) {
+            string = string.match(match).at(-1);
 
-        if (config.params?.strictMode) {
-
-            throw e;
+            if (!string) break;
 
         };
 
-        return undefined;
-
+        result = string;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFinsertBypass} t */
-function insertBypassVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return insertBypassHandle(t);
-
-};
-/** @arg {stringTFinsertBypass} t */
-function insertBypassHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return insertBypassComply(t);
-
-};
-/** @arg {stringTFinsertBypass} t */
-function insertBypassComply(t) {
-
-    const {
-
-        find,
-        string,
-        values,
-
-    } = t;
-
-    let result = string;
-
-    for (const value of values) {
-
-        const change = result.replace(find, value);
-
-        if (result === change) {
-
-            break;
-
-        } else {
-
-            result = change;
-
-        };
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringinsertBypass
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### search
+ * 
+ * Функция поиска.
+ * 
+ * Функция последовательно извлекает из результатов предыдущего поиска соответсвия со следующими регулярными выражениями.
+ * 
  * ***
- *
- * Функция вставки в указанную строку поочередно указанных значений за место указанного значения поиска.
- *
+ * @arg {stringT['string']} string `Строка`
+ * @arg {...stringT['match']} matches `Соответсвия`
+ * 
  * ***
- * @arg {string} find `Поиск`
- * @arg {string} string `Строка`
- * @arg {...string} values `Значения`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringInsertBypass(string, find, ...values) {
+export function stringSearch(string, ...matches) {
 
-    return insertBypassDeceit({ string, values, find, });
+    return search({ string, matches, });
 
 };
 
 //#endregion
+//#region searchJect
 
-//#region match
-
-/** ### stringTFMatch
- * - Тип `TF`
+/**
+ * ### searchJect
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `match`.
- * 
- * @typedef {stringTFUMatch&stringT} stringTFMatch
- * 
+ * @typedef searchJectT
+ * @prop {} _
+ * ***
+ * @arg {stringT&searchJectT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUMatch
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `match`.
- * 
- * @typedef stringTFUMatch
- * @prop {(string|RegExp)[]} fragments `Фрагменты`
-*/
-
-/** @arg {stringTFMatch} t */
-function matchDeceit(t) {
-
+function searchJect(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            string,
+            matches,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const ject = {};
 
-        return matchVerify(t);
+        for (const index in matches) {
 
-    } catch (e) {
+            const match = matches[+index].flags.includes('g') ? string.matchAll(matches[index]) : [string.match(matches[index])];
 
-        if (config.params?.strictMode) {
+            for (const submatch of match) for (let key in submatch.groups) {
 
-            throw e;
+                let value = submatch.groups[key];
+
+                if (key.includes('_')) {
+
+                    switch (key.split('_').at(-1)) {
+
+                        case 'n': value = +value; break;
+                        case 'b': value = !!value; break;
+    
+                    };
+
+                    if (typeof value !== 'string') key = stringRemoveRange(key, key.length - 2);
+
+                };
+
+                if (ject[key] === undefined) {
+
+                    ject[key] = value;
+
+                } else if (!Array.isArray(ject[key])) {
+
+                    ject[key] = [ject[key], value];
+
+                } else {
+
+                    ject[key].push(value);
+
+                };
+
+            };
 
         };
 
-        return undefined;
-
+        result = ject;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFMatch} t */
-function matchVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return matchHandle(t);
-
-};
-/** @arg {stringTFMatch} t */
-function matchHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return matchComply(t);
-
-};
-/** @arg {stringTFMatch} t */
-function matchComply(t) {
-
-    const {
-
-        string,
-        fragments,
-
-    } = t;
-
-    const result = string.match(new RegExp(fragments.join('|'), 'msu'));
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringMatch
+ * ### searchJect
+ * 
+ * Функция поиска данных в тексте по указанным соответствиям для создания объекта.
  * 
  * ***
- * 
- * Функция поиска совпадения.
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['match']} matches `Соответсвия`
  * 
  * ***
- * @arg {string} string `Строка`
- * @arg {...(RegExp|string)} fragments `Фрагменты`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringMatch(string, ...fragments) {
+export function stringSearchJect(string, ...matches) {
 
-    return matchDeceit({ string, fragments });
+    return searchJect({ string, matches, });
 
 };
 
 //#endregion
-//#region matchMany
+//#region insert
 
-/** ### stringTFMatchMany
- * - Тип `TF`
+/**
+ * ### insert
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `matchMany`.
- * 
- * @typedef {stringTFUMatchMany&stringT} stringTFMatchMany
- * 
+ * @typedef insertT
+ * @prop {} _
+ * ***
+ * @arg {stringT&insertT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUMatchMany
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `matchMany`.
- * 
- * @typedef stringTFUMatchMany
- * @prop {number} count
- * @prop {(RegExp|string)[]} fragments
-*/
-
-/** @arg {stringTFMatchMany} t */
-function matchManyDeceit(t) {
-
+function insert(args) {
+    
+    let result;
+    
     try {
-
-        return matchManyVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFMatchMany} t */
-function matchManyVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return matchManyHandle(t);
-
-};
-/** @arg {stringTFMatchMany} t */
-function matchManyHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return matchManyComply(t);
-
-};
-/** @arg {stringTFMatchMany} t */
-function matchManyComply(t) {
-
-    const {
-
-        count,
-        string,
-        fragments,
-
-    } = t;
-
-    const result = [];
-    const matches = string.matchAll(new RegExp(fragments.join("|"), "gmsu"));
-
-    for (let index = 0, match = matches.next(); count || count === 0 ? count === index : !match.done; index++, match = matches.next()) {
-
-        result.push(match.value);
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringMatchMany
+ * ### insert
+ * 
+ * 
  * 
  * ***
  * 
- * Функция множественного поиска совпадений в строке.
+ * 
  * 
  * ***
- * @arg {string} string `Строка`
- * @arg {...(RegExp|string)} fragments `Фрагменты`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringMatchMany(string, ...fragments) {
+export function stringInsert() {
 
-    return matchManyDeceit({ string, fragments });
-
-};
-/**
- * ### stringMatchManyLimit
- * 
- * ***
- * 
- * Функция поиска указанного количества совпадений в строке.
- * 
- * ***
- * @arg {string} string `Строка`
- * @arg {number} count `Количество`
- * @arg {...(string|RegExp)} fragments `Фрагменты`
-*/
-export function stringMatchManyLimit(string, count, ...fragments) {
-
-    return matchManyDeceit({ string, fragments, count, });
+    return insert({});
 
 };
 
 //#endregion
-//#region matchCount
+//#region insertBypass
 
-/** ### stringTFMatchCount
- * - Тип `TF`
+/**
+ * ### insertBypass
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `matchCount`.
- * 
- * @typedef {stringTFUMatchCount&stringT} stringTFMatchCount
- * 
+ * @typedef insertBypassT
+ * @prop {} _
+ * ***
+ * @arg {stringT&insertBypassT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUMatchCount
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `matchCount`.
- * 
- * @typedef stringTFUMatchCount
- * @prop {(string|RegExp)[]} fragments
-*/
-
-/** @arg {stringTFMatchCount} t */
-function matchCountDeceit(t) {
-
+function insertBypass(args) {
+    
+    let result;
+    
     try {
-
-        return matchCountVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFMatchCount} t */
-function matchCountVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return matchCountHandle(t);
-
-};
-/** @arg {stringTFMatchCount} t */
-function matchCountHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return matchCountComply(t);
-
-};
-/** @arg {stringTFMatchCount} t */
-function matchCountComply(t) {
-
-    const {
-
-        string,
-        fragments,
-
-    } = t;
-
-    return Array.from(string.matchAll(new RegExp(fragments.join("|"), "gmsu"))).length;
-
+    
+    return result;
+    
 };
 
 /**
- * ### stringMatchCount
+ * ### insertBypass
+ * 
+ * 
  * 
  * ***
  * 
- * Функция подсчёта всех совпадений в строке.
+ * 
  * 
  * ***
- * @arg {string} string `Строка`
- * @arg {...(RegExp|string)} fragments `Фрагменты`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringMatchCount(string, ...fragments) {
+export function stringInsertBypass() {
 
-    return matchCountDeceit({ string, fragments });
+    return insertBypass({});
 
 };
 
 //#endregion
-//#region matchCountEquals 
-
-/** ### stringTFMatchCountEquals
- * - Тип `TF`
- * ***
- * 
- * Результирующие параметры функции `matchCountEquals`.
- * 
- * @typedef {stringTFUMatchCountEquals&stringT} stringTFMatchCountEquals
- * 
-*/
-/** ### stringTFUMatchCountEquals
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `matchCountEquals`.
- * 
- * @typedef stringTFUMatchCountEquals
- * @prop {number} count
- * @prop {(RegExp|string)[]} fragments
-*/
-
-/** @arg {stringTFMatchCountEquals} t */
-function matchCountEqualsDeceit(t) {
-
-    try {
-
-        return matchCountEqualsVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFMatchCountEquals} t */
-function matchCountEqualsVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return matchCountEqualsHandle(t);
-
-};
-/** @arg {stringTFMatchCountEquals} t */
-function matchCountEqualsHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return matchCountEqualsComply(t);
-
-};
-/** @arg {stringTFMatchCountEquals} t */
-function matchCountEqualsComply(t) {
-
-    const {
-
-        count,
-        string,
-        fragments,
-
-    } = t;
-
-    const matches = string.matchAll(new RegExp(fragments.join('|'), 'gmsu'));
-
-    let index = 0;
-    let match = matches.next();
-
-    while (index === count || !match.done) {
-
-        match = matches.next();
-
-        if (index++ === count) {
-
-            return true;
-
-        };
-
-    };
-
-    return false;
-
-};
-
-/**
- * ### stringMatchCountEquals
- * 
- * ***
- * 
- * Функция подсчёта совпадений в строке.
- * 
- * ***
- * @arg {string} string `Строка`
- * @arg {number} count `Счётчик`
- * @arg {...(RegExp|string)} fragments `Фрагменты`
-*/
-export function stringMatchCountEquals(string, count, ...fragments) {
-
-    return matchCountEqualsDeceit({ string, count, fragments, });
-
-};
-
-//#endregion
-
 //#region formatUrl
 
-/** ### stringTFFormatUrl
- * - Тип `TF`
+/**
+ * ### formatUrl
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `formatUrl`.
- * 
- * @typedef {stringTFUFormatUrl&stringT} stringTFFormatUrl
- * 
+ * @typedef formatUrlT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatUrlT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUFormatUrl
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `formatUrl`.
- * 
- * @typedef stringTFUFormatUrl
- * @prop {any} _
-*/
-
-/** @arg {stringTFFormatUrl} t */
-function formatUrlDeceit(t) {
-
+function formatUrl(args) {
+    
+    let result;
+    
     try {
-
-        return formatUrlVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFFormatUrl} t */
-function formatUrlVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatUrlHandle(t);
-
-};
-/** @arg {stringTFFormatUrl} t */
-function formatUrlHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatUrlComply(t);
-
-};
-/** @arg {stringTFFormatUrl} t */
-function formatUrlComply(t) {
-
-    const {
-
-
-
-    } = t;
-
-
-
+    
+    return result;
+    
 };
 
 /**
- * ### stringFormatUrl
- * 
- * ***
+ * ### formatUrl
  * 
  * 
  * 
  * ***
  * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function stringFormatUrl() {
 
-    return formatUrlDeceit({});
+    return formatUrl({});
 
 };
 
 //#endregion
-//#region formatDate 0.0.0
+//#region formatDate
 
-/** ### stringTFFormatDate
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### formatDate
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `formatDate`.
- * 
- * @typedef {stringTFUFormatDate&stringT&stringTLocal} stringTFFormatDate
- * 
+ * @typedef formatDateT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatDateT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUFormatDate
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- * 
- * Уникальные параметры функции `formatDate`.
- * 
- * @typedef stringTFUFormatDate
- * @prop {Date} date
- * @prop {number[]} mesuares
-*/
-
-/** @arg {stringTFFormatDate} t */
-function formatDateDeceit(t) {
-
+function formatDate(args) {
+    
+    let result;
+    
     try {
-
-        return formatDateVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFFormatDate} t */
-function formatDateVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatDateHandle(t);
-
-};
-/** @arg {stringTFFormatDate} t */
-function formatDateHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatDateComply(t);
-
-};
-/** @arg {stringTFFormatDate} t */
-function formatDateComply(t) {
-
-    const {
-
-        date,
-        local,
-
-    } = t;
-
-    const mesuares = t.mesuares ?? dateGetMesuares(date);
-
-    mesuares.forEach((mesuare, index) => mesuares[index] = mesuare.toString().padStart(2, 0));
-
-    mesuares[mesuares.length - 1] = mesuares.at(-1).padStart(4, 0);
-
-    let result = funcBypass(config.params.templatesDate[local ?? 'ru'],
-
-        [stringInsert, 'ss', mesuares[5]],
-        [stringInsert, 'mm', mesuares[4]],
-        [stringInsert, 'hh', mesuares[3]],
-        [stringInsert, 'd', mesuares[2]],
-        [stringInsert, 'm', mesuares[1]],
-        [stringInsert, 'y', mesuares[0]],
-
-    );
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringFormatDate
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
+ * ### formatDate
  * 
- * Функция форматирования даты в строку.
+ * 
  * 
  * ***
- * @arg {Date} date `Дата`
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringFormatDate(date = new Date(), local = 'ru') {
+export function stringFormatDate() {
 
-    return formatDateDeceit({ date, local, });
-
-};
-/**
- * ### stringFormatDateByMesuares
- * 
- * ***
- * 
- * Функция получения формата даты, указанной в виде последовательности.
- * 
- * ***
- * @arg {string} local `Локаль`
- * @arg {...number} mesuares `Измерения`
-*/
-export function stringFormatDateByMesuares(local = 'ru', ...mesuares) {
-
-    return formatDateDeceit({ local, mesuares, });
+    return formatDate({});
 
 };
 
 //#endregion
-//#region formatPhone 0.0.0
+//#region formatText
 
-/** ### stringTFFormatPhone
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### formatText
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `formatPhone`.
- * 
- * @typedef {stringTFUFormatPhone&stringT&stringTLocal} stringTFFormatPhone
- * 
+ * @typedef formatTextT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatTextT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUFormatPhone
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- * 
- * Уникальные параметры функции `formatPhone`.
- * 
- * @typedef stringTFUFormatPhone
- * @prop {any} _
-*/
-
-/** @arg {stringTFFormatPhone} t */
-function formatPhoneDeceit(t) {
-
+function formatText(args) {
+    
+    let result;
+    
     try {
-
-        return formatPhoneVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFFormatPhone} t */
-function formatPhoneVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatPhoneHandle(t);
-
-};
-/** @arg {stringTFFormatPhone} t */
-function formatPhoneHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    t.string = stringPad(t.string, '0', config.params.templatesPhone[t.local ?? 'ru'].length);
-
-    return formatPhoneComply(t);
-
-};
-/** @arg {stringTFFormatPhone} t */
-function formatPhoneComply(t) {
-
-    const {
-
-        local,
-        string,
-
-    } = t;
-
-    let result = stringInsertBypass(config.params.templatesPhone[local ?? 'ru'], '.', ...string.split('').filter(symbol => symbol.match(/\d/)));
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringFormatPhone
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
+ * ### formatText
  * 
- * Функция форматирования строки в номер телефона.
+ * 
  * 
  * ***
- * @arg {string} local `Локаль`
- * @arg {string} string `Строка`
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringFormatPhone(string, local) {
+export function stringFormatText() {
 
-    return formatPhoneDeceit({ string, local, });
+    return formatText({});
+
+};
+
+//#endregion
+//#region formatPhone
+
+/**
+ * ### formatPhone
+ * 
+ * 
+ * 
+ * ***
+ * @typedef formatPhoneT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatPhoneT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function formatPhone(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### formatPhone
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringFormatPhone() {
+
+    return formatPhone({});
 
 };
 
@@ -5354,9 +4724,6 @@ export function stringFormatPhone(string, local) {
 
 /**
  * ### formatNumber
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
  * 
  * 
  * 
@@ -5378,9 +4745,7 @@ function formatNumber(args) {
         
         let {
             
-            number,
-            spliterPart,
-            spliterDischarge,
+            
             
         } = args;
         
@@ -5391,37 +4756,13 @@ function formatNumber(args) {
         //#endregion
         //#region handle
         
-        if (typeof number === 'number') number = number.toString();
+        
         
         //#endregion
         //#region comply
         
-        result = new Array(2).fill('');
-
-        const parts = number.split('.');
-
-        for (const index in parts) result[+index] = parts[index];
-
-        for (const partIndex in result) {
-
-            let part = result[partIndex];
-
-            if (!part.length) continue;
-
-            part = stringReverse(part);
-
-            part = stringDevideByCount(part, 3);
-
-            part = part.join(spliterDischarge);
-
-            part = stringReverse(part);
-
-            result[+partIndex] = part;
-
-        };
         
-        result = parts.length === 2 ? result.join(spliterPart) : result[0];
-
+        
         //#endregion
         
     } catch (err) {
@@ -5445,1336 +4786,843 @@ function formatNumber(args) {
 };
 
 /**
- * ### stringFormatNumber
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
+ * ### formatNumber
  * 
- * Функция форматирования числа в строку.
- * В итоговой строке числа будут размещены знаки разделения разрядов и частей.
  * 
- * Если разделители не определены, то они не будут использоваться.
- * В противном случае, если разделитель `true` то он будет применен со значением конфигуратора.
- * При необходимости, можно указать свой разделитель - достаточно лишь указать его в качестве значения.
  * 
  * ***
- * @arg {stringT['number']} number `Строка`
- * @arg {stringT['spliterPart']} spliterPart `Разделитель частей`
- * @arg {stringT['spliterDischarge']} spliterDischarge `Разделитель велечин`
+ * 
+ * 
+ * 
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringFormatNumber(number, spliterPart, spliterDischarge) {
+export function stringFormatNumber() {
 
-    return formatNumber({ number, spliterPart, spliterDischarge, });
+    return formatNumber({});
 
 };
 
 //#endregion
-// //#region formatNumber 0.0.0
+//#region formatSample
 
-// /** ### stringTFFormatNumber
-//  * - Тип `TF`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  * ***
-//  * 
-//  * Результирующие параметры функции `formatNumber`.
-//  * 
-//  * @typedef {stringTFUFormatNumber&stringT} stringTFFormatNumber
-//  * 
-// */
-// /** ### stringTFUFormatNumber
-//  * - Тип `TFU`
-//  * - Версия `0.0.0`
-//  * - Модуль `string`
-//  * 
-//  * Уникальные параметры функции `formatNumber`.
-//  * 
-//  * @typedef stringTFUFormatNumber
-//  * @prop {string} spliterPart
-//  * @prop {string} spliterDischarge
-//  * @prop {number|string} number
-// */
-
-// /** @arg {stringTFFormatNumber} t */
-// function formatNumberDeceit(t) {
-
-//     try {
-
-//         return formatNumberVerify(t);
-
-//     } catch (e) {
-
-//         if (config.params?.strictMode) {
-
-//             throw e;
-
-//         };
-
-//         return undefined;
-
-//     } finally {
-
-
-
-//     };
-
-// };
-// /** @arg {stringTFFormatNumber} t */
-// function formatNumberVerify(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return formatNumberHandle(t);
-
-// };
-// /** @arg {stringTFFormatNumber} t */
-// function formatNumberHandle(t) {
-
-//     const {
-
-
-
-//     } = t;
-
-//     return formatNumberComply(t);
-
-// };
-// /** @arg {stringTFFormatNumber} t */
-// function formatNumberComply(t) {
-
-//     const {
-
-//         number,
-//         spliterPart,
-//         spliterDischarge,
-
-//     } = t;
-
-//     let parts = number.toString().split('.');
-
-//     if (spliterDischarge) {
-
-//         // parts = parts.map(part => stringReverse(part));
-        
-        
-//         // parts = parts.map(part => stringSplitByCount(part, 3));
-        
-        
-//         // parts = parts.map(part => string)
-//         // console.log(parts);
-//         // parts = parts.join(spliterDischarge);
-//         // parts => parts.map(part => stringReverse(part))
-        
-        
-//         // parts = stringReverse(parts);
-//         // arrayForeach(parts, part => stringReverse(stringSplitByCount(stringReverse(part), 3).join(spliterDischarge)))
-//         // parts = parts.map(part => funcBypass(part,
-
-//         //     [stringReverse],
-//         //     [stringSplitByCount, 3],
-//         //     [(v, j) => v.join(j), spliterDischarge === true ? config.params.spliterDischarge : spliterDischarge],
-//         //     [stringReverse]
-
-//         // ));
-
-//     };
-//     if (spliterPart) {
-
-//         parts = parts.join(spliterPart === true ? config.params.spliterPart : spliterPart);
-
-//     };
-
-//     return parts;
-
-// };
-
-// /**
-//  * ### stringFormatNumber
-//  * - Версия `0.0.0`
-//  * - Цепочка `DVHCa`
-//  * - Модуль `string`
-//  * ***
-//  * 
-//  * Функция форматирования числа в строку.
-//  * В итоговой строке числа будут размещены знаки разделения разрядов и частей.
-//  * 
-//  * Если разделители не определены, то они не будут использоваться.
-//  * В противном случае, если разделитель `true` то он будет применен со значением конфигуратора.
-//  * При необходимости, можно указать свой разделитель - достаточно лишь указать его в качестве значения.
-//  * 
-//  * ***
-//  * @arg {number|string} number `Число`
-//  * @arg {boolean|string} spliterPart `Разделитель частей`
-//  * @arg {boolean|string} spliterDischarge `Разделитель велечин`
-// */
-// export function stringFormatNumber(number, spliterPart = config.params.spliterPart, spliterDischarge = config.params.spliterDischarge) {
-
-//     return formatNumberDeceit({ number, spliterPart, spliterDischarge, });
-
-// };
-
-// //#endregion
-//#region formatSample 0.0.0
-
-/** ### stringTFFormatSample
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### formatSample
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `formatSample`.
- * 
- * @typedef {stringTFUFormatSample&stringT} stringTFFormatSample
- * 
+ * @typedef formatSampleT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatSampleT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUFormatSample
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- * 
- * Уникальные параметры функции `formatSample`.
- * 
- * @typedef stringTFUFormatSample
- * @prop {any} _
-*/
-
-/** @arg {stringTFFormatSample} t */
-function formatSampleDeceit(t) {
-
+function formatSample(args) {
+    
+    let result;
+    
     try {
-
-        return formatSampleVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFFormatSample} t */
-function formatSampleVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatSampleHandle(t);
-
-};
-/** @arg {stringTFFormatSample} t */
-function formatSampleHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatSampleComply(t);
-
-};
-/** @arg {stringTFFormatSample} t */
-function formatSampleComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    let result = stringShield(string);
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringFormatSample
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
+ * ### formatSample
  * 
- * Функция форматирования строки в простую форму.
  * 
- * Простая форма позволяет экранировать все специальные симолы и вставки ansi команд.
  * 
  * ***
- * @arg {string} string `Строка`
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringFormatSample(string) {
+export function stringFormatSample() {
 
-    return formatSampleDeceit({ string, });
+    return formatSample({});
 
 };
 
 //#endregion
-//#region formatReport 0.0.0
+//#region formatReport
 
-/** ### stringTFFormatReport
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### formatReport
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `formatReport`.
- * 
- * @typedef {stringTFUFormatReport&stringT} stringTFFormatReport
- * 
+ * @typedef formatReportT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatReportT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUFormatReport
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- * 
- * Уникальные параметры функции `formatReport`.
- * 
- * @typedef stringTFUFormatReport
- * @prop {any} _
-*/
-
-/** @arg {stringTFFormatReport} t */
-function formatReportDeceit(t) {
-
+function formatReport(args) {
+    
+    let result;
+    
     try {
-
-        return formatReportVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFFormatReport} t */
-function formatReportVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatReportHandle(t);
-
-};
-/** @arg {stringTFFormatReport} t */
-function formatReportHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return formatReportComply(t);
-
-};
-/** @arg {stringTFFormatReport} t */
-function formatReportComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    let result = funcBypass(string,
-
-        [stringInsertMany, 'Infinity/∞', 'true/+', 'false/-']
-
-    );
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringFormatReport
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
+ * ### formatReport
  * 
- * Функция форматирования строки в строку отчета.
  * 
- * Функция:
- * - Заменяет некоторые значения при отображении отчетов на более ёмкие и понятные символы
- * - Выделяет информацию цветом
  * 
  * ***
- * @arg {string} string `Строка`
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringFormatReport(string) {
+export function stringFormatReport() {
 
-    return formatReportDeceit({ string });
+    return formatReport({});
 
 };
 
 //#endregion
+//#region reverse
 
-//#region reverse 0.0.1
-
-/** ### stringTFReverse
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### reverse
+ * 
+ * 
+ * 
  * ***
- *
- * Результирующие параметры функции `reverse`.
- *
- * @typedef {stringTFUReverse&stringT} stringTFReverse
- *
+ * @typedef reverseT
+ * @prop {} _
+ * ***
+ * @arg {stringT&reverseT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUReverse
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `reverse`.
- *
- * @typedef stringTFUReverse
- * @prop {any} _
-*/
-
-/** @arg {stringTFReverse} t */
-function reverseDeceit(t) {
-
+function reverse(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = '';
 
-        return reverseVerify(t);
+        for (let index = string.length - 1; index > 0; index--) {
 
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
+            result += string[index];
 
         };
-
-        return undefined;
-
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFReverse} t */
-function reverseVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return reverseHandle(t);
-
-};
-/** @arg {stringTFReverse} t */
-function reverseHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return reverseComply(t);
-
-};
-/** @arg {stringTFReverse} t */
-function reverseComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    let result = '';
-
-    for (let i = string.length - 1; i >= 0; i--) {
-
-        result += string[i];
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringReverse
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### reverse
+ * 
+ * Функция разворота текста.
+ * 
  * ***
- *
- * Функция переворота строки.
- *
+ * @arg {stringT['string']} string `Текст`
+ * 
+ * 
  * ***
- * @arg {string} string `Строка`
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
 export function stringReverse(string) {
 
-    return reverseDeceit({ string, });
+    return reverse({ string, });
 
 };
 
 //#endregion
-//#region reflect 0.0.0
-
-/** ### stringTFReflect
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `reflect`.
- *
- * @typedef {stringTFUReflect&stringT} stringTFReflect
- *
-*/
-/** ### stringTFUReflect
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `reflect`.
- *
- * @typedef stringTFUReflect
- * @prop {(string|[string, string])} mirrors
-*/
-
-/** @arg {stringTFReflect} t */
-function reflectDeceit(t) {
-
-    try {
-
-        return reflectVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFReflect} t */
-function reflectVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return reflectHandle(t);
-
-};
-/** @arg {stringTFReflect} t */
-function reflectHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return reflectComply(t);
-
-};
-/** @arg {stringTFReflect} t */
-function reflectComply(t) {
-
-    const {
-
-        string,
-        mirrors,
-
-    } = t;
-
-    const result = string.split('\n');
-
-    for (const i in result) {
-
-        result[i] += funcBypass(result[i],
-
-            [stringInsertMany, mirrors],
-            [stringReverse]
-
-        );
-
-    };
-
-    return result.join('\n');
-
-};
+//#region reflect
 
 /**
- * ### stringReflect
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
+ * ### reflect
+ * 
+ * 
+ * 
  * ***
- *
- * Функция дополнения строки её зеркальным отражением.
- *
- * Зеркальное отражение представлено реверсивной копией исходной строки, где также присутствуют отличные от исходных символов отражения.
- *
- * Данные отличия называются зеркалами. Зеркала представлены вставками, которые замещают собой исходные символы.
- *
- * Также отражение не затрагивает символы переноса строки.
- *
+ * @typedef reflectT
+ * @prop {} _
  * ***
- * @arg {string} string `Строка`
- * @arg {...(string|[string, string])} mirrors `Зеркала`
+ * @arg {stringT&reflectT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringReflect(string, ...mirrors) {
-
-    return reflectDeceit({ string, mirrors, });
-
-};
-
-//#endregion
-//#region mesuare 0.0.0
-
-/** ### stringTFMesuare
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `mesuare`.
- *
- * @typedef {stringTFUMesuare&stringT} stringTFMesuare
- *
-*/
-/** ### stringTFUMesuare
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
- *
- * Уникальные параметры функции `mesuare`.
- *
- * @typedef stringTFUMesuare
- * @prop {number} step
- * @prop {string[]} mesuares
-*/
-
-/** @arg {stringTFMesuare} t */
-function mesuareDeceit(t) {
-
+function reflect(args) {
+    
+    let result;
+    
     try {
-
-        return mesuareVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
         };
-
-        return undefined;
-
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFMesuare} t */
-function mesuareVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return mesuareHandle(t);
-
-};
-/** @arg {stringTFMesuare} t */
-function mesuareHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return mesuareComply(t);
-
-};
-/** @arg {stringTFMesuare} t */
-function mesuareComply(t) {
-
-    const {
-
-        step,
-        string,
-        substrings,
-
-    } = t;
-
-    let result = string;
-
-    for (let i = 0, c = 0, p = 0; i < result.length; i++) {
-
-        if ((i - p) % step === 0 && i !== 0) {
-
-            result = stringPaste(result, substrings[c], i);
-
-            i += substrings[c].length;
-            p += substrings[c].length;
-
-        };
-
-    };
-
+    
     return result;
-
+    
 };
 
 /**
- * ### stringMesuare
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция добавления указанных подстрок в указанную строку через каждое указанное кол-во символов.
- *
- * ***
- * @arg {string} string `Строка`
- * @arg {number} step `Шаг`
- * @arg {...string} mesuares `Зарубки`
-*/
-export function stringMesuare(string, step, ...mesuares) {
-
-    return mesuareDeceit({ string, step, mesuares, });
-
-};
-
-//#endregion
-
-//#region truncate 0.0.0
-
-/** ### stringTFTruncate
- * - Тип `TF`
- * - Версия `0.0.0`
- * ***
+ * ### reflect
  * 
- * Результирующие параметры функции `truncate`.
  * 
- * @typedef {stringTFUTruncate&stringT} stringTFTruncate
- * 
-*/
-/** ### stringTFUTruncate
- * - Тип `TFU`
- * - Версия `0.0.0`
- * 
- * Уникальные параметры функции `truncate`.
- * 
- * @typedef stringTFUTruncate
- * @prop {number} cutoffTop 
- * @prop {number} cutoffLeft
- * @prop {number} cutoffRight
- * @prop {number} cutoffBottom
- * @prop {[number, number]} position
- * @prop {[number, number]} positionEnd
- * @prop {[number, number]} positionStart
-*/
-
-/** @arg {stringTFTruncate} t */
-function truncateDeceit(t) {
-
-    try {
-
-        return truncateVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFTruncate} t */
-function truncateVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return truncateHandle(t);
-
-};
-/** @arg {stringTFTruncate} t */
-function truncateHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    if (t.cutoffTop) {
-
-        t.cutoffBottom += t.cutoffTop;
-
-    };
-    if (t.cutoffLeft) {
-
-        t.cutoffRight += t.cutoffLeft;
-
-    };
-
-    return truncateComply(t);
-
-};
-/** @arg {stringTFTruncate} t */
-function truncateComply(t) {
-
-    const {
-
-        string,
-        cutoffTop,
-        cutoffLeft,
-        cutoffRight,
-        cutoffBottom,
-
-    } = t;
-
-    let result = string;
-
-    result = stringGetRows(result).slice(cutoffTop, cutoffBottom).map(row => {
-
-        return row.slice(cutoffLeft, cutoffRight);
-
-    }).join('\n');
-
-    result = stringTrim(result);
-
-    return result;
-
-};
-
-/**
- * ### stringTruncate
- * - Версия `0.0.0`
- * ***
- * 
- * Функция усечения указанного текста по указанным длине и ширине.
  * 
  * ***
- * @arg {string} string `Текст`
- * @arg {number} cutoffTop `Отсечка сверху`
- * @arg {number} cutoffLeft `Отсечка слева`
- * @arg {number} cutoffRight `Отсечка справа`
- * @arg {number} cutoffBottom `Отсечка снизу`
-*/
-export function stringTruncate(string, cutoffRight, cutoffBottom, cutoffLeft = 0, cutoffTop = 0) {
-
-    return truncateDeceit({ string, cutoffRight, cutoffBottom, cutoffTop, cutoffLeft, });
-
-};
-/**
- * ### stringTruncateByArea
- * - Версия `0.0.0`
- * ***
  * 
- * Функция усечения указанного текста по его позиции в указанной области.
  * 
- * ***
- * @arg {string} string `Текст`
- * @arg {[number, number]} position `Позиция текста в пространстве`
- * @arg {[number, number]} positionEnd `Конечная точка области`
- * @arg {[number, number]} positionStart `Начальная точка области`
-*/
-export function stringTruncateByArea(string, position = [0, 0], positionStart = [0, 0], positionEnd) {
-
-    return truncateDeceit({ string, position, positionStart, positionEnd });
-
-};
-
-//#endregion
-//#region correlate 1.0.0
-
-/** ### stringTFCorrelate
- * - Тип `TF`
- * ***
- * 
- * Результирующие параметры функции `correlate`.
- * 
- * @typedef {stringTFUCorrelate&stringT} stringTFCorrelate
- * 
-*/
-/** ### stringTFUCorrelate
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `correlate`.
- * 
- * @typedef stringTFUCorrelate
- * @prop {any} _
-*/
-
-/** @arg {stringTFCorrelate} t */
-function correlateDeceit(t) {
-
-    try {
-
-        return correlateVerify(t);
-
-    } catch (e) {
-
-        if (config.params?.strictMode) {
-
-            throw e;
-
-        };
-
-        return undefined;
-
-    } finally {
-
-
-
-    };
-
-};
-/** @arg {stringTFCorrelate} t */
-function correlateVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return correlateHandle(t);
-
-};
-/** @arg {stringTFCorrelate} t */
-function correlateHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return correlateComply(t);
-
-};
-/** @arg {stringTFCorrelate} t */
-function correlateComply(t) {
-
-    const {
-
-        string
-
-    } = t;
-
-    let result = string;
-
-    for (const match of Array.from(result.matchAll(/_(\p{L}+)/gmsu))) {
-
-        let value = yGetProp(config.params.symbols, match[1]);
-
-        if (value) {
-
-            result = result.replace(match[0], value);
-
-        } else {
-
-            for (const section of Object.values(config.params.symbols)) {
-
-                for (const key of Object.keys(section)) {
-
-                    if (match[1].includes(key)) {
-
-                        result = result.replaceAll(new RegExp(`_${key}`, 'gmsu'), section[key]);
-
-                    };
-
-                };
-
-            };
-
-        };
-
-    };
-
-    return result;
-
-};
-
-/**
- * ### stringCorrelate
- * - Версия `1.0.0`
- * - Цепочка `DVHC`
- * ***
- * 
- * Функция определения символов по их специальным названиям.
  * 
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringCorrelate(string) {
+export function stringReflect() {
 
-    return correlateDeceit({ string, });
-
-};
-
-//#endregion
-//#region substring 0.0.0
-
-/** ### stringTFSubstring
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
- * ***
- *
- * Результирующие параметры функции `substring`.
- *
- * @typedef {stringTFUSubstring&stringT&stringTLength&stringTIndex} stringTFSubstring
- *
-*/
-/** ### stringTFUSubstring
- * - Тип `TFU`
- * - Версия `0.0.1`
- * - Модуль `string`
- *
- * Уникальные параметры функции `substring`.
- *
- * @typedef stringTFUSubstring
- * @prop {boolean} back
-*/
-
-/** @arg {stringTFSubstring} t */
-function substringDeceit(t) {
-
-    try {
-
-        return substringVerify(t);
-
-    } catch (e) {
-
-        if (config.params.strict) throw e;
-
-        return undefined;
-
-    };
-
-};
-/** @arg {stringTFSubstring} t */
-function substringVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return substringHandle(t);
-
-};
-/** @arg {stringTFSubstring} t */
-function substringHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    if (!t.index || t.index < 0) {
-
-        t.index = 0;
-
-    } else if (t.index > t.string?.length) {
-
-        t.index = t.string.length - 1;
-
-    };
-
-    if (!t.length && t.length !== 0) {
-
-        t.length = t.string.length - t.index;
-
-    } else if (t.length < 0) {
-
-        t.back = true;
-        t.length *= -1;
-
-    };
-
-    if ((t.y || t.y === 0) && (t.x || t.x === 0)) {
-
-        t.index = stringGetPositionRowStartByIndex(t.string, t.y) + t.x;
-
-    };
-
-    return substringComply(t);
-
-};
-/** @arg {stringTFSubstring} t */
-function substringComply(t) {
-
-    const {
-
-        back,
-        index,
-        string,
-        length,
-
-    } = t;
-
-    if ((index === 0 && !length) || ((t.index === 0 || (t.index === t.string.length - 1 && back)) && t.string.length === length)) {
-
-        return string;
-
-    } else if (length === 0) {
-
-        return '';
-
-    };
-
-    if (back) {
-
-        return string.slice(0, index + 1).slice(-length);
-
-    } else {
-
-        return string.slice(index, index + length);
-
-    };
-
-};
-
-/**
- * ### stringSubstring
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция извлечения подстроки из указанной строки начиная с указанного индекса и до указанной длины.
- *
- * ***
- * @arg {boolean} back `Обратный режим`
- *
- * При активации берет символы начиная с указанного индекса, до указанной длины по направлению к началу строке.
- *
- * Если не определен, то работает в стандартном режиме.
- *
- * @arg {string} string `Строка`
- * @arg {number?} length `Длина`
- *
- * Длина определяет кол-во символов начиная с указанного индекса, которое необходимо взять в подстроку.
- *
- * Если не определена, то будут взяты все символы начиная с указанного индекса и до конца строки.
- * @arg {number} index `Индекс`
-*/
-export function stringSubstring(string, index, length, back) {
-
-    return substringDeceit({ string, index, length, back });
-
-};
-/**
- * ### stringSubstringByPosition
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
- *
- * Функция {@link stringSubstring|извлечения подстроки} из указанной строки начиная с указанной позиции и до указанной длины.
- *
- * ***
- * @arg {number} y `Линия`
- * @arg {number} x `Позиция`
- * @arg {number} length `Длина`
- * @arg {string} string `Строка`
- * @arg {boolean} back `Обратный режим`
-*/
-export function stringSubstringByPosition(string, length, y, x, back) {
-
-    return substringDeceit({ string, length, y, x, back, });
+    return reflect({});
 
 };
 
 //#endregion
-//#region capitalize 0.0.0
+//#region extract
 
-/** ### stringTFCapitalize
- * - Тип `TF`
- * - Версия `0.0.0`
- * - Модуль `string`
+/**
+ * ### extract
+ * 
+ * 
+ * 
+ * ***
+ * @typedef extractT
+ * @prop {} _
+ * ***
+ * @arg {stringT&extractT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function extract(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            index,
+            string,
+            indexEnd,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = [stringSubstring(string, index, indexEnd), stringRemoveRange(string, index, indexEnd)];
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### extract
+ * 
+ * Функция извлечения подстроки из текста.
+ * 
+ * В качестве результата возвращается массив, где первый элемент - извлеченная строка, а второй - текст с извлеченной из него подстрокой.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['indexEnd']} indexEnd `Конец`
+ * @returns {[string, string]}
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringExtract(string, index, indexEnd = string.length) {
+
+    return extract({ string, index, indexEnd, });
+
+};
+
+//#endregion
+//#region truncate
+
+/**
+ * ### truncate
+ * 
+ * 
+ * 
+ * ***
+ * @typedef truncateT
+ * @prop {} _
+ * ***
+ * @arg {stringT&truncateT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function truncate(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### truncate
+ * 
+ * 
+ * 
  * ***
  * 
- * Результирующие параметры функции `capitalize`.
  * 
- * @typedef {stringTFUCapitalize&stringT} stringTFCapitalize
  * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### stringTFUCapitalize
- * - Тип `TFU`
- * - Версия `0.0.0`
- * - Модуль `string`
+export function stringTruncate() {
+
+    return truncate({});
+
+};
+
+//#endregion
+//#region substring
+
+/**
+ * ### substring
  * 
- * Уникальные параметры функции `capitalize`.
  * 
- * @typedef stringTFUCapitalize
- * @prop {any} _
+ * 
+ * ***
+ * @typedef substringT
+ * @prop {} _
+ * ***
+ * @arg {stringT&substringT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-
-/** @arg {stringTFCapitalize} t */
-function capitalizeDeceit(t) {
-
+function substring(args) {
+    
+    let result;
+    
     try {
+        
+        let {
+            
+            index,
+            string,
+            indexEnd,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = string.slice(index, ++indexEnd);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
 
-        return capitalizeVerify(t);
+/**
+ * ### substring
+ * 
+ * Функция извлечения подстроки из текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['indexEnd']} indexEnd `Конец`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringSubstring(string, index, indexEnd = string.length) {
 
-    } catch (e) {
+    return substring({ string, index, indexEnd, });
 
-        if (config.params?.strictMode) {
+};
 
-            throw e;
+//#endregion
+//#region rearrangeRow
+
+/**
+ * ### rearrangeRow
+ * 
+ * 
+ * 
+ * ***
+ * @typedef rearrangeRowT
+ * @prop {} _
+ * ***
+ * @arg {stringT&rearrangeRowT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function rearrangeRow(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            index,
+            string,
+            indexEnd
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const rows = stringGetRows(string);
+
+        [rows[index], rows[indexEnd]] = [rows[indexEnd], rows[index]];
+
+        result = rows.join('\n');
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### rearrangeRow
+ * 
+ * Функция перестановки строк в тексте.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['indexEnd']} indexEnd `Конец`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringRearrangeRow(string, index, indexEnd) {
+
+    return rearrangeRow({ string, index, indexEnd, });
+
+};
+
+//#endregion
+//#region rearrangeWord
+
+/**
+ * ### rearrangeWord
+ * 
+ * 
+ * 
+ * ***
+ * @typedef rearrangeWordT
+ * @prop {} _
+ * ***
+ * @arg {stringT&rearrangeWordT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function rearrangeWord(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            index,
+            string,
+            indexEnd,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+
+        const matches = [];
+
+        const regexp = /\p{L}+/ug;
+
+        for (let count = 0; matches.length !== indexEnd; count++) {
+
+            const match = regexp.exec(string);
+
+            if (count !== index && count !== indexEnd) continue;
+
+            matches.push(match);
 
         };
 
-        return undefined;
+        string = stringPaste(string, matches[0][0], matches[1].index, matches[1][0].length);
 
+        string = stringPaste(string, matches[1][0], matches[0].index, matches[0][0].length);
+
+        result = string;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
     } finally {
-
-
-
+        
+        
+        
     };
-
-};
-/** @arg {stringTFCapitalize} t */
-function capitalizeVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return capitalizeHandle(t);
-
-};
-/** @arg {stringTFCapitalize} t */
-function capitalizeHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return capitalizeComply(t);
-
-};
-/** @arg {stringTFCapitalize} t */
-function capitalizeComply(t) {
-
-    const {
-
-        string,
-
-    } = t;
-
-    return string[0].toUpperCase() + string.slice(1);
-
+    
+    return result;
+    
 };
 
 /**
- * ### stringCapitalize
- * - Версия `0.0.0`
- * - Цепочка `DVHCa`
- * - Модуль `string`
- * ***
+ * ### rearrangeWord
  * 
- * Функция для изменения первой буквы в слове на заглавную.
+ * Функция перестановки слов в тексте по парам индексов.
  * 
  * ***
- * @arg {string} string `Строка`
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['indexEnd']} indexEnd `Конец`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-export function stringCapitalize(string) {
+export function stringRearrangeWord(string, index, indexEnd) {
 
-    return capitalizeDeceit({ string, });
+    return rearrangeWord({ string, index, indexEnd, });
 
 };
 
 //#endregion
 
 /**
- * @file module.mjs
+ * @file string/module.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

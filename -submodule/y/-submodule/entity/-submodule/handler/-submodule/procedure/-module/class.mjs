@@ -2,51 +2,44 @@
 
 import { Y } from '../../../../../../../-module/export.mjs';
 import { YArg } from '../../../../../../arg/-module/export.mjs';
-import { configProcedure as config } from './config.mjs';
+import { configProcedure as config } from "./config.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YProcedureT
- * - Тип `T`
- * 
- * Основной параметр модуля `YProcedure`.
- * 
- * ***
- * 
- * @typedef {YProcedureTE&YProcedureTU} YProcedureT
+/** ### procedureTC
+ * @typedef procedureTC
+ * @prop {}
 */
-/** ### YProcedureTE
- * - Тип `TE`
- * 
- * Параметр наследования `YProcedure`.
- * 
- * @typedef {Omit<DProcedure, keyof SProcedure>} YProcedureTE
-*/
-/** ### YProcedureTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YProcedure`.
- * 
- * @typedef YProcedureTU
- * @prop {} _
-*/
-/** ### YProcedureTUG
- * - Тип `TUP`
- * 
- * Уникальные генеративные параметры `YProcedure`.
- * 
- * @typedef YProcedureTUG
- * @prop {null} _
-*/
+
+/** @typedef {import('./module.mjs').procedureT&procedureTC} procedureT */
 
 //#endregion
 
 /**
+ * ### YProcedure
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @template Y1
+ * 
 */
-class SProcedure extends Y {
-
+export class YProcedure extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
+    
     /**
      * ### stock
      * 
@@ -72,30 +65,41 @@ class SProcedure extends Y {
      * @public
     */
     static config = config;
-
+    
     /**
      * @arg {...YProcedure} args `Аргументы`
      * @returns {YProcedure[]}
     */
     static create(...args) {
-
-        return Object.getPrototypeOf(SProcedure).create.apply(this, args);
-
+        
+        return super.create(...args);
+        
     };
-
-};
-/**
- * @extends SProcedure<Y1>
- * @template Y1
-*/
-class DProcedure extends SProcedure {
-
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YProcedure)?}
+     * @template {YProcedure} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
+        
+    };
+    
+    //#endregion
+    //#region field
+    
     /**
      * ### func
      * 
      * Функция.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {(self:Y1)=>void}
      * @field
      * @public
@@ -107,6 +111,7 @@ class DProcedure extends SProcedure {
      * Метка.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {string}
      * @field
      * @public
@@ -117,181 +122,113 @@ class DProcedure extends SProcedure {
      * 
      * Одноразовость.
      * 
-     * Одноразовые процедуры позволяют понять обработчикам, что после их выполнения, их следует удалить.
-     * 
      * *** 
+     * @since `1.0.0`
      * @type {boolean}
      * @field
      * @public
     */
     disposable;
-
-};
-/**
- * @extends DProcedure<Y1>
- * @template Y1
-*/
-class IProcedure extends DProcedure {
-
-
-
-};
-/**
- * @extends IProcedure<Y1>
- * @template Y1
-*/
-class MProcedure extends IProcedure {
-
-
-
-};
-/**
- * @extends MProcedure<Y1>
- * @template Y1
-*/
-class FProcedure extends MProcedure {
-
+    
+    //#endregion
+    //#region method
+    
     /**
-     * ### YProcedure.constructor
-     * 
-     * 
-     * 
-     * ***
-     * @arg {YProcedureT&G} args
-    */
-    constructor(args) {
-
-        super(args = FProcedure.#before(args = arguments));
-
-        FProcedure.#deceit.apply(this, [args]);
-
-    };
-
-    /** @arg {DProcedure} args */
-    static #before(args) {
-
-        /** @type {YArg<IProcedure>} */
-        const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
-
-        yarg.set(
-
-            ['func', 'func'],
-            ['label', 'string'],
-            ['disposable', 'bool'],
-
-        );
-
-        return yarg;
-
-    };
-    /** @arg {YArg<IProcedure>} args @this {YProcedure} */
-    static #deceit(args) {
-
-        try {
-
-            FProcedure.#verify.apply(this, arguments);
-
-        } catch (e) {
-
-            if (config?.strictMode) {
-
-                throw e;
-
-            };
-
-            return new YProcedure();
-
-        } finally {
-
-
-
-        };
-
-    };
-    /** @arg {YArg<IProcedure>} args @this {YProcedure} */
-    static #verify(args) {
-
-        const {
-
-
-
-        } = args;
-
-        FProcedure.#handle.apply(this, arguments);
-
-    };
-    /** @arg {YArg<IProcedure>} args @this {YProcedure} */
-    static #handle(args) {
-
-
-
-        FProcedure.#create.apply(this, arguments);
-
-    };
-    /** @arg {YArg<IProcedure>} args @this {YProcedure} */
-    static #create(args) {
-
-        const {
-
-
-
-        } = args;
-
-        this
-
-            .adopt(args.getData());
-
-    };
-
-};
-
-/**
- * ### YProcedure
- * - Тип `SDIMFY`
- * - Версия `1.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YProcedure`.
- * 
- * ***
- * @class
- * @template Y1
- * @extends FProcedure<YProcedureTUG&Y1>
- * 
-*/
-export class YProcedure extends FProcedure {
-
-    /** @arg {Y1} args */
-    constructor(args) { super(...arguments); };
-
-    /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
      * @method
      * @public
-     * @returns {typeof YProcedure}
+     * @override
     */
     getClass() {
-
+        
         return YProcedure;
-
+        
     };
+    
+    
+    //#endregion
+    
+    /**
+     * ### YProcedureConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {...procedureTC&Y1} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+        
+        try {
+            
+            //#region before
+            
+            /** @type {YArg<YProcedure>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
+            
+            yarg
 
+                .uncover()
+                .set(
+
+                    ['func', 'func'],
+                    ['label', 'string'],
+                    ['disposable', 'bool'],
+
+                )
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
+            };
+            
+        } finally {
+            
+            
+            
+        };
+        
+    };
+    
 };
-
-//#region YE
-
-YProcedure.getY()['modules'].push(YProcedure);
-
-//#endregion
 
 /**
  * @file procedure/class.mjs

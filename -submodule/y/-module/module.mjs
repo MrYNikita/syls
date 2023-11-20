@@ -1319,7 +1319,7 @@ function* forDeep(args) {
 
             for (const index in adds) adds[index].push(value, path);
 
-            sequence.push(...adds);
+            sequence.unshift(...adds);
 
         };
 

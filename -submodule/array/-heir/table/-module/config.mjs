@@ -15,11 +15,48 @@ const config = {
  * ***
  * @public
 */
-export const configTable = new YConfig(Object.assign(config, {
+export const configTable = new YConfig({
     
+    ...config,
     
+    /**
+     * ### titlesDefault
+     * 
+     * Дефолт заголовки.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {string[]}
+     * @public
+     * @property
+    */
+    titlesDefault: [],
+    /**
+     * ### dataDefault
+     * 
+     * Дефолт данные.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {any[]}
+     * @public
+     * @property
+    */
+    dataDefault: [],
+    /**
+     * ### valueDefault
+     * 
+     * Дефолт значение.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {any[]}
+     * @public
+     * @property
+    */
+    valueDefault: [],
     
-}), configY);
+}, configY);
 
 export default configTable;
 

@@ -1,44 +1,46 @@
 //#region YI
 
-import { YArg } from '@syls/y/arg';
-import { configScheduler as config } from './config.mjs';
-import { YEntity } from '../../entity/-module/class.mjs';
-import { YEvent } from '../-submodule/event/-module/class.mjs';
+import { YArg } from '../../arg/-module/export.mjs';
 import { YCond } from '../../cond/-module/class.mjs';
+import { YEvent } from '../-submodule/event/-module/class.mjs';
+import { YEntity } from '../../entity/-module/class.mjs';
+import { configScheduler as config } from './config.mjs';
 
 //#endregion
 //#region YT
 
-/** ### YSchedulerT
- * - Тип `T`
- * 
- * Основной параметр модуля `YScheduler`.
- * 
- * @typedef {YSchedulerTE&YSchedulerTU&Y} YSchedulerT
- * 
+/** ### schedulerTC
+ * @typedef schedulerTC
+ * @prop {}
 */
-/** ### YSchedulerTE
- * - Тип `TE`
- * 
- * Параметр наследования `YScheduler`.
- * 
- * @typedef {Omit<DScheduler, keyof SScheduler>} YSchedulerTE
- * 
-*/
-/** ### YSchedulerTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YScheduler`.
- * 
- * @typedef YSchedulerTU
- * @prop {any} _
- * 
-*/
+
+/** @typedef {import('./module.mjs').schedulerT&schedulerTC} schedulerT */
 
 //#endregion
 
-class SScheduler extends YEntity {
-    
+/**
+ * ### YScheduler
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YScheduler extends YEntity {
+
+    //#region static
+
+    static {
+
+        this
+
+            .appendModule(this)
+
+    };
+
     /**
      * ### stock
      * 
@@ -64,212 +66,134 @@ class SScheduler extends YEntity {
      * @public
     */
     static config = config;
-    
+
     /**
      * @arg {...YScheduler} args `Аргументы`
      * @returns {YScheduler[]}
     */
     static create(...args) {
-        
-        return Object.getPrototypeOf(SScheduler).create.apply(this, args);
-        
+
+        return super.create(...args);
+
     };
-    
-};
-class DScheduler extends SScheduler {
-    
     /**
-     * ### frequency
-     * 
-     * Частота.
-     * 
-     * *** 
-     * @type {number}
-     * @field
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
      * @public
+     * @returns {(Y1&YScheduler)?}
+     * @template {YScheduler} Y1
+     * @override
     */
-    frequency;
-    
-};
-class IScheduler extends DScheduler {
-    
+    static setClass(value) {
+
+        return super.setClass(value);
+
+    };
+
+    //#endregion
+    //#region field
+
     /**
      * ### events
      * 
      * События.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {YEvent[]}
      * @field
      * @protected
     */
     events;
     /**
-     * ### timeout
+     * ### eventsDisabled
      * 
-     * Таймаут.
+     * Отключенные события.
      * 
      * *** 
+     * @since `1.0.0`
+     * @type {YEvent[]}
+     * @field
+     * @protected
+    */
+    eventsDisabled;
+    /**
+     * ### timeout
+     * 
+     * Индекс `timeout`.
+     * 
+     * *** 
+     * @since `1.0.0`
      * @type {number}
      * @field
      * @protected
     */
     timeout;
-    
-};
-class MScheduler extends IScheduler {
-    
     /**
-     * ### callback
+     * ### frequency
      * 
-     * ***
+     * Частота.
      * 
-     * Метод таймера.
-     * 
-     * ***
-     * @arg {this} y `Таймер`
+     * *** 
+     * @since `1.0.0`
+     * @type {number}
+     * @field
+     * @public
+    */
+    frequency;
+
+    //#endregion
+    //#region method
+
+    /**
      * @method
-     * @protected
+     * @public
+     * @override
     */
-    callback(y) {
-        
-        y.timeout = setTimeout(y.callback, y.frequency ?? config.params.frequency, y);
+    getClass() {
 
-        for (const event of y.events) {
+        return YScheduler;
 
-            if (event.accumulate() && event.disposable) {
-
-                y.events = y.events.filter(eventThis => eventThis !== event);
-
-            };
-
-        };
-
-        return y;
-        
     };
-    
-};
-class FScheduler extends MScheduler {
-    
     /**
-     * ### YScheduler.constructor
+     * ### getEventByLabel
      * 
+     * Метод получения события по метке.
+     * 
+     * ***
+     * @arg {string} label `Метка`
      * 
      * 
      * ***
-     * @arg {YSchedulerT} args
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
     */
-    constructor(args) {
-        
-        super(args = FScheduler.#before(args = arguments));
-        
-        FScheduler.#deceit.apply(this, [args]);
-        
-        return this.correlate();
-        
-    };
-    
-    /** @arg {DScheduler} args */
-    static #before(args) {
-        
-        /** @type {YArg<IScheduler>} */
-        const yarg = args instanceof YArg ? args : new YArg(args);
-        
-        yarg.set(
+    getEventByLabel(label) {
 
-            ['frequency', 'number']
+        for (const event of this.events) {
 
-        )
-        
-        return yarg;
-        
-    };
-    /** @arg {YArg<IScheduler>} args @this {YScheduler} */
-    static #deceit(args) {
-        
-        try {
-            
-            FScheduler.#verify.apply(this, arguments);
-            
-        } catch (e) {
-            
-            if (config?.strictMode) {
-                
-                throw e;
-                
-            };
-            
-            return new YScheduler();
-            
-        } finally {
-            
-            
-            
+            if (event.label === label) return event;
+
         };
-        
-    };
-    /** @arg {YArg<IScheduler>} args @this {YScheduler} */
-    static #verify(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        FScheduler.#handle.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IScheduler>} args @this {YScheduler} */
-    static #handle(args) {
-        
-        
-        
-        FScheduler.#create.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IScheduler>} args @this {YScheduler} */
-    static #create(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        this
-        
-            .adopt(args.getData());
-        
-    };
-    
-};
 
-/**
- * ### YScheduler
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YScheduler`.
- * 
- * ***
- * @class
- * 
-*/
-export class YScheduler extends FScheduler {
-    
+        return null;
+
+    };
     /**
      * ### on
      * 
-     * ***
-     * 
-     * Метод активации.
+     * Метод запуска.
      * 
      * ***
-     * @arg {number} frequency `Частота`
+     * @arg {this['frequency']} frequency `Частота` 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
@@ -283,111 +207,190 @@ export class YScheduler extends FScheduler {
 
         };
 
-        this.callback(this);
+        this.callback();
 
         return this;
-        
+
     };
     /**
      * ### off
      * 
-     * ***
-     * 
      * Метод отключения.
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
     off() {
-        
+
         clearTimeout(this.timeout);
 
         this.timeout = null;
 
         return this;
-        
-    };
 
-    /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * @method
-     * @public
-     * @returns {typeof YScheduler}
-    */
-    getClass() {
-        
-        return YScheduler;
-        
     };
     /**
-     * ### getEvent
+     * ### callback
+     * 
+     * 
      * 
      * ***
      * 
-     * Метод получения события по метке.
+     * 
      * 
      * ***
-     * @arg {string} label `Метка`
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
-     * @public
+     * @protected
     */
-    getEvent(label) {
-        
+    callback() {
+
+        this.timeout = setTimeout((self) => self.callback(), this.frequency, this);
+
         for (const event of this.events) {
 
-            if (event.label === label) return event;
+            if (event.accumulate() && event.disposable) {
+
+                this.events = this.events.filter(eventThis => eventThis !== event);
+
+            };
 
         };
 
-        return null;
-        
+        return this;
+
     };
-    
     /**
-     * ### appendEvent
+     * ### appendEvents
+     * 
+     * Метод добавления событий.
      * 
      * ***
-     * 
-     * Метод добавления события.
-     * 
+     * @arg {...[label:string, func:()=>void, tact:number, priority:number, disposable:boolean]} events `События`
      * ***
-     * @arg {string} label `Метка`
-     * @arg {number} tact `Такт`
-     * @arg {number} priority `Приоритет`
-     * @arg {boolean} disposable `Однократность`
-     * @arg {()=>void} func `Функция`
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    appendEvent(label, func, tact, priority, disposable) {
-        
-        const values = YCond.isString(label) ? [[label, func, tact, priority, disposable]] : arguments; 
+    appendEvents(...events) {
 
-        for (const value of values) {
+        for (let event of events) {
 
-            const event = this.getEvent(value[0]);
+            const find = this.getEventByLabel(event[0]);
 
-            if (event) {
+            if (find) {
 
-                event.func = value[1];
-                event.tact = value[2];
-                event.priority = value[3];
-                event.disposable = value[4];
+                find.func = event[1];
+                find.tact = event[2];
+                find.priority = event[3];
+                find.disposable = event[4];
 
                 continue;
 
             };
 
-            this.events.push(new YEvent(...value));
+            this.events.push(event = new YEvent(...event));
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### triggerEventByLabel
+     * 
+     * Метод вызова событий по метке.
+     * 
+     * ***
+     * @arg {string[]} labels `Метки`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    triggerEventByLabel(...labels) {
+
+        for (const event of this.events) {
+
+            const index = labels.indexOf(event.label);
+
+            if (index === -1) continue;
+
+            event.exec();
+
+            labels.splice(index, 1);
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### onEventByLabel
+     * 
+     * Метод активации события.
+     * 
+     * ***
+     * @arg {...string} labels `Метки`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    onEventByLabel(...labels) {
+
+        for (const label of labels) {
+
+            const event = this.eventsDisabled.findIndex(event => event.label === label);
+
+            if (event === -1) continue;
+
+            this.events.push(...this.eventsDisabled.splice(event, 1));
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### offEventByLabel
+     * 
+     * Метод отключения события.
+     * 
+     * ***
+     * @arg {...string} labels `Метки`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    offEventByLabel(...labels) {
+        
+        for (const label of labels) {
+
+            const event = this.events.findIndex(event => event.label === label);
+
+            if (event === -1) continue;
+
+            this.eventsDisabled.push(...this.events.splice(event, 1));
 
         };
 
@@ -395,13 +398,81 @@ export class YScheduler extends FScheduler {
         
     };
 
+    //#endregion
+
+    /**
+     * ### YSchedulerConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {schedulerTC} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+
+        try {
+
+            //#region before
+
+            /** @type {YArg<YScheduler&schedulerTC>} */
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
+
+
+
+            super(yarg);
+
+            //#endregion
+            //#region verify
+
+
+
+            //#endregion
+            //#region handle
+
+
+
+            //#endregion
+            //#region comply
+
+
+
+            //#endregion
+
+            return this
+
+                .adopt(yarg.getData())
+
+
+        } catch (err) {
+
+            if (config.params.strictMode) {
+
+                throw err;
+
+            };
+
+        } finally {
+
+
+
+        };
+
+    };
+
 };
-
-//#region YE
-
-YScheduler.getY()['modules'].push(YScheduler);
-
-//#endregion
 
 /**
  * @file scheduler/class.mjs

@@ -5,7 +5,7 @@ import { configCorrecter as config } from './config.mjs';
 import { Y } from '@syls/y';
 import { YString } from '../../../-module/class.mjs';
 import { YCond } from '@syls/y/cond';
-import { stringPaste } from '../../../-module/module.mjs';
+import { stringPaste } from '../../../-module/module0.mjs';
 
 //#endregion
 //#region YT

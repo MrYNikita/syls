@@ -1,7 +1,7 @@
 //#region YI
 
 import { configY as config } from "./config.mjs";
-import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yFill, yForDeep, yGetPropByKeys, ySetClass, ySetPropByKeys, yStat, yTurn } from "./module.mjs";
+import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yFill, yForDeep, yGetPropByKeys, ySetClass, ySetProp, ySetPropByKeys, yStat, yTurn } from "./module.mjs";
 
 //#endregion
 //#region YT
@@ -291,6 +291,28 @@ export class Y {
     getPropByKeys(...keys) {
 
         return yGetPropByKeys(this, ...keys);
+        
+    };
+    /**
+     * ### setProp
+     * 
+     * Метод установки значения.
+     * 
+     * ***
+     * @arg {any} value `Значение`
+     * @arg {keyof this} key `Ключ`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setProp(key, value) {
+        
+        ySetProp(this, key, value);
+
+        return this;
         
     };
     /**

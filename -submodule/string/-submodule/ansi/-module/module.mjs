@@ -2,7 +2,7 @@
 
 import { YCond } from '@syls/y/cond';
 import { configANSI as config } from './config.mjs';
-import { stringGetRow, stringGetRows, stringPaste } from '../../../-module/module.mjs';
+import { stringGetRow, stringGetRows, stringPaste } from '../../../-module/module0.mjs';
 
 //#endregion
 //#region YT
@@ -799,6 +799,8 @@ function getColorReset(args) {
         //#region comply
 
         result = foreground && background ? `${foreground};${background}` : foreground ? foreground : background ? background : null;
+
+        result = ansiGet(result);
 
         //#endregion
 

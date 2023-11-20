@@ -26,7 +26,6 @@ import { yIsInstance } from "../../../-module/module.mjs";
  * @class
  * @since `1.0.0`
  * @version `1.0.0`
- * @extends Y<Y1>
  * @template Y1
  * 
 */
@@ -101,6 +100,7 @@ export class YArg extends Y {
      * Используемые данные.
      * 
      * *** 
+     * @type {Y1}
      * @since `1.0.0`
      * @field
      * @public
@@ -171,6 +171,108 @@ export class YArg extends Y {
         
     };
     /**
+     * ### set
+     * 
+     * Метод установки значений.
+     * 
+     * ***
+     * @arg {...[keyof Y1, ...(keyof import("./module.mjs").argTArgs)[]]} values `Значения`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    set(...values) {
+        
+        for (const value of values) {
+
+            const key = value[0];
+            const types = value.slice(1);
+
+            if (!types.length) continue;
+
+            if (types.length === 1) {
+
+                if (!(types[0] in this.dataFree && this.dataFree[types[0]].length)) continue;
+
+                this.dataUsed[key] = this.extract(types[0]);
+
+            } else {
+
+                this.dataUsed[key] = [];
+
+                for (const type of types) {
+
+                    if (!(type in this.dataFree && this.dataFree[type].length)) continue;
+    
+                    const ext = this.extract(type);
+
+                    if (yIsInstance(ext, Array)) this.dataUsed[key].push(...ext);
+                    else this.dataUsed[key].push(ext);
+    
+                };
+
+            };
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### setAll
+     * 
+     * Метод установки всех значений из пула свободных значений для указанного ключа.
+     * 
+     * ***
+     * @arg {...[keyof Y1, ...(keyof import("./module.mjs").argTArgs)[]]} values `Значения`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setAll(...values) {
+        
+        for (const value of values) {
+
+            const key = value[0];
+            const types = value.slice(1);
+
+            if (!types.length) continue;
+
+            if (types.length === 1) {
+
+                if (!(types[0] in this.dataFree && this.dataFree[types[0]].length)) continue;
+
+                this.dataUsed[key] = this.extractAll(types[0]);
+
+            } else {
+
+                this.dataUsed[key] = [];
+
+                for (const type of types) {
+
+                    if (!(type in this.dataFree && this.dataFree[type].length)) continue;
+
+                    this.dataUsed[key].push(...this.extractAll(type));
+    
+                };
+
+            };
+
+        };
+
+        return this;
+        
+    };
+
+    /**
      * ### getData
      * 
      * ***
@@ -206,64 +308,6 @@ export class YArg extends Y {
         
     };
     /**
-     * ### set
-     * 
-     * ***
-     * 
-     * Метод утсановки значений.
-     * 
-     * ***
-     * @arg {...[keyof Y1, ...(keyof import("./module.mjs").argTArgs)[]]} values `Значения`
-     * @method
-     * @public
-    */
-    set(...values) {
-        
-        for (const value of values) {
-
-            const key = value[0];
-            const types = value.slice(1);
-
-            if (!types.length) {
-
-                continue;
-
-            } else if (types.length > 1) {
-
-                this.dataUsed[key] = [];
-
-                for (const type of types) {
-
-                    if (!(type in this.dataFree && this.dataFree[type].length)) continue;
-    
-                    const ext = this.extract(type);
-
-                    if (yIsInstance(ext, Array)) {
-
-                        this.dataUsed[key].push(...ext);
-
-                    } else {
-
-                        this.dataUsed[key].push(ext);
-
-                    };
-    
-                };
-
-            } else {
-
-                if (!(types[0] in this.dataFree && this.dataFree[types[0]].length)) continue;
-
-                this.dataUsed[key] = this.extract(types[0]);
-
-            };
-
-        };
-
-        return this;
-        
-    };
-    /**
      * ### extract
      * 
      * ***
@@ -290,6 +334,32 @@ export class YArg extends Y {
 
         return undefined;
 
+    };
+    /**
+     * ### extractAll
+     * 
+     * Метод извлечения всех значений из типа.
+     * 
+     * ***
+     * @arg {Y1} section `Секция`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    extractAll(section) {
+        
+        if (this.dataFree[section]?.length) {
+
+            return this.dataFree[section].splice(0);
+
+        };
+
+        return null;
+        
     };
     /**
      * ### extractMany

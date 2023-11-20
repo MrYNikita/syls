@@ -129,7 +129,7 @@ export class YEntity extends Y {
      * Метод получения отчёта.
      * 
      * ***
-     * 
+     * @arg {string} title `Заголовок`
      * 
      * 
      * ***
@@ -138,9 +138,9 @@ export class YEntity extends Y {
      * @method
      * @public
     */
-    getRept() {
+    getRept(title) {
         
-        return new YRept(this);
+        return new YRept(this, title);
         
     };
     /**

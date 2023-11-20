@@ -1,54 +1,47 @@
 //#region YI
 
+import { YArg } from "../../arg/-module/class.mjs";
 import { YEntity } from "../../entity/-module/class.mjs";
 import { YCursor } from "../-submodule/cursor/-module/export.mjs";
 import { YCursorContoller } from "../-submodule/cursorContoller/-module/class.mjs";
 import { configMany as config } from "./config.mjs";
-import { YArg } from "../../arg/-module/class.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YManyT
- * - Тип `T`
- * 
- * Основной параметр модуля `YMany`.
- * 
- * ***
- * 
- * @typedef {YManyTE&YManyTU} YManyT
+/** ### manyTC
+ * @typedef manyTC
+ * @prop {}
 */
-/** ### YManyTE
- * - Тип `TE`
- * 
- * Параметр наследования `YMany`.
- * 
- * @typedef {Omit<DMany, keyof SMany>} YManyTE
-*/
-/** ### YManyTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YMany`.
- * 
- * @typedef YManyTU
- * @prop {} _
-*/
-/** ### YManyTUG
- * - Тип `TUP`
- * 
- * Уникальные генеративные параметры `YMany`.
- * 
- * @typedef YManyTUG
- * @prop {null} _
-*/
+
+/** @typedef {import('./module.mjs').manyT&manyTC} manyT */
 
 //#endregion
 
 /**
+ * ### YMany
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @template Y1
+ * 
 */
-class SMany extends YEntity {
-
+export class YMany extends YEntity {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
+    
     /**
      * ### stock
      * 
@@ -74,211 +67,183 @@ class SMany extends YEntity {
      * @public
     */
     static config = config;
-
+    
     /**
      * @arg {...YMany} args `Аргументы`
      * @returns {YMany[]}
     */
     static create(...args) {
-
-        return Object.getPrototypeOf(SMany).create.apply(this, [...args]);
-
+        
+        return super.create(...args);
+        
     };
-
-};
-/**
- * @extends SMany<Y1>
- * @template Y1
-*/
-class DMany extends SMany {
-
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YMany)?}
+     * @template {YMany} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
+        
+    };
+    
+    //#endregion
+    //#region field
+    
     /**
      * ### values
      * 
      * Значения.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {Y1}
      * @field
      * @protected
     */
     values;
-
-};
-/**
- * @extends DMany<Y1>
- * @template Y1
-*/
-class IMany extends DMany {
-
     /**
      * ### cursors
      * 
      * Курсоры.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {YCursor[]}
      * @field
      * @protected
     */
     cursors;
-
-};
-/**
- * @extends IMany<Y1>
- * @template Y1
-*/
-class MMany extends IMany {
-
-
-
-};
-/**
- * @extends MMany<Y1>
- * @template Y1
-*/
-class FMany extends MMany {
-
+    
+    //#endregion
+    //#region method
+    
     /**
-     * ### YMany.constructor
-     * 
-     * 
-     * 
-     * ***
-     * @arg {YManyT&G} args
+     * @method
+     * @public
+     * @override
     */
-    constructor(args) {
-
-        super(args = FMany.#before(arguments));
-
-        FMany.#deceit.apply(this, [args]);
-
-        return this.correlate();
-
+    getClass() {
+        
+        return YMany;
+        
     };
-
-    /** @arg {any[]} args */
-    static #before(args) {
-
-        /** @type {YArg<IMany>} */
-        const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
-
-        yarg
-
-            .set(
-
-                ['values', 'array', 'string'],
-
-            )
-
-        return yarg;
-
-    };
-    /** @arg {YArg<IMany>} args @this {YMany} */
-    static #deceit(args) {
-
-        try {
-
-            FMany.#verify.apply(this, arguments);
-
-        } catch (e) {
-
-            throw e;
-
-        } finally {
-
-
-
-        };
-
-    };
-    /** @arg {YArg<IMany>} args @this {YMany} */
-    static #verify(args) {
-
-        const {
-
-
-
-        } = args;
-
-        FMany.#handle.apply(this, arguments);
-
-    };
-    /** @arg {YArg<IMany>} args @this {YMany} */
-    static #handle(args) {
-
-
-
-        FMany.#create.apply(this, arguments);
-
-    };
-    /** @arg {YArg<IMany>} args @this {YMany} */
-    static #create(args) {
-
-        const {
-
-
-
-        } = args;
-
-        this
-
-            .adopt(args.getData())
-            .do(self => self.getCursorController()
-
-                .append({ many: this })
-
-            )
-
-
-    };
-
-};
-
-/**
- * ### YMany
- * - Тип `SDIMFY`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YMany` предназначен для работы со множествами.
- * 
- * ***
- * @class
- * @template Y1
- * @extends FMany<YManyTUG&Y1>
- * 
-*/
-export class YMany extends FMany {
-
-    /** @arg {Y1} args */
-    constructor(...args) { super(...args); };
 
     /**
      * ### getCursorController
      * 
-     * ***
-     * 
      * Метод получения контроллера курсоров.
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
      * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
     getCursorController() {
-
+        
         return new YCursorContoller(this);
-
+        
     };
+    
+    
+    //#endregion
+    
+    /**
+     * ### YManyConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {...manyTC&Y1} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+        
+        try {
+            
+            //#region before
+            
+            /** @type {YArg<YMany>} */
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
 
+            yarg
+
+                .uncover()
+                .set(
+
+                    ['values', 'array'],
+                    ['values',  'string'],
+
+                )
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+                .do(self => self.getCursorController()
+
+                    .append({ many: this })
+
+                )
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
+            };
+            
+        } finally {
+            
+            
+            
+        };
+        
+    };
+    
 };
-
-//#region YE
-
-YMany.getY()['modules'].push(YMany);
-
-//#endregion YE
 
 /**
  * @file many/class.mjs

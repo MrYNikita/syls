@@ -25,11 +25,23 @@ export const configScheduler = new YConfig(Object.assign(config, {
      * Дефолт события.
      * 
      * *** 
-     * @type {any}
+     * @type {any[]}
      * @public
      * @property
     */
     eventsDefault: [],
+    /**
+     * ### eventsDisabledDefault
+     * 
+     * Дефолт отключенные события.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {any[]}
+     * @public
+     * @property
+    */
+    eventsDisabledDefault: [],
     /**
      * ### frequencyDefault
      * 

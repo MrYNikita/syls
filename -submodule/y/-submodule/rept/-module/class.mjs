@@ -96,6 +96,18 @@ export class YRept extends Y {
     //#region field
     
     /**
+     * ### title
+     * 
+     * Заголовок.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {string?}
+     * @field
+     * @public
+    */
+    title;
+    /**
      * ### target
      * 
      * Цель.
@@ -107,7 +119,6 @@ export class YRept extends Y {
      * @public
     */
     target;
-    
     /**
      * ### blocks
      * 
@@ -171,7 +182,9 @@ export class YRept extends Y {
             ...this.blocks,
             ...config.params.blocks,
 
-        ];
+        ].sort((p, c) => p.priority - c.priority);
+
+        result += `## ${this.title}\n`;
 
         for (const block of blocks) {
 
@@ -184,6 +197,8 @@ export class YRept extends Y {
             };
 
         };
+
+        result += '###';
 
         return result;
         
@@ -300,6 +315,7 @@ export class YRept extends Y {
             yarg.set(
 
                 ['target', 'ject'],
+                ['title', 'string'],
 
             );
             

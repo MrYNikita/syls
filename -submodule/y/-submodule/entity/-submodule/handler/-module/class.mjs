@@ -1,52 +1,45 @@
 //#region YI
 
-import { YProcedure } from '../-submodule/procedure/-module/class.mjs';
-import { Y } from '../../../../../-module/class.mjs';
-import { YArg } from '../../../../arg/-module/export.mjs';
-import { configHandler as config } from './config.mjs';
+import { Y } from "../../../../../-module/class.mjs";
+import { YArg } from "../../../../arg/-module/export.mjs";
+import { YProcedure } from "../-submodule/procedure/-module/class.mjs";
+import { configHandler as config } from "./config.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YHandlerT
- * - Тип `T`
- * 
- * Основной параметр модуля `YHandler`.
- * 
- * ***
- * 
- * @typedef {YHandlerTE&YHandlerTU} YHandlerT
+/** ### handlerTC
+ * @typedef handlerTC
+ * @prop {}
 */
-/** ### YHandlerTE
- * - Тип `TE`
- * 
- * Параметр наследования `YHandler`.
- * 
- * @typedef {Omit<DHandler, keyof SHandler>} YHandlerTE
-*/
-/** ### YHandlerTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YHandler`.
- * 
- * @typedef YHandlerTU
- * @prop {} _
-*/
-/** ### YHandlerTUG
- * - Тип `TUP`
- * 
- * Уникальные генеративные параметры `YHandler`.
- * 
- * @typedef YHandlerTUG
- * @prop {null} _
-*/
+
+/** @typedef {import('./module.mjs').handlerT&handlerTC} handlerT */
 
 //#endregion
 
 /**
+ * ### YHandler
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @template Y1
+ * 
 */
-class SHandler extends Y {
+export class YHandler extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
     
     /**
      * ### stock
@@ -80,16 +73,26 @@ class SHandler extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SHandler).create.apply(this, args);
+        return super.create(...args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YHandler)?}
+     * @template {YHandler} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
         
     };
     
-};
-/**
- * @extends SHandler<Y1>
- * @template Y1
-*/
-class DHandler extends SHandler {
+    //#endregion
+    //#region field
     
     /**
      * ### label
@@ -97,6 +100,7 @@ class DHandler extends SHandler {
      * Метка.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {string}
      * @field
      * @public
@@ -108,182 +112,39 @@ class DHandler extends SHandler {
      * Процедуры.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {YProcedure<Y1>[]}
      * @field
      * @public
     */
     procedures;
     
-};
-/**
- * @extends DHandler<Y1>
- * @template Y1
-*/
-class IHandler extends DHandler {
-    
-    
-    
-};
-/**
- * @extends IHandler<Y1>
- * @template Y1
-*/
-class MHandler extends IHandler {
-    
-    
-    
-};
-/**
- * @extends MHandler<Y1>
- * @template Y1
-*/
-class FHandler extends MHandler {
+    //#endregion
+    //#region method
     
     /**
-     * ### YHandler.constructor
-     * 
-     * 
-     * 
-     * ***
-     * @arg {YHandlerT&G} args
-    */
-    constructor(args) {
-        
-        super(args = FHandler.#before(args = arguments));
-        
-        FHandler.#deceit.apply(this, [args]);
-        
-    };
-    
-    /** @arg {DHandler} args */
-    static #before(args) {
-        
-        /** @type {YArg<IHandler>} */
-        const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
-        
-        yarg
-
-            .set(
-
-                ['label', 'string'],
-
-            )
-
-        yarg.dataUsed.procedures = yarg.dataFree.array.slice(0);
-        
-        return yarg;
-        
-    };
-    /** @arg {YArg<IHandler>} args @this {YHandler} */
-    static #deceit(args) {
-        
-        try {
-            
-            FHandler.#verify.apply(this, arguments);
-            
-        } catch (e) {
-            
-            if (config?.strictMode) {
-                
-                throw e;
-                
-            };
-            
-            return new YHandler();
-            
-        } finally {
-            
-            
-            
-        };
-        
-    };
-    /** @arg {YArg<IHandler>} args @this {YHandler} */
-    static #verify(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        FHandler.#handle.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IHandler>} args @this {YHandler} */
-    static #handle(args) {
-        
-        
-        
-        FHandler.#create.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IHandler>} args @this {YHandler} */
-    static #create(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        this
-        
-            .adopt(args.getData());
-        
-    };
-    
-};
-
-/**
- * ### YHandler
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YHandler`.
- * 
- * ***
- * @class
- * @template Y1
- * @extends FHandler<YHandlerTUG&Y1>
- * 
-*/
-export class YHandler extends FHandler {
-    
-    /** @arg {Y1} args */
-    constructor(args) { super(...arguments); };
-    
-    /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
      * @method
      * @public
-     * @returns {typeof YHandler}
+     * @override
     */
     getClass() {
         
         return YHandler;
         
     };
-
+    
     /**
-     * ### exec
-     * 
-     * ***
+     * ### handle
      * 
      * Метод выполнения процедур.
      * 
      * ***
      * @arg {Y1} target `Цель`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
@@ -307,34 +168,113 @@ export class YHandler extends FHandler {
     /**
      * ### append
      * 
-     * ***
-     * 
      * Метод добавления процедур.
      * 
      * ***
      * @arg {...[string, function():void, boolean]} procedures `Процедуры`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
     append(...procedures) {
         
-        procedures.forEach(procedure => {
+        for (const procedure of procedures) {
 
             this.procedures.push(new YProcedure(...procedure));
 
-        });
+        };
 
         return this;
         
     };
+
+    //#endregion
+    
+    /**
+     * ### YHandlerConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {...handlerTC&Y1} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+        
+        try {
+            
+            //#region before
+            
+            /** @type {YArg<YHandler>} */
+            const yarg = args instanceof YArg ? args : new YArg(args);
+            
+            yarg
+                
+                .uncover()
+                .set(
+
+                    ['label', 'string'],
+                    ['procedures', 'arrayJect'],
+
+                )
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.getData())
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
+            };
+            
+        } finally {
+            
+            
+            
+        };
+        
+    };
     
 };
-
-//#region YE
-
-YHandler.getY()['modules'].push(YHandler);
-
-//#endregion
 
 /**
  * @file handler/class.mjs
