@@ -1,7 +1,7 @@
 import { YConfig } from "@syls/y/config";
-import { configEntity } from "@syls/entity";
+import { configEntity } from "@syls/y/entity";
 
-/** @type {configEntity} */
+/** @type {configEntity['params']} */
 const config = {
     
     
@@ -13,48 +13,15 @@ const config = {
  * Конфигуратор модуля `process`.
  * 
  * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @public
 */
-export const configProcess = new YConfig(Object.assign(config, {
+export const configProcess = new YConfig({
     
-    /**
-     * ### pathDefault
-     * 
-     * ***
-     * 
-     * Дефолт путь.
-     * 
-     * *** 
-     * @type {null}
-     * @public
-    */
-    pathDefault: null,
-    /**
-     * ### labelDefault
-     * 
-     * ***
-     * 
-     * Дефолт метка.
-     * 
-     * *** 
-     * @type {null}
-     * @public
-    */
-    labelDefault: null,
-    /**
-     * ### processDefault
-     * 
-     * ***
-     * 
-     * Дефолт процесс.
-     * 
-     * *** 
-     * @type {null}
-     * @public
-    */
-    processDefault: null,
+    ...config,
     
-}), configEntity);
+}, configEntity);
 
 export default configProcess;
 

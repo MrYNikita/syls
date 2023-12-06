@@ -1,68 +1,67 @@
 //#region YI
 
-import { YEntity } from '@syls/entity';
-import { yClassifyProp } from '@syls/y';
-import { YPath, pathCheck, pathGet } from '@syls/os/path';
-import { condIsString, condIsStringValid } from '@syls/y/cond';
-import { ChildProcess, fork, spawn } from 'child_process';
-
-/** @type {import('./config.mjs')['default']['params']?} */
-let config = null;
-
-await import('./config.mjs')
-
-    .then(c => config = c.default?.params ? c.default.params : c.default)
-    .catch(e => e);
-
-/** @type {import('./error.mjs')['default']?} */
-let error = null;
-
-await import('./error.mjs')
-
-    .then(e => error = e.default)
-    .catch(e => e);
+import { YArg } from "@syls/y/arg";
+import { YEntity } from "@syls/y/entity";
+import { ChildProcess } from 'child_process';
+import { configProcess as config } from "./config.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YProcessT
- * - Тип `T`
- * 
- * Основной параметр модуля `YProcess`.
- * 
- * @typedef {YProcessTE&YProcessTU} YProcessT
- * 
+/** ### processTC
+ * @typedef processTC
+ * @prop {}
 */
-/** ### YProcessTE
- * - Тип `TE`
- * 
- * Параметр наследования `YProcess`.
- * 
- * @typedef {Omit<DProcess, keyof SProcess>} YProcessTE
- * 
-*/
-/** ### YProcessTU
- * - Тип `TU`
- * 
- * Уникальные параметры `YProcess`.
- * 
- * @typedef YProcessTU
- * @prop {any} _
- * 
-*/
+
+/** @typedef {import('./module.mjs').processT&processTC} processT */
 
 //#endregion
 
-class SProcess extends YEntity {
+/**
+ * ### YProcess
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YProcess extends YEntity {
     
-    /** ### stock
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
+    
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
      * @type {YProcess[]}
+     * @field
+     * @static
      * @public
     */
     static stock = [];
-    /** ### config
+    /**
+     * ### config
+     * 
+     * 
      * 
      * ***
+     * @field
+     * @static
      * @public
     */
     static config = config;
@@ -73,142 +72,221 @@ class SProcess extends YEntity {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SProcess).create.apply(this, [...args]);
+        return super.create(...args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YProcess)?}
+     * @template {YProcess} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
         
     };
     
-};
-class DProcess extends SProcess {
+    //#endregion
+    //#region field
     
     /**
-     * ### code
+     * ### cwd
      * 
-     * Код.
+     * Настройка `cwd`.
+     * 
+     * Обозначает директорию запуска процесса.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {string}
+     * @field
      * @public
     */
-    code;
+    cwd;
     /**
-     * ### path
+     * ### stdio
      * 
-     * Путь.
+     * Настройка `stdio`.
      * 
      * *** 
-     * @type {YPath|string}
+     * @since `1.0.0`
+     * @type {string}
+     * @field
      * @public
     */
-    path;
+    stdio;
     /**
      * ### label
      * 
      * Метка.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {string}
+     * @field
      * @public
     */
     label;
-    
-};
-class IProcess extends DProcess {
-    
     /**
      * ### process
      * 
      * Процесс.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {ChildProcess?}
-     * @protected
+     * @field
+     * @public
     */
     process;
     
-};
-class MProcess extends IProcess {
-    
-    
-    
-};
-class FProcess extends MProcess {
+    //#endregion
+    //#region method
     
     /**
-     * ### YProcess.constructor
+     * ### on
+     * 
+     * Метод активации процесса.
+     * 
+     * ***
      * 
      * 
      * 
      * ***
-     * @arg {YProcessT} t
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
     */
-    constructor(t) {
+    on() {
         
-        t = [...arguments];
+        return this;
         
-        super(Object.assign(t = FProcess.#before(t), {}));
+    };
+    /**
+     * ### off
+     * 
+     * Метод отключения процесса.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    off() {
         
-        FProcess.#deceit.apply(this, [t]);
+        return this;
         
-        return this.correlate();
+    };
+    /**
+     * ### signal
+     * 
+     * Метод сигнализироввания.
+     * 
+     * ***
+     * @arg {processT['signal']} signal `Сигнал`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    signal(signal) {
+        
+        return this;
+        
+    };
+    /**
+     * @method
+     * @public
+     * @override
+    */
+    getClass() {
+        
+        return YProcess;
         
     };
     
-    /** @arg {any[]} t */
-    static #before(t) {
-        
-        /** @type {YProcessT} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YProcess].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (!t.length) {
-            
-            return r;
-            
-        };
-        
-        if (t[0]?._ytp) {
-        
-            t = [...t[0]._ytp];
-        
-        };
-        
-        const arg = yClassifyProp(t);
-        
-        if (pathCheck(pathGet(arg.string[0]))) {
-
-            r.path = arg.string[0];
-
-        } else {
-
-            r.code = arg.string[0];
-
-        };
-        
-        r.label = arg.string[1];
-        r.process = arg.ject[0];
-        
-        if (!Object.values(r).length) {
-            
-            r = { _ytp: t, };
-            
-        };
-        
-        return r;
-        
-    };
-    /** @arg {YProcessT} t @this {YProcess} */
-    static #deceit(t) {
+    //#endregion
+    
+    /**
+     * ### YProcessConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {processTC} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
         
         try {
             
-            FProcess.#verify.apply(this, [t]);
+            //#region before
             
-        } catch (e) {
+            /** @type {YArg<YProcess&processTC>} */
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
             
-            throw e;
+            yarg.setFirst(
+
+                ['label', 'string'],
+
+            );
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.used)
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
+            };
             
         } finally {
             
@@ -217,210 +295,175 @@ class FProcess extends MProcess {
         };
         
     };
-    /** @arg {YProcessT} t @this {YProcess} */
-    static #verify(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        FProcess.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YProcessT} t @this {YProcess} */
-    static #handle(t) {
-        
-        if (condIsStringValid(t.path)) {
-
-            t.path = new YPath(t.path);
-
-        };
-        
-        FProcess.#create.apply(this, [t]);
-        
-    };
-    /** @arg {YProcessT} t @this {YProcess} */
-    static #create(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(this.constructor.config ?? config);
-            
-        };
-        
-    };
     
 };
 
 /**
- * ### YProcess
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YProcess` предназначен для создания в OS процессов.
- * 
- * Процессы могут быть созданы разными способами:
- * 1. Запуск кода
- * 1. Запуск файла
- * 
- * Запуск кода позволяет создать новый процесс, через указанный в процессе код. Таким кодом может быть что-то по типу 
- * 
- * ***
- * @class
- * 
+ * @file process/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */
-export class YProcess extends FProcess {
+
+// /**
+//  * ### YProcess
+//  * - Тип `SDIMFY`
+//  * - Версия `0.0.0`
+//  * - Цепочка `BDVHC`
+//  * ***
+//  * 
+//  * Класс `YProcess` предназначен для создания в OS процессов.
+//  * 
+//  * Процессы могут быть созданы разными способами:
+//  * 1. Запуск кода
+//  * 1. Запуск файла
+//  * 
+//  * Запуск кода позволяет создать новый процесс, через указанный в процессе код. Таким кодом может быть что-то по типу 
+//  * 
+//  * ***
+//  * @class
+//  * 
+// */
+// export class YProcess extends FProcess {
     
-    /**
-     * ### on
-     * 
-     * ***
-     * 
-     * Метод продолжения работы процесса.
-     * 
-     * Если процесс существует, но находится на паузе, то этот метод продолжит его работу.
-     * В противном случае, если процесс не существует, метод создаст его и запустит.
-     * 
-     * ***
-     * @public
-     * @method
-    */
-    on() {
+//     /**
+//      * ### on
+//      * 
+//      * ***
+//      * 
+//      * Метод продолжения работы процесса.
+//      * 
+//      * Если процесс существует, но находится на паузе, то этот метод продолжит его работу.
+//      * В противном случае, если процесс не существует, метод создаст его и запустит.
+//      * 
+//      * ***
+//      * @public
+//      * @method
+//     */
+//     on() {
         
-        if (!this.process) {
+//         if (!this.process) {
 
-            this.start();
+//             this.start();
 
-        };
+//         };
 
-        this.process.on('message', (message) => {
+//         this.process.on('message', (message) => {
 
-            switch (message) {
+//             switch (message) {
 
-                case 'restart': this.finish().start(); break;
-                default: console.log(`Message: ${message};`); break;
+//                 case 'restart': this.finish().start(); break;
+//                 default: console.log(`Message: ${message};`); break;
 
-            };
+//             };
 
-        });
+//         });
 
-        return this;
+//         return this;
         
-    };
-    /**
-     * ### off
-     * 
-     * ***
-     * 
-     * Метод остановки работы процесса.
-     * 
-     * ***
-     * @method
-     * @public
-    */
-    off() {
+//     };
+//     /**
+//      * ### off
+//      * 
+//      * ***
+//      * 
+//      * Метод остановки работы процесса.
+//      * 
+//      * ***
+//      * @method
+//      * @public
+//     */
+//     off() {
         
-        if (this.process) {
+//         if (this.process) {
 
-            this.process.off();
+//             this.process.off();
 
-        };
+//         };
 
-        return this;
+//         return this;
         
-    };
-    /**
-     * ### send
-     * 
-     * ***
-     * 
-     * Метод отправки сообщения от процесса.
-     * 
-     * ***
-     * @arg {string} message `Сообщение`
-     * @public
-    */
-    send(message) {
+//     };
+//     /**
+//      * ### send
+//      * 
+//      * ***
+//      * 
+//      * Метод отправки сообщения от процесса.
+//      * 
+//      * ***
+//      * @arg {string} message `Сообщение`
+//      * @public
+//     */
+//     send(message) {
         
-        if (this.process) {
+//         if (this.process) {
 
-            this.process.send(message);
+//             this.process.send(message);
 
-        };
+//         };
 
-        return this;
+//         return this;
         
-    };
-    /**
-     * ### start
-     * 
-     * ***
-     * 
-     * Метод запуска процесса.
-     * 
-     * ***
-     * @public
-     * @method
-    */
-    start() {
+//     };
+//     /**
+//      * ### start
+//      * 
+//      * ***
+//      * 
+//      * Метод запуска процесса.
+//      * 
+//      * ***
+//      * @public
+//      * @method
+//     */
+//     start() {
         
-        if (this.path) {
+//         if (this.path) {
 
-            this.process = fork(this.path ? this.path.get() : './', {
+//             this.process = fork(this.path ? this.path.get() : './', {
 
-                stdio: 'inherit',
+//                 stdio: 'inherit',
     
-            });
+//             });
         
-        } else if (condIsString(this.code)) {
+//         } else if (condIsString(this.code)) {
 
-            this.process = spawn('node', ['-e', this.code], {
+//             this.process = spawn('node', ['-e', this.code], {
                 
-                stdio: 'inherit',
+//                 stdio: 'inherit',
             
-            });
+//             });
 
-        };
+//         };
 
-        return this;
+//         return this;
         
-    };
-    /**
-     * ### finish
-     * 
-     * ***
-     * 
-     * Метод прекращения процесса.
-     * 
-     * ***
-     * @method
-     * @public
-    */
-    finish() {
+//     };
+//     /**
+//      * ### finish
+//      * 
+//      * ***
+//      * 
+//      * Метод прекращения процесса.
+//      * 
+//      * ***
+//      * @method
+//      * @public
+//     */
+//     finish() {
         
-        if (this.process) {
+//         if (this.process) {
 
-            this.off();
-            this.process.kill();
+//             this.off();
+//             this.process.kill();
 
-            this.process = null;
+//             this.process = null;
 
-        };
+//         };
 
-        return this;
+//         return this;
         
-    };
+//     };
 
-};
+// };

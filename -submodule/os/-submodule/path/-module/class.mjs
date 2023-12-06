@@ -451,9 +451,9 @@ export class YPath extends Y {
             //#region before
             
             /** @type {YArg<YPath>} */
-            const yarg = args instanceof YArg ? args : new YArg(args);
-            
-            yarg.set(
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
+
+            yarg.setFirst(
 
                 ['url', 'string'],
 
@@ -461,6 +461,8 @@ export class YPath extends Y {
             
             super(yarg);
             
+            
+
             //#endregion
             //#region verify
             
@@ -480,7 +482,7 @@ export class YPath extends Y {
             
             return this
             
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
                 .set(this.url)
             
             

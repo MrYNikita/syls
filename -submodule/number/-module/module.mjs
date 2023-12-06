@@ -219,7 +219,7 @@ function getRandomComply(t) {
  * @arg {number} max `Максиуму`
  * @returns {number}
 */
-export function numberGetRandomReal(min, max) {
+export function numberGetRandomReal(min = 0, max = 100) {
 
     return getRandomDeceit({ min, max });
 

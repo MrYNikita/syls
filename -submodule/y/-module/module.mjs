@@ -2294,7 +2294,7 @@ function adopt(args) {
 
         //#region verify
 
-        if (!image) return;
+        
 
         //#endregion
         //#region handle
@@ -2312,7 +2312,7 @@ function adopt(args) {
         //#endregion
         //#region comply
 
-        for (const step of yForDeep(target)) {
+        if (image) for (const step of yForDeep(target)) {
 
             if (step.level[step.key] === undefined) {
 

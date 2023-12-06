@@ -1,44 +1,321 @@
 //#region YI
 
-import { Y, yClassifyProp } from '@syls/y';
-
+import { Y } from "@syls/y";
+import { YArg } from "@syls/y/arg";
+import { configKey as config } from "./config.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YKeyT
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\terminal\listener\key`
- * 
- * Основной параметр модуля `YKey`.
- * 
- * @typedef {YKeyTE&YKeyTU} YKeyT
- * 
-*/
-/** ### YKeyTE
- * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\terminal\listener\key`
- * 
- * Параметр наследования `YKey`.
- * 
- * @typedef {Omit<DKey, keyof SKey>} YKeyTE
- * 
-*/
-/** ### YKeyTU
- * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\terminal\listener\key`
- * 
- * Уникальные параметры `YKey`.
- * 
- * @typedef YKeyTU
- * @prop {any} _
- * 
+/** ### keyTC
+ * @typedef keyTC
+ * @prop {}
 */
 
+/** @typedef {import('./module.mjs').keyT&keyTC} keyT */
+
 //#endregion
+
+/**
+ * ### YKey
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YKey extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
+    
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YKey[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
+    
+    /**
+     * @arg {...YKey} args `Аргументы`
+     * @returns {YKey[]}
+    */
+    static create(...args) {
+        
+        return super.create(...args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YKey)?}
+     * @template {YKey} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
+        
+    };
+    
+    //#endregion
+    //#region field
+    
+    /**
+     * ### alt
+     * 
+     * Alt.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {boolean}
+     * @field
+     * @public
+    */
+    alt;
+    /**
+     * ### name
+     * 
+     * Наименование клавиши.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {string}
+     * @field
+     * @public
+    */
+    name;
+    /**
+     * ### code
+     * 
+     * Код.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {string}
+     * @field
+     * @public
+    */
+    code;
+    /**
+     * ### ctrl
+     * 
+     * Ctrl.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {boolean}
+     * @field
+     * @public
+    */
+    ctrl;
+    /**
+     * ### shift
+     * 
+     * Shift.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {boolean}
+     * @field
+     * @public
+    */
+    shift;
+    
+    //#endregion
+    //#region method
+    
+    /**
+     * @method
+     * @public
+     * @override
+    */
+    getClass() {
+        
+        return YKey;
+        
+    };
+    /**
+     * ### compare
+     * 
+     * Метод сравнения клавиши.
+     * 
+     * ***
+     * @arg {YKey} key `Клавиша`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    compare(key) {
+        
+        if (this.name === key.name && this.alt === key.alt && this.ctrl === key.ctrl && this.shift === key.shift) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        };
+        
+    };
+    
+    //#endregion
+    
+    /**
+     * ### YKeyConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {keyTC} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+        
+        try {
+            
+            //#region before
+            
+            /** @type {YArg<YKey&keyTC>} */
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
+            
+            yarg.set(
+
+                ['alt', 'bool'],
+                ['ctrl', 'bool'],
+                ['shift', 'bool'],
+                ['name', 'string'],
+                ['code', 'string'],
+
+            );
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            if (yarg.used.code) {
+
+                if (yarg.used.code.includes('\x1b')) {
+    
+                    yarg.used.alt = true;
+    
+                };
+                if (yarg.used.code === '\x7F') {
+    
+                    yarg.used.ctrl = true;
+    
+                };
+    
+            };
+    
+            switch (yarg.used.name) {
+    
+                case 'up': case 'left': case 'down': case 'right': case 'escape': case 'delete': case 'f1': case 'f2': case 'f3': case 'f4': case 'f5': case 'f6': case 'f7': case 'f8': case 'f9': case 'f10': case 'f11': case 'f12': yarg.used.alt = true; break;
+    
+            };
+
+            if (/^\p{L}$/u.test(yarg.used.name) && yarg.used.name.toUpperCase() === yarg.used.name) {
+
+                yarg.used.shift = true;
+    
+            };
+
+            if (/^\w$/.test(yarg.used.name)) {
+
+                yarg.used.code = yarg.used.name;
+
+            };
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.used)
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
+            };
+            
+        } finally {
+            
+            
+            
+        };
+        
+    };
+    
+};
+
+/**
+ * @file key/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/
 
 class SKey extends Y {
     
@@ -77,263 +354,6 @@ class SKey extends Y {
         };
 
         return value;
-        
-    };
-    
-};
-class DKey extends SKey {
-    
-    /**
-     * ### alt
-     * 
-     * 
-     * 
-     * *** 
-     * @type {boolean} 
-     * @public
-    */
-    alt = false;
-    /**
-     * ### name
-     * 
-     * Наименование.
-     * 
-     * *** 
-     * @type {string?} 
-     * @public
-    */
-    name;
-    /**
-     * ### code
-     * 
-     * Код клавиши.
-     * 
-     * *** 
-     * @type {string?} 
-     * @public
-    */
-    code = '';
-    /**
-     * ### ctrl
-     * 
-     * 
-     * 
-     * *** 
-     * @type {boolean} 
-     * @public
-    */
-    ctrl = false;
-    /**
-     * ### shift
-     * 
-     * 
-     * 
-     * *** 
-     * @type {boolean} 
-     * @public
-    */
-    shift = false;
-    
-};
-class IKey extends DKey {
-    
-    
-    
-};
-class MKey extends IKey {
-    
-    
-    
-};
-class FKey extends MKey {
-    
-    /**
-     * ### YKey.constructor
-     * 
-     * 
-     * 
-     * ***
-     * @arg {YKeyT} t
-    */
-    constructor(t) {
-        
-        t = [...arguments];
-        
-        super(Object.assign(t = FKey.#before(t), {}));
-        
-        FKey.#deceit.apply(this, [t]);
-        
-    };
-    
-    /** @arg {any[]} t */
-    static #before(t) {
-        
-        /** @type {YKeyT} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YKey].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (t?.length) {
-            
-            if (t[0]?._ytp) {
-            
-                t = [...t[0]._ytp];
-            
-            };
-            
-            switch (t.length) {
-                
-                default: {
-
-                    const arg = yClassifyProp(t);
-
-                    r.name = arg.string[0];
-                    r.code = arg.string[1];
-                    
-                    r.alt = arg.bool[0];
-                    r.ctrl = arg.bool[1];
-                    r.shift = arg.bool[2];
-                    
-
-                };
-                
-            };
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
-            
-        };
-        
-        return r;
-        
-    };
-    /** @arg {YKeyT} t @this {YKey} */
-    static #deceit(t) {
-        
-        try {
-            
-            FKey.#verify.apply(this, [t]);
-            
-        } catch (e) {
-            
-            throw e;
-            
-        } finally {
-            
-            
-            
-        };
-        
-    };
-    /** @arg {YKeyT} t @this {YKey} */
-    static #verify(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        FKey.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YKeyT} t @this {YKey} */
-    static #handle(t) {
-        
-        if (t.code) {
-
-            if (t.code.includes('\x1b')) {
-
-                t.alt = true;
-
-            };
-            if (t.code === '\x7F') {
-
-                t.ctrl = true;
-
-            };
-
-        };
-
-        switch (t.name) {
-
-            case 'up': case 'left': case 'down': case 'right': case 'escape': case 'delete': case 'f1': case 'f2': case 'f3': case 'f4': case 'f5': case 'f6': case 'f7': case 'f8': case 'f9': case 'f10': case 'f11': case 'f12': t.alt = true; break;
-
-        };
-
-        if (/^\p{L}$/u.test(t.name) && t.name.toUpperCase() === t.name) {
-
-            t.shift = true;
-
-        };
-        
-        FKey.#create.apply(this, [t]);
-        
-    };
-    /** @arg {YKeyT} t @this {YKey} */
-    static #create(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
-        
-    };
-    
-};
-
-/**
- * ### YKey
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `ject\entity\terminal\listener\key`
- * - Цепочка `BDVHC`
- * ***
- * 
- * 
- * 
- * ***
- * 
-*/
-export class YKey extends FKey {
-    
-    /**
-     * ### compare
-     * - Версия `0.0.0`
-     * - Модуль `ject\entity\terminal\listener\key`
-     * ***
-     * 
-     * Метод сравнения клавиши.
-     * 
-     * ***
-     * @arg {YKey} key `Клавиша`
-     * @public
-    */
-    compare(key) {
-        
-        if (this.name === key.name && this.alt === key.alt && this.ctrl === key.ctrl && this.shift === key.shift) {
-
-            return true;
-
-        } else {
-
-            return false;
-
-        };
         
     };
     

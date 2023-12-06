@@ -110,7 +110,7 @@
             "     * ",
             "     * ***",
             "     * ",
-            "     * @arg {${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}TC} args `Аргументы`",
+            "     * @arg {...${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}TC&$1} args `Аргументы`",
             "     * ",
             "     * Представлены единым объектом носителем аргументов.",
             "     * ",
@@ -127,11 +127,13 @@
             "            //#region before",
             "            ",
             "            /** @type {YArg<$1&${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}TC>} */",
-            "            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);",
+            "            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);",
             "            ",
             "            ",
             "            ",
             "            super(yarg);",
+            "            ",
+            "            ",
             "            ",
             "            //#endregion",
             "            //#region verify",
@@ -152,7 +154,7 @@
             "            ",
             "            return this",
             "            ",
-            "                .adopt(yarg.getData())",
+            "                .adopt(yarg.used)",
             "            ",
             "            ",
             "        } catch (err) {",
@@ -291,7 +293,7 @@
             "     * ",
             "     * ***",
             "     * ",
-            "     * @arg {...${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}TC&Y1} args `Аргументы`",
+            "     * @arg {...${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}TC&$1&Y1} args `Аргументы`",
             "     * ",
             "     * Представлены единым объектом носителем аргументов.",
             "     * ",
@@ -308,11 +310,13 @@
             "            //#region before",
             "            ",
             "            /** @type {YArg<$1&${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}TC>} */",
-            "            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);",
+            "            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);",
             "            ",
             "            ",
             "            ",
             "            super(yarg);",
+            "            ",
+            "            ",
             "            ",
             "            //#endregion",
             "            //#region verify",
@@ -333,7 +337,7 @@
             "            ",
             "            return this",
             "            ",
-            "                .adopt(yarg.getData())",
+            "                .adopt(yarg.used)",
             "            ",
             "            ",
             "        } catch (err) {",
@@ -550,7 +554,7 @@
             " * @static",
             " * @${3|public,protected,private|}",
             "*/",
-            "async static $1() {",
+            "static async $1() {",
             "    ",
             "    $0",
             "    ",
@@ -991,6 +995,36 @@
         "description": "Шаблон функции syls."
 
     },
+    "function-provider-syls": {
+
+        "body": [
+
+            "/**",
+            " * ### ${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}${1/(\\w)/${1:/upcase}/}$2",
+            " * ",
+            " * $4",
+            " * ",
+            " * ***",
+            " * $3",
+            " * ",
+            " * ",
+            " * ***",
+            " * @since `1.0.0`",
+            " * @version `1.0.0`",
+            " * @function",
+            "*/",
+            "export function ${TM_DIRECTORY/.*\\\\([^\\\\]*)\\\\.*/$1/}${1/(\\w)/${1:/upcase}/}$2() {",
+            "",
+            "    return ${1/(\\w)/${1:/downcase}/}({});",
+            "",
+            "};",
+
+        ],
+        "scope": "javascript,typescript",
+        "prefix": "function-provider-syls",
+        "description": "Шаблон обработчика функции syls."
+
+    },
     // Документация
     //
     "doc-arg-syls": {
@@ -1002,7 +1036,7 @@
         ],
         "scope": "javascript,typescript",
         "prefix": "doc-arg-syls",
-        "description": "Шаблон аргумента документации syls."
+        "description": "Шаблон аргумента документации syls.",
 
     },
     "doc-arg-generic-syls": {

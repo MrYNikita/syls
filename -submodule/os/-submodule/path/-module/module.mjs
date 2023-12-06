@@ -3,7 +3,7 @@
 import { YArg } from '@syls/y/arg';
 import { YCond } from '@syls/y/cond';
 import { configPath as config } from './config.mjs';
-import { stringPaste, stringUnifyBySymbol } from "@syls/string";
+import { stringPaste, stringUnify } from "@syls/string";
 import { existsSync, lstatSync, readdirSync, statSync, } from "fs";
 import path from 'path';
 
@@ -1976,7 +1976,7 @@ function normalize(args) {
         //#endregion
         //#region comply
 
-        path = stringUnifyBySymbol(path, '/');
+        path = stringUnify(path, '/');
 
         if (path[0] === '/') path = path.slice(1);
 

@@ -4,7 +4,7 @@ import { Y, yGetProp } from "@syls/y";
 import { YArg } from "@syls/y/arg";
 import { configTable as config } from "./config.mjs";
 import { stringFormatNumber, stringGetSymbol, stringPad } from "@syls/string";
-import { ansiGetColor, ansiGetColorReset } from "@syls/string/ansi";
+import { ansiCreate, ansiGetParamColor } from "@syls/string/ansi";
 import { YCond } from "@syls/y/cond";
 
 //#endregion
@@ -497,7 +497,7 @@ export class YTable extends Y {
 
             result += thinVer;
 
-            const row = [ansiGetColor(flag ? 'gray' : 'reset', 0) + stringPad((+index + 1).toString().padStart(rowCountLength, 0), countSize, ' ', 0) + ansiGetColorReset()];
+            const row = [ansiCreate(ansiGetParamColor(flag ? 'gray' : -1, -1)) + stringPad((+index + 1).toString().padStart(rowCountLength, 0), countSize, ' ', 0) + ansiCreate(ansiGetParamColor(-1, -1))];
 
             for (const columnIndex in this.titles) {
 
@@ -522,7 +522,7 @@ export class YTable extends Y {
 
                 value = YCond.isNumber(value) ? stringFormatNumber(value, '.', '\'') : value;
 
-                row.push(ansiGetColor(flag ? 'gray' : 'reset', 0) + stringPad(value, columnLengths[columnIndex], ' ', flagSym ? 0 : 1) + ansiGetColorReset());
+                row.push(ansiCreate(ansiGetParamColor(flag ? 'gray' : -1, -1)) + stringPad(value, columnLengths[columnIndex], ' ', flagSym ? 0 : 1) + ansiCreate(ansiGetParamColor(-1, -1)));
 
             };
 
@@ -612,12 +612,12 @@ export class YTable extends Y {
 
             return this
 
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
                 .do(self => {
 
-                    if (yarg.dataFree.ject.length) {
+                    if (yarg.free.ject.length) {
 
-                        for (const ject of yarg.dataFree.ject) this.data.push(ject[1]);
+                        for (const ject of yarg.free.ject) this.data.push(ject[1]);
 
                     };
 

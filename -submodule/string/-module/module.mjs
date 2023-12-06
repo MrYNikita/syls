@@ -3,7 +3,9 @@
 import { YArg } from '@syls/y/arg';
 import { YCond, condIsNumberSig } from '@syls/y/cond';
 import { configString as config } from './config.mjs';
-import { funcExecRange } from '@syls/func';
+import { funcLoopRange, funcLoopRangeIn, funcLoopRangeTo } from '@syls/func';
+import { yGetProp } from '@syls/y';
+import { numberGetRandomReal } from '@syls/number';
 
 //#endregion
 //#region YT
@@ -13,15 +15,27 @@ import { funcExecRange } from '@syls/func';
  * Типы модуля `string`.
  * 
  * @typedef stringT
+ * 
+ * @prop {[string, number]} row
+ * @prop {stringT['row'][]} rows
+ * @prop {[string, number]} column
+ * @prop {stringT['row'][]} columns
+ * 
  * @prop {-1|0|1} align
  * @prop {'ru'|'en'} local
+ * 
+ * @prop {'a'|'e'|'i'|'o'|'u'|'y'} charVowelsEn
+ * @prop {'b'|'c'|'d'|'f'|'g'|'h'|'j'|'k'|'l'|'m'|'n'|'p'|'q'|'r'|'s'|'t'|'v'|'w'|'x'|'z'} charConsonantsEn
+ * @prop {stringT['charVowelsEn'][]} charVowelsEnUsed
+ * @prop {stringT['charConsonantsEn'][]} charConsonantsEnUsed
+ * 
  * @prop {stringT['local']} localTo
  * @prop {number} rowIndex
  * @prop {number} columnIndex
  * @prop {number} size
  * @prop {[number, number]} sizes
  * @prop {[number, number]} position
- * @prop {number} index
+ * @prop {number|[number, number]} index
  * @prop {number[]} indexs
  * @prop {number} length
  * @prop {number} indexEnd
@@ -31,6 +45,7 @@ import { funcExecRange } from '@syls/func';
  * @prop {string} fill
  * @prop {string} string
  * @prop {string} indent
+ * @prop {string} delimeter
  * @prop {string} substring
  * @prop {string|RegExp} match
  * @prop {[string|RegExp][]} matches
@@ -38,12 +53,33 @@ import { funcExecRange } from '@syls/func';
  * @prop {boolean} initially
  * @prop {[string, number]} pairSymbolIndex
  * @prop {[string, number, number]} pairSymbolPosition
+ * @prop {{[K in keyof config['params']['symbols']]: keyof config['params']['symbols'][K]}[keyof config['params']['symbols']]} symbolName
+ * 
+ * @prop {{
+ * vols: (string|[string|number])[],
+ * cots: (string|[string|number])[],
+ * chance: number?,
+ * prefix: string,
+ * postfix: string,
+ * syllable: number|[number, number],
+ * delimeter: string?,
+ * capitalize: boolean?,
+ * }} wordGenPart
+ * @prop {stringT['wordGenPart'][]} wordGenParts
  * 
 */
 
 //#endregion
 //#region YV
 
+/** ### stringCharVowelsEn
+ * 
+ * Гласные буквы английского языка.
+ * 
+ * ***
+ * @type {['a', 'e', 'i', 'o', 'u', 'y']}
+*/
+export const stringCharVowelsEn = ['a', 'e', 'i', 'o', 'u', 'y'];
 /** ### stringRegExpWord
  * 
  * Регулярное выражение поиска слов. 
@@ -73,58 +109,58 @@ export const stringRegExpWord = /\p{L}+/u;
  * @function
 */
 function toCaseUp(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             indexs,
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
+
         if (!indexs.length) indexs.push(0);
-        
+
         //#endregion
         //#region comply
-        
+
         for (const index of indexs) {
 
-            string = stringPaste(string, string[index].toUpperCase(), index);    
-            
+            string = stringPaste(string, string[index].toUpperCase(), index);
+
         };
-        
+
         result = string;
 
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -165,58 +201,58 @@ export function stringToCaseUp(string, ...indexs) {
  * @function
 */
 function toCaseDown(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
             indexs,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        if (!indexs.length) indexs.push(0); 
-        
+
+        if (!indexs.length) indexs.push(0);
+
         //#endregion
         //#region comply
-        
+
         for (const index of indexs) {
 
-            string = stringPaste(string, string[index].toLowerCase(), index);    
-            
+            string = stringPaste(string, string[index].toLowerCase(), index);
+
         };
-        
+
         result = string;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -239,94 +275,6 @@ export function stringToCaseDown(string, ...indexs) {
 };
 
 //#endregion
-//#region toMatrix
-
-/**
- * ### toMatrix
- * 
- * 
- * 
- * ***
- * @typedef toMatrixT
- * @prop {} _
- * ***
- * @arg {stringT&toMatrixT} args `Аргументы`
- * *** 
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function toMatrix(args) {
-    
-    let result;
-    
-    try {
-        
-        let {
-            
-            string,
-            
-        } = args;
-        
-        //#region verify
-        
-        
-        
-        //#endregion
-        //#region handle
-        
-        
-        
-        //#endregion
-        //#region comply
-        
-        result = stringGetRows(string);
-
-        for (const index in result) result[index] = result[index].match(/./gmsi);
-        
-        //#endregion
-        
-    } catch (err) {
-        
-        if (config.params.strictMode) {
-            
-            throw err;
-            
-        };
-        
-        
-        
-    } finally {
-        
-        
-        
-    };
-    
-    return result;
-    
-};
-
-/**
- * ### stringToMatrix
- * 
- * Функция получения матрицы из символов строки.
- * 
- * ***
- * @arg {stringT['string']} string `Строка`
- * 
- * 
- * ***
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-export function stringToMatrix(string) {
-
-    return toMatrix({ string, });
-
-};
-
-//#endregion
 //#region getRow
 
 /**
@@ -345,56 +293,56 @@ export function stringToMatrix(string) {
  * @function
 */
 function getRow(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         result = stringGetRows(string);
 
         if (index >= result.length) return null;
 
         result = result[index];
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -436,51 +384,51 @@ export function stringGetRow(string, index) {
  * @function
 */
 function getRows(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         result = string.split('\n');
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -522,31 +470,34 @@ export function stringGetRows(string) {
  * @function
 */
 function getStat(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         const stat = {
 
+            syms: string.match(/[^\p{L} \n]/gmsiu)?.length ?? 0,
+            nums: string.match(/\d+/gmsi)?.length ?? 0,
+            words: string.match(/\p{L}+/uimgs)?.length ?? 0,
             length: string.length,
             rowNum: stringGetRows(string).length,
             columnNum: stringGetColumns(string).length,
@@ -554,27 +505,27 @@ function getStat(args) {
         };
 
         result = stat;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -616,55 +567,55 @@ export function stringGetStat(string) {
  * @function
 */
 function getSizes(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            string,  
-            
+
+            string,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         result = stringGetRows(string);
 
         if (result.length === 0) return [0];
 
         for (const index in result) result[index] = result[index].length;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -688,24 +639,24 @@ export function stringGetSizes(string) {
 };
 
 //#endregion
-//#region getColumn
+//#region getMatrix
 
 /**
- * ### getColumn
+ * ### getMatrix
  * 
  * 
  * 
  * ***
- * @typedef getColumnT
+ * @typedef getMatrixT
  * @prop {} _
  * ***
- * @arg {stringT&getColumnT} args `Аргументы`
+ * @arg {stringT&getMatrixT} args `Аргументы`
  * *** 
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-function getColumn(args) {
+function getMatrix(args) {
     
     let result;
     
@@ -713,7 +664,6 @@ function getColumn(args) {
         
         let {
             
-            index,
             string,
             
         } = args;
@@ -730,12 +680,12 @@ function getColumn(args) {
         //#endregion
         //#region comply
         
-        result = stringGetRows(string);
+        let rows = stringGetRows(string);
 
-        if (!result.length) return null;
-
-        for (const rowIndex in result) result[rowIndex] = result[rowIndex][index] ?? null;
+        for (const index in rows) rows[index] = rows[index].match(/./gmsi);
         
+        result = rows;
+
         //#endregion
         
     } catch (err) {
@@ -756,6 +706,182 @@ function getColumn(args) {
     
     return result;
     
+};
+
+/**
+ * ### stringGetMatrix
+ * 
+ * Функция получения матрицы символов заданного текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetMatrix(string) {
+
+    return getMatrix({ string, });
+
+};
+
+//#endregion
+//#region getSymbol
+
+/**
+ * ### getSymbol
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getSymbolT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getSymbolT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getSymbol(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            symbolName,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = yGetProp(config.params.symbols, symbolName);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringGetSymbol
+ * 
+ * Функция получения символа по его названию.
+ * 
+ * ***
+ * @arg {stringT['symbolName']} symbolName `Символ`
+ * @returns {string}
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetSymbol(symbolName) {
+
+    return getSymbol({ symbolName, });
+
+};
+
+//#endregion
+//#region getColumn
+
+/**
+ * ### getColumn
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getColumnT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getColumnT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getColumn(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            index,
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = stringGetRows(string);
+
+        if (!result.length) return null;
+
+        for (const rowIndex in result) result[rowIndex] = result[rowIndex][index] ?? null;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
 };
 
 /**
@@ -797,35 +923,35 @@ export function stringGetColumn(string, index) {
  * @function
 */
 function getColumns(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         result = [];
 
         const rows = stringGetRows(string);
-        
+
         if (!rows.length) return null;
-        
+
         let rowLengthMax = 0;
 
         for (const row of rows) {
@@ -847,27 +973,27 @@ function getColumns(args) {
             result.push(column);
 
         };
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -877,7 +1003,7 @@ function getColumns(args) {
  * 
  * ***
  * @arg {stringT['string']} string `Текст`
- * 
+ * @returns {string[][]}
  * 
  * ***
  * @since `1.0.0`
@@ -909,31 +1035,31 @@ export function stringGetColumns(string) {
  * @function
 */
 function getIndexByPosition(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
             rowIndex,
             columnIndex,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         const rows = stringGetRows(string);
 
         if (rowIndex >= rows.length) {
@@ -969,27 +1095,27 @@ function getIndexByPosition(args) {
         };
 
         result = index;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1031,30 +1157,30 @@ export function stringGetIndexByPosition(string, rowIndex, columnIndex) {
  * @function
 */
 function getPositionByIndex(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         const rows = stringGetRows(string);
 
         let y = 0, x = 0;
@@ -1072,27 +1198,27 @@ function getPositionByIndex(args) {
         };
 
         result = [y, x = index];
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1134,51 +1260,51 @@ export function stringGetPositionByIndex(string, index) {
  * @function
 */
 function getSymbolByIndex(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1220,51 +1346,51 @@ export function stringGetSymbolByIndex() {
  * @function
 */
 function getSymbolByPosition(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1306,70 +1432,77 @@ export function stringGetSymbolByPosition() {
  * @function
 */
 function setRow(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+            index,
+            string,
+            substring,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+        const rows = stringGetRows(string);
+
+        rows[index] = substring;
+
+        result = rows.join('\n');
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
  * ### setRow
  * 
- * 
+ * Функция установки строки в заданном тексте по указанному индексу.
  * 
  * ***
- * 
- * 
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['string']} string `Строка`
+ * @arg {stringT['substring']} substring `Подстрока`
  * 
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringSetRow() {
+export function stringSetRow(string, substring, index = 0) {
 
-    return setRow({});
+    return setRow({ string, substring, index, });
 
 };
 
@@ -1392,70 +1525,75 @@ export function stringSetRow() {
  * @function
 */
 function setRows(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+            rows,
+            string,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+        const rowsNow = stringGetRows(string);
+
+        for (const row of rows) rowsNow[row[1]] = row[0];
+
+        result = rowsNow.join('\n');
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
  * ### setRows
  * 
- * 
+ * Метод установки указанных строк в текст.
  * 
  * ***
- * 
- * 
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['row']} rows `Строки`
  * 
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringSetRows() {
+export function stringSetRows(string, ...rows) {
 
-    return setRows({});
+    return setRows({ string, rows, });
 
 };
 
@@ -1478,70 +1616,82 @@ export function stringSetRows() {
  * @function
 */
 function setColumn(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+            index,
+            string,
+            substring,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+        const rows = stringGetRows(string);
+
+        funcLoopRangeIn(rows, (r, ri) => {
+
+            r = stringPad(r, index, ' ', -1);
+
+            rows[ri] = stringPaste(r, substring[ri] ?? '', index, 1);
+
+        });
+
+        result = rows.join('\n');
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
  * ### setColumn
  * 
- * 
+ * Функция установки столбца по заданному индексу.
  * 
  * ***
- * 
- * 
- * 
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['string']} string `Строка`
+ * @arg {stringT['substring']} substring `Подстрока`
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringSetColumn() {
+export function stringSetColumn(string, substring, index) {
 
-    return setColumn({});
+    return setColumn({ string, substring, index, });
 
 };
 
@@ -1564,70 +1714,73 @@ export function stringSetColumn() {
  * @function
 */
 function setColumns(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+            string,
+            columns,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+        for (const column of columns) string = stringSetColumn(string, ...column) ?? string;
+
+        result = string;
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
  * ### setColumns
  * 
- * 
+ * Функция установки столбцов для указанного текста.
  * 
  * ***
- * 
- * 
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['column']} columns `Столбцы`
  * 
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringSetColumns() {
+export function stringSetColumns(string, ...columns) {
 
-    return setColumns({});
+    return setColumns({ string, columns, });
 
 };
 
@@ -1650,51 +1803,51 @@ export function stringSetColumns() {
  * @function
 */
 function setSymbolByIndex(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1736,51 +1889,51 @@ export function stringSetSymbolByIndex() {
  * @function
 */
 function setSymbolByPosition(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1822,68 +1975,68 @@ export function stringSetSymbolByPosition() {
  * @function
 */
 function pad(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             fill,
             align,
             length,
             string,
             indent,
             indentLength,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         switch (align) {
 
             case 0: {
 
                 const value = (length - string.length) / 2;
 
-                result = fill.repeat(Math.ceil(value)) + indent.repeat(indentLength) + string + indent.repeat(indentLength) +  fill.repeat(Math.floor(value));
+                result = fill.repeat(Math.ceil(value)) + indent.repeat(indentLength) + string + indent.repeat(indentLength) + fill.repeat(Math.floor(value));
 
             }; break;
             case 1: result = fill.repeat(length) + string.padStart(indentLength, indent); break;
             case -1: result = string.padEnd(indentLength, indent) + fill.repeat(length); break;
 
         };
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -1911,178 +2064,6 @@ export function stringPad(string, length, fill = config.params.fillPreset, align
 };
 
 //#endregion
-//#region padRows
-
-/**
- * ### padRows
- * 
- * 
- * 
- * ***
- * @typedef padRowsT
- * @prop {} _
- * ***
- * @arg {stringT&padRowsT} args `Аргументы`
- * *** 
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function padRows(args) {
-    
-    let result;
-    
-    try {
-        
-        let {
-            
-            
-            
-        } = args;
-        
-        //#region verify
-        
-        
-        
-        //#endregion
-        //#region handle
-        
-        
-        
-        //#endregion
-        //#region comply
-        
-        
-        
-        //#endregion
-        
-    } catch (err) {
-        
-        if (config.params.strictMode) {
-            
-            throw err;
-            
-        };
-        
-        
-        
-    } finally {
-        
-        
-        
-    };
-    
-    return result;
-    
-};
-
-/**
- * ### padRows
- * 
- * 
- * 
- * ***
- * 
- * 
- * 
- * ***
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-export function stringPadRows() {
-
-    return padRows({});
-
-};
-
-//#endregion
-//#region padColumns
-
-/**
- * ### padColumns
- * 
- * 
- * 
- * ***
- * @typedef padColumnsT
- * @prop {} _
- * ***
- * @arg {stringT&padColumnsT} args `Аргументы`
- * *** 
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function padColumns(args) {
-    
-    let result;
-    
-    try {
-        
-        let {
-            
-            
-            
-        } = args;
-        
-        //#region verify
-        
-        
-        
-        //#endregion
-        //#region handle
-        
-        
-        
-        //#endregion
-        //#region comply
-        
-        
-        
-        //#endregion
-        
-    } catch (err) {
-        
-        if (config.params.strictMode) {
-            
-            throw err;
-            
-        };
-        
-        
-        
-    } finally {
-        
-        
-        
-    };
-    
-    return result;
-    
-};
-
-/**
- * ### padColumns
- * 
- * 
- * 
- * ***
- * 
- * 
- * 
- * ***
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-export function stringPadColumns() {
-
-    return padColumns({});
-
-};
-
-//#endregion
 //#region skip
 
 /**
@@ -2101,70 +2082,82 @@ export function stringPadColumns() {
  * @function
 */
 function skip(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+            char,
+            string,
+            substring,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
-        //#endregion
-        
-    } catch (err) {
-        
-        if (config.params.strictMode) {
-            
-            throw err;
-            
+
+        const matches = string.matchAll(new RegExp(char, 'gmsi'));
+
+        for (const match of matches) {
+
+            if (!substring[match.index]) break;
+
+            string = stringPaste(string, substring[match.index], match.index, 1);
+
         };
-        
-        
-        
+
+        result = string;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
  * ### skip
  * 
- * 
+ * Функция наложения одного текста на другой таким образом, чтобы указанные символы первого текста заменялись на символы второго текста по одному и тому же индексу.
  * 
  * ***
- * 
- * 
- * 
+ * @arg {stringT['char']} char `Символ`
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['substring']} substring `Подтекст`
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringSkip() {
+export function stringSkip(string, substring, char = ' ') {
 
-    return skip({});
+    return skip({ string, substring, char, });
 
 };
 
@@ -2187,51 +2180,51 @@ export function stringSkip() {
  * @function
 */
 function trim(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2273,51 +2266,51 @@ export function stringTrim() {
  * @function
 */
 function trimRows(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2359,51 +2352,51 @@ export function stringTrimRows() {
  * @function
 */
 function split(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2445,56 +2438,56 @@ export function stringSplit() {
  * @function
 */
 function splitEvery(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
             length,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         const parts = [];
 
-        funcExecRange(0, string.length - 1, index => index % length === 0 ? parts.push(string[index]) : parts[parts.length - 1] += string[index]);
-        
+        funcLoopRange(0, string.length - 1, index => index % length === 0 ? parts.push(string[index]) : parts[parts.length - 1] += string[index]);
+
         result = parts;
 
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2535,32 +2528,32 @@ export function stringSplitEvery(string, length = 1) {
  * @function
 */
 function unify(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             chars,
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         for (let index = 0; index < string.length; index++) {
-            
+
             const charNext = string[index + 1];
 
             if (!charNext || charNext !== string[index] || (chars.length && !chars.includes(charNext))) continue;
@@ -2570,27 +2563,27 @@ function unify(args) {
         };
 
         result = string;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2634,54 +2627,58 @@ export function stringUnify(string, ...chars) {
  * @function
 */
 function paste(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             length,
             string,
             substring,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+        if (Array.isArray(index)) {
+
+            index = stringGetIndexByPosition(string, ...index);
+
+        };
+
         //#endregion
         //#region comply
 
         result = stringAppend(stringRemoveRange(string, index, index + length - 1), substring, index);
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2724,70 +2721,87 @@ export function stringPaste(string, substring, index = 0, length = substring.len
  * @function
 */
 function pasteWrap(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+            index,
+            length,
+            string,
+            substring,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
-        //#endregion
-        
-    } catch (err) {
-        
-        if (config.params.strictMode) {
-            
-            throw err;
-            
+
+        const rows = stringGetRows(substring);
+        const position = Array.isArray(index) ? index : stringGetPositionByIndex(string, index);
+
+        for (const index in rows) {
+
+            string = stringExpandToPosition(string,)
+
+            string = stringPaste(string, rows[index], position, length ?? rows[index].length);
+
+            position[0]++;
+
         };
-        
-        
-        
+
+        result = string;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
  * ### pasteWrap
  * 
- * 
+ * Функция построчной вставки одного фрагмента текста в другой текст.
  * 
  * ***
- * 
- * 
- * 
+ * @arg {stringT['index']} index `Индекс`
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['length']} length `Длина`
+ * @arg {stringT['substring']} substring `Подтекст`
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringPasteWrap() {
+export function stringPasteWrap(string, substring, index, length) {
 
-    return pasteWrap({});
+    return pasteWrap({ string, substring, index, length, });
 
 };
 
@@ -2810,51 +2824,51 @@ export function stringPasteWrap() {
  * @function
 */
 function pasteSymbol(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2878,92 +2892,6 @@ export function stringPasteSymbol() {
 };
 
 //#endregion
-//#region pasteByPosition
-
-/**
- * ### pasteByPosition
- * 
- * 
- * 
- * ***
- * @typedef pasteByPositionT
- * @prop {} _
- * ***
- * @arg {stringT&pasteByPositionT} args `Аргументы`
- * *** 
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function pasteByPosition(args) {
-    
-    let result;
-    
-    try {
-        
-        let {
-            
-            
-            
-        } = args;
-        
-        //#region verify
-        
-        
-        
-        //#endregion
-        //#region handle
-        
-        
-        
-        //#endregion
-        //#region comply
-        
-        
-        
-        //#endregion
-        
-    } catch (err) {
-        
-        if (config.params.strictMode) {
-            
-            throw err;
-            
-        };
-        
-        
-        
-    } finally {
-        
-        
-        
-    };
-    
-    return result;
-    
-};
-
-/**
- * ### pasteByPosition
- * 
- * 
- * 
- * ***
- * 
- * 
- * 
- * ***
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-export function stringPasteByPosition() {
-
-    return pasteByPosition({});
-
-};
-
-//#endregion
 //#region append
 
 /**
@@ -2982,71 +2910,69 @@ export function stringPasteByPosition() {
  * @function
 */
 function append(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             string,
             substring,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
+
         if (Array.isArray(index)) {
 
             index = stringGetIndexByPosition(string, ...index);
-
-            console.log(index);
 
         } else if (!index && index !== 0) {
 
             index = 0;
 
         };
-        
+
         //#endregion
         //#region comply
-        
+
         if (index === 0 && Object.is(-0, index)) {
 
             result = string += substring;
-            
+
         } else {
 
             result = string.slice(0, index) + substring + string.slice(index);
 
         };
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3088,28 +3014,28 @@ export function stringAppend(string, substring, index = string.length) {
  * @function
 */
 function appendEvery(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             char,
             index,
             length,
             string,
             initially,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
+
         if (Object.is(-0, index)) {
 
             index = string.length - 1;
@@ -3119,7 +3045,7 @@ function appendEvery(args) {
             index += string.length;
 
         };
-        
+
         //#endregion
         //#region comply
 
@@ -3134,29 +3060,29 @@ function appendEvery(args) {
             string = stringAppend(string, char, i);
 
         };
-        
+
         result = string;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3200,28 +3126,28 @@ export function stringAppendEvery(string, char = ' ', length = 1, index = 0, ini
  * @function
 */
 function recode(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             local,
             string,
             localTo,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
 
@@ -3231,8 +3157,8 @@ function recode(args) {
 
                 for (const pair of [
 
-                    ['q', 'й'], ['w', 'ц'], ['e', 'у'], ['r', 'к'], ['t', 'е'], ['y', 'н'], ['u', 'г'], ['i', 'ш'], ['o', 'щ'], ['p', 'з'], ['\\[', 'х'], ['\\]', 'ъ'], 
-                    ['a', 'ф'], ['s', 'ы'], ['d', 'в'], ['f', 'а'], ['g', 'п'], ['h', 'р'], ['j', 'о'], ['k', 'л'], ['l', 'д'], [';', 'ж'], ['\'', 'э'], 
+                    ['q', 'й'], ['w', 'ц'], ['e', 'у'], ['r', 'к'], ['t', 'е'], ['y', 'н'], ['u', 'г'], ['i', 'ш'], ['o', 'щ'], ['p', 'з'], ['\\[', 'х'], ['\\]', 'ъ'],
+                    ['a', 'ф'], ['s', 'ы'], ['d', 'в'], ['f', 'а'], ['g', 'п'], ['h', 'р'], ['j', 'о'], ['k', 'л'], ['l', 'д'], [';', 'ж'], ['\'', 'э'],
                     ['z', 'я'], ['x', 'ч'], ['c', 'с'], ['v', 'м'], ['b', 'и'], ['n', 'т'], ['m', 'ь'], [',', 'б'], ['\\.', 'ю'],
 
                 ]) {
@@ -3248,27 +3174,27 @@ function recode(args) {
         };
 
         result = string;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3310,58 +3236,58 @@ export function stringRecode(string, local, localTo) {
  * @function
 */
 function remove(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
             indexs,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         result = string;
 
         for (const index of indexs.sort((p, c) => c - p)) {
 
-            result = result.slice(0, index) + result.slice(index + 1); 
+            result = result.slice(0, index) + result.slice(index + 1);
 
         };
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3403,26 +3329,26 @@ export function stringRemove(string, ...indexs) {
  * @function
 */
 function removeRange(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             string,
             indexEnd,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
+
         if (Array.isArray(index)) {
 
             index = stringGetIndexByPosition(string, ...index);
@@ -3438,32 +3364,32 @@ function removeRange(args) {
             indexEnd = stringGetIndexByPosition(string, ...indexEnd);
 
         };
-        
+
         //#endregion
         //#region comply
-        
+
         result = string.slice(0, index) + string.slice(indexEnd + 1);
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3505,51 +3431,51 @@ export function stringRemoveRange(string, index, indexEnd = string.length) {
  * @function
 */
 function removeByPosition(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3591,30 +3517,30 @@ export function stringRemoveByPosition() {
  * @function
 */
 function filter(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
             matches,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         for (const match of matches) {
 
             string = string.replace(new RegExp(match, 'g'), '');
@@ -3622,27 +3548,27 @@ function filter(args) {
         };
 
         result = string;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3684,56 +3610,56 @@ export function stringFilter(string, ...matches) {
  * @function
 */
 function shield(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         string = string.replace(/[^\p{L} ]/ugmsi, "\\$&");
         string = string.replace(/\x1b/gmsi, '\\x1b');
         string = string.replace(/\r/gmsi, '\\r');
         string = string.replace(/\n/gmsi, '\\n');
 
         result = string.replaceAll('\b', '\\b');
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3775,30 +3701,30 @@ export function stringShield(string) {
  * @function
 */
 function resize(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             sizes,
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         let rows = stringGetRows(string);
 
         if (rows.length === sizes[0]) {
@@ -3828,7 +3754,7 @@ function resize(args) {
                 rows[+index] = stringRemoveRange(rows[+index], sizes[1]);
 
             } else if (rows[+index].length < sizes[1]) {
-                
+
                 rows[+index] = stringPad(rows[+index], sizes[1], ' ', -1);
 
             };
@@ -3836,27 +3762,27 @@ function resize(args) {
         };
 
         result = rows.join('\n');
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3898,30 +3824,30 @@ export function stringResize(string, ...sizes) {
  * @function
 */
 function expand(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             sizes,
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         const rows = stringGetRows(string);
 
         if (sizes[1]) for (const index in rows) {
@@ -3935,27 +3861,27 @@ function expand(args) {
             string += '\n' + ' '.repeat(string.length + (sizes[1] ?? 0));
 
         };
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -3979,6 +3905,102 @@ export function stringExpand(string, ...sizes) {
 };
 
 //#endregion
+//#region expandToPosition
+
+/**
+ * ### expandToPosition
+ * 
+ * 
+ * 
+ * ***
+ * @typedef expandToPositionT
+ * @prop {} _
+ * ***
+ * @arg {stringT&expandToPositionT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function expandToPosition(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+            rowIndex,
+            columnIndex,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const rows = stringGetRows(string);
+
+        for (let index = rows.length; index < rowIndex; index++) rows.push('');
+
+        const row = rows.at(-1);
+
+        if (row.length <= columnIndex) rows[rows.length - 1] += ' '.repeat(columnIndex - rows.at(-1).length + 1);
+
+        result = rows.join('\n');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringExpandToPosition
+ * 
+ * Функция расширения текста до указанной позиции.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['rowIndex']} rowIndex `Индекс строки`
+ * @arg {stringT['columnIndex']} columnIndex `Индекс столбца`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringExpandToPosition(string, rowIndex, columnIndex) {
+
+    return expandToPosition({ string, rowIndex, columnIndex, });
+
+};
+
+//#endregion
 //#region search
 
 /**
@@ -3997,27 +4019,27 @@ export function stringExpand(string, ...sizes) {
  * @function
 */
 function search(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
             matches,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
 
@@ -4030,27 +4052,27 @@ function search(args) {
         };
 
         result = string;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4094,30 +4116,30 @@ export function stringSearch(string, ...matches) {
  * @function
 */
 function searchJect(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
             matches,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         const ject = {};
 
         for (const index in matches) {
@@ -4134,7 +4156,7 @@ function searchJect(args) {
 
                         case 'n': value = +value; break;
                         case 'b': value = !!value; break;
-    
+
                     };
 
                     if (typeof value !== 'string') key = stringRemoveRange(key, key.length - 2);
@@ -4160,27 +4182,27 @@ function searchJect(args) {
         };
 
         result = ject;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4222,51 +4244,51 @@ export function stringSearchJect(string, ...matches) {
  * @function
 */
 function insert(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4308,51 +4330,51 @@ export function stringInsert() {
  * @function
 */
 function insertBypass(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4394,51 +4416,51 @@ export function stringInsertBypass() {
  * @function
 */
 function formatUrl(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4480,51 +4502,51 @@ export function stringFormatUrl() {
  * @function
 */
 function formatDate(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4566,51 +4588,51 @@ export function stringFormatDate() {
  * @function
 */
 function formatText(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4652,51 +4674,51 @@ export function stringFormatText() {
  * @function
 */
 function formatPhone(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4738,51 +4760,51 @@ export function stringFormatPhone() {
  * @function
 */
 function formatNumber(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4824,51 +4846,51 @@ export function stringFormatNumber() {
  * @function
 */
 function formatSample(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4910,51 +4932,51 @@ export function stringFormatSample() {
  * @function
 */
 function formatReport(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -4996,29 +5018,29 @@ export function stringFormatReport() {
  * @function
 */
 function reverse(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         result = '';
 
         for (let index = string.length - 1; index > 0; index--) {
@@ -5026,27 +5048,27 @@ function reverse(args) {
             result += string[index];
 
         };
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -5088,51 +5110,51 @@ export function stringReverse(string) {
  * @function
 */
 function reflect(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -5174,53 +5196,53 @@ export function stringReflect() {
  * @function
 */
 function extract(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             string,
             indexEnd,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         result = [stringSubstring(string, index, indexEnd), stringRemoveRange(string, index, indexEnd)];
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -5265,51 +5287,51 @@ export function stringExtract(string, index, indexEnd = string.length) {
  * @function
 */
 function truncate(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -5333,6 +5355,132 @@ export function stringTruncate() {
 };
 
 //#endregion
+//#region generateWord
+
+/**
+ * ### generateWord
+ * 
+ * 
+ * 
+ * ***
+ * @typedef generateWordT
+ * @prop {} _
+ * ***
+ * @arg {stringT&generateWordT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function generateWord(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            delimeter,
+            wordGenParts,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        let string = '';
+
+        for (const wordGenPart of wordGenParts) {
+
+            const {
+
+                vols,
+                cots,
+                chance,
+                prefix,
+                postfix,
+                syllable,
+                delimeter,
+                capitalize,
+
+            } = wordGenPart;
+
+            funcLoopRange(1, syllable, index => {
+
+                const cotsLast = string.at(-1) in cots ? string.at(-1) : null;
+
+                if (numberGetRandomReal(0, 1)) {
+
+                    const cotsCopy = cots.slice();
+
+                    string += cotsCopy.splice(numberGetRandomReal(0, cotsCopy.length - 1));
+                    string += cotsCopy.splice(numberGetRandomReal(0, cotsCopy.length - 1));
+
+                } else {
+
+                    string += cots[numberGetRandomReal(0, cotsCopy.length - 1)];
+
+                };
+
+            });
+
+        };
+
+        string = stringToCaseUp(string);
+
+        result = string;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringGenerateWord
+ * 
+ * Функция генератора произвольных слов.
+ * 
+ * ***
+ * @arg {stringT['delimeter']} delimeter `Разделитель`
+ * @arg {stringT['wordGenParts']} wordGenParts `Слова`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGenerateWord(wordGenParts, delimeter) {
+
+    return generateWord({ wordGenParts, delimeter, });
+
+};
+
+//#endregion
 //#region substring
 
 /**
@@ -5351,53 +5499,53 @@ export function stringTruncate() {
  * @function
 */
 function substring(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             string,
             indexEnd,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         result = string.slice(index, ++indexEnd);
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -5439,57 +5587,57 @@ export function stringSubstring(string, index, indexEnd = string.length) {
  * @function
 */
 function rearrangeRow(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             string,
             indexEnd
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         const rows = stringGetRows(string);
 
         [rows[index], rows[indexEnd]] = [rows[indexEnd], rows[index]];
 
         result = rows.join('\n');
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -5531,28 +5679,28 @@ export function stringRearrangeRow(string, index, indexEnd) {
  * @function
 */
 function rearrangeWord(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             index,
             string,
             indexEnd,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
 
@@ -5575,27 +5723,27 @@ function rearrangeWord(args) {
         string = stringPaste(string, matches[1][0], matches[0].index, matches[0][0].length);
 
         result = string;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**

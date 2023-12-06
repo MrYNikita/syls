@@ -255,7 +255,7 @@ export class YHandler extends Y {
             
             return this
             
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
             
             
         } catch (err) {

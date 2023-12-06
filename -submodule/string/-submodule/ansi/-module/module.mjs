@@ -1,8 +1,989 @@
 //#region YI
 
-import { YCond } from '@syls/y/cond';
+import { condIsNumberSig, condIsStringSig } from '@syls/y/cond';
+import { stringRemove, stringRemoveRange } from '../../../-module/module.mjs';
 import { configANSI as config } from './config.mjs';
-import { stringGetRow, stringGetRows, stringPaste } from '../../../-module/module0.mjs';
+
+//#endregion
+//#region YT
+
+/** ### ansiT
+ * 
+ * Типы модуля `ansi`.
+ * 
+ * @typedef ansiT
+ * @prop {string} ansi
+ * @prop {string} param
+ * @prop {string} string
+ * @prop {string[]} params
+ * @prop {string[]} paramsGraphic
+ * @prop {number} y
+ * @prop {number} x
+ * @prop {{
+ * clear: boolean,
+ * cursorPosition: [number, number],
+ * cursorPositionUp: number,
+ * cursorPositionDown: number,
+ * cursorPositionLeft: number,
+ * cursorPositionRight: number,
+ * foreground: number,
+ * background: number,
+ * underline: boolean,
+ * underlineOff: boolean,
+ * }} ansiJect
+ * @prop {boolean} mode
+ * @prop {ansiT['color']} foreground
+ * @prop {ansiT['color']} background
+ * @prop {ansiT['colorNames']|number} color
+ * @prop {keyof config['params']['colors']} colorNames
+*/
+
+//#endregion
+//#region YV
+
+
+
+//#endregion
+
+//#region getParamColor
+
+/**
+ * ### getParamColor
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getParamColorT
+ * @prop {} _
+ * ***
+ * @arg {ansiT&getParamColorT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getParamColor(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            background,
+            foreground,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        let param = [];
+        let foregroundResetFlag = false;
+        let backgroundResetFlag = false;
+
+        if (condIsStringSig(foreground) && foreground in config.params.colors) {
+
+            foreground = config.params.colors[foreground];
+
+        } else if (condIsNumberSig(foreground) && foreground >= -2 && foreground <= 255) {
+
+            switch (foreground) {
+
+                case -1: {
+
+                    foregroundResetFlag = true;
+
+                }; break;
+                case -2: {
+
+                    foreground = config.params.colors[config.params.styles[config.params.style].foreground];
+
+                }; break;
+
+            };
+
+        } else {
+
+            foreground = null;
+
+        };
+
+        if (foregroundResetFlag) {
+
+            param.push('39');
+
+        } else if (foreground) {
+
+            param.push(config.params.codeColorForeground + config.params.codeColor, foreground);
+
+        };
+
+        if (condIsStringSig(background) && background in config.params.colors) {
+
+            background = config.params.colors[background];
+
+        } else if (condIsNumberSig(background) && background >= -2 && background <= 255) {
+
+            switch (background) {
+
+                case -1: {
+
+                    backgroundResetFlag = true;
+
+                }; break;
+                case -2: {
+
+                    background = config.params.colors[config.params.styles[config.params.style].background];
+
+                }; break;
+
+            };
+
+        } else {
+
+            background = null;
+
+        };
+
+        if (backgroundResetFlag) {
+
+            param.push('49');
+
+        } else if (background) {
+
+            param.push(config.params.codeColorBackground + config.params.codeColor, background);
+
+        };
+
+        result = param.join(config.params.delimiter);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ansiGetParamColor
+ * 
+ * Функция получения цветового параметра `ansi` вставки.
+ * 
+ * ***
+ * @arg {ansiT['background']} background `Фоновый цвет`
+ * @arg {ansiT['foreground']} foreground `Символьный цвет`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ansiGetParamColor(foreground = -2, background = -2) {
+
+    return getParamColor({ foreground, background, });
+
+};
+
+//#endregion
+//#region getParamCursorTo
+
+/**
+ * ### getParamCursorTo
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getParamCursorToT
+ * @prop {} _
+ * ***
+ * @arg {ansiT&getParamCursorToT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getParamCursorTo(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            y,
+            x,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        y++;
+        x++;
+        
+        //#endregion
+        //#region comply
+        
+        result = [y, x + config.params.codePosition].join(config.params.delimiter);
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ansiGetParamCursorTo
+ * 
+ * Функция получения параметра перемещения курсора по заданным координатам.
+ * 
+ * ***
+ * @arg {ansiT['y']} y `Столбец`
+ * @arg {ansiT['x']} x `Строка`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ansiGetParamCursorTo(y, x) {
+
+    return getParamCursorTo({ y, x, });
+
+};
+
+//#endregion
+//#region getParamUnderline
+
+/**
+ * ### getParamUnderline
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getParamUnderlineT
+ * @prop {} _
+ * ***
+ * @arg {ansiT&getParamUnderlineT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getParamUnderline(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            mode,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+
+        result = mode ? config.params.codeUnderline : config.params.codeUnderlineReset;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ansiGetParamUnderline
+ * 
+ * Функция получения параметра активации/отключения линии подчеркивания.
+ * 
+ * ***
+ * @arg {ansiT['mode']} mode `Режим`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ansiGetParamUnderline(mode) {
+
+    return getParamUnderline({ mode, });
+
+};
+
+//#endregion
+//#region join
+
+/**
+ * ### join
+ * 
+ * 
+ * 
+ * ***
+ * @typedef joinT
+ * @prop {} _
+ * ***
+ * @arg {ansiT&joinT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function join(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ansiJoin
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ansiJoin() {
+
+    return join({});
+
+};
+
+//#endregion
+//#region create
+
+/**
+ * ### create
+ * 
+ * 
+ * 
+ * ***
+ * @typedef createT
+ * @prop {} _
+ * ***
+ * @arg {ansiT&createT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function create(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            params,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const paramsGraph = [];
+        const paramsOther = [];
+
+        for (const param of params) {
+
+            if (param.match(/\d+;\d+H|\d+(A|B|C|D)|J/)) {
+
+                paramsOther.push(param)
+
+            } else if (param.match(/(3|4);8;5\d+|4|24/)) {
+
+                paramsGraph.push(param);
+
+            };
+
+        };
+
+        if (paramsGraph.length) {
+
+            paramsGraph[paramsGraph.length - 1] += 'm';
+
+        };
+
+        result = config.params.code + [...paramsGraph, ...paramsOther].join(config.params.delimiter);
+
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ansiCreate
+ * 
+ * Функция создания `ansi` вставки с указанными параметрами.
+ * 
+ * ***
+ * @arg {...ansiT['param']} params `Параметры`
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ansiCreate(...params) {
+
+    return create({ params, });
+
+};
+
+//#endregion
+//#region createByJect
+
+/**
+ * ### createByJect
+ * 
+ * 
+ * 
+ * ***
+ * @typedef createByJectT
+ * @prop {} _
+ * ***
+ * @arg {ansiT&createByJectT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function createByJect(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            ansiJect,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        let ansi = config.params.code;
+
+        const params = [];
+
+        if (ansiJect.clear) {
+
+            params.push(config.params.codeClear);
+
+        };
+
+        if (ansiJect.cursorPosition) {
+
+            params.push(`${ansiJect.cursorPosition.join(';')}${config.params.codePosition}`);
+
+        };
+
+        if (ansiJect.cursorPositionUp) {
+
+            params.push(`${ansiJect.cursorPositionUp}A`);
+
+        };
+
+        if (ansiJect.cursorPositionDown) {
+
+            params.push(`${ansiJect.cursorPositionDown}B`);
+
+        };
+
+        if (ansiJect.cursorPositionLeft) {
+
+            params.push(`${ansiJect.cursorPositionUp}C`);
+
+        };
+
+        if (ansiJect.cursorPositionRight) {
+
+            params.push(`${ansiJect.cursorPositionUp}D`);
+
+        };
+
+        let flagGraphic = false;
+
+        if (ansiJect.foreground) {
+
+            flagGraphic = true;
+
+            params.push(`3;8;5;${ansiJect.foreground}`);
+
+        };
+
+        if (ansiJect.background) {
+
+            flagGraphic = true;
+
+            params.push(`4;8;5;${ansiJect.background}`);
+
+        };
+
+        if (ansiJect.underline && !ansiJect.underlineOff) {
+
+            flagGraphic = true;
+
+            params.push(`4`);
+
+        };
+
+        if (ansiJect.underlineOff) {
+
+            flagGraphic = true;
+
+            params.push(`24`);
+
+        };
+        
+        result = ansi + params.join(config.params.delimiter) + (flagGraphic ? 'm' : '');
+
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ansiCreateByJect
+ * 
+ * Функция создания `ansi` вставки по свойствам указанного объекта.
+ * 
+ * ***
+ * @arg {ansiT['ansiJect']} ansiJect `ansi-объект`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ansiCreateByJect(ansiJect) {
+
+    return createByJect({ ansiJect, });
+
+};
+
+//#endregion
+//#region include
+
+/**
+ * ### include
+ * 
+ * 
+ * 
+ * ***
+ * @typedef includeT
+ * @prop {} _
+ * ***
+ * @arg {ansiT&includeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function include(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            string,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        result = !!string.match(/\x1b/)?.[0];
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ansiInclude
+ * 
+ * Функция определяющая наличие `ansi` вставок в тексте. 
+ * 
+ * ***
+ * @arg {ansiT['string']} string `Текст`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ansiInclude(string) {
+
+    return include({ string, });
+
+};
+
+//#endregion
+//#region decompose
+
+/**
+ * ### decompose
+ * 
+ * 
+ * 
+ * ***
+ * @typedef decomposeT
+ * @prop {} _
+ * ***
+ * @arg {ansiT&decomposeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function decompose(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            ansi,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        /** @type {ansiT['ansiJect']} */
+        const ject = {};
+
+        let params = ansi.match(/\x1b\[(.+(m|H|A|B|C|D|J))/)[1];
+
+        let match = null;
+
+        do {
+
+            if (match = params.match(/^(3|4);8;5;(\d+)/)) {
+
+                if (match[1] == 3) {
+
+                    ject.foreground = +match[2];
+
+                } else {
+
+                    ject.background = +match[2];
+
+                };
+
+            } else if (match = params.match(/^(\d+);(\d+)H/)) {
+
+                ject.cursorPosition = [+match[1], +match[2]];
+
+            } else if (match = params.match(/^(\d+)A/)) {
+
+                ject.cursorPositionUp = +match[1];
+
+            } else if (match = params.match(/^(\d+)B/)) {
+
+                ject.cursorPositionDown = +match[1];
+
+            } else if (match = params.match(/^(\d+)C/)) {
+
+                ject.cursorPositionRight = +match[1];
+
+            } else if (match = params.match(/^(\d+)D/)) {
+
+                ject.cursorPositionLeft = +match[1];
+
+            } else if (match = params.match(/^(\d+)?J/)) {
+
+                ject.clear = true;
+
+            } else if (match = params.match(/^4/)) {
+
+                ject.underline = true;
+
+            } else if (match = params.match(/^24/)) {
+
+                ject.underlineOff = true;
+
+            };
+
+            if (match) {
+
+                params = stringRemoveRange(params, 0, match[0].length);
+
+                if (params[0] === config.params.delimiter) params = stringRemove(params, 0);
+
+            } else break;
+
+        } while (match);
+
+        result = ject;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ansiDecompose
+ * 
+ * Функция разбора `ansi` вставки в объект.
+ * 
+ * ***
+ * @arg {ansiT['ansi']} ansi `ansi`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ansiDecompose(ansi) {
+
+    return decompose({ ansi, });
+
+};
+
+//#endregion
+
+/**
+ * @file ansi/module.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/
+
+//#region YI
+
+
 
 //#endregion
 //#region YT
@@ -53,1418 +1034,1418 @@ import { stringGetRow, stringGetRows, stringPaste } from '../../../-module/modul
 
 //#endregion
 
-//#region isANSI
+// //#region isANSI
 
-/**
- * ### isAnsi
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef isAnsiT
- * @prop {string} string
- * ***
- * @arg {isAnsiT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function isANSI(args) {
+// /**
+//  * ### isAnsi
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef isAnsiT
+//  * @prop {string} string
+//  * ***
+//  * @arg {isAnsiT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function isANSI(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            string,
+//             string,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        return string.startsWith('\x1b[') && string.at(-1) === 'm';
+//         return string.startsWith('\x1b[') && string.at(-1) === 'm';
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiIsANSI
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция проверки строки на принадлежность к ansi вставке.
- * 
- * ***
- * @arg {string} string `Строка`
- * @function
-*/
-export function ansiIsANSI(string) {
+// /**
+//  * ### ansiIsANSI
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция проверки строки на принадлежность к ansi вставке.
+//  * 
+//  * ***
+//  * @arg {string} string `Строка`
+//  * @function
+// */
+// export function ansiIsANSI(string) {
 
-    return isANSI({ string, });
+//     return isANSI({ string, });
 
-};
+// };
 
-//#endregion
-//#region isUnderline
+// //#endregion
+// //#region isUnderline
 
-/**
- * ### isUnderline
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef isUnderlineT
- * @prop {} _
- * ***
- * @arg {isUnderlineT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function isUnderline(args) {
+// /**
+//  * ### isUnderline
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef isUnderlineT
+//  * @prop {} _
+//  * ***
+//  * @arg {isUnderlineT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function isUnderline(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
 
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
 
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-//#endregion
-//#region isForeground
+// //#endregion
+// //#region isForeground
 
-/**
- * ### isForeground
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef isForegroundT
- * @prop {string} string
- * ***
- * @arg {isForegroundT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function isForeground(args) {
+// /**
+//  * ### isForeground
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef isForegroundT
+//  * @prop {string} string
+//  * ***
+//  * @arg {isForegroundT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function isForeground(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            string,
+//             string,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        const params = ansiGetParams(string).join(';');
+//         const params = ansiGetParams(string).join(';');
 
-        result = params.includes('38;5');
+//         result = params.includes('38;5');
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiIsForeground
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция проверки вставки `ansi` на параметр цвета символов.
- * 
- * ***
- * @arg {string} string `Строка`
- * @function
-*/
-export function ansiIsForeground(string,) {
+// /**
+//  * ### ansiIsForeground
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция проверки вставки `ansi` на параметр цвета символов.
+//  * 
+//  * ***
+//  * @arg {string} string `Строка`
+//  * @function
+// */
+// export function ansiIsForeground(string,) {
 
-    return isForeground({ string, });
+//     return isForeground({ string, });
 
-};
+// };
 
-//#endregion
-//#region isBackground
+// //#endregion
+// //#region isBackground
 
-/**
- * ### isBackground
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef {isForegroundT} isBackgroundT
- * @prop {} _
- * ***
- * @arg {isBackgroundT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function isBackground(args) {
+// /**
+//  * ### isBackground
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef {isForegroundT} isBackgroundT
+//  * @prop {} _
+//  * ***
+//  * @arg {isBackgroundT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function isBackground(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            string,
+//             string,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        const params = ansiGetParams(string).join(';');
+//         const params = ansiGetParams(string).join(';');
 
-        result = params.includes('48;5');
+//         result = params.includes('48;5');
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiIsBackground
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция проверки вставки `ansi` на параметр цвета фона.
- * 
- * ***
- * @arg {string} string `Строка`
- * @function
-*/
-export function ansiIsBackground(string) {
+// /**
+//  * ### ansiIsBackground
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция проверки вставки `ansi` на параметр цвета фона.
+//  * 
+//  * ***
+//  * @arg {string} string `Строка`
+//  * @function
+// */
+// export function ansiIsBackground(string) {
 
-    return isBackground({ string, });
+//     return isBackground({ string, });
 
-};
+// };
 
-//#endregion
-//#region get
+// //#endregion
+// //#region get
 
-/**
- * ### create
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef getT
- * @prop {string[]} params
- * ***
- * @arg {getT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function get(args) {
+// /**
+//  * ### create
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef getT
+//  * @prop {string[]} params
+//  * ***
+//  * @arg {getT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function get(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            params,
+//             params,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        result = config.params.code + params.join(';') + config.params.codeEnd;
+//         result = config.params.code + params.join(';') + config.params.codeEnd;
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiGet
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция создания `ansi` вставки.
- * 
- * ***
- * @arg {...string} params `Параметры`
- * @function
-*/
-export function ansiGet(...params) {
+// /**
+//  * ### ansiGet
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция создания `ansi` вставки.
+//  * 
+//  * ***
+//  * @arg {...string} params `Параметры`
+//  * @function
+// */
+// export function ansiGet(...params) {
 
-    return get({ params, });
+//     return get({ params, });
 
-};
+// };
 
-//#endregion
-//#region getReset
+// //#endregion
+// //#region getReset
 
-/**
- * ### getReset
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef getResetT
- * @prop {} _
- * ***
- * @arg {getResetT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function getReset(args) {
+// /**
+//  * ### getReset
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef getResetT
+//  * @prop {} _
+//  * ***
+//  * @arg {getResetT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function getReset(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
 
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
 
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-//#endregion
-//#region getColor
+// //#endregion
+// //#region getColor
 
-/**
- * ### getColor
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef getColorT
- * @prop {ansiTColors} foreground
- * @prop {ansiTColors} background
- * ***
- * @arg {getColorT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function getColor(args) {
+// /**
+//  * ### getColor
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef getColorT
+//  * @prop {ansiTColors} foreground
+//  * @prop {ansiTColors} background
+//  * ***
+//  * @arg {getColorT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function getColor(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            foreground,
-            background,
+//             foreground,
+//             background,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        result = ansiGet(ansiGetColorParam(foreground, background));
+//         result = ansiGet(ansiGetColorParam(foreground, background));
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiGetColor
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция получения `ansi` вставки с указанием цветов.
- * 
- * ***
- * @arg {ansiTColors} foreground `Символы`
- * @arg {ansiTColors} background `Фон`
- * @function
-*/
-export function ansiGetColor(foreground, background) {
+// /**
+//  * ### ansiGetColor
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция получения `ansi` вставки с указанием цветов.
+//  * 
+//  * ***
+//  * @arg {ansiTColors} foreground `Символы`
+//  * @arg {ansiTColors} background `Фон`
+//  * @function
+// */
+// export function ansiGetColor(foreground, background) {
 
-    return getColor({ foreground, background, });
+//     return getColor({ foreground, background, });
 
-};
+// };
 
-//#endregion
-//#region getColorParam
+// //#endregion
+// //#region getColorParam
 
-/**
- * ### getColorParam
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef getColorParamT
- * @prop {ansiTColors} foreground
- * @prop {ansiTColors} background
- * ***
- * @arg {getColorParamT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function getColorParam(args) {
+// /**
+//  * ### getColorParam
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef getColorParamT
+//  * @prop {ansiTColors} foreground
+//  * @prop {ansiTColors} background
+//  * ***
+//  * @arg {getColorParamT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function getColorParam(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            foreground,
-            background,
+//             foreground,
+//             background,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
-        if (!(foreground in config.params.colors || (-3 <= foreground && foreground <= 255))) foreground = -2;
-        if (!(background in config.params.colors || (-3 <= background && background <= 255))) background = -2;
+//         if (!(foreground in config.params.colors || (-3 <= foreground && foreground <= 255))) foreground = -2;
+//         if (!(background in config.params.colors || (-3 <= background && background <= 255))) background = -2;
 
-        if (foreground || foreground === 0) {
+//         if (foreground || foreground === 0) {
 
-            switch (foreground) {
+//             switch (foreground) {
 
-                case 'resetY': case -2: foreground = config.params.styles[config.params.style].foreground; break;
+//                 case 'resetY': case -2: foreground = config.params.styles[config.params.style].foreground; break;
 
-            };
+//             };
 
-            foreground = ansiGetCodeColor(foreground);
+//             foreground = ansiGetCodeColor(foreground);
 
-            switch (foreground) {
+//             switch (foreground) {
 
-                case -1: foreground = [config.params.codeColorForeground, config.params.codeColorReset].join(config.params.delimiter); break;
-                default: foreground = [config.params.codeColorForeground + config.params.codeColor, foreground].join(config.params.delimiter); break;
+//                 case -1: foreground = [config.params.codeColorForeground, config.params.codeColorReset].join(config.params.delimiter); break;
+//                 default: foreground = [config.params.codeColorForeground + config.params.codeColor, foreground].join(config.params.delimiter); break;
 
-            };
+//             };
 
-        };
-        if (background || background === 0) {
+//         };
+//         if (background || background === 0) {
 
-            switch (background) {
+//             switch (background) {
 
-                case 'resetY': case -2: background = config.params.styles[config.params.style].background; break;
+//                 case 'resetY': case -2: background = config.params.styles[config.params.style].background; break;
 
-            };
+//             };
 
-            background = ansiGetCodeColor(background);
+//             background = ansiGetCodeColor(background);
 
-            switch (background) {
+//             switch (background) {
 
-                case -1: background = [config.params.codeColorBackground, config.params.codeColorReset].join(config.params.delimiter); break;
-                default: background = [config.params.codeColorBackground + config.params.codeColor, background].join(config.params.delimiter); break;
+//                 case -1: background = [config.params.codeColorBackground, config.params.codeColorReset].join(config.params.delimiter); break;
+//                 default: background = [config.params.codeColorBackground + config.params.codeColor, background].join(config.params.delimiter); break;
 
-            };
+//             };
 
-        };
+//         };
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        result = [foreground, background].filter(value => value).join(config.params.delimiter);
+//         result = [foreground, background].filter(value => value).join(config.params.delimiter);
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiGetColorParam
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция получения параметра цвета `ansi` вставки. 
- * 
- * ***
- * @arg {ansiTColors} foreground `Символы`
- * @arg {ansiTColors} background `Фон`
- * @function
-*/
-export function ansiGetColorParam(foreground, background) {
+// /**
+//  * ### ansiGetColorParam
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция получения параметра цвета `ansi` вставки. 
+//  * 
+//  * ***
+//  * @arg {ansiTColors} foreground `Символы`
+//  * @arg {ansiTColors} background `Фон`
+//  * @function
+// */
+// export function ansiGetColorParam(foreground, background) {
 
-    return getColorParam({ foreground, background, });
+//     return getColorParam({ foreground, background, });
 
-};
+// };
 
-//#endregion
-//#region getColorReset
+// //#endregion
+// //#region getColorReset
 
-/**
- * ### getColorReset
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef getColorResetT
- * @prop {boolean|-1|-2} foreground
- * @prop {boolean|-1|-2} background
- * ***
- * @arg {getColorResetT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function getColorReset(args) {
+// /**
+//  * ### getColorReset
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef getColorResetT
+//  * @prop {boolean|-1|-2} foreground
+//  * @prop {boolean|-1|-2} background
+//  * ***
+//  * @arg {getColorResetT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function getColorReset(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            foreground,
-            background,
+//             foreground,
+//             background,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        result = foreground && background ? `${foreground};${background}` : foreground ? foreground : background ? background : null;
+//         result = foreground && background ? `${foreground};${background}` : foreground ? foreground : background ? background : null;
 
-        result = ansiGet(result);
+//         result = ansiGet(result);
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiGetColorReset
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция получения `ansi` вставки сброса цвета.
- *
- * ***
- * @arg {boolean|-1|-2} foreground `Символы`
- * @arg {boolean|-1|-2} background `Фон`
- * @function
-*/
-export function ansiGetColorReset(foreground, background) {
+// /**
+//  * ### ansiGetColorReset
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция получения `ansi` вставки сброса цвета.
+//  *
+//  * ***
+//  * @arg {boolean|-1|-2} foreground `Символы`
+//  * @arg {boolean|-1|-2} background `Фон`
+//  * @function
+// */
+// export function ansiGetColorReset(foreground, background) {
 
-    return getColorReset({ foreground, background, });
+//     return getColorReset({ foreground, background, });
 
-};
+// };
 
-//#endregion
-//#region getParams
+// //#endregion
+// //#region getParams
 
-/**
- * ### getParams
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef getParamsT
- * @prop {string} string
- * ***
- * @arg {getParamsT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function getParams(args) {
+// /**
+//  * ### getParams
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef getParamsT
+//  * @prop {string} string
+//  * ***
+//  * @arg {getParamsT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function getParams(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            string,
+//             string,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        result = string.slice(2, -1).split(';');
+//         result = string.slice(2, -1).split(';');
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiGetParams
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция получения параметров `ansi` вставки.
- * 
- * ***
- * @arg {string} string `Строка`
- * @function
-*/
-export function ansiGetParams(string) {
+// /**
+//  * ### ansiGetParams
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция получения параметров `ansi` вставки.
+//  * 
+//  * ***
+//  * @arg {string} string `Строка`
+//  * @function
+// */
+// export function ansiGetParams(string) {
 
-    return getParams({ string, });
+//     return getParams({ string, });
 
-};
+// };
 
-//#endregion
-//#region getPoints
+// //#endregion
+// //#region getPoints
 
-/**
- * ### getPoints
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef getPointsT
- * @prop {string} string
- * ***
- * @arg {getPointsT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function getPoints(args) {
+// /**
+//  * ### getPoints
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef getPointsT
+//  * @prop {string} string
+//  * ***
+//  * @arg {getPointsT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function getPoints(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            string,
+//             string,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
 
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiGetPoints
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция получения позиций ansi вставок в тексте.
- * 
- * ***
- * @arg {string} string `Строка`
- * @function
-*/
-export function ansiGetPoints(string) {
+// /**
+//  * ### ansiGetPoints
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция получения позиций ansi вставок в тексте.
+//  * 
+//  * ***
+//  * @arg {string} string `Строка`
+//  * @function
+// */
+// export function ansiGetPoints(string) {
 
-    return getPoints({ string, });
+//     return getPoints({ string, });
 
-};
+// };
 
-//#endregion
-//#region getCodeColor
+// //#endregion
+// //#region getCodeColor
 
-/**
- * ### getCodeColor
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef getCodeColorT
- * @prop {ansiTColors|number} color
- * ***
- * @arg {getCodeColorT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function getCodeColor(args) {
+// /**
+//  * ### getCodeColor
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef getCodeColorT
+//  * @prop {ansiTColors|number} color
+//  * ***
+//  * @arg {getCodeColorT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function getCodeColor(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            color,
+//             color,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        result = YCond.isNumber(color) ? color : config.params.colors[color];
+//         result = YCond.isNumber(color) ? color : config.params.colors[color];
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiGetCodeColor
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Метод получения кода цвета по его наименованию.
- * 
- * ***
- * @arg {getCodeColorT['color']} color `Цвет`
- * @function
-*/
-export function ansiGetCodeColor(color) {
+// /**
+//  * ### ansiGetCodeColor
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Метод получения кода цвета по его наименованию.
+//  * 
+//  * ***
+//  * @arg {getCodeColorT['color']} color `Цвет`
+//  * @function
+// */
+// export function ansiGetCodeColor(color) {
 
-    return getCodeColor({ color, });
+//     return getCodeColor({ color, });
 
-};
+// };
 
-//#endregion
-//#region join
+// //#endregion
+// //#region join
 
-/**
- * ### join
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef joinT
- * @prop {string[]} ansi
- * ***
- * @arg {joinT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function join(args) {
+// /**
+//  * ### join
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef joinT
+//  * @prop {string[]} ansi
+//  * ***
+//  * @arg {joinT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function join(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            ansi,
+//             ansi,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
-        ansi = ansi.filter(ansi => ansiIsANSI(ansi));
+//         ansi = ansi.filter(ansi => ansiIsANSI(ansi));
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        result = [];
+//         result = [];
 
-        for (const a of ansi) result.push(...ansiGetParams(a));
+//         for (const a of ansi) result.push(...ansiGetParams(a));
 
-        return ansiGet(...result);
+//         return ansiGet(...result);
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiJoin
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция объединения `ansi` вставок.
- * 
- * ***
- * @arg {...string} ansi `Вставки`
- * @function
-*/
-export function ansiJoin(...ansi) {
+// /**
+//  * ### ansiJoin
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция объединения `ansi` вставок.
+//  * 
+//  * ***
+//  * @arg {...string} ansi `Вставки`
+//  * @function
+// */
+// export function ansiJoin(...ansi) {
 
-    return join({ ansi, });
+//     return join({ ansi, });
 
-};
+// };
 
-//#endregion
-//#region paint
+// //#endregion
+// //#region paint
 
-/**
- * ### paint
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef paintT
- * @prop {number} y1
- * @prop {number} x1
- * @prop {number} y2
- * @prop {number} x2
- * @prop {string} string
- * @prop {boolean} squareMode
- * @prop {ansiTColors} foreground
- * @prop {ansiTColors} background
- * ***
- * @arg {paintT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function paint(args) {
+// /**
+//  * ### paint
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef paintT
+//  * @prop {number} y1
+//  * @prop {number} x1
+//  * @prop {number} y2
+//  * @prop {number} x2
+//  * @prop {string} string
+//  * @prop {boolean} squareMode
+//  * @prop {ansiTColors} foreground
+//  * @prop {ansiTColors} background
+//  * ***
+//  * @arg {paintT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function paint(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            y1,
-            y2,
-            x1,
-            x2,
-            string,
-            squareMode,
-            foreground,
-            background,
+//             y1,
+//             y2,
+//             x1,
+//             x2,
+//             string,
+//             squareMode,
+//             foreground,
+//             background,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
 
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        const color = ansiGetColor(foreground, background);
-        const reset = ansiGet(ansiGetColorReset());
+//         const color = ansiGetColor(foreground, background);
+//         const reset = ansiGet(ansiGetColorReset());
 
-        if (!YCond.isNumberInt(x1, x2, y1, y2)) return color + string + reset;
+//         if (!YCond.isNumberInt(x1, x2, y1, y2)) return color + string + reset;
 
-        const rows = stringGetRows(string);
+//         const rows = stringGetRows(string);
 
-        if (squareMode) {
+//         if (squareMode) {
 
-            for (let index = y1; index <= y2; index++) {
+//             for (let index = y1; index <= y2; index++) {
 
-                const row = rows[index];
-                const paste = squareMode ? row.slice(x1, x2) : row.slice(x1);
+//                 const row = rows[index];
+//                 const paste = squareMode ? row.slice(x1, x2) : row.slice(x1);
     
-                rows[index] = stringPaste(row, color + paste + reset, x1, paste.length);
+//                 rows[index] = stringPaste(row, color + paste + reset, x1, paste.length);
     
-            };
+//             };
 
-        } else {
+//         } else {
 
-            rows[y1] = stringPaste(rows[y1], color, x1);
-            rows[y2] = stringPaste(rows[y2], reset, x2);
+//             rows[y1] = stringPaste(rows[y1], color, x1);
+//             rows[y2] = stringPaste(rows[y2], reset, x2);
 
-        };
+//         };
 
-        result = rows.join('\n');
+//         result = rows.join('\n');
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiPaint
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция перекраски строки.
- *
- * ***
- * @arg {number} y1 `Y1`
- * @arg {number} y2 `Y2`
- * @arg {number} x1 `X1`
- * @arg {number} x2 `X2`
- * @arg {string} string `Строка`
- * @arg {boolean} squareMode `Режим периметра`
- * @arg {ansiTColors} foreground `Символы`
- * @arg {ansiTColors} background `Фон`
- * @function
-*/
-export function ansiPaint(string, foreground, background, y1, x1, y2, x2, squareMode) {
+// /**
+//  * ### ansiPaint
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция перекраски строки.
+//  *
+//  * ***
+//  * @arg {number} y1 `Y1`
+//  * @arg {number} y2 `Y2`
+//  * @arg {number} x1 `X1`
+//  * @arg {number} x2 `X2`
+//  * @arg {string} string `Строка`
+//  * @arg {boolean} squareMode `Режим периметра`
+//  * @arg {ansiTColors} foreground `Символы`
+//  * @arg {ansiTColors} background `Фон`
+//  * @function
+// */
+// export function ansiPaint(string, foreground, background, y1, x1, y2, x2, squareMode) {
 
-    return paint({ string, foreground, background, y1, x1, y2, x2, squareMode, });
+//     return paint({ string, foreground, background, y1, x1, y2, x2, squareMode, });
 
-};
+// };
 
-//#endregion
-//#region change
+// //#endregion
+// //#region change
 
-/**
- * ### change
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * 
- * 
- * ***
- * @typedef changeT
- * @prop {string} ansi
- * @prop {string|number} value
- * @prop {keyof changeTProp} property
- * @typedef changeTProp
- * @prop {boolean} underline
- * @prop {ansiTColors} foreground
- * @prop {ansiTColors} background
- * ***
- * @arg {changeT} args `Аргументы`
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function change(args) {
+// /**
+//  * ### change
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * 
+//  * 
+//  * ***
+//  * @typedef changeT
+//  * @prop {string} ansi
+//  * @prop {string|number} value
+//  * @prop {keyof changeTProp} property
+//  * @typedef changeTProp
+//  * @prop {boolean} underline
+//  * @prop {ansiTColors} foreground
+//  * @prop {ansiTColors} background
+//  * ***
+//  * @arg {changeT} args `Аргументы`
+//  * @since `1.0.0`
+//  * @version `1.0.0`
+//  * @function
+// */
+// function change(args) {
 
-    let result;
+//     let result;
 
-    try {
+//     try {
 
-        let {
+//         let {
 
-            ansi,
-            value,
-            property,
+//             ansi,
+//             value,
+//             property,
 
-        } = args;
+//         } = args;
 
-        //#region verify
+//         //#region verify
 
 
 
-        //#endregion
-        //#region handle
+//         //#endregion
+//         //#region handle
 
-        value = value.toString();
+//         value = value.toString();
 
-        switch (property) {
+//         switch (property) {
 
-            case 'foreground': case 'background': value = ansiGetCodeColor(value); break;
+//             case 'foreground': case 'background': value = ansiGetCodeColor(value); break;
 
-        };
+//         };
 
-        //#endregion
-        //#region comply
+//         //#endregion
+//         //#region comply
 
-        result = ansiGetParams(ansi);
+//         result = ansiGetParams(ansi);
 
-        switch (property) {
+//         switch (property) {
 
-            case 'foreground': {
+//             case 'foreground': {
 
-                let index = result.indexOf('38');
+//                 let index = result.indexOf('38');
 
-                if (++index && result[index++] == '5') {
+//                 if (++index && result[index++] == '5') {
 
-                    result[index] = value;
+//                     result[index] = value;
 
-                } else {
+//                 } else {
 
 
 
-                };
+//                 };
 
-            }; break;
-            case 'background': {
+//             }; break;
+//             case 'background': {
 
-                let index = result.indexOf('48');
+//                 let index = result.indexOf('48');
 
-                if (++index && result[index++] == '5') {
+//                 if (++index && result[index++] == '5') {
 
-                    result[index] = value;
+//                     result[index] = value;
 
-                } else {
+//                 } else {
 
 
 
-                };
+//                 };
 
-            }; break;
+//             }; break;
 
-        };
+//         };
 
-        result = ansiGet(...result);
+//         result = ansiGet(...result);
 
-        //#endregion
+//         //#endregion
 
-    } catch (err) {
+//     } catch (err) {
 
-        if (config.params.strictMode) {
+//         if (config.params.strictMode) {
 
-            throw err;
+//             throw err;
 
-        };
+//         };
 
 
 
-    } finally {
+//     } finally {
 
 
 
-    };
+//     };
 
-    return result;
+//     return result;
 
-};
+// };
 
-/**
- * ### ansiChange
- * - Тип `S`
- * - Версия `1.0.0`
- * ***
- * 
- * Функция изменения параметров `ansi` вставки.
- * 
- * ***
- * @arg {Y1} property
- * @arg {string} anis `Вставка`
- * @arg {string|number} value
- * @returns {string}
- * @function
- * @template {keyof changeTProp} Y1
-*/
-export function ansiChange(ansi, property, value) {
+// /**
+//  * ### ansiChange
+//  * - Тип `S`
+//  * - Версия `1.0.0`
+//  * ***
+//  * 
+//  * Функция изменения параметров `ansi` вставки.
+//  * 
+//  * ***
+//  * @arg {Y1} property
+//  * @arg {string} anis `Вставка`
+//  * @arg {string|number} value
+//  * @returns {string}
+//  * @function
+//  * @template {keyof changeTProp} Y1
+// */
+// export function ansiChange(ansi, property, value) {
 
-    return change({ ansi, property, value, });
+//     return change({ ansi, property, value, });
 
-};
+// };
 
-//#endregion
+////#endregion
 
 // //#region getMap
 

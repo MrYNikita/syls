@@ -128,7 +128,7 @@ class FCorrecter extends MCorrecter {
         /** @type {YArg<ICorrecter>} */
         const yarg = args instanceof YArg ? args : new YArg(args);
         
-        yarg.dataUsed.string = yarg.extract('ject');
+        yarg.used.string = yarg.extract('ject');
         
         return yarg;
         

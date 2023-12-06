@@ -20,6 +20,10 @@
         ".": {
             "types": "./-module/type.d.ts",
             "import": "./-module/export.mjs"
+        },
+        "./html": {
+            "types": "./-submodule/html/-module/type.d.ts",
+            "import": "./-submodule/html/-module/export.mjs"
         }
     },
     "scripts": {
@@ -30,6 +34,7 @@
     },
     "keywords": [
         "y",
+        "web",
         "lib",
         "syls"
     ],

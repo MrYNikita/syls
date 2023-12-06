@@ -15,8 +15,10 @@ const config = {
  * ***
  * @public
 */
-export const configANSI = new YConfig(Object.assign(config, {
+export const configANSI = new YConfig({
     
+    ...config,
+
     /**
      * ### delimeter
      * 
@@ -41,13 +43,13 @@ export const configANSI = new YConfig(Object.assign(config, {
     /**
      * ### codeEnd
      * 
-     * Код завершения вставки.
+     * Код завершения графических параметров.
      * 
      * *** 
      * @type {'m'} 
      * @public
     */
-    codeEnd: 'm',
+    codeEndGraphic: 'm',
     /**
      * ### codeClear
      * 
@@ -188,13 +190,21 @@ export const configANSI = new YConfig(Object.assign(config, {
         aquaDark: 43,
         aquaLight: 80,
 
-        gray: 243,
-        grayDark: 240,
-        grayLight: 254,
+        gray: 110,
+        grayDark: 67,
+        grayLight: 195,
+
+        grey: 243,
+        greyDark: 240,
+        greyLight: 254,
 
         green: 76,
         greenDark: 28,
         greenLight: 82,
+
+        mgreen: 120,
+        mgreenDark: 22,
+        mgreenLight: 194,
 
         black: 0,
 
@@ -218,6 +228,6 @@ export const configANSI = new YConfig(Object.assign(config, {
 
     },
     
-}), configString);
+}, configString);
 
 export default configANSI;

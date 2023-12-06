@@ -1,5 +1,6 @@
 //#region YI
 
+import { YArg } from "@syls/y/arg";
 import { YOsject } from '../../osject/-module/export.mjs';
 import { fileRead, fileWrite } from './module.mjs';
 import { configFile as config } from "./export.mjs";
@@ -7,219 +8,133 @@ import { configFile as config } from "./export.mjs";
 //#endregion
 //#region YT
 
-/** ### YFileT
- * - Тип `T`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * 
- * Основной параметр модуля `YFile`.
- * 
- * @typedef {YFileTE&YFileTU} YFileT
- * 
+/** ### fileTC
+ * @typedef fileTC
+ * @prop {}
 */
-/** ### YFileTE
- * - Тип `TE`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * 
- * Параметр наследования `YFile`.
- * 
- * @typedef {{[p in Exclude<keyof DFile,keyof SFile>|Exclude<keyof SFile,keyof DFile>]:(DFile[p]&SFile[p])}} YFileTE
- * 
-*/
-/** ### YFileTU
- * - Тип `TU`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * 
- * Уникальные параметры `YFile`.
- * 
- * @typedef YFileTU
- * @prop {any} _
- * 
-*/
+
+/** @typedef {import('./module.mjs').fileT&fileTC} fileT */
 
 //#endregion
 
-class SFile extends YOsject {
+/**
+ * ### YFile
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YFile extends YOsject {
     
+    //#region static
     
-    
-};
-class DFile extends SFile {
-    
-    
-
-};
-class IFile extends DFile {
-    
-    
-    
-};
-class MFile extends IFile {
-    
-    
-    
-};
-class FFile extends MFile {
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
     
     /**
-     * ### YFile.constructor
+     * ### stock
+     * 
+     * ***
      * 
      * 
      * 
      * ***
-     * @arg {YFileT} t
+     * @type {YFile[]}
+     * @field
+     * @static
+     * @public
     */
-    constructor(t) {
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
+    
+    /**
+     * @arg {...YFile} args `Аргументы`
+     * @returns {YFile[]}
+    */
+    static create(...args) {
         
-        t = [...arguments];
+        return super.create(...args);
         
-        super(Object.assign(t = FFile.#before(t), {}));
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YFile)?}
+     * @template {YFile} Y1
+     * @override
+    */
+    static setClass(value) {
         
-        FFile.#deceit.apply(this, [t]);
+        return super.setClass(value);
         
     };
     
-    /** @arg {any[]} t */
-    static #before(t) {
-        
-        /** @type {YFileT} */
-        let r = {};
-        
-        if (t?.length === 1 && [Object, YFile].includes(t[0]?.constructor) && !Object.getOwnPropertyNames(t[0]).includes('_ytp')) {
-            
-            r = t[0];
-            
-        } else if (t?.length) {
-            
-            if (t[0]?._ytp) {
-            
-                t = [...t[0]._ytp];
-            
-            };
-            
-            switch (t.length) {
-                
-                case 3: 
-                case 2: 
-                case 1: r.path = t[0];
-                
-            };
-            
-            if (!Object.values(r).length) {
-                
-                r = { _ytp: t, };
-                
-            };
-            
-        };
-        
-        return r;
-        
-    };
-    /** @arg {YFileT} t @this {YFile} */
-    static #deceit(t) {
-        
-        try {
-            
-            FFile.#verify.apply(this, [t]);
-            
-        } catch (e) {
-            
-            throw e;
-            
-        } finally {
-            
-            
-            
-        };
-        
-    };
-    /** @arg {YFileT} t @this {YFile} */
-    static #verify(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        FFile.#handle.apply(this, [t]);
-        
-    };
-    /** @arg {YFileT} t @this {YFile} */
-    static #handle(t) {
-        
-        FFile.#create.apply(this, [t]);
-        
-    };
-    /** @arg {YFileT} t @this {YFile} */
-    static #create(t) {
-        
-        const {
-            
-            
-            
-        } = t;
-        
-        this.adopt(t);
-        
-        if (config) {
-            
-            this.adoptDefault(config);
-            
-        };
-        
-    };
+    //#endregion
+    //#region field
     
-};
-
-/**
- * ### YFile
- * - Тип `SDIMFY`
- * - Версия `0.0.0`
- * - Модуль `os\file`
- * - Цепочка `BDVHC`
- * ***
- * 
- * 
- * 
- * ***
- * 
-*/
-export class YFile extends FFile {
+    
+    
+    //#endregion
+    //#region method
     
     /**
      * ### read
-     * - Версия `0.0.0`
-     * - Модуль `os\file`
-     * ***
      * 
      * Метод считывания данных из файла.
      * 
      * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
     read() {
-
+        
         return fileRead(this.path.get());
         
     };
     /**
      * ### write
-     * - Версия `0.0.0`
-     * - Модуль `os\file`
-     * ***
      * 
-     * Метод записи в файл.
+     * Метод перезаписывания файла.
      * 
      * ***
      * @arg {string} data `Данные`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
      * @public
     */
     write(data) {
-
+        
         if (this.status) {
             
             fileWrite(this.path.get(), data);
@@ -229,11 +144,98 @@ export class YFile extends FFile {
         return this;
         
     };
+    /**
+     * @method
+     * @public
+     * @override
+    */
+    getClass() {
+        
+        return YFile;
+        
+    };
+    
+    //#endregion
+    
+    /**
+     * ### YFileConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {...fileTC&YFile} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+        
+        try {
+            
+            //#region before
+            
+            /** @type {YArg<YFile&fileTC>} */
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
+            
+            
+            
+            super(yarg);
+            
+
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.used)
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
+                
+                throw err;
+                
+            };
+            
+        } finally {
+            
+            
+            
+        };
+        
+    };
     
 };
 
 /**
- * @file class.mjs
+ * @file file/class.mjs
  * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
- * @copyright Yakhin Nikita Artemovich 2023
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */

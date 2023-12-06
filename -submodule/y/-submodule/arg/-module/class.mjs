@@ -1,9 +1,8 @@
 //#region YI
 
 import { Y } from "../../../-module/class.mjs";
-import { argClassify } from "./module.mjs";
 import { configArg as config } from "./config.mjs";
-import { yIsInstance } from "../../../-module/module.mjs";
+import { condIsArray, condIsBigInt, condIsBool, condIsInstance, condIsJect, condIsNumber, condIsSigSoft, condIsSimilar, condIsString } from "../../cond/-module/module.mjs";
 
 //#endregion
 //#region YT
@@ -30,17 +29,17 @@ import { yIsInstance } from "../../../-module/module.mjs";
  * 
 */
 export class YArg extends Y {
-    
+
     //#region static
-    
+
     static {
-        
+
         this
-            
+
             .appendModule(this)
-        
+
     };
-    
+
     /**
      * ### stock
      * 
@@ -66,15 +65,15 @@ export class YArg extends Y {
      * @public
     */
     static config = config;
-    
+
     /**
      * @arg {...YArg} args `Аргументы`
      * @returns {YArg[]}
     */
     static create(...args) {
-        
+
         return super.create(...args);
-        
+
     };
     /**
      * @arg {Y1} value `Значение`
@@ -86,16 +85,16 @@ export class YArg extends Y {
      * @override
     */
     static setClass(value) {
-        
+
         return super.setClass(value);
-        
+
     };
-    
+
     //#endregion
     //#region field
-    
+
     /**
-     * ### dataUsed
+     * ### used
      * 
      * Используемые данные.
      * 
@@ -105,43 +104,27 @@ export class YArg extends Y {
      * @field
      * @public
     */
-    dataUsed = {};
+    used = {};
     /**
-     * ### dataFree
+     * ### free
      * 
      * Свободные данные.
      * 
      * *** 
      * @since `1.0.0`
-     * @type {import("./module.mjs").argTArgs}
+     * @type {argT['free']}
      * @field
      * @public
     */
-    dataFree;
-    
+    free;
+
     //#endregion
     //#region method
-    
-    /**
-     * @method
-     * @public
-     * @returns {YArg}
-     * @override
-    */
-    
-    getClass() {
-        
-        return YArg;
-        
-    };
 
     /**
-     * ### isJectTransmit
+     * ### getData
      * 
-     * Метод проверки аргумента на `объект-носитель`.
-     * 
-     * `Объект-носитель` - это объект, переносящий аргументы. Его свойства испотльзуются как неупорядоченные аргументы, размеченные названиями, по которым
-     * удаётся определить его предназначение и истинный порядок.
+     * Метод получения данных.
      * 
      * ***
      * 
@@ -153,32 +136,30 @@ export class YArg extends Y {
      * @method
      * @public
     */
-    isJectTransmit() {
+    getData() {
         
-        if (!this.dataFree.ject.length) return false;
-
-        for (const key in this.dataFree) {
-
-            if (this.dataFree[key].length > 0 && key !== 'ject') {
-
-                return false;
-
-            };
-
-        };
-
-        return true;
+        return this.used;
         
     };
     /**
+     * @method
+     * @public
+     * @returns {YArg}
+     * @override
+    */
+    getClass() {
+
+        return YArg;
+
+    };
+    
+    /**
      * ### set
      * 
-     * Метод установки значений.
+     * Метод установки значения по указанному индексу, как используемых.
      * 
      * ***
-     * @arg {...[keyof Y1, ...(keyof import("./module.mjs").argTArgs)[]]} values `Значения`
-     * 
-     * 
+     * @arg {...[keyof Y1, number, ...argT['prop'][]]} values `Значения`
      * ***
      * @since `1.0.0`
      * @version `1.0.0`
@@ -186,49 +167,35 @@ export class YArg extends Y {
      * @public
     */
     set(...values) {
-        
+
         for (const value of values) {
+            
+            if (!condIsArray(value)) continue;
 
-            const key = value[0];
-            const types = value.slice(1);
+            for (const section of value.slice(2)) {
 
-            if (!types.length) continue;
+                if (!this.free?.[section]?.length) continue;
 
-            if (types.length === 1) {
+                this.used[value[0]] = this.extract(section, value[1]);
 
-                if (!(types[0] in this.dataFree && this.dataFree[types[0]].length)) continue;
-
-                this.dataUsed[key] = this.extract(types[0]);
-
-            } else {
-
-                this.dataUsed[key] = [];
-
-                for (const type of types) {
-
-                    if (!(type in this.dataFree && this.dataFree[type].length)) continue;
-    
-                    const ext = this.extract(type);
-
-                    if (yIsInstance(ext, Array)) this.dataUsed[key].push(...ext);
-                    else this.dataUsed[key].push(ext);
-    
-                };
+                break;
 
             };
+
+            if (!this.used[value[0]]) this.used[value[0]] = null;
 
         };
 
         return this;
-        
+
     };
     /**
      * ### setAll
      * 
-     * Метод установки всех значений из пула свободных значений для указанного ключа.
+     * Метод установки всех значений 
      * 
      * ***
-     * @arg {...[keyof Y1, ...(keyof import("./module.mjs").argTArgs)[]]} values `Значения`
+     * @arg {...[keyof Y1, ...argT['prop'][]]} values `Значения`
      * 
      * 
      * ***
@@ -241,107 +208,88 @@ export class YArg extends Y {
         
         for (const value of values) {
 
-            const key = value[0];
-            const types = value.slice(1);
+            if (!condIsArray(value)) continue;
 
-            if (!types.length) continue;
+            if (!this.used[value[0]]) {
 
-            if (types.length === 1) {
+                this.used[value[0]] = [];
 
-                if (!(types[0] in this.dataFree && this.dataFree[types[0]].length)) continue;
+            } else if (!condIsArray(this.used[value[0]])) {
 
-                this.dataUsed[key] = this.extractAll(types[0]);
-
-            } else {
-
-                this.dataUsed[key] = [];
-
-                for (const type of types) {
-
-                    if (!(type in this.dataFree && this.dataFree[type].length)) continue;
-
-                    this.dataUsed[key].push(...this.extractAll(type));
-    
-                };
+                this.used[value[0]] = [this.used[value[0]]];
 
             };
 
+            for (const section of value.slice(1)) this.used[value[0]].push(...this.extractAll(section));
+            
         };
 
         return this;
         
     };
-
     /**
-     * ### getData
+     * ### setLast
+     * 
+     * Метод установки значениий, как используемых, среди последних элементов секций.
      * 
      * ***
-     * 
-     * Метод получения используемых данных.
-     * 
+     * @arg {...[keyof Y1, ...argT['prop'][]]} values `Значения`
      * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    getData() {
-        
-        return this.dataUsed;
-        
+    setLast(...values) {
+
+        this.set(...values.filter(value => {
+
+            if (!condIsArray(value)) return false;
+
+            value.splice(1, 0, 0);
+
+            return true;
+
+        }));
+
+        return this;
+
     };
     /**
-     * ### getClass
+     * ### setFirst
      * 
-     * 
-     * 
-     * ***
-     * 
-     * 
+     * Метод установки значениий, как используемых, среди первых элементов секций.
      * 
      * ***
+     * @arg {...[keyof Y1, ...argT['prop'][]]} values `Значения`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
-     * @returns {typeof YArg}
     */
-    getClass() {
-        
-        return YArg;
-        
-    };
-    /**
-     * ### extract
-     * 
-     * ***
-     * 
-     * Метод извлечения свойства из аргументов.
-     * 
-     * Извлечение подразумевает получение аргумента из пула с удалением.
-     * 
-     * ***
-     * @arg {Y1} section `Секция`
-     * @arg {number} index `Индекс`
-     * @method
-     * @public
-     * @returns { argTIArgs[section][0] }
-     * @template { argTIArgs } Y1
-    */
-    extract(section, index = 0) {
+    setFirst(...values) {
 
-        if (this.dataFree[section]?.length) {
+        this.set(...values.filter(value => {
 
-            return this.dataFree[section].splice(index, 1)[0][1];
+            if (!condIsArray(value)) return false;
 
-        };
+            value.splice(1, 0, -1);
 
-        return undefined;
+            return true;
+
+        }));
+
+        return this;
 
     };
     /**
-     * ### extractAll
+     * ### setValue
      * 
-     * Метод извлечения всех значений из типа.
+     * Метод установки точного значения в используемый пул.
      * 
      * ***
-     * @arg {Y1} section `Секция`
+     * @arg {...[keyof Y1, any]} values `Значения`
      * 
      * 
      * ***
@@ -350,105 +298,258 @@ export class YArg extends Y {
      * @method
      * @public
     */
-    extractAll(section) {
+    setValue(...values) {
         
-        if (this.dataFree[section]?.length) {
+        for (const value of values) {
 
-            return this.dataFree[section].splice(0);
+            if (!condIsArray(value)) continue;
+
+            this.used[value[0]] = value[1];
 
         };
 
-        return null;
+        return this;
         
     };
     /**
-     * ### extractMany
+     * ### clear
+     * 
+     * Метод очитски пулов свободных и используемых данных.
      * 
      * ***
+     * @arg {boolean} freeClear `Очистка свободных данных`
+     * @arg {boolean} usedClear `Очистка используемых данных`
      * 
-     * Метод множественного извлечения аргументов.
      * 
      * ***
-     * @arg {Y1} section `Секция`
-     * @arg {...number} indexs `Индексы`
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
-     * @returns { argTIArgs[section][0][] }
-     * @template { keyof argTIArgs } Y1
     */
-    extractMany(section, ...indexs) {
+    clear(freeClear = true, usedClear) {
         
-        const result = [];
+        if (usedClear) this.used = {};
+        if (freeClear) this.free = {};
 
-        for (const index of indexs
-            
-            .filter(index => condIsNumber(index) && index < this.values[section].length)
-            .sort((p, c) => p - c).reverse()
-            .reverse()
-            
-        ) {
-
-            result.push(this.extract(section, index));
-
-        };
-
-        return result;
+        return this;
         
     };
     /**
-     * ### extractByProperty
+     * ### append
+     * 
+     * Метод добавления данных в пул свободных значений.
+     * 
+     * Алгоритм добавления игнорирует значения `null` и `undefined`, так как `null` в библиотеке предустанавливается по дефолту, а `undefined` исключено.
      * 
      * ***
-     * 
+     * @arg {...any} args `Данные`
      * 
      * 
      * ***
-     * @arg {Y1} section `Секция`
-     * @arg {string} property `Свойство`
-     * @method
-     * @public
-     * @returns { argTIArgs[section][0] }
-     * @template { keyof argTIArgs } Y1
-    */
-    extractByProperty(section, property) {
-        
-        if (this.values[section]?.length) {
-
-            return this.values[section].find(arg => arg[0] === property)[1] ?? undefined;
-
-        };
-
-        return undefined;
-        
-    };
-    /**
-     * ### uncover
-     * 
-     * ***
-     * 
-     * Метод раскрытия объекта-носителя аргументов.
-     * 
-     * Раскрытие позволяет вынести свойства единственно переданного в аргумент объекта на верхний уровень и произвести повторную сортировку.
-     * Метод срабатывает исключительно при условии, что в аргументе был передан только единственный объект.
-     * 
-     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
      * @method
      * @public
     */
-    uncover() {
+    append(...args) {
 
-        if (this.isJectTransmit()) {
+        args = args.reverse();
 
-            this.dataFree = argClassify(this.dataFree.ject[0][1]);
+        for (let arg of args) {
+
+            let type = '', flagArray = condIsArray(arg);
+
+            if (arg === null || arg === undefined) {
+
+                continue;
+
+            } else if (flagArray && !condIsSimilar(...arg)) {
+
+                type = 'array';
+
+                flagArray = false;
+
+            } else if (condIsBool(arg) || (flagArray && condIsBool(...arg))) {
+
+                type = 'bool';
+
+            } else if (condIsNumber(arg) || (flagArray && condIsNumber(...arg))) {
+
+                type = 'number';
+
+            } else if (condIsString(arg) || (flagArray && condIsString(...arg))) {
+
+                type = 'string';
+
+            } else if (condIsBigInt(arg) || (flagArray && condIsBigInt(...arg))) {
+
+                type = 'bigint';
+
+            } else if (condIsInstance(Date, arg) || (flagArray && condIsInstance(Date, ...arg))) {
+
+                type = 'date';
+
+            } else if (condIsInstance(RegExp, arg) || (flagArray && condIsInstance(RegExp, ...arg))) {
+
+                type = 'regexp';
+
+            } else if (condIsInstance(Map, arg) || (flagArray && condIsInstance(Map, ...arg))) {
+
+                type = 'map';
+
+            } else if (condIsInstance(Set, arg) || (flagArray && condIsInstance(Set, ...arg))) {
+
+                type = 'set';
+
+            } else if (condIsJect(arg) || (flagArray && condIsJect(...arg))) {
+
+                type = 'ject';
+
+            };
+
+            if (flagArray) type = 'array' + type[0].toUpperCase() + type.slice(1);
+
+            if (!(type in this.free) || !this.free[type]) this.free[type] = [];
+
+            this.free[type].push(arg);
 
         };
 
         return this;
 
     };
-    
+    /**
+     * ### uncover
+     * 
+     * Метод развёртки.
+     * 
+     * Берёт единственный аргумент в пуле свободных данных и проверяет его на принадлежность к объектам.
+     * Свойства такого объекта будут перемещены в пул свободных данных.
+     * 
+     * Если же данных в свободном пуле будет больше, то в таком случае разложение произойдет только при нахождении помеченного как `uncover` объекта.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    uncover() {
+
+        const index = this.free?.ject?.findIndex?.(ject => ject.isArgs === true);
+
+        if (!condIsSigSoft(index) || index === -1) return this;
+
+        const ject = this.free.ject.splice(index, 1)[0];
+
+        ject.isArgs = null;
+
+        const values = Object.values(ject);
+
+        if (!this.free.ject.length) this.free.ject = null;
+
+        this.append(...values);
+
+        return this;
+
+    };
+    /**
+     * ### extract
+     * 
+     * Метод извлечения значения из пула свободных значений указанной секции по заданному индексу.
+     * 
+     * ***
+     * @arg {Y1} section `Секция`
+     * @arg {argT['index']} index `Индекс`
+     * @returns {this['free'][section][0]}
+     * @template {argT['prop']} Y1
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    extract(section, index) {
+
+        if (!this.free?.[section]?.length) return null;
+
+        const result = this.free[section].splice(index, 1)[0];
+
+        if (!this.free[section].length) this.free[section] = null;
+
+        return result;
+
+    };
+    /**
+     * ### extractAll
+     * 
+     * Метод извлечения всех значений из пула свободных значений указанной секции.
+     * 
+     * ***
+     * @arg {Y1} section `Секция`
+     * @returns {argT['free'][section]}
+     * @template {argT['prop']} Y1
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    extractAll(section) {
+
+        const result = this.free?.[section]?.splice?.(0) ?? [];
+
+        if (this.free?.[section]) this.free[section] = null;
+
+        return result;
+
+    };
+    /**
+     * ### extractLast
+     * 
+     * Метод извлечения последнего значения из пула свободных значений указанной секции.
+     * 
+     * ***
+     * @arg {Y1} section `Секция`
+     * @template {argT['prop']} Y1
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    extractLast(section) {
+
+        return this.extract(section, -1)
+
+    };
+    /**
+     * ### extractFirst
+     * 
+     * Метод извлечения первого значения из пула свободных значений указанной секции.
+     * 
+     * ***
+     * @arg {Y1} section `Секция`
+     * @template {argT['prop']} Y1
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    extractFirst(section) {
+
+        return this.extract(section, 0);
+
+    };
+
     //#endregion
-    
+
     /**
      * ### YArgConstructor
      * - Версия `1.0.0`
@@ -471,51 +572,52 @@ export class YArg extends Y {
      * @constructor
     */
     constructor(...args) {
-        
+
         try {
-            
+
             //#region before
-            
+
             super();
-            
+
             //#endregion
             //#region verify
-            
-            
-            
+
+
+
             //#endregion
             //#region handle
-            
-            
-            
+
+
+
             //#endregion
             //#region comply
-            
-            
-            
+
+
+
             //#endregion
-            
+
             return this
-            
-                .adopt({ dataFree: argClassify(...args) })
-            
-            
+
+                .adopt()
+                .append(...args)
+                .uncover()
+
         } catch (err) {
-            
+
             if (config.params.strictMode) {
-                
+
                 throw err;
-                
+
             };
-            
+
         } finally {
-            
-            
-            
+
+
+
         };
-        
+
     };
-    
+
 };
 
 /**

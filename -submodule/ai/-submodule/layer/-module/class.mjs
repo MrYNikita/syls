@@ -151,7 +151,7 @@ export class YLayer extends YEntity {
             //#region before
 
             /** @type {YArg<YLayer&layerTC>} */
-            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
             
             yarg.set(
 
@@ -180,10 +180,10 @@ export class YLayer extends YEntity {
             
             return this
             
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
                 .do(self => {
 
-                    for (let index = 0; index < yarg.dataUsed.neuralNum; index++) {
+                    for (let index = 0; index < yarg.used.neuralNum; index++) {
 
                         self.neurals.push(new YNeural());
 

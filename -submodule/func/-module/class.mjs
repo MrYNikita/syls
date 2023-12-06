@@ -138,7 +138,7 @@ export class YFunc extends Y {
             //#region before
             
             /** @type {YArg<YFunc&funcTC>} */
-            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
             
             
             
@@ -163,7 +163,7 @@ export class YFunc extends Y {
             
             return this
             
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
             
             
         } catch (err) {

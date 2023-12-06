@@ -10,15 +10,20 @@ import { configCond as config } from './config.mjs';
  * Типы модуля `cond`.
  * 
  * @typedef condT
- * @prop {boolean} bool
+ * @prop {any} type
  * @prop {any} ject
- * @prop {number} number
- * @prop {string} string
- * @prop {function} func
+ * @prop {any} value
  * @prop {any[]} jects
+ * @prop {any[]} values
+ * @prop {any[]|{}[]} collection
+ * @prop {condT['collection'][]} collections
+ * @prop {number} number
  * @prop {number[]} numbers
+ * @prop {string} string
  * @prop {string[]} strings
+ * @prop {boolean} bool
  * @prop {boolean[]} bools
+ * @prop {function} func
  * @prop {function[]} funcs
  * 
 */
@@ -30,6 +35,460 @@ import { configCond as config } from './config.mjs';
 
 //#endregion
 
+//#region isIn
+
+/**
+ * ### isIn
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isInT
+ * @prop {} _
+ * ***
+ * @arg {condT&isInT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isIn(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            collection,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+
+        if ((!condIsArray(collection) && condIsJect(collection))) collection = Object.keys(collection);
+
+        for (const value of values) if (!collection.includes(value)) return false;
+
+        return true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsIn
+ * 
+ * Функция проверки вхождения элемента в структуру.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * @arg {condT['collection']} collection `Коллекция`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsIn(collection, ...values) {
+
+    return isIn({ collection, values, });
+
+};
+
+//#endregion
+//#region isInAll
+
+/**
+ * ### isInAll
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isInAllT
+ * @prop {} _
+ * ***
+ * @arg {condT&isInAllT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isInAll(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            collections,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const collection of collections) if (!condIsIn(collection, ...values)) return false; 
+
+        return true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsInAll
+ * 
+ * Функция проверки вхождения элементов во все указанные структуры.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * @arg {condT['collections']} collections `Коллекции`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsInAll(collections, ...values) {
+
+    return isInAll({ collections, values, });
+
+};
+
+//#endregion
+//#region isInOnce
+
+/**
+ * ### isInOnce
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isInOnceT
+ * @prop {} _
+ * ***
+ * @arg {condT&isInOnceT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isInOnce(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            collections,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const collection of collections) if (condIsIn(collection, ...values)) return true;
+
+        return false;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsInOnce
+ * 
+ * Функция проверки вхождения элементов хотя бы в одну из указанных структур.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * @arg {condT['collections']} collections `Коллекции`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsInOnce(collections, ...values) {
+
+    return isInOnce({ collections, values, });
+
+};
+
+//#endregion
+//#region isSig
+
+/**
+ * ### isSig
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isSigT
+ * @prop {} _
+ * ***
+ * @arg {condT&isSigT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isSig(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const value of values) if (!value || (condIsArray(value) && !value.length) || (condIsJect(value) && !Object.keys(value).length)) return false;
+
+        return true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsSig
+ * 
+ * Функция проверки указанных значений на действительность.
+ * недействительными считаются значения:
+ * - `null`
+ * - `undefined`
+ * - `0` - нуль 
+ * - `''` - пустая строка
+ * - `[]` - пустой массив
+ * - `{}` - пустой объект
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsSig(...values) {
+
+    return isSig({ values, });
+
+};
+
+//#endregion
+//#region isSigSoft
+
+/**
+ * ### isSigSoft
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isSigSoftT
+ * @prop {} _
+ * ***
+ * @arg {condT&isSigSoftT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isSigSoft(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const value of values) if (!value && value !== 0 && value !== '') return false;
+
+        return true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsSigSoft
+ * 
+ * Функция проверки указанных значений на действительность.
+ * Мягкая проверка считает значения, такие как пустая строка 
+ * - `0 - нуль`
+ * - `'' - пустая строка`
+ * - `[] - пустой массив`
+ * - `{} - пустой объект`
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsSigSoft(...values) {
+
+    return isSigSoft({ values, });
+
+};
+
+//#endregion
 //#region isBool
 
 /**
@@ -254,20 +713,14 @@ function isJect(args) {
         //#endregion
         //#region handle
         
-        result = true;
+        
         
         //#endregion
         //#region comply
         
-        for (const ject of jects) {
+        for (const ject of jects) if (!(ject instanceof Object)) return false;
 
-            if (typeof ject === 'object') continue;
-
-            result = false;
-
-            break;
-
-        };
+        result = true;
         
         //#endregion
         
@@ -308,6 +761,94 @@ function isJect(args) {
 export function condIsJect(...jects) {
 
     return isJect({ jects, });
+
+};
+
+//#endregion
+//#region isArray
+
+/**
+ * ### isArray
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isArrayT
+ * @prop {} _
+ * ***
+ * @arg {condT&isArrayT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isArray(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const value of values) if (!Array.isArray(value)) return false;
+
+        return true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsArray
+ * 
+ * Функция проверки указанных значений на принадлежность к массивам.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsArray(...values) {
+
+    return isArray({ values, });
 
 };
 
@@ -878,6 +1419,470 @@ function isNumberInt(args) {
 export function condIsNumberInt(...numbers) {
 
     return isNumberInt({ numbers, });
+
+};
+
+//#endregion
+//#region isBigInt
+
+/**
+ * ### isBigInt
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isBigIntT
+ * @prop {} _
+ * ***
+ * @arg {condT&isBigIntT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isBigInt(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const value of values) if (value?.constructor !== BigInt) return false;
+        
+        return true;
+
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsBigInt
+ * 
+ * Функция проверки указанных значений на принадлежнсоть к `bigint`.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsBigInt(...values) {
+
+    return isBigInt({ values, });
+
+};
+
+//#endregion
+//#region isSimilar
+
+/**
+ * ### isSimilar
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isSimilarT
+ * @prop {} _
+ * ***
+ * @arg {condT&isSimilarT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isSimilar(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        const reference = values.pop();
+
+        for (const value of values) if (reference?.constructor !== value?.constructor) return false;
+
+        return true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsSimilar
+ * 
+ * Функция проверки указанных значений на однородность.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsSimilar(...values) {
+
+    return isSimilar({ values, });
+
+};
+
+//#endregion
+//#region isInstance
+
+/**
+ * ### isInstance
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isInstanceT
+ * @prop {} _
+ * ***
+ * @arg {condT&isInstanceT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isInstance(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            type,
+            values,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        if (Array.isArray(type)) {
+
+            for (const value of values) {
+
+                let flag = false;
+
+                for (const stype of type) if (value instanceof stype) {
+
+                    flag = true;
+
+                    break;
+
+                };
+
+                if (!flag) return false;
+
+            };
+
+        } else for (const value of values) if (!(value instanceof type)) return false;
+
+        result = true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsInstance
+ * 
+ * Функция проверки наследственности указанных значений от указанных классов.
+ * 
+ * ***
+ * @arg {condT['type']} type `Тип`
+ * @arg {...condT['value']} values `Значения`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsInstance(type, ...values) {
+
+    return isInstance({ type, values, });
+
+};
+
+//#endregion
+//#region isInstanceAll
+
+/**
+ * ### isInstanceAll
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isInstanceAllT
+ * @prop {} _
+ * ***
+ * @arg {condT&isInstanceAllT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isInstanceAll(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            type,
+            values,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        if (Array.isArray(type)) {
+
+            for (const value of values) for (const stype of type) if (!(value instanceof stype)) return false;
+
+        } else for (const value of values) if (!(value instanceof type)) return false;
+
+        result = true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsInstanceAll
+ * 
+ * Функция строгой проверки наследственности.
+ * 
+ * ***
+ * @arg {condT['type']} type `Тип`
+ * @arg {...condT['value']} values `Значения`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsInstanceAll(type, ...values) {
+
+    return isInstanceAll({ type, values, });
+
+};
+
+//#endregion
+//#region isPrimitive
+
+/**
+ * ### isPrimitive
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isPrimitiveT
+ * @prop {} _
+ * ***
+ * @arg {condT&isPrimitiveT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isPrimitive(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+
+        for (const value of values) if (['function', 'object', 'symbol', 'bigint'].includes(typeof value) && value !== null && value !== undefined) return false;
+
+        result = true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsPrimitive
+ * 
+ * Функция проверки значений на принадлежность к примитивам.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsPrimitive(...values) {
+
+    return isPrimitive({ values, });
 
 };
 

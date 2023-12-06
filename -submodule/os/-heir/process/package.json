@@ -21,6 +21,14 @@
             "types": "./-module/type.d.ts",
             "import": "./-module/export.mjs"
         },
+        "./process-code": {
+            "types": "./-heir/processCode/-module/type.d.ts",
+            "import": "./-heir/processCode/-module/export.mjs"
+        },
+        "./process-script": {
+            "types": "./-heir/processScript/-module/type.d.ts",
+            "import": "./-heir/processScript/-module/export.mjs"
+        },
         "./dispatcher": {
             "types": "./-submodule/dispatcher/-module/type.d.ts",
             "import": "./-submodule/dispatcher/-module/export.mjs"

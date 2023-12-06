@@ -1,41 +1,831 @@
-// //#region YI
+//#region YI
 
-// import { YMany } from '@syls/y/many';
-// import { YArg } from '@syls/y/arg';
-// import { YCond } from '@syls/y/cond';
-// import { configString as config } from './config.mjs';
-// import { YStat } from '../-submodule/stat/-module/class.mjs';
-// import { YLayout } from '../-submodule/layout/-module/class.mjs';
-// import { stringCorrelate, stringGetRows, stringPaste, stringSetRow, stringTrim } from './module.mjs';
-// import { YCorrecter } from '../-submodule/correcter/-module/class.mjs';
+import { YArg } from "@syls/y/arg";
+import { YMany } from "@syls/y/many";
+import { YLayout } from '../-submodule/layout/-module/class.mjs';
+import { YCorrecter } from '../-submodule/correcter/-module/class.mjs';
+import { condIsArray, condIsFunc, condIsNumber, condIsNumberInt, condIsString, condIsStringSig } from "@syls/y/cond";
+import { configString as config } from "./config.mjs";
+import { stringAppendEvery, stringGetColumn, stringGetColumns, stringGetRow, stringGetRows, stringGetSizes, stringGetStat, stringPad, stringSetColumn, stringSetColumns, stringSetRow, stringSetRows, stringToCaseDown, stringToCaseUp, stringGetMatrix } from "./module.mjs";
+import { funcLoopRangeIn } from "@syls/func";
 
-// //#endregion
-// //#region YT
 
-// /** ### stringTC
-//  * @typedef stringTC
-//  * @prop {}
-// */
+//#endregion
+//#region YT
 
-// /** @typedef {import('./module.mjs').stringT&stringTC} stringT */
+/** ### stringTC
+ * @typedef stringTC
+ * @prop {}
+*/
 
-// //#endregion
+/** @typedef {import('./module.mjs').stringT&stringTC} stringT */
+
+//#endregion
+
+/**
+ * ### YString
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YString extends YMany {
+
+    //#region static
+
+    static {
+
+        this
+
+            .appendModule(this)
+
+    };
+
+    /**
+     * ### stock
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @type {YString[]}
+     * @field
+     * @static
+     * @public
+    */
+    static stock = [];
+    /**
+     * ### config
+     * 
+     * 
+     * 
+     * ***
+     * @field
+     * @static
+     * @public
+    */
+    static config = config;
+
+    /**
+     * @arg {...YString} args `Аргументы`
+     * @returns {YString[]}
+    */
+    static create(...args) {
+
+        return super.create(...args);
+
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YString)?}
+     * @template {YString} Y1
+     * @override
+    */
+    static setClass(value) {
+
+        return super.setClass(value);
+
+    };
+
+    //#endregion
+    //#region field
+
+    /**
+     * ### sizes
+     * 
+     * Размеры.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {number?}
+     * @field
+     * @public
+    */
+    sizes;
+    /**
+     * ### visSizes
+     * 
+     * Размеры области видимости.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {number?}
+     * @field
+     * @public
+    */
+    visSizes;
+    /**
+     * ### layout
+     * 
+     * Разметка.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {YLayout}
+     * @field
+     * @public
+    */
+    layout;
+    /**
+     * ### prefix
+     * 
+     * Префикс.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {()=>string}
+     * @field
+     * @public
+    */
+    prefix;
+    /**
+     * ### postfix
+     * 
+     * Постфикс.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {()=>string}
+     * @field
+     * @public
+    */
+    postfix;
+
+    //#endregion
+    //#region method
+
+    /**
+     * ### toCaseUp
+     * 
+     * Метод, который поднимает регистр букв по заданным индексам.
+     * 
+     * ***
+     * @arg {...stringT['index']} indexs `Индексы`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    toCaseUp(...indexs) {
+
+        this.values = stringToCaseUp(this.values, ...indexs);
+
+        return this;
+
+    };
+    /**
+     * ### toCaseDown
+     * 
+     * Методы, который уменьшает регистры букв по заданным индексам.
+     * 
+     * ***
+     * @arg {...stringT['index']} indexs `Индексы`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    toCaseDown(...indexs) {
+
+        this.values = stringToCaseDown(this.values, ...indexs);
+
+        return this;
+
+    };
+    /**
+     * ### get
+     * 
+     * Метод получения итогового текста.
+     * 
+     * ***
+     * @arg {boolean} style `Стиль`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    get(style) {
+
+        let result = this.values;
+
+        if (this.sizes) {
+
+            let rows = this.getRows();
+
+            if (this.sizes[1]) {
+
+                funcLoopRangeIn(rows, (row, index) => rows[index] = stringAppendEvery(row, '\n', this.sizes[1]));
+
+            };
+
+            rows = stringGetRows(rows.join('\n'));
+
+            if (this.sizes[0]) {
+
+                rows = rows.slice(0, this.sizes[0]);
+
+            };
+
+            result = rows.join('\n');
+
+        };
+        if (style) {
+
+
+
+        };
+
+        return result;
+
+    };
+    /**
+     * ### getVis
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getVis() {
+
+
+
+    };
+    /**
+     * ### getRow
+     * 
+     * Метод получения строки текста по указанному индексу.
+     * 
+     * ***
+     * @arg {stringT['index']} index `Индекс`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getRow(index = 0) {
+
+        return stringGetRow(this.values, index);
+
+    };
+    /**
+     * ### getRows
+     * 
+     * Метод получения всех строк текста.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getRows() {
+
+        return stringGetRows(this.values);
+
+    };
+    /**
+     * ### getStat
+     * 
+     * Метод получения статистики по тексту.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getStat() {
+
+        return stringGetStat(this.values);
+
+    };
+    /**
+     * ### getSizes
+     * 
+     * Метод получения размеров текста.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getSizes() {
+
+        return stringGetSizes(this.values);
+
+    };
+    /**
+     * @method
+     * @public
+     * @override
+    */
+    getClass() {
+
+        return YString;
+
+    };
+    /**
+     * ### getLayout
+     * 
+     * Метод получения разметки.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getLayout() {
+
+        return this.layout;
+
+    };
+    /**
+     * ### getMatrix
+     * 
+     * Метод получения матрицы символов текста.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getMatrix() {
+
+        return stringGetMatrix(this.values);
+
+    };
+    /**
+     * ### getColumn
+     * 
+     * Метод получения столбца из текста по указанному индексу.
+     * 
+     * ***
+     * @arg {stringT['index']} index `Индекс`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getColumn(index = 0) {
+
+        return stringGetColumn(this.values, index);
+
+    };
+    /**
+     * ### getColumns
+     * 
+     * Метод получения всех столбцов текста.
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    getColumns() {
+
+        return stringGetColumns(this.values);
+
+    };
+    /**
+     * ### set
+     * 
+     * Метод переназначения текущего текста.
+     * 
+     * ***
+     * @arg {stringT['string']} string `Текст`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    set(string) {
+
+        this.values = string;
+
+        return this;
+
+    };
+    /**
+     * ### setSizes
+     * 
+     * Метод установки размера.
+     * 
+     * ***
+     * @arg {...stringT['size']} sizes `Размер`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setSizes(...sizes) {
+       
+        if (sizes.every(size => condIsNumberInt(size))) {
+
+            this.sizes = sizes;
+
+        };
+
+        return this;
+        
+    };
+    /**
+     * ### setRow
+     * 
+     * Метод назначения строки в тексте по заданному индексу.
+     * 
+     * ***
+     * @arg {stringT['index']} index `Индекс`
+     * @arg {stringT['string']} string `Текст`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setRow(string, index = 0) {
+
+        this.values = stringSetRow(this.values, string, index);
+
+        return this;
+
+    };
+    /**
+     * ### setRows
+     * 
+     * Метод назначения строк по указанным индексам в тексте.
+     * 
+     * ***
+     * @arg {stringT['rows']} rows `Строки`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setRows(...rows) {
+
+        this.values = stringSetRows(this.values, ...rows);
+
+        return this;
+
+    };
+    /**
+     * ### setColumn
+     * 
+     * Метод установки столбца в тексте по указанному индексу.
+     * 
+     * ***
+     * @arg {stringT['index']} index `Индекс`
+     * @arg {stringT['string']} string `Строка`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setColumn(string, index = 0) {
+
+        this.values = stringSetColumn(this.values, string, index);
+
+        return this;
+
+    };
+    /**
+     * ### setColumns
+     * 
+     * Метод установки столбцов текста.
+     * 
+     * ***
+     * @arg {...stringT['column']} columns `Столбцы`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setColumns(...columns) {
+        
+        this.values = stringSetColumns(this.values, ...columns);
+
+        return this;
+        
+    };
+    /**
+     * ### setPrefix
+     * 
+     * Метод назначения префикса.
+     * 
+     * ***
+     * @arg {string|()=>string} prefix `Префикс`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setPrefix(prefix) {
+
+        if (condIsStringSig(prefix)) {
+
+            this.prefix = () => prefix;
+
+        } else if (condIsFunc(prefix) && condIsStringSig(prefix())) {
+
+            this.prefix = prefix;
+
+        } else {
+
+            this.prefix = null;
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### setPostfix
+     * 
+     * Метод назначения постфикса.
+     * 
+     * ***
+     * @arg {string|()=>string} postfix `Постфикс`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setPostfix(postfix) {
+
+        if (condIsStringSig(postfix)) {
+
+            this.postfix = () => postfix;
+
+        } else if (condIsFunc(postfix) && condIsStringSig(postfix())) {
+
+            this.postfix = postfix;
+
+        } else {
+
+            this.postfix = null;
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### setPrePostFix
+     * 
+     * Метод назначения префикса и постфикса последовательно.
+     * 
+     * ***
+     * @arg {string|()=>string} prefix `Префикс`
+     * @arg {string|()=>string} postfix `Постфикс`
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setPrePostFix(prefix, postfix) {
+        
+        return this
+
+            .setPrefix(prefix)
+            .setPostfix(postfix);
+        
+    };
+    /**
+     * ### pad
+     * 
+     * Метод доведения текста до указанной длины.
+     * 
+     * ***
+     * @arg {stringT['fill']} fill `Заполнитель`
+     * @arg {stringT['align']} align `Расположение`
+     * @arg {stringT['indent']} indent `Отступ`
+     * @arg {stringT['length']} length `Длина`
+     * @arg {stringT['indentLength']} indentLength `Длина отступов`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    pad(length, fill, align, indent, indentLength) {
+        
+        this.values = stringPad(this.values, length, fill, align, indent, indentLength);
+
+        return this;
+        
+    };
+
+    //#endregion
+
+    /**
+     * ### YStringConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
+     * 
+     * 
+     * 
+     * ***
+     * 
+     * @arg {...stringTC&YString} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
+    */
+    constructor(...args) {
+
+        try {
+
+            //#region before
+
+            /** @type {YArg<YString&stringTC>} */
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
+
+
+
+            super(yarg);
+
+            yarg.setFirst(
+
+                ['prefix', 'string', 'func'],
+                ['postfix', 'string', 'func'],
+                ['sizes', 'arrayNumber'],
+                ['visSizes', 'arrayNumber'],
+
+            );
+
+            //#endregion
+            //#region verify
+
+
+
+            //#endregion
+            //#region handle
+
+            if (condIsString(yarg.used.prefix)) {
+
+                yarg.used.prefix = () => yarg.used.prefix;
+
+            };
+
+            if (condIsString(yarg.used.postfix)) {
+
+                yarg.used.postfix = () => yarg.used.postfix;
+
+            };
+
+            //#endregion
+            //#region comply
+
+
+
+            //#endregion
+
+            return this
+
+                .adopt(yarg.used)
+                .do(self => {
+
+                    const cursorController = self.getCursorController();
+
+                    if (!cursorController.get()) return;
+
+                    cursorController
+
+                        .get()
+                        .move(0, this.values.length)
+
+                })
+
+
+        } catch (err) {
+
+            if (config.params.strictMode) {
+
+                throw err;
+
+            };
+
+        } finally {
+
+
+
+        };
+
+    };
+
+};
+
+/**
+ * @file string/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
+*/
 
 // /**
 //  * ### YString
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @class
 //  * @since `1.0.0`
 //  * @version `1.0.0`
 //  * @extends YMany<Y1>
 //  * @template {string} Y1
-//  * 
+//  *
 // */
 // export class YString extends YMany {
 
@@ -43,10 +833,10 @@
 
 //     /**
 //      * ### layout
-//      * 
+//      *
 //      * Разметка.
-//      * 
-//      * *** 
+//      *
+//      * ***
 //      * @type {YLayout}
 //      * @field
 //      * @public
@@ -54,10 +844,10 @@
 //     layout = new YLayout(this);
 //     /**
 //      * ### prefix
-//      * 
+//      *
 //      * Префикс.
-//      * 
-//      * *** 
+//      *
+//      * ***
 //      * @type {()=>string}
 //      * @field
 //      * @protected
@@ -65,10 +855,10 @@
 //     prefix;
 //     /**
 //      * ### postfix
-//      * 
+//      *
 //      * Постфикс.
-//      * 
-//      * *** 
+//      *
+//      * ***
 //      * @type {()=>string}
 //      * @field
 //      * @protected
@@ -80,11 +870,11 @@
 
 //     /**
 //      * ### toString
-//      * 
+//      *
 //      * ***
-//      * 
+//      *
 //      * Метод получения строкового представления.
-//      * 
+//      *
 //      * ***
 //      * @public
 //     */
@@ -159,11 +949,11 @@
 //     };
 //     /**
 //      * ### getStat
-//      * 
+//      *
 //      * ***
-//      * 
+//      *
 //      * Метод получения статистики.
-//      * 
+//      *
 //      * ***
 //      * @since `1.0.0`
 //      * @method
@@ -193,13 +983,13 @@
 //     };
 //     /**
 //      * ### getClass
-//      * 
-//      * 
-//      * 
+//      *
+//      *
+//      *
 //      * ***
-//      * 
-//      * 
-//      * 
+//      *
+//      *
+//      *
 //      * ***
 //      * @method
 //      * @public
@@ -212,11 +1002,11 @@
 //     };
 //     /**
 //      * ### getLayout
-//      * 
+//      *
 //      * ***
-//      * 
+//      *
 //      * Метод получения стилевой разметки.
-//      * 
+//      *
 //      * ***
 //      * @method
 //      * @public
@@ -367,9 +1157,9 @@
 //      * - Версия `0.0.0`
 //      * - Модуль `string`
 //      * ***
-//      * 
+//      *
 //      * Метод утсановки префикса и постфикса.
-//      * 
+//      *
 //      * ***
 //      * @arg {(string|function():string)} prefix `Префикс`
 //      * @arg {(string|function():string)} postfix `Постфикс`
@@ -386,11 +1176,11 @@
 
 //     /**
 //      * ### useLayout
-//      * 
+//      *
 //      * ***
-//      * 
+//      *
 //      * Метод использования шаблона.
-//      * 
+//      *
 //      * ***
 //      * @arg {(self:YLayout) => void} code `Код`
 //      * @method
@@ -407,11 +1197,11 @@
 //     };
 //     /**
 //      * ### useCorrecter
-//      * 
+//      *
 //      * ***
-//      * 
+//      *
 //      * Метод использования корректировщиков.
-//      * 
+//      *
 //      * ***
 //      * @arg {...((self:YCorrecter) => void)} corrects `Коррекции`
 //      * @method
@@ -531,12 +1321,12 @@
 
 //     /**
 //      * ### paint
-//      * 
-//      * 
+//      *
+//      *
 //      * ***
-//      * 
+//      *
 //      * Метод перекраски строки.
-//      * 
+//      *
 //      * ***
 //      * @arg {number} row
 //      * @arg {number} index
@@ -638,11 +1428,11 @@
 //     };
 //     /**
 //      * ### pasteSymbol
-//      * 
+//      *
 //      * ***
-//      * 
+//      *
 //      * Метод вставки символов.
-//      * 
+//      *
 //      * ***
 //      * @arg {number} index `Индекс`
 //      * @arg {stringTTSymbol} symbol `Символ`
@@ -660,12 +1450,12 @@
 //      * - Версия `0.0.0`
 //      * - Модуль `string`
 //      * ***
-//      * 
+//      *
 //      * Метод применения шаблонов.
-//      * 
+//      *
 //      * ***
 //      * @arg {string} label `Метка`
-//      * @arg {...[...string]} inserts `Вставки` 
+//      * @arg {...[...string]} inserts `Вставки`
 //      * @public
 //     */
 //     pasteTemplate(label, ...inserts) {
@@ -686,9 +1476,9 @@
 //      * ### remove
 //      * - Версия `0.2.0`
 //      * ***
-//      * 
+//      *
 //      * Метод обрезания строки.
-//      * 
+//      *
 //      * ***
 //      * @arg {number} length `Длина`
 //      * @arg {boolean} left `Сторона`
@@ -715,9 +1505,9 @@
 //      * - Версия `0.0.0`
 //      * - Модуль `string`
 //      * ***
-//      * 
+//      *
 //      * Метод фильтрации.
-//      * 
+//      *
 //      * ***
 //      * @arg {...(string|RegExp)} filters `Фильтры`
 //      * @public
@@ -734,9 +1524,9 @@
 //      * ### reflect
 //      * - Версия `0.0.0`
 //      * ***
-//      * 
+//      *
 //      * Метод зекркального отражения.
-//      * 
+//      *
 //      * ***
 //      * @arg {...[string|[string, string]]} mirrors `Отражения`
 //      * @public
@@ -775,9 +1565,9 @@
 //      * - Версия `0.0.0`
 //      * - Модуль `string`
 //      * ***
-//      * 
+//      *
 //      * Метод форматирования строки в строку отчета.
-//      * 
+//      *
 //      * ***
 //      * @public
 //     */
@@ -820,9 +1610,9 @@
 //      * - Версия `0.0.0`
 //      * - Модуль `string`
 //      * ***
-//      * 
+//      *
 //      * Метод очистки цветов.
-//      * 
+//      *
 //      * ***
 //      * @public
 //     */
@@ -838,9 +1628,9 @@
 //      * - Версия `0.0.0`
 //      * - Модуль `string`
 //      * ***
-//      * 
+//      *
 //      * Метод очистки шаблонов.
-//      * 
+//      *
 //      * ***
 //      * @public
 //     */
@@ -857,9 +1647,9 @@
 //      * - Версия `0.0.0`
 //      * - Модуль `string`
 //      * ***
-//      * 
+//      *
 //      * Метод добавления цветов.
-//      * 
+//      *
 //      * ***
 //      * @arg {[import('./ansi/module.mjs').ansiColorTMColors, import('./ansi/module.mjs').ansiColorTMColors, number, number][]} colors `Цвета`
 //      * @public
@@ -894,9 +1684,9 @@
 //      * - Версия `0.0.0`
 //      * - Модуль `string`
 //      * ***
-//      * 
+//      *
 //      * Метод добавления шаблонов.
-//      * 
+//      *
 //      * ***
 //      * @arg {...[string, string]} templates `Шаблоны`
 //      * @public
@@ -930,11 +1720,11 @@
 
 //     /**
 //      * ### stock
-//      * 
+//      *
 //      * ***
-//      * 
-//      * 
-//      * 
+//      *
+//      *
+//      *
 //      * ***
 //      * @type {YString[]}
 //      * @field
@@ -944,9 +1734,9 @@
 //     static stock = [];
 //     /**
 //      * ### config
-//      * 
-//      * 
-//      * 
+//      *
+//      *
+//      *
 //      * ***
 //      * @field
 //      * @static
@@ -982,14 +1772,14 @@
 
 //     /**
 //      * ### YStringConstructor
-//      * 
-//      * 
-//      * 
+//      *
+//      *
+//      *
 //      * ***
 //      * @arg {stringT&Y1} args `Аргументы`
-//      * 
+//      *
 //      * Представлены единым объектом носителем аргументов.
-//      * 
+//      *
 //      * ***
 //      * @constructor
 //     */
@@ -1025,7 +1815,7 @@
 
 //             return this
 
-//                 .adopt(yarg.getData())
+//                 .adopt(yarg.used)
 //                 .do(self => {
 
 //                     const cursorController = self.getCursorController();

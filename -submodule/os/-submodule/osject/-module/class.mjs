@@ -203,9 +203,9 @@ export class YOsject extends YEntity {
             //#region before
             
             /** @type {YArg<YOsject>} */
-            const yarg = args instanceof YArg ? args : new YArg(args);
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
             
-            yarg.set(
+            yarg.setFirst(
 
                 ['path', 'string'],
 
@@ -221,7 +221,7 @@ export class YOsject extends YEntity {
             //#endregion
             //#region handle
             
-            yarg.dataUsed.path = new YPath(yarg.dataUsed.path);
+            yarg.used.path = new YPath(yarg.used.path);
             
             //#endregion
             //#region comply
@@ -232,7 +232,7 @@ export class YOsject extends YEntity {
             
             return this
             
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
             
             
         } catch (err) {

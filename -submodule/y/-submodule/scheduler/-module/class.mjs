@@ -411,7 +411,7 @@ export class YScheduler extends YEntity {
      * 
      * ***
      * 
-     * @arg {schedulerTC} args `Аргументы`
+     * @arg {schedulerTC&YScheduler} args `Аргументы`
      * 
      * Представлены единым объектом носителем аргументов.
      * 
@@ -428,9 +428,13 @@ export class YScheduler extends YEntity {
             //#region before
 
             /** @type {YArg<YScheduler&schedulerTC>} */
-            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
 
+            yarg.set(
+                
+                ['frequency', 'number'],
 
+            );
 
             super(yarg);
 
@@ -453,7 +457,7 @@ export class YScheduler extends YEntity {
 
             return this
 
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
 
 
         } catch (err) {

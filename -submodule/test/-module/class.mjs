@@ -178,7 +178,7 @@ export class YTestClassPerson extends Y {
             
             return this
             
-                .adopt(yarg.getData(), config)
+                .adopt(yarg.used, config)
             
             
         } catch (err) {

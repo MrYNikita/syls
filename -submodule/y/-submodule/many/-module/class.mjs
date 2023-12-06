@@ -31,17 +31,17 @@ import { configMany as config } from "./config.mjs";
  * 
 */
 export class YMany extends YEntity {
-    
+
     //#region static
-    
+
     static {
-        
+
         this
-            
+
             .appendModule(this)
-        
+
     };
-    
+
     /**
      * ### stock
      * 
@@ -67,15 +67,15 @@ export class YMany extends YEntity {
      * @public
     */
     static config = config;
-    
+
     /**
      * @arg {...YMany} args `Аргументы`
      * @returns {YMany[]}
     */
     static create(...args) {
-        
+
         return super.create(...args);
-        
+
     };
     /**
      * @arg {Y1} value `Значение`
@@ -87,14 +87,14 @@ export class YMany extends YEntity {
      * @override
     */
     static setClass(value) {
-        
+
         return super.setClass(value);
-        
+
     };
-    
+
     //#endregion
     //#region field
-    
+
     /**
      * ### values
      * 
@@ -119,19 +119,19 @@ export class YMany extends YEntity {
      * @protected
     */
     cursors;
-    
+
     //#endregion
     //#region method
-    
+
     /**
      * @method
      * @public
      * @override
     */
     getClass() {
-        
+
         return YMany;
-        
+
     };
 
     /**
@@ -150,14 +150,14 @@ export class YMany extends YEntity {
      * @public
     */
     getCursorController() {
-        
+
         return new YCursorContoller(this);
-        
+
     };
-    
-    
+
+
     //#endregion
-    
+
     /**
      * ### YManyConstructor
      * - Версия `1.0.0`
@@ -180,69 +180,66 @@ export class YMany extends YEntity {
      * @constructor
     */
     constructor(...args) {
-        
+
         try {
-            
+
             //#region before
-            
+
             /** @type {YArg<YMany>} */
-            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
 
-            yarg
+            yarg.setFirst(
 
-                .uncover()
-                .set(
+                ['values', 'array'],
+                ['values', 'string'],
 
-                    ['values', 'array'],
-                    ['values',  'string'],
+            );
 
-                )
-            
             super(yarg);
-            
+
             //#endregion
             //#region verify
-            
-            
-            
+
+
+
             //#endregion
             //#region handle
-            
-            
-            
+
+
+
             //#endregion
             //#region comply
-            
-            
-            
+
+
+
             //#endregion
-            
+
             return this
-            
-                .adopt(yarg.getData())
+
+                .adopt(yarg.used)
                 .do(self => self.getCursorController()
 
                     .append({ many: this })
 
                 )
-            
-            
+
+
         } catch (err) {
-            
+
             if (config.params.strictMode) {
-                
+
                 throw err;
-                
+
             };
-            
+
         } finally {
-            
-            
-            
+
+
+
         };
-        
+
     };
-    
+
 };
 
 /**

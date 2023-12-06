@@ -1,7 +1,8 @@
 //#region YI
 
-import { YOsject } from '@syls/osject';
-import { pathConcat, pathGet, pathGetAll } from '@syls/path';
+import { YOsject } from '../../osject/-module/export.mjs';
+import { configDir as config } from "./config.mjs";
+import { pathConcat, pathGet, pathGetAll } from '../../path/-module/export.mjs';
 
 
 //#endregion

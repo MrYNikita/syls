@@ -81,6 +81,418 @@ export const configString = new YConfig({
      * @property
     */
     indentLengthPreset: 1,
+    /**
+     * ### style
+     * 
+     * Стиль.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {'rl'|'syls'|'vampire'}
+     * @public
+     * @property
+    */
+    style: 'syls',
+    /**
+     * ### styles
+     * 
+     * Стили.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @public
+     * @property
+    */
+    styles: {
+
+        rl: {
+
+            foreground: 'cyan',
+            background: 'blue',
+
+        },
+        syls: {
+
+            foreground: 'cyan',
+            background: 'blue',
+
+        },
+        matrix: {
+
+            foreground: 'mgreen',
+            background: 'black',
+
+        },
+        vampire: {
+
+            foreground: 'cyan',
+            background: 'blue',
+
+        },
+
+    },
+    /**
+     * ### symbols
+     * 
+     * Символы.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @public
+     * @property
+    */
+    symbols: {
+
+        spec: {
+        
+            /** @type {'‰'} */
+            permil: '‰',
+            /** @type {'°'} */
+            deg: '°',
+            /** @type {'♂'} */
+            male: '♂',
+            /** @type {'♀'} */
+            female: '♀',
+            /** @type {'✶'} */
+            star: '✶',
+            /** @type {'ᴪ'} */
+            psi: 'ᴪ',
+            /** @type {'♯'} */
+            sharp: '♯',
+            /** @type {'♪'} */
+            melody: '♪',
+            /** @type {'♫'} */
+            music: '♫',
+            /** @type {'♣'} */
+            cros: '♣',
+            /** @type {'♠'} */
+            peak: '♠',
+            /** @type {'♥'} */
+            heart: '♥',
+            /** @type {'♦'} */
+            diamond: '♦',
+
+        },
+        right: {
+
+            /** @type {'©'} */
+            copyright: '©',
+            /** @type {'™'} */
+            trademark: '™',
+            /** @type {'℗'} */
+            phonogram: '℗',
+            /** @type {'®'} */
+            trademarkReg: '®',
+            
+        },
+        text: {
+
+            /** @type {'…'} */
+            dotThree: '…',
+            /** @type {'‾'} */
+            overlining: '‾',
+            /** @type {'§'} */
+            sect: '§',
+            /** @type {'¶'} */
+            para: '¶',
+            /** @type {'\t'} */
+            tab: '\t',
+            /** @type {'—'} */
+            tiret: '—',
+            /** @type {'«'} */
+            firLeft: '«',
+            /** @type {'»'} */
+            firRight: '»',
+
+        },
+        math: {
+            
+            /** @type {'×'} */
+            mul: '×',
+            /** @type {'∑'} */
+            for: '∑',
+            /** @type {'µ'} */
+            nu: 'µ',
+            /** @type {'≥'} */
+            le: '≥',
+            /** @type {'≤'} */
+            ld: '≤',
+            /** @type {'π'} */
+            pi: 'π',
+            /** @type {'≠'} */
+            ne: '≠',
+            /** @type {'∞'} */
+            inf: '∞',
+            /** @type {'≡'} */
+            equal: '≡',
+            /** @type {'∆'} */
+            delta: '∆',
+            /** @type {'Ω'} */
+            omega: 'Ω',
+            /** @type {'∫'} */
+            integr: '∫',
+            /** @type {'≈'} */
+            approx: '≈',
+            /** @type {'±'} */
+            plusmin: '±',
+            /** @type {'∙'} */
+            dotCent: '∙',
+            /** @type {'∩'} */
+            intersec: '∩',
+            /** @type {'√'} */
+            squareRoot: '√',
+
+        },
+        table: {
+
+            /** @type {'┼'} */
+            thinCro: '┼',
+            /** @type {'│'} */
+            thinVer: '│',
+            /** @type {'┤'} */
+            thinVerJL: '┤',
+            /** @type {'├'} */
+            thinVerJR: '├',
+            /** @type {'─'} */
+            thinHor: '─',
+            /** @type {'┴'} */
+            thinHorJU: '┴',
+            /** @type {'┬'} */
+            thinHorJD: '┬',
+            /** @type {'┐'} */
+            thinCorUL: '┐',
+            /** @type {'┌'} */
+            thinCorUR: '┌',
+            /** @type {'┘'} */
+            thinCorDL: '┘',
+            /** @type {'└'} */
+            thinCorDR: '└',
+            
+            /** @type {''} */
+            doubleCro: '╬',
+            /** @type {''} */
+            doubleVer: '║',
+            /** @type {'╣'} */
+            doubleVerJL: '╣',
+            /** @type {'╠'} */
+            doubleVerJR: '╠',
+            /** @type {'═'} */
+            doubleHor: '═',
+            /** @type {'╩'} */
+            doubleHorJU: '╩',
+            /** @type {'╦'} */
+            doubleHorJD: '╦',
+            /** @type {'╗'} */
+            doubleCorUL: '╗',
+            /** @type {'╔'} */
+            doubleCorUR: '╔',
+            /** @type {'╝'} */
+            doubleCorDL: '╝',
+            /** @type {'╚'} */
+            doubleCorDR: '╚',
+            
+            /** @type {'┊'} */
+            dottedVer: '┊',
+            /** @type {'┄'} */
+            dottedHor: '┄',
+            /** @type {'┋'} */
+            dottedVerBold: '┋',
+            /** @type {'┅'} */
+            dottedHorBold: '┅',
+            
+        },
+        figure: {
+
+
+            /** @type {'╳'} */
+            cross: '╳',
+            /** @type {'○'} */
+            circle: '○',
+            /** @type {''} */
+            arrowU: '↑',
+            /** @type {''} */
+            arrowD: '↓',
+            /** @type {''} */
+            arrowL: '←',
+            /** @type {''} */
+            arrowR: '→',
+            /** @type {''} */
+            arrowLR: '↔',
+            /** @type {''} */
+            arrowUD: '↕',
+            /** @type {'●'} */
+            circleFill: '●',
+            /** @type {'◌'} */
+            circleDotted: '◌',
+            /** @type {'▫'} */
+            squareAM: '▫',
+            /** @type {'□'} */
+            squareAB: '□',
+            /** @type {'▪'} */
+            squareFM: '▪',
+            /** @type {'■'} */
+            squareFB: '■',
+            /** @type {'▲'} */
+            trinagleBU: '▲',
+            /** @type {'▼'} */
+            trinagleBD: '▼',
+            /** @type {'◄'} */
+            trinagleBL: '◄',
+            /** @type {'►'} */
+            trinagleBR: '►',
+            /** @type {'▴'} */
+            trinagleMU: '▴',
+            /** @type {'▾'} */
+            trinagleMD: '▾',
+            /** @type {'◂'} */
+            trinagleML: '◂',
+            /** @type {'▸'} */
+            trinagleMR: '▸',
+            
+        },
+        valute: {
+
+            /** @type {'¤'} */
+            valute: '¤',
+            /** @type {'₽'} */
+            ru: '₽',
+            /** @type {'₺'} */
+            li: '₺',
+            /** @type {'Br'} */
+            br: 'Br',
+            /** @type {'€'} */
+            eu: '€',
+            /** @type {'₴'} */
+            gr: '₴',
+            /** @type {'$'} */
+            dol: '$',
+            /** @type {'¢'} */
+            cent: '¢',
+            /** @type {'¥'} */
+            uan: '¥',
+            /** @type {'₸'} */
+            ten: '₸',
+            /** @type {'£'} */
+            fun: '£',
+            /** @type {'Rs'} */
+            rupi: 'Rs',
+            /** @type {'₿'} */
+            bitcoin: '₿',
+            /** @type {'ƒ'} */
+            florin: 'ƒ',
+
+        },
+        number: {
+            
+            /** @type {'⓪'} */
+            zeroCircle: '⓪',
+            /** @type {'①'} */
+            oneCircle: '①',
+            /** @type {'②'} */
+            twoCircle: '②',
+            /** @type {'③'} */
+            threeCircle: '③',
+            /** @type {'④'} */
+            fourCircle: '④',
+            /** @type {'⑤'} */
+            fiveCircle: '⑤',
+            /** @type {'⑥'} */
+            sixCircle: '⑥',
+            /** @type {'⑦'} */
+            sevenCircle: '⑦',
+            /** @type {'⑧'} */
+            eightCircle: '⑧',
+            /** @type {'⑨'} */
+            nineCircle: '⑨',
+            /** @type {'⑩'} */
+            tenCircle: '⑩',
+            /** @type {'⑪'} */
+            elevenCircle: '⑪',
+            /** @type {'⑫'} */
+            twelveCircle: '⑫',
+            /** @type {'⑬'} */
+            thirteenCircle: '⑬',
+            /** @type {'⑭'} */
+            fourteenCircle: '⑭',
+            /** @type {'⑮'} */
+            fifteenCircle: '⑮',
+            /** @type {'⑯'} */
+            sixteenCircle: '⑯',
+            /** @type {'⑰'} */
+            seventeenCircle: '⑰',
+            /** @type {'⑱'} */
+            eighteenCircle: '⑱',
+            /** @type {'⑲'} */
+            nineteenCircle: '⑲',
+            /** @type {'⑳'} */
+            twentyCircle: '⑳',
+            /** @type {'⓿'} */
+            zeroCircleFill: '⓿',
+            /** @type {'❶'} */
+            oneCircleFill: '❶',
+            /** @type {'❷'} */
+            twoCircleFill: '❷',
+            /** @type {'❸'} */
+            threeCircleFill: '❸',
+            /** @type {'❹'} */
+            fourCircleFill: '❹',
+            /** @type {'❺'} */
+            fiveCircleFill: '❺',
+            /** @type {'❻'} */
+            sixCircleFill: '❻',
+            /** @type {'❼'} */
+            sevenCircleFill: '❼',
+            /** @type {'❽'} */
+            eightCircleFill: '❽',
+            /** @type {'❾'} */
+            nineCircleFill: '❾',
+            /** @type {'❿'} */
+            tenCircleFill: '❿',
+            /** @type {'⓫'} */
+            elevenCircleFill: '⓫',
+            /** @type {'⓬'} */
+            twelveCircleFill: '⓬',
+            /** @type {'⓭'} */
+            thirteenCircleFill: '⓭',
+            /** @type {'⓮'} */
+            fourteenCircleFill: '⓮',
+            /** @type {'⓯'} */
+            fifteenCircleFill: '⓯',
+            /** @type {'⓰'} */
+            sixteenCircleFill: '⓰',
+            /** @type {'⓱'} */
+            seventeenCircleFill: '⓱',
+            /** @type {'⓲'} */
+            eighteenCircleFill: '⓲',
+            /** @type {'⓳'} */
+            nineteenCircleFill: '⓳',
+            /** @type {'⓴'} */
+            twentyCircleFill: '⓴',
+
+            
+        },
+        background: {
+
+            /** @type {'▌'} */
+            bgHL: '▌',
+            /** @type {'▐'} */
+            bgHR: '▐',
+            /** @type {'█'} */
+            bg: '█',
+            /** @type {'▀'} */
+            bgHU: '▀',
+            /** @type {'▄'} */
+            bgHD: '▄',
+            /** @type {'░'} */
+            bgR1: '░',
+            /** @type {'▒'} */
+            bgR2: '▒',
+            /** @type {'▓'} */
+            bgR3: '▓',
+            
+        },
+
+    },
     
     
 }, configMany);

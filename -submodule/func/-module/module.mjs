@@ -1,7 +1,7 @@
 //#region YI
 
 import { YArg } from '@syls/y/arg';
-import { YCond, condIsNumberSig } from '@syls/y/cond';
+import { YCond, condIsArray, condIsNumberSig } from '@syls/y/cond';
 import { configFunc as config } from './config.mjs';
 
 //#endregion
@@ -12,20 +12,22 @@ import { configFunc as config } from './config.mjs';
  * Типы модуля `func`.
  * 
  * @typedef funcT
+ * @prop {((...args: any[])=>any)|[(...args: any[])=>any, ...args: any[]]} funcExec
+ * @prop {funcT['funcExec'][]} funcsExec
  * @prop {any} value
  * @prop {any[]} array
  * @prop {number} count
  * @prop {number} indexEnd
  * @prop {number} indexStart
  * @prop {boolean} initially
- * @prop {function} func
- * @prop {function[]} funcs
+ * @prop {(doContinue: () => void, doBreak: () => void)=>void} func
+ * @prop {funcT['func'][]} funcs
  * @prop {[()=>void, apply: boolean, ...args: any ]} elementBypass
  * @prop {funcT['elementBypass'][]} arrayBypass
- * @prop {(index: number)=>void} funcRange
- * @prop {(index: number, element: any, array: any[])=>{ index: number?, }} funcRangeIn
+ * @prop {(index: number, doContinue: () => void, doBreak: () => void)=>void} funcRange
+ * @prop {(index: number, element: any, array: any[], doContinue: () => void, doBreak: () => void)=>{ index: number?, }} funcRangeIn
  * @prop {funcT['funcRangeIn'][]} funcsRangeIn
- * @prop {funcT['funcRange']} funcsRange
+ * @prop {funcT['funcRange'][]} funcsRange
  * @prop {()=>boolean|boolean} cond
 */
 
@@ -36,24 +38,24 @@ import { configFunc as config } from './config.mjs';
 
 //#endregion
 
-//#region repeat
+//#region exec
 
 /**
- * ### repeat
+ * ### exec
  * 
  * 
  * 
  * ***
- * @typedef repeatT
+ * @typedef execT
  * @prop {} _
  * ***
- * @arg {funcT&repeatT} args `Аргументы`
+ * @arg {funcT&execT} args `Аргументы`
  * *** 
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-function repeat(args) {
+function exec(args) {
     
     let result;
     
@@ -61,8 +63,7 @@ function repeat(args) {
         
         let {
             
-            count,
-            funcs,
+            funcsExec,
             
         } = args;
         
@@ -78,7 +79,7 @@ function repeat(args) {
         //#endregion
         //#region comply
         
-        result = funcExecRange(0, --count, ...funcs);
+        funcLoopRangeIn(funcsExec, func => condIsArray(func) ? func[0](...func.slice(1)) : func());
         
         //#endregion
         
@@ -100,6 +101,113 @@ function repeat(args) {
     
     return result;
     
+};
+
+/**
+ * ### funcExec
+ * 
+ * Функция выполнения указанных функций.
+ * 
+ * ***
+ * @arg {...funcT['funcExec']} funcsExec `Функции`
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function funcExec(...funcsExec) {
+
+    return exec({ funcsExec, });
+
+};
+/**
+ * ### funcExecAsync
+ * 
+ * Функция асинхронного выполнения указанных функций.
+ * 
+ * ***
+ * @arg {...funcT['funcExec']} funcsExec `Функции`
+ * 
+ * 
+ * ***
+ * @async
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export async function funcExecAsync(...funcsExec) {
+
+    return new Promise(resolve => resolve(exec({ funcsExec, })));
+
+};
+
+//#endregion
+//#region repeat
+
+/**
+ * ### repeat
+ * 
+ * 
+ * 
+ * ***
+ * @typedef repeatT
+ * @prop {} _
+ * ***
+ * @arg {funcT&repeatT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function repeat(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            count,
+            funcs,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = funcLoopRange(0, --count, ...funcs);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
 };
 
 /**
@@ -141,56 +249,56 @@ export function funcRepeat(count, ...funcs) {
  * @function
 */
 function bypass(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            value, 
+
+            value,
             arrayBypass,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         value = arrayBypass[0][1] ? arrayBypass[0][0].apply(value, arrayBypass[0].slice(2)) : arrayBypass[0][0](value, ...arrayBypass[0].slice(2));
-        
-        funcExecRangeIn(arrayBypass.splice(1), (i, e, a) => value = e[1] ? e[0].apply(value, e.slice(2)) : e[0](value, ...e.slice(2)));
+
+        funcLoopRangeIn(arrayBypass.splice(1), (e, i, a) => value = e[1] ? e[0].apply(value, e.slice(2)) : e[0](value, ...e.slice(2)));
 
         result = value;
 
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -223,87 +331,118 @@ export function funcBypass(value, ...arrayBypass) {
 };
 
 //#endregion
-//#region execWhile
+//#region loopWhile
 
 /**
- * ### execWhile
+ * ### loopWhile
  * 
  * 
  * 
  * ***
- * @typedef execWhileT
+ * @typedef loopWhileT
  * @prop {} _
  * ***
- * @arg {funcT&execWhileT} args `Аргументы`
+ * @arg {funcT&loopWhileT} args `Аргументы`
  * *** 
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-function execWhile(args) {
-    
+function loopWhile(args) {
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             cond,
-            funcs,
             initially,
-            
+            funcsRange,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         let index = 0;
+        let flagBreak = false;
+        let flagContinue = false;
 
-        if (initially) for (const func of funcs) func(index++);
+        const changeFlagBreak = () => flagBreak = true;
+        const changeFlagContinue = () => flagContinue = true;
 
-        if (typeof cond === 'boolean') while (cond) for (const func of funcs) func(index++); else while (cond()) for (const func of funcs) func(index++);
+        if (initially) for (const func of funcsRange) {
+
+            func(index, changeFlagContinue, changeFlagBreak);
+            
+            if (flagBreak || flagContinue) break;
+
+            index++;
+
+        };
+
+        while (cond()) for (const func of funcsRange) {
+            
+            flagContinue = false;
+
+            func(index);
+
+            if (flagContinue) {
+
+                continue;
+
+            } else if (flagBreak) {
+
+                break;
+
+            };
+
+            index++;
+
+        };
 
         result = true;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
+
         result = false;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
- * ### execWhile
+ * ### loopWhile
  * 
  * Функция исполнения указанных функций в цикле до тех пор, пока не будет выполнено указанное условие.
  * 
  * ***
  * @arg {funcT['cond']} cond `условие`
- * @arg {...funcT['func']} funcs `Функции`
+ * @arg {...funcT['funcRange']} funcsRange `Функции`
  * @arg {funcT['initially']} initially `Первичность`
  * 
  * При указании `true` приведет к выполнению цикла, аналогично `do ... while`.
@@ -313,93 +452,109 @@ function execWhile(args) {
  * @version `1.0.0`
  * @function
 */
-export function funcExecWhile(cond, initially, ...funcs) {
+export function funcLoopWhile(cond, initially, ...funcsRange) {
 
-    return execWhile({ cond, initially, funcs, });
+    return loopWhile({ cond, initially, funcsRange, });
 
 };
 
 //#endregion
-//#region execRange
+//#region loopRange
 
 /**
- * ### execRange
+ * ### loopRange
  * 
  * 
  * 
  * ***
- * @typedef execRangeT
+ * @typedef loopRangeT
  * @prop {} _
  * ***
- * @arg {funcT&execRangeT} args `Аргументы`
+ * @arg {funcT&loopRangeT} args `Аргументы`
  * *** 
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-function execRange(args) {
-    
+function loopRange(args) {
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            funcs,
+
             indexEnd,
             indexStart,
-            
+            funcsRange,
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
+        let flagBreak = false;
+        let flagContinue = false;
+
+        const changeFlagBreak = () => flagBreak = true;
+        const changeFlagContinue = () => flagContinue = true;
+
         for (let index = indexStart; index < indexEnd + 1; index++) {
 
-            for (const func of funcs) func(index);
+            flagContinue = false;
+
+            for (const func of funcsRange) {
+
+                func(index, changeFlagContinue, changeFlagBreak);
+
+                if (flagBreak || flagContinue) break;
+
+            };
+
+            if (flagBreak) break;
 
         };
 
         result = true;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
+
         result = false;
-        
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
- * ### execRange
+ * ### loopRange
  * 
  * Функция исполнения указанных функций `n` раз, где `n` значения от `indexStart` до `indexEnd`. 
  * 
  * ***
- * @arg {...funcT['func']} funcs `Функции`
+ * @arg {...funcT['funcRange']} funcsRange `Функции`
  * @arg {funcT['indexEnd']} indexEnd `Конец`
  * @arg {funcT['indexStart']} indexStart `Начало`
  * ***
@@ -407,109 +562,139 @@ function execRange(args) {
  * @version `1.0.0`
  * @function
 */
-export function funcExecRange(indexStart, indexEnd, ...funcs) {
+export function funcLoopRange(indexStart, indexEnd, ...funcsRange) {
 
-    return execRange({ funcs, indexEnd, indexStart, });
+    return loopRange({ funcsRange, indexEnd, indexStart, });
+
+};
+/**
+ * ### funcLoopRangeTo
+ * 
+ * Функция исполнения указанных функций `n` раз, где `n` значения от `0` до `indexEnd`. 
+ * 
+ * ***
+ * @arg {funcT['indexEnd']} indexEnd `Конец`
+ * @arg {...funcT['funcRange']} funcsRange `Функции`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function funcLoopRangeTo(indexEnd, ...funcsRange) {
+
+    return loopRange({ indexStart: 0, indexEnd, funcsRange, });
 
 };
 
 //#endregion
-//#region execRangeIn
+//#region loopRangeIn
 
 /**
- * ### execRangeIn
+ * ### loopRangeIn
  * 
  * 
  * 
  * ***
- * @typedef execRangeInT
+ * @typedef loopRangeInT
  * @prop {} _
  * ***
- * @arg {funcT&execRangeInT} args `Аргументы`
+ * @arg {funcT&loopRangeInT} args `Аргументы`
  * *** 
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-function execRangeIn(args) {
-    
+function loopRangeIn(args) {
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             array,
             funcsRangeIn,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        for (let index = 0; index < array.length; index++) {
+
+        let flagBreak = false;
+        let flagContinue = false;
+
+        const changeFlagBreak = () => flagBreak = true;
+        const changeFlagContinue = () => flagContinue = true;
+
+        if (array?.length) for (let index = 0; index < array.length; index++) {
+
+            flagContinue = false;
 
             for (const func of funcsRangeIn) {
 
-                const value = func(index, array[index], array);
+                const value = func(array[index], index, array, changeFlagContinue, changeFlagBreak);
 
                 if (condIsNumberSig(value?.index)) index = value.index;
 
+                if (flagContinue || flagBreak) break;
+
             };
+
+            if (flagBreak) break;
 
         };
 
         result = array;
-        
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
- * ### execRangeIn
+ * ### loopRangeIn
  * 
  * Функция перебора элементов указанного массива и применением к ним указанных функций.
  * 
  * ***
  * @arg {Y1} array `Массив`
- * @arg {...(index: number, element: Y1[0], array: Y1)=>void} funcsRangeIn `Функции`
+ * @arg {...(element: Y1[0], index: number, array: Y1, doContinue: () => void, doBreak: () => void)=>void} funcsRangeIn `Функции`
  * @returns {Y1}
- * @template {any[]} Y1
+ * @template Y1
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function funcExecRangeIn(array, ...funcsRangeIn) {
+export function funcLoopRangeIn(array, ...funcsRangeIn) {
 
-    return execRangeIn({ array, funcsRangeIn, });
+    return loopRangeIn({ array, funcsRangeIn, });
 
 };
 

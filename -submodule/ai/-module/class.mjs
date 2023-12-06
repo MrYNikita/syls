@@ -218,7 +218,7 @@ export class YNN extends YEntity {
             
             return this
             
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
             
             
         } catch (err) {

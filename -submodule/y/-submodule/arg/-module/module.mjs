@@ -12,7 +12,28 @@ import { configArg as config } from './config.mjs';
  * Основной параметр модуля `arg`.
  * 
  * @typedef argT
- * @prop {}
+ * @prop {number} index
+ * @prop {keyof argT['free']} prop
+ * @prop {{
+ * map: Map[],
+ * set: Set[],
+ * ject: {}[],
+ * bool: Boolean[],
+ * date: Date[],
+ * func: function[],
+ * number: number[],
+ * string: string[],
+ * regexp: RegExp[],
+ * array: any[][],
+ * arrayMap: Map[][],
+ * arraySet: Set[][],
+ * arrayBool: Boolean[][],
+ * arrayDate: Date[][],
+ * arrayFunc: function[][],
+ * arrayNumber: number[][],
+ * arrayString: string[][],
+ * arrayRegExp: RegExp[][],
+ * }} free
  * 
 */
 /** ### argTArg

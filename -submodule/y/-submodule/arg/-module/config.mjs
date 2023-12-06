@@ -20,7 +20,20 @@ const config = {
 export const configArg = new YConfig({
     
     ...config,
-    
+
+    /**
+     * ### freeDefault
+     * 
+     * Дефолт свободные данные.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {{}}
+     * @public
+     * @property
+    */
+    freeDefault: {},
+
 }, configY);
 
 export default configArg;

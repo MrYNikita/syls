@@ -138,7 +138,7 @@ export class YLayerOutput extends YLayer {
             //#region before
             
             /** @type {YArg<YLayerOutput&layerOutputTC>} */
-            const yarg = args[0] instanceof YArg ? args[0] : new YArg(args);
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
             
             
             
@@ -163,7 +163,7 @@ export class YLayerOutput extends YLayer {
             
             return this
             
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
             
             
         } catch (err) {

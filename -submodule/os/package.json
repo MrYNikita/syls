@@ -40,6 +40,10 @@
         "./osject": {
             "types": "./-submodule/osject/-module/type.d.ts",
             "import": "./-submodule/osject/-module/export.mjs"
+        },
+        "./server": {
+            "types": "./-heir/server/-module/type.d.ts",
+            "import": "./-heir/server/-module/export.mjs"
         }
     },
     "scripts": {

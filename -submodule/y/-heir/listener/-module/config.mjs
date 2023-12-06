@@ -1,5 +1,5 @@
 import { YConfig } from "@syls/y/config";
-import { configEntity } from "@syls/y/entity";
+import configEntity from "../../../-submodule/entity/-module/config.mjs";
 
 /** @type {configEntity['params']} */
 const config = {
@@ -13,13 +13,40 @@ const config = {
  * Конфигуратор модуля `listener`.
  * 
  * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
  * @public
 */
-export const configListener = new YConfig(Object.assign(config, {
+export const configListener = new YConfig({
     
+    ...config,
     
+    /**
+     * ### keysDefault
+     * 
+     * Дефолт клавиши.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {[]}
+     * @public
+     * @property
+    */
+    keysDefault: [],
+    /**
+     * ### combsDefault
+     * 
+     * Дефолт комбинации.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {[]}
+     * @public
+     * @property
+    */
+    combsDefault: [],
     
-}), configEntity);
+}, configEntity);
 
 export default configListener;
 

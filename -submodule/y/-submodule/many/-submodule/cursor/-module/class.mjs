@@ -182,7 +182,7 @@ class FCursor extends MCursor {
         /** @type {YArg<ICursor>} */
         const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
 
-        yarg.dataUsed.many = yarg.extract('ject');
+        yarg.used.many = yarg.extract('ject');
 
         return yarg;
 
@@ -226,7 +226,7 @@ class FCursor extends MCursor {
     /** @arg {YArg<ICursor>} args @this {YCursor} */
     static #handle(args) {
 
-        const data = args.dataUsed;
+        const data = args.used;
 
         if (data.many) {
 

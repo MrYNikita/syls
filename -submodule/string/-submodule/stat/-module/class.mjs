@@ -147,7 +147,7 @@ class FStat extends MStat {
         /** @type {YArg<IStat>} */
         const yarg = args instanceof YArg ? args : new YArg(args);
         
-        yarg.dataUsed.string = yarg.extract('string');
+        yarg.used.string = yarg.extract('string');
         
         return yarg;
         

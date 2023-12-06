@@ -1,51 +1,43 @@
 //#region YI
 
 import { Y } from '@syls/y';
-import { YArg } from '@syls/y/arg';
-import { configANSI as config } from './config.mjs';
+import { YArg } from "@syls/y/arg";
+import { configANSI as config } from "./config.mjs";
 
 //#endregion
 //#region YT
 
-/** ### YANSIT
- * - Тип `T`
- * 
- * Основной параметр модуля `YANSI`.
- * 
- * @typedef {YANSITE&YANSITU&Y} YANSIT
- * 
-*/
-/** ### YANSITE
- * - Тип `TE`
- * 
- * Параметр наследования `YANSI`.
- * 
- * @typedef {Omit<DANSI, keyof SANSI>} YANSITE
- * 
-*/
-/** ### YANSITU
- * - Тип `TU`
- * 
- * Уникальные параметры `YANSI`.
- * 
- * @typedef YANSITU
- * @prop {any} _
- * 
+/** ### ansiTC
+ * @typedef ansiTC
+ * @prop {}
 */
 
-/** ### ANSITTColor
- * - Тип `TT`
- * - Версия `0.0.0`
- * 
- * 
- * 
- * @typedef {import('./module.mjs').ansiColorTMColors|number} ANSITTColor
- * 
-*/
+/** @typedef {import('./module.mjs').ansiT&ansiTC} ansiT */
 
 //#endregion
 
-class SANSI extends Y {
+/**
+ * ### YANSI
+ * 
+ * 
+ * 
+ * ***
+ * @class
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * 
+*/
+export class YANSI extends Y {
+    
+    //#region static
+    
+    static {
+        
+        this
+            
+            .appendModule(this)
+        
+    };
     
     /**
      * ### stock
@@ -79,12 +71,26 @@ class SANSI extends Y {
     */
     static create(...args) {
         
-        return Object.getPrototypeOf(SANSI).create.apply(this, [...args]);
+        return super.create(...args);
+        
+    };
+    /**
+     * @arg {Y1} value `Значение`
+     * @static
+     * @method
+     * @public
+     * @returns {(Y1&YANSI)?}
+     * @template {YANSI} Y1
+     * @override
+    */
+    static setClass(value) {
+        
+        return super.setClass(value);
         
     };
     
-};
-class DANSI extends SANSI {
+    //#endregion
+    //#region field
     
     /**
      * ### underline
@@ -92,6 +98,7 @@ class DANSI extends SANSI {
      * Линия подчеркивания.
      * 
      * *** 
+     * @since `1.0.0`
      * @type {boolean}
      * @field
      * @public
@@ -100,10 +107,11 @@ class DANSI extends SANSI {
     /**
      * ### foreground
      * 
-     * Цвет символов.
+     * 
      * 
      * *** 
-     * @type {ANSITTColor}
+     * @since `1.0.0`
+     * @type {number}
      * @field
      * @public
     */
@@ -111,79 +119,95 @@ class DANSI extends SANSI {
     /**
      * ### background
      * 
-     * Цвет фона.
+     * 
      * 
      * *** 
-     * @type {ANSITTColor}
+     * @since `1.0.0`
+     * @type {number}
      * @field
      * @public
     */
     background;
     
-};
-class IANSI extends DANSI {
-    
-    
-    
-};
-class MANSI extends IANSI {
-    
-    
-    
-};
-class FANSI extends MANSI {
+    //#endregion
+    //#region method
     
     /**
-     * ### YANSI.constructor
+     * @method
+     * @public
+     * @override
+    */
+    getClass() {
+        
+        return YANSI;
+        
+    };
+    
+    //#endregion
+    
+    /**
+     * ### YANSIConstructor
+     * - Версия `1.0.0`
+     * 
+     * 
+     * ***
      * 
      * 
      * 
      * ***
-     * @arg {YANSIT} args
+     * 
+     * @arg {ansiTC} args `Аргументы`
+     * 
+     * Представлены единым объектом носителем аргументов.
+     * 
+     * ***
+     * @since `1.0.0`
+     * @public
+     * @version `1.0.0`
+     * @constructor
     */
-    constructor(args) {
-        
-        super(args = FANSI.#before(args = arguments));
-        
-        FANSI.#deceit.apply(this, [args]);
-        
-        return this.correlate();
-        
-    };
-    
-    /** @arg {DANSI} args */
-    static #before(args) {
-        
-        /** @type {YArg<IANSI>} */
-        const yarg = args instanceof YArg ? args : new YArg(args);
-
-        yarg.set(
-
-            ['underline', 'bool'],
-            ['foreground', 'string', 'number'],
-            ['background', 'string', 'number'],
-
-        );
-
-        return yarg;
-        
-    };
-    /** @arg {YArg<IANSI>} args @this {YANSI} */
-    static #deceit(args) {
+    constructor(...args) {
         
         try {
             
-            FANSI.#verify.apply(this, arguments);
+            //#region before
             
-        } catch (e) {
+            /** @type {YArg<YANSI&ansiTC>} */
+            const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
             
-            if (config?.strictMode) {
+            
+            
+            super(yarg);
+            
+            //#endregion
+            //#region verify
+            
+            
+            
+            //#endregion
+            //#region handle
+            
+            
+            
+            //#endregion
+            //#region comply
+            
+            
+            
+            //#endregion
+            
+            return this
+            
+                .adopt(yarg.used)
+            
+            
+        } catch (err) {
+            
+            if (config.params.strictMode) {
                 
-                throw e;
+                throw err;
                 
             };
-            
-            return new YANSI();
             
         } finally {
             
@@ -192,118 +216,78 @@ class FANSI extends MANSI {
         };
         
     };
-    /** @arg {YArg<IANSI>} args @this {YANSI} */
-    static #verify(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-        
-        FANSI.#handle.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IANSI>} args @this {YANSI} */
-    static #handle(args) {
-        
-        args.dataUsed.underline = args.dataUsed.underline ? true : false;
-
-        FANSI.#create.apply(this, arguments);
-        
-    };
-    /** @arg {YArg<IANSI>} args @this {YANSI} */
-    static #create(args) {
-        
-        const {
-            
-            
-            
-        } = args;
-
-        this
-        
-            .adopt(args.getData())
-        
-    };
     
 };
 
 /**
- * ### YANSI
- * - Тип `SDIMFY`
- * - Версия `1.0.0`
- * - Цепочка `BDVHC`
- * ***
- * 
- * Класс `YANSI`.
- * 
- * ***
- * @class
- * 
+ * @file ansi/class.mjs
+ * @author Yakhin Nikita Artemovich <mr.y.nikita@gmail.com>
+ * @license Apache-2.0
+ * @copyright SYLS (Software Y Lib Solutions) 2023
 */
-export class YANSI extends FANSI {
+
+// export class YANSI extends FANSI {
     
-    /**
-     * ### get
-     * - Версия `0.1.0`
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * @public
-    */
-    get() {
+//     /**
+//      * ### get
+//      * - Версия `0.1.0`
+//      * ***
+//      * 
+//      * 
+//      * 
+//      * ***
+//      * 
+//      * @public
+//     */
+//     get() {
         
-        const underline = this.underline ? config.params.codeUnderline : config.params.codeUnderlineReset;
+//         const underline = this.underline ? config.params.codeUnderline : config.params.codeUnderlineReset;
 
-        const foreground = this.foreground ? `${config.params.codeColorForeground}${config.params.codeColor};${this.foreground}` : '';
-        const background = this.background ? `${config.params.codeColorBackground}${config.params.codeColor};${this.background}` : '';
+//         const foreground = this.foreground ? `${config.params.codeColorForeground}${config.params.codeColor};${this.foreground}` : '';
+//         const background = this.background ? `${config.params.codeColorBackground}${config.params.codeColor};${this.background}` : '';
 
-        return `${config.params.code}${[underline, foreground, background].filter(code => code).join(';')}m`;
+//         return `${config.params.code}${[underline, foreground, background].filter(code => code).join(';')}m`;
         
-    };
-    /**
-     * ### getClass
-     * 
-     * 
-     * 
-     * ***
-     * 
-     * 
-     * 
-     * ***
-     * @method
-     * @public
-     * @returns {typeof YANSI}
-    */
-    getClass() {
+//     };
+//     /**
+//      * ### getClass
+//      * 
+//      * 
+//      * 
+//      * ***
+//      * 
+//      * 
+//      * 
+//      * ***
+//      * @method
+//      * @public
+//      * @returns {typeof YANSI}
+//     */
+//     getClass() {
         
-        return YANSI;
+//         return YANSI;
         
-    };
+//     };
 
-    /**
-     * ### setColor
-     * - Версия `0.0.0`
-     * ***
-     * 
-     * Метод установки цветов.
-     * 
-     * ***
-     * @arg {ANSITTColor} background `Цвет фона`
-     * @arg {ANSITTColor} foreground `Цвет символов`
-     * @public
-    */
-    setColor(foreground, background) {
+//     /**
+//      * ### setColor
+//      * - Версия `0.0.0`
+//      * ***
+//      * 
+//      * Метод установки цветов.
+//      * 
+//      * ***
+//      * @arg {ANSITTColor} background `Цвет фона`
+//      * @arg {ANSITTColor} foreground `Цвет символов`
+//      * @public
+//     */
+//     setColor(foreground, background) {
         
-        this.foreground = ansiGetColorCode(foreground) ?? null;
-        this.background = ansiGetColorCode(background) ?? null;
+//         this.foreground = ansiGetColorCode(foreground) ?? null;
+//         this.background = ansiGetColorCode(background) ?? null;
 
-        return this;
+//         return this;
         
-    };
+//     };
     
-};
+// };

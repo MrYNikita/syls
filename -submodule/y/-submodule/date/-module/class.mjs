@@ -804,14 +804,14 @@ export class YDate extends Y {
             //#endregion
             //#region handle
 
-            if (!yarg.dataUsed.value) {
+            if (!yarg.used.value) {
 
-                yarg.dataUsed.value = new Date();
+                yarg.used.value = new Date();
 
             };
-            if (!yarg.dataUsed.valueDrop) {
+            if (!yarg.used.valueDrop) {
 
-                yarg.dataUsed.valueDrop = yarg.dataUsed.value;
+                yarg.used.valueDrop = yarg.used.value;
 
             };
 
@@ -824,7 +824,7 @@ export class YDate extends Y {
 
             return this
 
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
 
 
         } catch (err) {

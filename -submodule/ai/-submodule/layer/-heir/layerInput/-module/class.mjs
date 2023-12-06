@@ -163,7 +163,7 @@ export class YLayerInput extends YLayer {
             
             return this
             
-                .adopt(yarg.getData())
+                .adopt(yarg.used)
             
             
         } catch (err) {
