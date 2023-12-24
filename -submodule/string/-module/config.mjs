@@ -22,6 +22,42 @@ export const configString = new YConfig({
     ...config,
 
     /**
+     * ### filtersDefault
+     * 
+     * Дефолт фильтры.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {any[]}
+     * @public
+     * @property
+    */
+    filtersDefault: [],
+    /**
+     * ### insertPass
+     * 
+     * Символ пропуска.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {string}
+     * @public
+     * @property
+    */
+    insertPass: '.',
+    /**
+     * ### valuesDefault
+     * 
+     * Дефолт значение.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {string}
+     * @public
+     * @property
+    */
+    valuesDefault: '',
+    /**
      * ### inityallyPreset
      * 
      * Пресет изначального значения.

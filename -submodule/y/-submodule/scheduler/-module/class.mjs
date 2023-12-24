@@ -5,6 +5,12 @@ import { YCond } from '../../cond/-module/class.mjs';
 import { YEvent } from '../-submodule/event/-module/class.mjs';
 import { YEntity } from '../../entity/-module/class.mjs';
 import { configScheduler as config } from './config.mjs';
+import { YCase } from '../-submodule/kit/-submodule/case/-module/class.mjs';
+import { YKit } from '../-submodule/kit/-module/class.mjs';
+import { funcLoopRangeIn } from '@syls/func';
+import { condIsInstance } from '../../cond/-module/module.mjs';
+import { arrayPaste, arrayRemove } from '@syls/array';
+import { YE } from '../-submodule/e/-module/class.mjs';
 
 //#endregion
 //#region YT
@@ -257,7 +263,7 @@ export class YScheduler extends YEntity {
 
         for (const event of this.events) {
 
-            if (event.accumulate() && event.disposable) {
+            if (event.accumulate(this) && event.disposable) {
 
                 this.events = this.events.filter(eventThis => eventThis !== event);
 
@@ -267,6 +273,42 @@ export class YScheduler extends YEntity {
 
         return this;
 
+    };
+    /**
+     * ### append
+     * 
+     * Метод добавления события.
+     * 
+     * ***
+     * @arg {...(YEvent|YKit)} events `События`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    append(...events) {
+        
+        funcLoopRangeIn(events, event => {
+
+            if (!condIsInstance(YE, event)) return;
+
+            const index = this.events.findIndex(item => item.label === event.label);
+
+            if (index !== -1) {
+
+                arrayPaste(this.events, event, index, 1);
+
+            } else {
+
+                this.events.push(event);
+            
+            };
+
+        });
+
+        return this;
+        
     };
     /**
      * ### appendEvents

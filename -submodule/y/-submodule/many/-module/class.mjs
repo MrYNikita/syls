@@ -28,7 +28,6 @@ import { configMany as config } from "./config.mjs";
  * @since `1.0.0`
  * @version `1.0.0`
  * @template Y1
- * 
 */
 export class YMany extends YEntity {
 
@@ -104,7 +103,7 @@ export class YMany extends YEntity {
      * @since `1.0.0`
      * @type {Y1}
      * @field
-     * @protected
+     * @public
     */
     values;
     /**

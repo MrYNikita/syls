@@ -13,6 +13,7 @@ import { funcLoopRangeIn, funcLoopRangeTo } from '@syls/func';
  * Типы модуля `array`.
  * 
  * @typedef arrayT
+ * @prop {boolean} fRepeat
  * @prop {number} index
  * @prop {number} count
  * @prop {number} length
@@ -27,6 +28,8 @@ import { funcLoopRangeIn, funcLoopRangeTo } from '@syls/func';
  * @prop {any} filler
  * @prop {any} replace
  * @prop {any[]} array
+ * @prop {any} exception
+ * @prop {any[]} exceptions
  * @prop {arrayT['elem'][]} elems
  * @prop {'string'|'number'|'boolean'|'bigint'|'null'} type
 */
@@ -337,6 +340,210 @@ function get(args) {
 export function arrayGet(array, ...position) {
 
     return get({ array, position, });
+
+};
+
+//#endregion
+//#region getRand
+
+/**
+ * ### getRand
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getRandT
+ * @prop {} _
+ * ***
+ * @arg {arrayT&getRandT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getRand(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            array,
+            exceptions,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        if (array.length === 1) {
+
+            return array[0];
+
+        };
+
+        array = array.filter(elem => !exceptions.includes(elem));
+
+        result = array[numberGetRandomReal(0, array.length - 1)] ?? undefined;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### arrayGetRand
+ * 
+ * Функция получения случайного элемента массива с учётом исключений.
+ * 
+ * Исключения необходимы для отсеивания нежелательныъ элементов.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {...arrayT['exception']} exceptions `Исключения
+ * @returns {any}
+ * @template {any[]} Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function arrayGetRand(array, ...exceptions) {
+
+    return getRand({ array, exceptions, });
+
+};
+
+//#endregion
+//#region getRandMany
+
+/**
+ * ### getRandMany
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getRandManyT
+ * @prop {} _
+ * ***
+ * @arg {arrayT&getRandManyT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getRandMany(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            array,
+            count,
+            fRepeat,
+            exceptions,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        !count && (count = 2);
+
+        //#endregion
+        //#region comply
+        
+        array = array.slice();
+
+        const elems = [];
+
+        funcLoopRangeTo(count - 1, () => {
+
+            const elem = arrayGetRand(array, ...exceptions);
+
+            elems.push(elem);
+
+            if (!fRepeat) exceptions.push(elem);
+
+        });
+
+        result = elems;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### arrayGetRandMany
+ * 
+ * Функция получения массива случайных элементов массива с учётом исключений.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @arg {arrayT['count']} count `Количество`
+ * @arg {arrayT['fRepeat']} fRepeat `Флаг повторений`
+ * @arg {...arrayT['exception']} exceptions `Исключения
+ * @returns {any}
+ * @template {any[]} Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function arrayGetRandMany(array, count, fRepeat, ...exceptions) {
+
+    return getRandMany({ array, count, fRepeat, exceptions, });
 
 };
 
@@ -1364,7 +1571,10 @@ function paste(args) {
 
         let {
 
-
+            array,
+            value,
+            index,
+            length,
 
         } = args;
 
@@ -1380,7 +1590,9 @@ function paste(args) {
         //#endregion
         //#region comply
 
+        arrayAppend(arrayRemove(array, index, length), index, value);
 
+        return array;
 
         //#endregion
 
@@ -1407,20 +1619,24 @@ function paste(args) {
 /**
  * ### arrayPaste
  * 
- * 
+ * Функция вставки значения в массив.
  * 
  * ***
- * 
- * 
- * 
+ * @arg {Y1} array `Массив`
+ * @arg {Y2} value `Значение`
+ * @arg {arrayT['index']} index `Индекс`
+ * @arg {arrayT['length']} length `Длина`
+ * @returns {[...Y1, value]}
+ * @template Y2
+ * @template {any[]} Y1
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function arrayPaste() {
+export function arrayPaste(array, value, index, length) {
 
-    return paste({});
+    return paste({ array, value, index, length, });
 
 };
 
@@ -2304,7 +2520,8 @@ function convey(args) {
 
         let {
 
-
+            array,
+            count,
 
         } = args;
 
@@ -2320,7 +2537,17 @@ function convey(args) {
         //#endregion
         //#region comply
 
+        if (count > 0) while (count--) {
 
+            array.unshift(array.pop());
+
+        } else if (count < 0) while (count++) {
+
+            array.push(array.shift());
+
+        };
+
+        result = array;
 
         //#endregion
 
@@ -2347,20 +2574,21 @@ function convey(args) {
 /**
  * ### arrayConvey
  * 
- * 
+ * Функция конвейерного сдвига.
  * 
  * ***
- * 
- * 
- * 
+ * @arg {Y1} array `Массив`
+ * @arg {arrayT['count']} count `Счётчик`
+ * @returns {Y1}
+ * @template {any[]} Y1
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function arrayConvey() {
+export function arrayConvey(array, count = 1) {
 
-    return convey({});
+    return convey({ array, count, });
 
 };
 
@@ -2383,51 +2611,51 @@ export function arrayConvey() {
  * @function
 */
 function modifyToCard(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
-            
-            
+
+
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
-        
-        
+
+
+
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2492,7 +2720,7 @@ function modifyToList(args) {
         //#endregion
         //#region comply
 
-        
+
 
         //#endregion
 
@@ -2564,7 +2792,6 @@ function extract(args) {
 
             array,
             index,
-            replace,
 
         } = args;
 
@@ -2586,7 +2813,7 @@ function extract(args) {
 
         };
 
-        const value = array.splice(index, 1, replace)[0];
+        const value = array.splice(index, 1)[0];
 
         result = value;
 
@@ -2615,12 +2842,11 @@ function extract(args) {
 /**
  * ### arrayExtract
  * 
- * Функция извлечения элемента из массива с подстановкой.
+ * Функция извлечения элемента из массива.
  * 
  * ***
  * @arg {Y1} array `Массив`
  * @arg {arrayT['index']} index `Индекс`
- * @arg {arrayT['replace']} replace `Замена`
  * @returns {Y1[index]}
  * @template {any[]} Y1
  * ***
@@ -2628,9 +2854,97 @@ function extract(args) {
  * @version `1.0.0`
  * @function
 */
-export function arrayExtract(array, index, replace = null) {
+export function arrayExtract(array, index) {
 
-    return extract({ array, index, replace, });
+    return extract({ array, index, });
+
+};
+
+//#endregion
+//#region extractRand
+
+/**
+ * ### extractRand
+ * 
+ * 
+ * 
+ * ***
+ * @typedef extractRandT
+ * @prop {} _
+ * ***
+ * @arg {arrayT&extractRandT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function extractRand(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            array,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const index = numberGetRandomReal(0, array.length === 1 ? array.length - 1 : 0);
+
+        result = arrayExtract(array, index);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### arrayExtractRand
+ * 
+ * Метод извлечения случайного значения из указанного массива.
+ * 
+ * ***
+ * @arg {Y1} array `Массив`
+ * @returns {Y1[0]}
+ * @template {any[]} Y1
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function arrayExtractRand(array) {
+
+    return extractRand({ array, });
 
 };
 
@@ -2648,9 +2962,9 @@ export function arrayExtract(array, index, replace = null) {
 /** ### arrayT
  * - Тип `T`
  * - Версия `0.0.0`
- * 
+ *
  * Основной параметр модуля `array`.
- * 
+ *
  * @typedef arrayT
  * @prop {any[]} array
  * @prop {number} count
@@ -2665,9 +2979,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef mixT
 //  * @prop {any[]} array
@@ -2745,9 +3059,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция перемешивания элементов массива в произвольном порядке.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} iter `Итерации`
@@ -2765,10 +3079,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayMix|перемешивания} элементов массива в произвольном порядке.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} iter `Итерации`
@@ -2790,9 +3104,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef padT
 //  * @prop {any} value
@@ -2885,9 +3199,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция доведения массива до указанной длины.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {any} value `Дополнитель`
@@ -2906,10 +3220,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayPad|доведения массива до указанной длины}.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {any} value `Дополнитель`
@@ -2932,9 +3246,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef moveT
 //  * @prop {any[]} array
@@ -3015,13 +3329,13 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция смещения части массива начиная с указанного индекса и на указанное количество шагов.
 //  * При перемещении высвобождает ячейки массива в случае, если выходит за пределы.
 //  * Если же сдвиг осуществляется в сторону со свободным пространством, то массив его заполнит смещаемыми элементами.
-//  * 
+//  *
 //  * Нельзя осуществить смещение в отрицательную область, то есть за пределы нуля.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} bias `Смещение`
@@ -3040,10 +3354,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayMove|смещения части массива начиная с указанного индекса и на указанное количество шагов}.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} bias `Смещение`
@@ -3066,9 +3380,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef swapT
 //  * @prop {any[]} array
@@ -3139,9 +3453,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция смены позиции элементов указанного массива по их индексам.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {...[number, number]} pairs `Пары`
@@ -3158,10 +3472,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция смены позиции элементов указанного массива по их индексам.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {...[number, number]} pairs `Пары`
@@ -3183,9 +3497,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef swapByElemT
 //  * @prop {any[]} array
@@ -3264,9 +3578,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция смены позиции элементов указанного массива по его элементам.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {...[any, any]} pairs `Пары`
@@ -3283,10 +3597,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arraySwapByElem|смены позиции элементов указанного массива по его элементам}.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {...[any, any]} pairs `Пары`
@@ -3307,9 +3621,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef pasteT
 //  * @prop {any[]} array
@@ -3378,9 +3692,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция вставки элементов в массив.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {...any} elems `Элементы`
@@ -3399,10 +3713,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayPaste|вставки элементов в массив}.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {...any} elems `Элементы`
@@ -3425,9 +3739,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef clearT
 //  * @prop {any[]} array
@@ -3490,9 +3804,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция очистки массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @returns {Y1}
@@ -3509,10 +3823,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayClear|очистки массива}.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @returns {Y1}
@@ -3533,15 +3847,15 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef devideByCountT
 //  * @prop {} _
 //  * ***
 //  * @arg {arrayT&devideByCountT} args `Аргументы`
-//  * *** 
+//  * ***
 //  * @since `1.0.0`
 //  * @version `1.0.0`
 //  * @function
@@ -3575,7 +3889,7 @@ export function arrayExtract(array, index, replace = null) {
 
 //         for (const index in result) result[+index] = [];
 
-//         for (let index = 0; index < array.length; index++) result[Math.floor(index / count)].push(array[index]); 
+//         for (let index = 0; index < array.length; index++) result[Math.floor(index / count)].push(array[index]);
 
 //         //#endregion
 
@@ -3604,9 +3918,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция разделения массива на подмассивы по указанному количеству элементов.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {arrayT['count']} count `Счётчик`
@@ -3631,9 +3945,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef createT
 //  * @prop {number} length
@@ -3696,9 +4010,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция создания массива указанной длины.
-//  * 
+//  *
 //  * ***
 //  * @arg {number} length `Длина`
 //  * @function
@@ -3717,9 +4031,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef selectT
 //  * @prop {any[]} array
@@ -3805,9 +4119,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция отбора значений по условиям.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {...((elem: Y1[0], index: number, array: Y1) => boolean)} conds `Условия`
@@ -3829,9 +4143,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef appendT
 //  * @prop {any[]} array
@@ -3908,9 +4222,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция добавления элементов в массив.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} index `Индекс`
@@ -3928,10 +4242,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayAppend|добавления элементов в массив}.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} index `Индекс`
@@ -3953,13 +4267,13 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef removeT
 //  * @prop {any[]} array
-//  * @prop {number} count 
+//  * @prop {number} count
 //  * @prop {number} index
 //  * ***
 //  * @arg {removeT} args `Аргументы`
@@ -4022,9 +4336,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция удаления элементов из массива в указанном диапазоне.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} count `Конечный индекс`
@@ -4042,10 +4356,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayRemove|удаления элементов из массива в указанном диапазоне}.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} count `Конечный индекс`
@@ -4067,9 +4381,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef conveyT
 //  * @prop {ant[]} array
@@ -4159,16 +4473,16 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция сдвига элементов массива на указанное количество шагов влево/вправо.
 //  * Конечный элемент сдвига меняется местами с первым элементом при шаге вправо и наоборот.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} step `Шаг`
 //  * @arg {boolean} direct `Направление`
 //  * Шаг сдвига.
-//  * 
+//  *
 //  * - Дефолт `1`
 //  * ***
 //  * @returns {Y1}
@@ -4185,16 +4499,16 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayConvey|сдвига элементов массива на указанное количество шагов влево/вправо}.
 //  * Конечный элемент сдвига меняется местами с первым элементом при шаге вправо и наоборот.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} step `Шаг`
 //  * @arg {boolean} direct `Направление`
 //  * Шаг сдвига.
-//  * 
+//  *
 //  * - Дефолт `1`
 //  * ***
 //  * @returns {Y1}
@@ -4215,9 +4529,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef extractT
 //  * @prop {any[]} array
@@ -4282,9 +4596,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция извлечения элемента из массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {number} index `Индекс`
@@ -4305,9 +4619,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef foreachT
 //  * @prop {any[]} array
@@ -4421,10 +4735,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция выполнения действий над элементами массива с возможностью пропуска или прерывания.
-//  * В отличии от foreach и map методов массивов, `foreach` от `YArray` унифицирован, обладает логикой для прерывания или пропуска. 
-//  * 
+//  * В отличии от foreach и map методов массивов, `foreach` от `YArray` унифицирован, обладает логикой для прерывания или пропуска.
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {Y3} act `Действие`
@@ -4445,10 +4759,10 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayForeach|выполнения действий над элементами массива с возможностью пропуска или прерывания}.
-//  * В отличии от `foreach` и `map` методов массивов, `foreach` от `YArray` унифицирован, обладает логикой для прерывания или пропуска. 
-//  * 
+//  * В отличии от `foreach` и `map` методов массивов, `foreach` от `YArray` унифицирован, обладает логикой для прерывания или пропуска.
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {Y3} act `Действие`
@@ -4473,9 +4787,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef compressT
 //  * @prop {any[]} array
@@ -4542,9 +4856,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция сжатия массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @returns {Y1}
@@ -4561,9 +4875,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayCompress|сжатия массива}.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @returns {Y1}
@@ -4584,9 +4898,9 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
-//  * 
-//  * 
+//  *
+//  *
+//  *
 //  * ***
 //  * @typedef {swapT} rearrangeT
 //  * @prop {boolean} directRight
@@ -4654,13 +4968,13 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция перестановки элементов массива из заданной позиции в указанную.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {boolean} directRight `Сдвиг вправо`
-//  * @arg {...[number, number]} pairs `Перестановки` 
+//  * @arg {...[number, number]} pairs `Перестановки`
 //  * @function
 //  * @template {any[]} Y1
 // */
@@ -4674,14 +4988,14 @@ export function arrayExtract(array, index, replace = null) {
 //  * - Тип `S`
 //  * - Версия `1.0.0`
 //  * ***
-//  * 
+//  *
 //  * Функция {@link arrayRearrange|перестановки элементов массива из заданной позиции в указанную}.
 //  * Работает с копией указанного массива.
-//  * 
+//  *
 //  * ***
 //  * @arg {Y1} array `Массив`
 //  * @arg {boolean} directRight `Сдвиг вправо`
-//  * @arg {...[number, number]} pairs `Перестановки` 
+//  * @arg {...[number, number]} pairs `Перестановки`
 //  * @function
 //  * @template {any[]} Y1
 // */
@@ -4699,6 +5013,3 @@ export function arrayExtract(array, index, replace = null) {
  * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */
-
-'XYZ', 'YXZ', 'ZXY', 'XZY', 'YZX' // Меняем местами первый и второй элемент, реверс, очередная замена местами первого элемента со вторым
-'xyzh', 'yxzh', 'hzxy', 'zhxy';

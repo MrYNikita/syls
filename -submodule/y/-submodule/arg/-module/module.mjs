@@ -1,17 +1,19 @@
 //#region YI
 
+import { YArg } from '@syls/y/arg';
+import { YCond } from '@syls/y/cond';
+import { condIsArray, condIsBigInt, condIsBool, condIsInstance, condIsJect, condIsNumber, condIsSigSoft, condIsSimilar, condIsString } from "../../cond/-module/module.mjs";
 import { configArg as config } from './config.mjs';
 
 //#endregion
 //#region YT
 
 /** ### argT
- * - Тип `T`
- * - Версия `0.0.0`
  * 
- * Основной параметр модуля `arg`.
+ * Типы модуля `arg`.
  * 
  * @typedef argT
+ * @prop {any} arg
  * @prop {number} index
  * @prop {keyof argT['free']} prop
  * @prop {{
@@ -27,6 +29,7 @@ import { configArg as config } from './config.mjs';
  * array: any[][],
  * arrayMap: Map[][],
  * arraySet: Set[][],
+ * arrayJect: {}[][],
  * arrayBool: Boolean[][],
  * arrayDate: Date[][],
  * arrayFunc: function[][],
@@ -34,36 +37,6 @@ import { configArg as config } from './config.mjs';
  * arrayString: string[][],
  * arrayRegExp: RegExp[][],
  * }} free
- * 
-*/
-/** ### argTArg
- * 
- * @typedef {[string, Y1]} argTArg
- * @template Y1
- * 
-*/
-/** ### argTArgs
- * 
- * @typedef argTArgs
- * @prop {argTArg<null>[]} null 
- * @prop {argTArg<Date>[]} date 
- * @prop {argTArg<Object>[]} ject 
- * @prop {argTArg<boolean>[]} bool 
- * @prop {argTArg<function>[]} func
- * @prop {argTArg<number>[]} number
- * @prop {argTArg<string>[]} string 
- * @prop {argTArg<RegExp>[]} regexp 
- * @prop {argTArg<bigint>[]} bigint 
- * @prop {argTArg<any[]>[]} array 
- * @prop {argTArg<null[]>[]} arrayNull 
- * @prop {argTArg<Date[]>[]} arrayDate 
- * @prop {argTArg<Object[]>[]} arrayJect 
- * @prop {argTArg<boolean[]>[]} arrayBool 
- * @prop {argTArg<function[]>[][]} arrayFunc 
- * @prop {argTArg<number[]>[][]} arrayNumber 
- * @prop {argTArg<string[]>[][]} arrayString 
- * @prop {argTArg<RegExp[]>[][]} arrayRegexp 
- * @prop {argTArg<bigint[]>[][]} arrayBigint 
  * 
 */
 
@@ -74,168 +47,120 @@ import { configArg as config } from './config.mjs';
 
 //#endregion
 
-//#region classify 1.0.0
+//#region define
 
-/** ### argTFClassify
- * - Тип `TF`
+/**
+ * ### define
+ * 
+ * 
+ * 
  * ***
- * 
- * Результирующие параметры функции `classify`.
- * 
- * @typedef {argTFUClassify&argT} argTFClassify
- * 
+ * @typedef defineT
+ * @prop {} _
+ * ***
+ * @arg {argT&defineT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
 */
-/** ### argTFUClassify
- * - Тип `TFU`
- * 
- * Уникальные параметры функции `classify`.
- * 
- * @typedef argTFUClassify
- * @prop {any[]} args
-*/
+function define(args) {
 
-/** @arg {argTFClassify} t */
-function classifyDeceit(t) {
+    let result;
 
     try {
 
-        return classifyVerify(t);
+        let {
 
-    } catch (e) {
+            arg,
 
-        if (config?.strictMode) {
+        } = args;
 
-            throw e;
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        let type = '', flagArray = condIsArray(arg);
+
+        if (arg === null || arg === undefined) {
+
+        
+
+        } else if (flagArray && !condIsSimilar(...arg)) {
+
+            type = 'array';
+
+            flagArray = false;
+
+        } else if (condIsBool(arg) || (flagArray && condIsBool(...arg))) {
+
+            type = 'bool';
+
+        } else if (condIsNumber(arg) || (flagArray && condIsNumber(...arg))) {
+
+            type = 'number';
+
+        } else if (condIsString(arg) || (flagArray && condIsString(...arg))) {
+
+            type = 'string';
+
+        } else if (condIsBigInt(arg) || (flagArray && condIsBigInt(...arg))) {
+
+            type = 'bigint';
+
+        } else if (condIsInstance(Function, arg) || (flagArray && condIsInstance(Function, ...arg))) {
+
+            type = 'func';
+
+        } else if (condIsInstance(Date, arg) || (flagArray && condIsInstance(Date, ...arg))) {
+
+            type = 'date';
+
+        } else if (condIsInstance(RegExp, arg) || (flagArray && condIsInstance(RegExp, ...arg))) {
+
+            type = 'regexp';
+
+        } else if (condIsInstance(Map, arg) || (flagArray && condIsInstance(Map, ...arg))) {
+
+            type = 'map';
+
+        } else if (condIsInstance(Set, arg) || (flagArray && condIsInstance(Set, ...arg))) {
+
+            type = 'set';
+
+        } else if (condIsJect(arg) || (flagArray && condIsJect(...arg))) {
+
+            type = 'ject';
 
         };
 
-        return undefined;
+        if (flagArray) type = 'array' + type[0].toUpperCase() + type.slice(1);
+
+        result = type;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
 
     } finally {
 
 
-
-    };
-
-};
-/** @arg {argTFClassify} t */
-function classifyVerify(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return classifyHandle(t);
-
-};
-/** @arg {argTFClassify} t */
-function classifyHandle(t) {
-
-    const {
-
-
-
-    } = t;
-
-    return classifyComply(t);
-
-};
-/** @arg {argTFClassify} t */
-function classifyComply(t) {
-
-    const {
-
-        args,
-
-    } = t;
-
-    const result = {
-
-        date: [],
-        ject: [],
-        bool: [],
-        null: [],
-        func: [],
-        array: [],
-        number: [],
-        string: [],
-        regexp: [],
-        bigint: [],
-        undefined: [],
-        arrayDate: [],
-        arrayBool: [],
-        arrayJect: [],
-        arrayNull: [],
-        arrayFunc: [],
-        arrayNumber: [],
-        arrayString: [],
-        arrayRegexp: [],
-        arrayBigint: [],
-        arrayUndefined: [],
-
-    };
-
-    for (const arg of args) {
-
-        for (const index in arg) {
-
-            let segment = null;
-
-            const value = arg[index];
-
-            switch (typeof value) {
-
-                case 'object': {
-
-                    switch (value.constructor.name) {
-
-                        case 'Date': segment = result.date; break;
-                        case 'Array': {
-
-                            if (value.length) {
-
-                                if (value.every(element => typeof element === 'number')) segment = result.arrayNumber;
-                                else if (value.every(element => typeof element === 'bigint')) segment = result.arrayBigint;
-                                else if (value.every(element => typeof element === 'boolean')) segment = result.arrayBool;
-                                else if (value.every(element => typeof element === 'string')) segment = result.arrayString;
-                                else if (value.every(element => typeof element === 'function')) segment = result.arrayFunc;
-                                else if (value.every(element => typeof element === 'undefined')) segment = result.arrayUndefined;
-                                else if (value.every(element => element instanceof RegExp)) segment = result.arrayRegexp;
-                                else if (value.every(element => element instanceof Date)) segment = result.arrayDate;
-                                else segment = result.array;
-
-                            } else {
-
-                                segment = result.array;
-
-                            };
-
-                        } break;
-                        case 'RegExp':
-                        case 'YRegExp': segment = result.regexp; break;
-                        default: segment = result.ject; break;
-
-                    };
-
-                }; break;
-                case 'string': segment = result.string; break;
-                case 'number': segment = result.number; break;
-                case 'bigint': segment = result.bigint; break;
-                case 'boolean': segment = result.bool; break;
-                case 'function': segment = result.func; break;
-                case 'undefined': segment = result.undefined; break;
-
-            };
-
-            if (segment) {
-
-                segment.push([typeof +index === 'number' ? null : index, value]);
-
-            };
-
-        };
 
     };
 
@@ -244,18 +169,23 @@ function classifyComply(t) {
 };
 
 /**
- * ### argClassify
+ * ### argDefine
+ * 
+ * Функция определения типа по переданному аргументу.
  * 
  * ***
  * 
- * Функция классификации аргументов.
+ * 
  * 
  * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @returns {keyof argT['free']}
  * @function
 */
-export function argClassify(...args) {
+export function argDefine(arg) {
 
-    return classifyDeceit({ args });
+    return define({ arg, });
 
 };
 

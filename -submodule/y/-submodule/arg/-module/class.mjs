@@ -2,14 +2,17 @@
 
 import { Y } from "../../../-module/class.mjs";
 import { configArg as config } from "./config.mjs";
-import { condIsArray, condIsBigInt, condIsBool, condIsInstance, condIsJect, condIsNumber, condIsSigSoft, condIsSimilar, condIsString } from "../../cond/-module/module.mjs";
+import { condIsArray } from "../../cond/-module/module.mjs";
+import { argDefine } from "./export.mjs";
 
 //#endregion
 //#region YT
 
 /** ### argTC
  * @typedef argTC
- * @prop {}
+ * @prop {boolean} ySets
+ * @prop {boolean} yArgs
+ * @prop {boolean} yKeys
 */
 
 /** @typedef {import('./module.mjs').argT&argTC} argT */
@@ -117,6 +120,18 @@ export class YArg extends Y {
      * @public
     */
     free;
+    /**
+     * ### keys
+     * 
+     * Ключи.
+     * 
+     * *** 
+     * @since `1.0.0`
+     * @type {Map<string, any>}
+     * @field
+     * @public
+    */
+    keys = new Map();
 
     //#endregion
     //#region method
@@ -137,9 +152,9 @@ export class YArg extends Y {
      * @public
     */
     getData() {
-        
-        return this.used;
-        
+
+        return [this.used, this.free];
+
     };
     /**
      * @method
@@ -152,37 +167,65 @@ export class YArg extends Y {
         return YArg;
 
     };
-    
+
     /**
      * ### set
      * 
      * Метод установки значения по указанному индексу, как используемых.
      * 
      * ***
-     * @arg {...[keyof Y1, number, ...argT['prop'][]]} values `Значения`
+     * @arg {...[keyof Y1, number, ...argT['prop'][]]} types `Типы`
      * ***
      * @since `1.0.0`
      * @version `1.0.0`
      * @method
      * @public
     */
-    set(...values) {
+    set(...types) {
 
-        for (const value of values) {
-            
-            if (!condIsArray(value)) continue;
+        for (const type of types) {
 
-            for (const section of value.slice(2)) {
+            if (!condIsArray(type)) continue;
+
+            for (const section of type.slice(2)) {
 
                 if (!this.free?.[section]?.length) continue;
 
-                this.used[value[0]] = this.extract(section, value[1]);
+                this.used[type[0]] = this.extract(section, type[1]);
 
                 break;
 
             };
 
-            if (!this.used[value[0]]) this.used[value[0]] = null;
+            if (!this.used[type[0]]) this.used[type[0]] = null;
+
+        };
+
+        return this;
+
+    };
+    /**
+     * ### setByKey
+     * 
+     * Установить значения по ключам.
+     * 
+     * ***
+     * @arg {...(keyof Y1)} keys `Ключи`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setByKey(...keys) {
+
+        for (const key of keys) {
+
+            this.used[key] = this.keys.get(key);
+
+            this.keys.delete(key);
 
         };
 
@@ -192,10 +235,11 @@ export class YArg extends Y {
     /**
      * ### setAll
      * 
-     * Метод установки всех значений 
+     * Метод установки всех значений из указанных типов.
+     * Установленное значение будет массивом.
      * 
      * ***
-     * @arg {...[keyof Y1, ...argT['prop'][]]} values `Значения`
+     * @arg {...[keyof Y1, ...argT['prop'][]]} types `Значения`
      * 
      * 
      * ***
@@ -204,28 +248,58 @@ export class YArg extends Y {
      * @method
      * @public
     */
-    setAll(...values) {
-        
-        for (const value of values) {
+    setAll(...types) {
 
-            if (!condIsArray(value)) continue;
+        for (const type of types) {
 
-            if (!this.used[value[0]]) {
+            if (!condIsArray(type)) continue;
 
-                this.used[value[0]] = [];
+            if (!this.used[type[0]]) {
 
-            } else if (!condIsArray(this.used[value[0]])) {
+                this.used[type[0]] = [];
 
-                this.used[value[0]] = [this.used[value[0]]];
+            } else if (!condIsArray(this.used[type[0]])) {
+
+                this.used[type[0]] = [this.used[type[0]]];
 
             };
 
-            for (const section of value.slice(1)) this.used[value[0]].push(...this.extractAll(section));
-            
+            for (const section of type.slice(1)) this.used[type[0]].push(...this.extractAll(section));
+
         };
 
         return this;
-        
+
+    };
+    /**
+     * ### setAllArray
+     * 
+     * Метод установки всех значений массивов.
+     * 
+     * ***
+     * @arg {keyof Y1} key `Ключ`
+     * 
+     * 
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    setAllArray(key) {
+
+        if (!condIsArray(this.used[key])) this.used[key] = [];
+
+        for (const section in this.free) {
+
+            if (!section.startsWith('array')) continue;
+
+            this.used[key].push(...this.extractAll(section));
+
+        };
+
+        return this;
+
     };
     /**
      * ### setLast
@@ -233,20 +307,20 @@ export class YArg extends Y {
      * Метод установки значениий, как используемых, среди последних элементов секций.
      * 
      * ***
-     * @arg {...[keyof Y1, ...argT['prop'][]]} values `Значения`
+     * @arg {...[keyof Y1, ...argT['prop'][]]} types `Значения`
      * ***
      * @since `1.0.0`
      * @version `1.0.0`
      * @method
      * @public
     */
-    setLast(...values) {
+    setLast(...types) {
 
-        this.set(...values.filter(value => {
+        this.set(...types.filter(type => {
 
-            if (!condIsArray(value)) return false;
+            if (!condIsArray(type)) return false;
 
-            value.splice(1, 0, 0);
+            type.splice(1, 0, 0);
 
             return true;
 
@@ -261,20 +335,20 @@ export class YArg extends Y {
      * Метод установки значениий, как используемых, среди первых элементов секций.
      * 
      * ***
-     * @arg {...[keyof Y1, ...argT['prop'][]]} values `Значения`
+     * @arg {...[keyof Y1, ...argT['prop'][]]} types `Значения`
      * ***
      * @since `1.0.0`
      * @version `1.0.0`
      * @method
      * @public
     */
-    setFirst(...values) {
+    setFirst(...types) {
 
-        this.set(...values.filter(value => {
+        this.set(...types.filter(type => {
 
-            if (!condIsArray(value)) return false;
+            if (!condIsArray(type)) return false;
 
-            value.splice(1, 0, -1);
+            type.splice(1, 0, -1);
 
             return true;
 
@@ -299,17 +373,17 @@ export class YArg extends Y {
      * @public
     */
     setValue(...values) {
-        
+
         for (const value of values) {
 
             if (!condIsArray(value)) continue;
 
-            this.used[value[0]] = value[1];
+            this.used[value[0]] = (value[1] ?? null);
 
         };
 
         return this;
-        
+
     };
     /**
      * ### clear
@@ -328,12 +402,12 @@ export class YArg extends Y {
      * @public
     */
     clear(freeClear = true, usedClear) {
-        
+
         if (usedClear) this.used = {};
         if (freeClear) this.free = {};
 
         return this;
-        
+
     };
     /**
      * ### append
@@ -344,8 +418,6 @@ export class YArg extends Y {
      * 
      * ***
      * @arg {...any} args `Данные`
-     * 
-     * 
      * ***
      * @since `1.0.0`
      * @version `1.0.0`
@@ -358,63 +430,37 @@ export class YArg extends Y {
 
         for (let arg of args) {
 
-            let type = '', flagArray = condIsArray(arg);
+            if (arg === null || arg === undefined) continue;
 
-            if (arg === null || arg === undefined) {
-
-                continue;
-
-            } else if (flagArray && !condIsSimilar(...arg)) {
-
-                type = 'array';
-
-                flagArray = false;
-
-            } else if (condIsBool(arg) || (flagArray && condIsBool(...arg))) {
-
-                type = 'bool';
-
-            } else if (condIsNumber(arg) || (flagArray && condIsNumber(...arg))) {
-
-                type = 'number';
-
-            } else if (condIsString(arg) || (flagArray && condIsString(...arg))) {
-
-                type = 'string';
-
-            } else if (condIsBigInt(arg) || (flagArray && condIsBigInt(...arg))) {
-
-                type = 'bigint';
-
-            } else if (condIsInstance(Date, arg) || (flagArray && condIsInstance(Date, ...arg))) {
-
-                type = 'date';
-
-            } else if (condIsInstance(RegExp, arg) || (flagArray && condIsInstance(RegExp, ...arg))) {
-
-                type = 'regexp';
-
-            } else if (condIsInstance(Map, arg) || (flagArray && condIsInstance(Map, ...arg))) {
-
-                type = 'map';
-
-            } else if (condIsInstance(Set, arg) || (flagArray && condIsInstance(Set, ...arg))) {
-
-                type = 'set';
-
-            } else if (condIsJect(arg) || (flagArray && condIsJect(...arg))) {
-
-                type = 'ject';
-
-            };
-
-            if (flagArray) type = 'array' + type[0].toUpperCase() + type.slice(1);
+            const type = argDefine(arg);
 
             if (!(type in this.free) || !this.free[type]) this.free[type] = [];
 
             this.free[type].push(arg);
 
         };
+
+        return this;
+
+    };
+    /**
+     * ### appendByProp
+     * 
+     * Метод добавления данных в пул свободных значений по указанному свойству.
+     * 
+     * Алгоритм добавления игнорирует значения `null` и `undefined`, так как `null` в библиотеке предустанавливается по дефолту, а `undefined` исключено.
+     * 
+     * ***
+     * @arg {...[string, any]} args `Данные`
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    appendByProp(...args) {
+
+        for (const arg of args) if (arg[0] !== 'isArgs') this.keys.set(...arg);
 
         return this;
 
@@ -441,19 +487,39 @@ export class YArg extends Y {
     */
     uncover() {
 
-        const index = this.free?.ject?.findIndex?.(ject => ject.isArgs === true);
+        for (let index = 0; index < this?.free?.ject?.length; index++) {
 
-        if (!condIsSigSoft(index) || index === -1) return this;
+            const ject = this.free.ject[index];
 
-        const ject = this.free.ject.splice(index, 1)[0];
+            if (!ject.yArgs && !ject.ySets && !ject.yKeys) {
 
-        ject.isArgs = null;
+                continue;
 
-        const values = Object.values(ject);
+            } else if (ject.yArgs && !ject.ySets && !ject.ykeys) {
 
-        if (!this.free.ject.length) this.free.ject = null;
+                ject.yArgs = null;
 
-        this.append(...values);
+                const args = Object.values(ject);
+
+                this.append(...args);
+
+            } else if (ject.yKeys && !ject.ySets) {
+
+                const args = Object.entries(ject);
+
+                this.appendByProp(...args);
+
+            } else if (ject.ySets) {
+
+                for (const arg of Object.entries(ject)) if (!['yArgs', 'ySets'].includes(arg[0])) this.setValue(arg);
+
+            };
+
+            this.free.ject.splice(index--, 1);
+
+        };
+
+        if (!this?.free?.ject?.length) this.free.ject = null;
 
         return this;
 
@@ -561,7 +627,7 @@ export class YArg extends Y {
      * 
      * ***
      * 
-     * @arg {argTC&Y1} args `Аргументы`
+     * @arg {...argTC&Y1} args `Аргументы`
      * 
      * Представлены единым объектом носителем аргументов.
      * 

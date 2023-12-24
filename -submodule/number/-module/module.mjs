@@ -103,6 +103,8 @@ function getRandomHandle(t) {
 
     } = t;
 
+    if (t.min > t.max) [t.min, t.max] = [t.max, t.min];
+
     return getRandomComply(t);
 
 };
@@ -118,6 +120,8 @@ function getRandomComply(t) {
         unique,
 
     } = t;
+
+    if (min === max) return min;
 
     if (count && unique && !frac) {
 

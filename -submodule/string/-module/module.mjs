@@ -1,11 +1,13 @@
 //#region YI
 
 import { YArg } from '@syls/y/arg';
-import { YCond, condIsNumberSig } from '@syls/y/cond';
+import { YCond, condIsArray, condIsNumber, condIsNumberSig } from '@syls/y/cond';
 import { configString as config } from './config.mjs';
 import { funcLoopRange, funcLoopRangeIn, funcLoopRangeTo } from '@syls/func';
 import { yGetProp } from '@syls/y';
 import { numberGetRandomReal } from '@syls/number';
+import { arrayAppend, arrayGetRand, arrayGetRandMany } from '@syls/array';
+import { ansiCreate, ansiCreateByJect, ansiCreateColor, ansiCreateColorReset, ansiGetParamColor, ansiGetParamColorReset, ansiRegExp } from '../-submodule/ansi/-module/module.mjs';
 
 //#endregion
 //#region YT
@@ -14,7 +16,23 @@ import { numberGetRandomReal } from '@syls/number';
  * 
  * Типы модуля `string`.
  * 
+ * @typedef {import('../-submodule/ansi/-module/export.mjs').ansiT} ansiT
+ * 
+ * 
  * @typedef stringT
+ * 
+ * @prop {stringT['style'][]} styles
+ * @prop {keyof config['params']['styles']} style
+ * 
+ * @prop {string|RegExp} regexp
+ * @prop {stringT['regexp'][]} regexpes
+ * 
+ * @prop {ansiT['foreground']} foreground
+ * @prop {ansiT['background']} background
+ * @prop {ansiT['foreground']} foregroundEnd
+ * @prop {ansiT['background']} backgroundEnd
+ * @prop {stringT['colorPoint']} colorPoints
+ * @prop {[ansiT['foreground'], ansiT['background'], stringT['index'], stringT['index'], ('skip'|null), boolean]} colorPoint
  * 
  * @prop {[string, number]} row
  * @prop {stringT['row'][]} rows
@@ -36,26 +54,42 @@ import { numberGetRandomReal } from '@syls/number';
  * @prop {[number, number]} sizes
  * @prop {[number, number]} position
  * @prop {number|[number, number]} index
- * @prop {number[]} indexs
+ * @prop {number|[number, number]} indexEnd
+ * @prop {stringT['index']} indexs
  * @prop {number} length
- * @prop {number} indexEnd
  * @prop {number} indentLength
+ * 
+ * @prop {string} urlFragment
+ * @prop {string[]} urlPath
+ * @prop {string|number} urlPort
+ * @prop {[string, string][]} urlQuery
+ * @prop {'127.0.0.1'|'localhost'} urlHost
+ * @prop {'http'|'https'|'ftp'|'mailto'} urlScheme
+ * 
+ * @prop {string} pass
  * @prop {string} char
  * @prop {string[]} chars
  * @prop {string} fill
  * @prop {string} string
+ * @prop {string[]} strings
+ * @prop {[string, string, boolean]} inserts
  * @prop {string} indent
  * @prop {string} delimeter
  * @prop {string} substring
  * @prop {string|RegExp} match
  * @prop {[string|RegExp][]} matches
- * @prop {boolean} direction
- * @prop {boolean} initially
  * @prop {[string, number]} pairSymbolIndex
  * @prop {[string, number, number]} pairSymbolPosition
+ * 
+ * @prop {boolean} flagExpand
+ * @prop {boolean} direction
+ * @prop {boolean} initially
+ * @prop {boolean} flagAll
+ * @prop {boolean} flagBias
  * @prop {{[K in keyof config['params']['symbols']]: keyof config['params']['symbols'][K]}[keyof config['params']['symbols']]} symbolName
  * 
  * @prop {{
+ * lang: 'ru'|'en',
  * vols: (string|[string|number])[],
  * cots: (string|[string|number])[],
  * chance: number?,
@@ -271,6 +305,262 @@ function toCaseDown(args) {
 export function stringToCaseDown(string, ...indexs) {
 
     return toCaseDown({ string, indexs, });
+
+};
+
+//#endregion
+//#region toCaseCaps
+
+/**
+ * ### toCaseCaps
+ * 
+ * 
+ * 
+ * ***
+ * @typedef toCaseCapsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&toCaseCapsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function toCaseCaps(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = '';
+
+        for (let char of string) result += char.toUpperCase();
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringToCaseCaps
+ * 
+ * Функция увеличения регистра всех символов текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringToCaseCaps(string) {
+
+    return toCaseCaps({ string, });
+
+};
+
+//#endregion
+//#region toCaseUncaps
+
+/**
+ * ### toCaseUncaps
+ * 
+ * 
+ * 
+ * ***
+ * @typedef toCaseUncapsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&toCaseUncapsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function toCaseUncaps(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = '';
+
+        for (let char of string) result += char.toLowerCase();
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringToCaseUncaps
+ * 
+ * Функция уменьшения регистра всех символов текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringToCaseUncaps(string) {
+
+    return toCaseUncaps({ string, });
+
+};
+
+//#endregion
+//#region toCaseCapitalize
+
+/**
+ * ### toCaseCapitalize
+ * 
+ * 
+ * 
+ * ***
+ * @typedef toCaseCapitalizeT
+ * @prop {} _
+ * ***
+ * @arg {stringT&toCaseCapitalizeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function toCaseCapitalize(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        result = string[0].toUpperCase() + string.slice(1);
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringToCaseCapitalize
+ * 
+ * Функция увеличения регистра первого символа в тексте.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringToCaseCapitalize(string) {
+
+    return toCaseCapitalize({ string, });
 
 };
 
@@ -549,6 +839,193 @@ export function stringGetStat(string) {
 };
 
 //#endregion
+//#region getAnsi
+
+/**
+ * ### getAnsi
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getAnsiT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getAnsiT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getAnsi(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const data = [];
+        const regexp = new RegExp(ansiRegExp, 'ms');
+
+        let match = null;
+
+        while (match = string.match(regexp)) {
+
+            string = stringRemoveRange(string, match.index, match.index + match[0].length - 1);
+
+            data.push([match[0], match.index]);
+
+        };
+
+        result = data;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringGetAnsi
+ * 
+ * Функция получения `ansi` вставок из указанного текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetAnsi(string) {
+
+    return getAnsi({ string, });
+
+};
+
+//#endregion
+//#region getCount
+
+/**
+ * ### getCount
+ * 
+ * 
+ * 
+ * ***
+ * @typedef getCountT
+ * @prop {} _
+ * ***
+ * @arg {stringT&getCountT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function getCount(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+            matches,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        let count = 0;
+
+        funcLoopRangeIn(matches, match => count += (string.match(new RegExp(match, 'msg')).length ?? 0));
+
+        result = count;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringGetCount
+ * 
+ * Функция подсчёта совпадней по строке.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Строка`
+ * @arg {...stringT['match']} matches `Совпадения`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringGetCount(string, ...matches) {
+
+    return getCount({ string, matches });
+
+};
+
+//#endregion
 //#region getSizes
 
 /**
@@ -657,55 +1134,55 @@ export function stringGetSizes(string) {
  * @function
 */
 function getMatrix(args) {
-    
+
     let result;
-    
+
     try {
-        
+
         let {
-            
+
             string,
-            
+
         } = args;
-        
+
         //#region verify
-        
-        
-        
+
+
+
         //#endregion
         //#region handle
-        
-        
-        
+
+
+
         //#endregion
         //#region comply
-        
+
         let rows = stringGetRows(string);
 
         for (const index in rows) rows[index] = rows[index].match(/./gmsi);
-        
+
         result = rows;
 
         //#endregion
-        
+
     } catch (err) {
-        
+
         if (config.params.strictMode) {
-            
+
             throw err;
-            
+
         };
-        
-        
-        
+
+
+
     } finally {
-        
-        
-        
+
+
+
     };
-    
+
     return result;
-    
+
 };
 
 /**
@@ -2334,92 +2811,6 @@ export function stringTrimRows() {
 };
 
 //#endregion
-//#region split
-
-/**
- * ### split
- * 
- * 
- * 
- * ***
- * @typedef splitT
- * @prop {} _
- * ***
- * @arg {stringT&splitT} args `Аргументы`
- * *** 
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-function split(args) {
-
-    let result;
-
-    try {
-
-        let {
-
-
-
-        } = args;
-
-        //#region verify
-
-
-
-        //#endregion
-        //#region handle
-
-
-
-        //#endregion
-        //#region comply
-
-
-
-        //#endregion
-
-    } catch (err) {
-
-        if (config.params.strictMode) {
-
-            throw err;
-
-        };
-
-
-
-    } finally {
-
-
-
-    };
-
-    return result;
-
-};
-
-/**
- * ### split
- * 
- * 
- * 
- * ***
- * 
- * 
- * 
- * ***
- * @since `1.0.0`
- * @version `1.0.0`
- * @function
-*/
-export function stringSplit() {
-
-    return split({});
-
-};
-
-//#endregion
 //#region splitEvery
 
 /**
@@ -2498,6 +2889,7 @@ function splitEvery(args) {
  * ***
  * @arg {stringT['string']} string `Текст`
  * @arg {stringT['length']} length `Длина`
+ * @returns {string[]}
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
@@ -2638,6 +3030,7 @@ function paste(args) {
             length,
             string,
             substring,
+            flagExpand,
 
         } = args;
 
@@ -2650,7 +3043,13 @@ function paste(args) {
 
         if (Array.isArray(index)) {
 
+            if (flagExpand) string = stringExpand(string, ...index);
+
             index = stringGetIndexByPosition(string, ...index);
+
+        } else if (flagExpand) {
+
+            string = stringExpand(string, 0, index);
 
         };
 
@@ -2691,14 +3090,15 @@ function paste(args) {
  * @arg {stringT['string']} string `Текст`
  * @arg {stringT['length']} length `Длина`
  * @arg {stringT['substring']} substring `Подстрока`
+ * @arg {stringT['flagExpand']} flagExpand `Расширяемость`
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringPaste(string, substring, index = 0, length = substring.length) {
+export function stringPaste(string, substring, index = 0, length = substring.length, flagExpand) {
 
-    return paste({ string, substring, index, length, });
+    return paste({ string, substring, index, length, flagExpand, });
 
 };
 
@@ -2806,24 +3206,24 @@ export function stringPasteWrap(string, substring, index, length) {
 };
 
 //#endregion
-//#region pasteSymbol
+//#region color
 
 /**
- * ### pasteSymbol
+ * ### color
  * 
  * 
  * 
  * ***
- * @typedef pasteSymbolT
+ * @typedef colorT
  * @prop {} _
  * ***
- * @arg {stringT&pasteSymbolT} args `Аргументы`
+ * @arg {stringT&colorT} args `Аргументы`
  * *** 
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-function pasteSymbol(args) {
+function color(args) {
 
     let result;
 
@@ -2831,7 +3231,11 @@ function pasteSymbol(args) {
 
         let {
 
-
+            string,
+            foreground,
+            background,
+            foregroundEnd,
+            backgroundEnd,
 
         } = args;
 
@@ -2847,7 +3251,7 @@ function pasteSymbol(args) {
         //#endregion
         //#region comply
 
-
+        result = ansiCreateByJect({ foreground, background, }) + string + ansiCreate(ansiGetParamColorReset(foregroundEnd, backgroundEnd));
 
         //#endregion
 
@@ -2872,22 +3276,168 @@ function pasteSymbol(args) {
 };
 
 /**
- * ### pasteSymbol
+ * ### stringColor
+ * 
+ * Функция перекраски текста.
+ * 
+ * Текст перекрашивается от начала и до самого конца.
+ * В аргументе указывается нексколько параметров, среди которых:
+ * 
+ * 1. Цвет текста.
+ * 2. Цвет после текста.
+ * 
+ * Цвет после текста обозначается - `ender`.
+ * По дефолту вместо него вставляется сброс цвета.
+ * 
+ * ***
+ * @arg {stringT['foreground']} foreground `Цвет переднего плана`
+ * @arg {stringT['background']} background `Цвет фона`
+ * @arg {stringT['foregroundEnd']} foregroundEnd `Завершающий цвет переднего плана`
+ * @arg {stringT['backgroundEnd']} backgroundEnd `Завершающий цвет фона`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringColor(string, foreground, background, foregroundEnd, backgroundEnd) {
+
+    return color({ string, foreground, background, foregroundEnd, backgroundEnd, });
+
+};
+
+//#endregion
+//#region paint
+
+/**
+ * ### paint
  * 
  * 
  * 
  * ***
+ * @typedef paintT
+ * @prop {} _
+ * ***
+ * @arg {stringT&paintT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function paint(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+            colorPoints,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        funcLoopRangeIn(colorPoints, colorPoint => {
+
+            if (condIsArray(colorPoint[2])) colorPoint[2] = stringGetIndexByPosition(string, ...colorPoint[2]);
+
+            if (condIsNumber(colorPoint[3]) && colorPoint[3] > 0) colorPoints.push([colorPoint[4], colorPoint[5], colorPoint[2] + colorPoint[3]]);
+
+        });
+
+        //#endregion
+        //#region comply
+
+        const ansi = stringGetAnsi(string);
+
+        string = stringFilter(string, ansiRegExp);
+
+        funcLoopRangeIn(colorPoints, (colorPoint, colorPointIndex) => {
+
+            let prefix = colorPoint[0] === 'skip' ? 'skip' : !colorPoint[0] ? ansiCreate(ansiGetParamColorReset()) : ansiCreate(ansiGetParamColor(colorPoint[0], colorPoint[1]));
+            let flagPaste = false;
+
+            if (ansi.length) for (const index in ansi) {
+
+                if (ansi[index][1] >= colorPoint[2] && !flagPaste) {
+
+                    if (prefix === 'skip' && colorPointIndex) prefix = ansi[index - 1][0];
+
+                    flagPaste = true;
+
+                    arrayAppend(ansi, index, [prefix, colorPoint[2]]);
+
+                    if (!colorPoint[5]) break;
+
+                } else if (flagPaste) {
+
+                    ansi[index][1] += prefix.length;
+
+                };
+
+            };
+
+            if (!flagPaste) {
+
+                if (prefix === 'skip') prefix = ansi.at(-2)[0];
+
+                ansi.push([prefix, colorPoint[2]]);
+
+            };
+
+        });
+
+        if (ansi.length) funcLoopRange(ansi.length - 1, 0, index => string = stringPaste(string, ansi[index][0] === '\x1b[' ? ansiCreate(ansiGetParamColorReset()) : ansi[index][0], ansi[index][1], 0));
+
+        if (ansi?.at?.(-1)?.[0] !== ansiCreate(ansiGetParamColorReset())) string += ansiCreate(ansiGetParamColorReset());
+
+        result = string;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringPaint
  * 
+ * Функция раскраски текста.
  * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['colorPoint']} colorPoints `Цветовые точки`
  * 
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringPasteSymbol() {
+export function stringPaint(string, ...colorPoints) {
 
-    return pasteSymbol({});
+    return paint({ string, colorPoints, });
 
 };
 
@@ -2992,6 +3542,96 @@ function append(args) {
 export function stringAppend(string, substring, index = string.length) {
 
     return append({ string, substring, index, });
+
+};
+
+//#endregion
+//#region appendRows
+
+/**
+ * ### appendRows
+ * 
+ * 
+ * 
+ * ***
+ * @typedef appendRowsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&appendRowsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function appendRows(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            rows,
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const rowsNow = stringGetRows(string);
+
+        for (const row of rows) arrayAppend(rowsNow, row[1], row[0]);
+
+        result = rowsNow.join('\n');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringAppendRows
+ * 
+ * Функция добавления строк в текст.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['row']} rows `Строки`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringAppendRows(string, ...rows) {
+
+    return appendRows({ string, rows, });
 
 };
 
@@ -3307,6 +3947,110 @@ function remove(args) {
 export function stringRemove(string, ...indexs) {
 
     return remove({ string, indexs, });
+
+};
+
+//#endregion
+//#region removeRows
+
+/**
+ * ### removeRows
+ * 
+ * 
+ * 
+ * ***
+ * @typedef removeRowsT
+ * @prop {} _
+ * ***
+ * @arg {stringT&removeRowsT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function removeRows(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+            indexs,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        indexs = indexs.sort((p, c) => (p?.[0] ?? p) - (c?.[0] ?? c));
+
+        //#endregion
+        //#region comply
+
+        const rows = stringGetRows(string);
+
+        while (indexs.length) {
+
+            const index = indexs.pop();
+
+            if (condIsArray(index)) {
+
+                rows.splice(index[0], index[1]);
+
+            } else {
+
+                rows.splice(index, 1);
+
+            };
+
+        };
+
+        result = rows.join('\n');
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringRemoveRows
+ * 
+ * Функция удаления строк из указанного текста.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['index']} indexs `Индексы`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringRemoveRows(string, ...indexs) {
+
+    return removeRows({ string, indexs, });
 
 };
 
@@ -3850,17 +4594,11 @@ function expand(args) {
 
         const rows = stringGetRows(string);
 
-        if (sizes[1]) for (const index in rows) {
+        funcLoopRange(1, sizes[1], () => rows.push(''));
 
-            rows[+index] = stringPad(rows[+index], sizes[1], ' ', -1);
+        if (sizes[1]) funcLoopRangeIn(rows, (_, index) => rows[index] = rows[index].padEnd(rows[index].length + sizes[1], ' '));
 
-        };
-
-        for (let index = 0; index < sizes[0]; index++) {
-
-            string += '\n' + ' '.repeat(string.length + (sizes[1] ?? 0));
-
-        };
+        result = rows.join('\n');
 
         //#endregion
 
@@ -4251,7 +4989,10 @@ function insert(args) {
 
         let {
 
-
+            pass,
+            string,
+            flagAll,
+            substring,
 
         } = args;
 
@@ -4267,7 +5008,11 @@ function insert(args) {
         //#endregion
         //#region comply
 
+        console.log(flagAll)
 
+        string = flagAll ? string.replaceAll(pass, substring) : string.replace(pass, substring);
+
+        result = string;
 
         //#endregion
 
@@ -4294,20 +5039,21 @@ function insert(args) {
 /**
  * ### insert
  * 
- * 
+ * Функция вставки значения на место пропуска.
  * 
  * ***
- * 
- * 
- * 
+ * @arg {stringT['pass']} pass `Пропуск`
+ * @arg {stringT['string']} string `Строка`
+ * @arg {stringT['flagAll']} flagAll `Режим полного замещения`
+ * @arg {stringT['substring']} substring `Подстрока`
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringInsert() {
+export function stringInsert(string, substring, pass = config.params.insertPass, flagAll) {
 
-    return insert({});
+    return insert({ string, substring, pass, flagAll, });
 
 };
 
@@ -4337,7 +5083,8 @@ function insertBypass(args) {
 
         let {
 
-
+            string,
+            inserts,
 
         } = args;
 
@@ -4353,7 +5100,31 @@ function insertBypass(args) {
         //#endregion
         //#region comply
 
+        funcLoopRangeIn(inserts, insert => {
 
+            let substring = insert, flagAll = false, pass = config.params.insertPass;
+
+            if (condIsArray(insert)) {
+
+                const args = new YArg(...insert)
+
+                    .setFirst(
+
+                        ['substring', 'string'],
+                        ['pass', 'string'],
+                        ['flagAll', 'bool']
+
+                    );
+
+                ({ substring, pass, flagAll } = args.used);
+
+            };
+
+            string = stringInsert(string, substring, pass, flagAll);
+
+        });
+
+        result = string;
 
         //#endregion
 
@@ -4380,20 +5151,19 @@ function insertBypass(args) {
 /**
  * ### insertBypass
  * 
- * 
+ * Функция для многократной подстановки значений в текст.
  * 
  * ***
- * 
- * 
- * 
+ * @arg {stringT['string']} string `Текст`
+ * @arg {...stringT['inserts']} inserts `Подстановки`
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringInsertBypass() {
+export function stringInsertBypass(string, ...inserts) {
 
-    return insertBypass({});
+    return insertBypass({ string, inserts, });
 
 };
 
@@ -4416,6 +5186,104 @@ export function stringInsertBypass() {
  * @function
 */
 function formatUrl(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            urlHost = '127.0.0.1',
+            urlPath,
+            urlPort,
+            urlQuery,
+            urlScheme,
+            urlFragment,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+        urlPath = urlPath ? urlPath = '/' + urlPath.join('/') : '';
+        urlQuery = urlQuery ? urlQuery.filter(param => param.every(elem => elem)).map(param => param.join('=')).join('&') : '';
+        urlFragment = urlFragment ? '#' + urlFragment : '';
+
+        urlQuery && (urlQuery = '?' + urlQuery);
+
+        //#endregion
+        //#region comply
+
+        result = `${urlScheme}://${urlHost}${urlPort}${urlPath}${urlQuery}${urlFragment}`;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### formatUrl
+ * 
+ * Функция получения `URL`.
+ * 
+ * ***
+ * @arg {stringT['urlHost']} urlHost `Хост`
+ * @arg {stringT['urlPort']} urlPort `Порт`
+ * @arg {stringT['urlPath']} urlPath `Путь`
+ * @arg {stringT['urlQuery']} urlQuery `Параметры`
+ * @arg {stringT['urlScheme']} urlScheme `Схема`
+ * @arg {stringT['urlFragment']} urlFragment `Фрагмент`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringFormatUrl(urlScheme, urlHost, urlPort, urlPath, urlQuery, urlFragment) {
+
+    return formatUrl({ urlScheme, urlHost, urlPath, urlPort, urlQuery, urlFragment, });
+
+};
+
+//#endregion
+//#region formatPathOS
+
+/**
+ * ### formatPathOS
+ * 
+ * 
+ * 
+ * ***
+ * @typedef formatPathOST
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatPathOST} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function formatPathOS(args) {
 
     let result;
 
@@ -4464,7 +5332,7 @@ function formatUrl(args) {
 };
 
 /**
- * ### formatUrl
+ * ### stringFormatPathOS
  * 
  * 
  * 
@@ -4477,9 +5345,9 @@ function formatUrl(args) {
  * @version `1.0.0`
  * @function
 */
-export function stringFormatUrl() {
+export function stringFormatPathOS() {
 
-    return formatUrl({});
+    return formatPathOS({});
 
 };
 
@@ -4652,6 +5520,102 @@ function formatText(args) {
 export function stringFormatText() {
 
     return formatText({});
+
+};
+
+//#endregion
+//#region formatCode
+
+/**
+ * ### formatCode
+ * 
+ * 
+ * 
+ * ***
+ * @typedef formatCodeT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatCodeT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function formatCode(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            style,
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        let code = '';
+
+        switch (style) {
+
+            case 'syls': {
+
+
+
+            }; break;
+
+        };
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringFormatCode
+ * 
+ * Функция форматирования текста в код.
+ * 
+ * ***
+ * @arg {stringT['style']} style `Стиль`
+ * @arg {stringT['string']} string `Текст`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringFormatCode(string, style) {
+
+    return formatCode({ string, style, });
 
 };
 
@@ -5000,6 +5964,231 @@ export function stringFormatReport() {
 };
 
 //#endregion
+//#region formatHighlight
+
+/**
+ * ### formatHighlight
+ * 
+ * 
+ * 
+ * ***
+ * @typedef formatHighlightT
+ * @prop {} _
+ * ***
+ * @arg {stringT&formatHighlightT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function formatHighlight(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            style,
+            string,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        /** @type {ansiT['color']} */
+        let colorNum = null;
+        /** @type {ansiT['color']} */
+        let colorText = null
+        /** @type {ansiT['color']} */
+        let colorPunct = null
+        /** @type {ansiT['color']} */
+        let colorOperand = null
+        /** @type {ansiT['color']} */
+        let colorQuote = null;
+        /** @type {ansiT['color']} */
+        let colorQuoteNum = null;
+        /** @type {ansiT['color']} */
+        let colorQuoteText = null;
+
+        let text = '';
+
+        switch (style) {
+
+            case 'rl': {
+
+                colorNum = 'yellow';
+                colorText = 'white';
+                colorPunct = 'white';
+                colorQuote = 'magentaLight';
+                colorOperand = 'red';
+
+            }; break;
+            case 'syls': default: {
+
+                colorNum = 'yellow';
+                colorText = 'cyan';
+                colorPunct = 'white';
+                colorQuote = 'orange';
+                colorOperand = 'red';
+
+                text += ansiCreateColor(null, 'blueDark');
+
+            }; break;
+
+        };
+
+        let charQuote = null;
+
+        let flagText = false;
+        let flagNum = false;
+        let flagQuote = false;
+        let flagOperand = false;
+        let flagQuoteNum = false;
+        let flagQuoteText = false;
+
+        for (const index in string) {
+
+            const char = string[index];
+
+            if (/\p{L}/u.test(char) && !flagText) {
+                
+                flagNum = false;
+                flagText = true;
+                flagOperand = false;
+
+                if (flagQuote) {
+
+                    text += ansiCreateColor(colorQuoteText ?? colorQuote);
+
+                } else {
+
+                    text += ansiCreateColor(colorText);
+
+                };
+
+            } else if (/\d/.test(char) && !flagNum) {
+
+                flagNum = true;
+                flagText = false;
+                flagOperand = false;
+
+                if (flagQuote) {
+
+                    text += ansiCreateColor(colorQuoteNum ?? colorQuote);
+
+                } else {
+
+                    text += ansiCreateColor(colorNum);
+
+                };
+
+            } else if (/"|'/.test(char)) {
+
+                if (flagQuote) {
+
+                    flagQuote = false;
+                    charQuote = null;
+
+                    text += char + ansiCreateColor(colorText);
+
+                    continue;
+
+                } else {
+                
+                    flagQuote = true;
+                    charQuote = char;
+
+                    text += ansiCreateColor(colorQuote);
+
+                };
+
+            } else if (/!|\.|,|:|;/.test(char)) {
+
+                text += ansiCreateColor(colorPunct) + char;
+
+                if (flagText) {
+
+                    text += ansiCreateColor(flagQuote ? colorQuoteText ?? colorQuote : colorText);
+
+                } else if (flagNum) {
+
+                    text += ansiCreateColor(flagQuote ? colorQuoteNum ?? colorQuote : colorNum);
+
+                };
+
+                continue;
+
+            } else if (/\+|\-|\*|:|=|~/.test(char) && flagNum && !flagOperand) {
+
+                flagOperand = true;
+                flagNum = false;
+                flagText = false;
+
+                text += ansiCreateColor(colorOperand);
+
+            };
+
+            text += char;
+
+        };
+
+        text += ansiCreateColorReset();
+
+        result = text;
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringFormatHighlight
+ * 
+ * Функция форматирования для подсветки данных в тексте.
+ * 
+ * ***
+ * @arg {stringT['style']} style `Стиль`
+ * @arg {stringT['string']} string `Текст`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringFormatHighlight(string, style) {
+
+    return formatHighlight({ string, style, });
+
+};
+
+//#endregion
 //#region reverse
 
 /**
@@ -5269,6 +6458,182 @@ export function stringExtract(string, index, indexEnd = string.length) {
 };
 
 //#endregion
+//#region extractByRegExp
+
+/**
+ * ### extractByRegExp
+ * 
+ * 
+ * 
+ * ***
+ * @typedef extractByRegExpT
+ * @prop {} _
+ * ***
+ * @arg {stringT&extractByRegExpT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function extractByRegExp(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+            string,
+            regexp,
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+        const match = string.match(regexp);
+
+        if (!match) return null;
+
+        result = [match[0], stringRemoveRange(string, match.index, match.index + match[0].length - 1)];
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringExtractByRegExp
+ * 
+ * Функция извлечения совпадений из текста по регулярному выражению.
+ * 
+ * ***
+ * @arg {stringT['string']} string `Текст`
+ * @arg {stringT['regexp']} regexp `Выражение`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringExtractByRegExp(string, regexp) {
+
+    return extractByRegExp({ string, regexp, });
+
+};
+
+//#endregion
+//#region extractByRegExpAll
+
+/**
+ * ### extractByRegExpAll
+ * 
+ * 
+ * 
+ * ***
+ * @typedef extractByRegExpAllT
+ * @prop {} _
+ * ***
+ * @arg {stringT&extractByRegExpAllT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function extractByRegExpAll(args) {
+
+    let result;
+
+    try {
+
+        let {
+
+
+
+        } = args;
+
+        //#region verify
+
+
+
+        //#endregion
+        //#region handle
+
+
+
+        //#endregion
+        //#region comply
+
+
+
+        //#endregion
+
+    } catch (err) {
+
+        if (config.params.strictMode) {
+
+            throw err;
+
+        };
+
+
+
+    } finally {
+
+
+
+    };
+
+    return result;
+
+};
+
+/**
+ * ### stringExtractByRegExpAll
+ * 
+ * 
+ * 
+ * ***
+ * 
+ * 
+ * 
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function stringExtractByRegExpAll() {
+
+    return extractByRegExpAll({});
+
+};
+
+//#endregion
 //#region truncate
 
 /**
@@ -5397,47 +6762,109 @@ function generateWord(args) {
         //#endregion
         //#region comply
 
-        let string = '';
+        let word = '';
+        let delimeterNow = '';
 
-        for (const wordGenPart of wordGenParts) {
+        funcLoopRangeIn(wordGenParts, wordGenPart => {
 
             const {
 
-                vols,
-                cots,
+                lang,
+                cots = [],
+                vols = [],
                 chance,
                 prefix,
                 postfix,
-                syllable,
+                syllable = 1,
                 delimeter,
                 capitalize,
 
             } = wordGenPart;
 
-            funcLoopRange(1, syllable, index => {
+            if (chance && numberGetRandomReal(1, 100) <= chance) return;
 
-                const cotsLast = string.at(-1) in cots ? string.at(-1) : null;
+            delimeter && (delimeterNow = delimeter);
 
-                if (numberGetRandomReal(0, 1)) {
+            prefix && (word += prefix);
 
-                    const cotsCopy = cots.slice();
+            let cotLast = cots.includes(word.at(-1)) ? word.at(-1) : '';
 
-                    string += cotsCopy.splice(numberGetRandomReal(0, cotsCopy.length - 1));
-                    string += cotsCopy.splice(numberGetRandomReal(0, cotsCopy.length - 1));
+            switch (lang) {
 
-                } else {
+                case 'ru': funcLoopRange('а'.charCodeAt(), 'я'.charCodeAt(), index => {
 
-                    string += cots[numberGetRandomReal(0, cotsCopy.length - 1)];
+                    const char = String.fromCharCode(index);
+
+                    if (/[аояуиеюйэ]/i.test(char)) {
+
+                        vols.push(char);
+
+                    } else if (/[^ьъ]/i.test(char)) {
+
+                        cots.push(char);
+
+                    };
+
+                }); break;
+                case 'en': funcLoopRange('a'.charCodeAt(), 'z'.charCodeAt(), index => {
+
+                    const char = String.fromCharCode(index);
+
+                    if (/[aeyuoi]/i.test(char)) {
+
+                        vols.push(char);
+
+                    } else {
+
+                        cots.push(char);
+
+                    };
+
+                }); break;
+
+            };
+
+            if (!cots.length && !vols.length) {
+
+                postfix && (word += postfix);
+                capitalize && (word = stringToCaseUp(word));
+                delimeterNow && (word += delimeterNow);
+
+                return;
+
+            };
+
+            if (numberGetRandomReal(0, 1)) word += arrayGetRand(vols);
+
+            funcLoopRangeTo((condIsArray(syllable) ? numberGetRandomReal(...syllable) : syllable) - 1, () => {
+
+                if (cots.length > 2 && numberGetRandomReal(0, 1)) {
+
+                    word += arrayGetRandMany(cots, 2, false, cotLast).join('');
+
+                    cotLast = word.at(-1);
+
+                } else if (cots.length) {
+
+                    cotLast = arrayGetRand(cots, cots.length === 1 ? null : cotLast);
+
+                    word += cotLast;
 
                 };
 
+                word += arrayGetRand(vols);
+
             });
 
-        };
+            postfix && (word += postfix);
+            capitalize && (word = stringToCaseUp(word));
+            delimeterNow && (word += delimeterNow);
 
-        string = stringToCaseUp(string);
+        });
 
-        result = string;
+        delimeterNow && (word = word.slice(0, -delimeterNow.length));
+
+        result = word;
 
         //#endregion
 
@@ -5468,15 +6895,15 @@ function generateWord(args) {
  * 
  * ***
  * @arg {stringT['delimeter']} delimeter `Разделитель`
- * @arg {stringT['wordGenParts']} wordGenParts `Слова`
+ * @arg {...stringT['wordGenPart']} wordGenParts `Слова`
  * ***
  * @since `1.0.0`
  * @version `1.0.0`
  * @function
 */
-export function stringGenerateWord(wordGenParts, delimeter) {
+export function stringGenerateWord(...wordGenParts) {
 
-    return generateWord({ wordGenParts, delimeter, });
+    return generateWord({ wordGenParts, });
 
 };
 

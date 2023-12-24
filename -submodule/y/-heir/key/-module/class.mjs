@@ -227,7 +227,7 @@ export class YKey extends Y {
             /** @type {YArg<YKey&keyTC>} */
             const yarg = args[0] instanceof YArg ? args[0] : new YArg(...args);
             
-            yarg.set(
+            yarg.setFirst(
 
                 ['alt', 'bool'],
                 ['ctrl', 'bool'],

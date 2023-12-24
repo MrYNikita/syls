@@ -1,7 +1,7 @@
 import { YConfig } from "@syls/y/config";
-import configY from "../../../../../-module/config.mjs";
+import configE from "../../e/-module/config.mjs";
 
-/** @type {configY} */
+/** @type {configE} */
 const config = {
     
     
@@ -15,36 +15,11 @@ const config = {
  * ***
  * @public
 */
-export const configEvent = new YConfig(Object.assign(config, {
+export const configEvent = new YConfig({
     
-    /**
-     * ### tactDefault
-     * 
-     * ***
-     * 
-     * Дефолт тактовая частота.
-     * 
-     * *** 
-     * @type {number}
-     * @public
-     * @property
-    */
-    tactDefault: 1,
-    /**
-     * ### hoarderDefault
-     * 
-     * ***
-     * 
-     * Дефолт накопитель.
-     * 
-     * *** 
-     * @type {number}
-     * @public
-     * @property
-    */
-    hoarderDefault: 0,
+    ...config,
     
-}), configY);
+}, configE);
 
 export default configEvent;
 

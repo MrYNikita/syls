@@ -1,14 +1,14 @@
 //#region YI
 
 import { configY as config } from "./config.mjs";
-import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yFill, yForDeep, yGetPropByKeys, ySetClass, ySetProp, ySetPropByKeys, yStat, yTurn } from "./module.mjs";
+import { yAdopt, yAdoptDefault, yClone, yCorrelate, yEqual, yFill, yForDeep, yGetPropByKeys, ySetClass, ySetProp, ySetPropByKeys, yStat, ySupplement, yTurn } from "./module.mjs";
 
 //#endregion
 //#region YT
 
 /** ### yTC
  * @typedef yTC
- * @prop {}
+ * @prop {} 
 */
 
 /** @typedef {import('./module.mjs').yT&yTC} yT */
@@ -136,7 +136,7 @@ export class Y {
         
         const result = [];
 
-        for (const index in args) result[index] = new this(args[index]);
+        for (const index in args) result[index] = new this(...args[index]);
 
         return result;
         
@@ -578,6 +578,25 @@ export class Y {
         return this;
         
     };
+    /**
+     * ### supplement
+     * 
+     * Метод дополнения текущего объекта свойствами из указанного образа.
+     * 
+     * ***
+     * @arg {Y1} image `Образ`
+     * @template Y1
+     * ***
+     * @since `1.0.0`
+     * @version `1.0.0`
+     * @method
+     * @public
+    */
+    supplement(image) {
+        
+        return ySupplement(this, image);
+        
+    };
     
     //#endregion
     
@@ -592,7 +611,7 @@ export class Y {
      * 
      * ***
      * 
-     * @arg {yTC} args `Аргументы`
+     * @arg {...(yTC&import("../-submodule/arg/-module/type.js").argTC)} args `Аргументы`
      * 
      * Представлены единым объектом носителем аргументов.
      * 

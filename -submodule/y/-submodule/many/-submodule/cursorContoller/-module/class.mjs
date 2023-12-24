@@ -4,7 +4,6 @@ import { Y } from '@syls/y';
 import { YCursor } from '../../cursor/-module/class.mjs';
 import { YMany } from '../../../-module/class.mjs';
 import { configCursorContoller as config } from './config.mjs';
-import { argClassify } from '../../../../arg/-module/module.mjs';
 
 //#endregion
 //#region YT
@@ -426,32 +425,32 @@ export class YCursorContoller extends FCursorContoller {
         
     };
 
-    /**
-     * ### selectByIndex
-     * 
-     * ***
-     * 
-     * Метод отбора курсоров по индексам.
-     * 
-     * ***
-     * @arg {number} index `Индекс`
-     * @since `1.0.0`
-     * @method
-     * @public
-    */
-    selectByIndex(index = 0) {
+    // /**
+    //  * ### selectByIndex
+    //  * 
+    //  * ***
+    //  * 
+    //  * Метод отбора курсоров по индексам.
+    //  * 
+    //  * ***
+    //  * @arg {number} index `Индекс`
+    //  * @since `1.0.0`
+    //  * @method
+    //  * @public
+    // */
+    // selectByIndex(index = 0) {
 
-        const args = argClassify(arguments);
-        const result = [];
+    //     const args = argClassify(arguments);
+    //     const result = [];
 
-        let count = 0;
+    //     let count = 0;
 
-        for (const index of args.number.filter((element, index) => index < this.cursors.length)) result[count++] = this.cursors[index];
+    //     for (const index of args.number.filter((element, index) => index < this.cursors.length)) result[count++] = this.cursors[index];
 
-        this.cursors = result;
+    //     this.cursors = result;
 
-        return this;
+    //     return this;
         
-    };
+    // };
     
 };

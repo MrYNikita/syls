@@ -1,8 +1,8 @@
 //#region YI
 
+import { Y } from "@syls/y";
 import { YArg } from "@syls/y/arg";
 import { configWeb as config } from "./config.mjs";
-import { Y } from "@syls/y";
 
 //#endregion
 //#region YT

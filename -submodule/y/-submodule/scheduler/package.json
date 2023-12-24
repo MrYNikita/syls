@@ -20,6 +20,26 @@
         ".": {
             "types": "./-module/type.d.ts",
             "import": "./-module/export.mjs"
+        },
+        "./kit": {
+            "types": "./-submodule/kit/-module/type.d.ts",
+            "import": "./-submodule/kit/-module/export.mjs"
+        },
+        "./event": {
+            "types": "./-submodule/event/-module/type.d.ts",
+            "import": "./-submodule/event/-module/export.mjs"
+        },
+        "./kit/loop": {
+            "types": "./-submodule/kit/-heir/loop/-module/type.d.ts",
+            "import": "./-submodule/kit/-heir/loop/-module/export.mjs"
+        },
+        "./kit/switch": {
+            "types": "./-submodule/kit/-heir/switch/-module/type.d.ts",
+            "import": "./-submodule/kit/-heir/switch/-module/export.mjs"
+        },
+        "./kit/case": {
+            "types": "./-submodule/kit/-submodule/case/-module/type.d.ts",
+            "import": "./-submodule/kit/-submodule/case/-module/export.mjs"
         }
     },
     "scripts": {

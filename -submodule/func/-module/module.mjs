@@ -16,6 +16,7 @@ import { configFunc as config } from './config.mjs';
  * @prop {funcT['funcExec'][]} funcsExec
  * @prop {any} value
  * @prop {any[]} array
+ * @prop {number} ms
  * @prop {number} count
  * @prop {number} indexEnd
  * @prop {number} indexStart
@@ -140,6 +141,91 @@ export function funcExec(...funcsExec) {
 export async function funcExecAsync(...funcsExec) {
 
     return new Promise(resolve => resolve(exec({ funcsExec, })));
+
+};
+
+//#endregion
+//#region pause
+
+/**
+ * ### pause
+ * 
+ * 
+ * 
+ * ***
+ * @typedef pauseT
+ * @prop {} _
+ * ***
+ * @arg {funcT&pauseT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+async function pause(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            ms,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        await new Promise(resolve => setTimeout(() => resolve(), ms));
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### funcPause
+ * 
+ * Функция задержки на указанное количество времени.
+ * 
+ * ***
+ * @arg {funcT['ms']} ms `Милисекунды`
+ * ***
+ * @async
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export async function funcPause(ms = 1000) {
+
+    return pause({ ms, });
 
 };
 
@@ -508,7 +594,21 @@ function loopRange(args) {
         const changeFlagBreak = () => flagBreak = true;
         const changeFlagContinue = () => flagContinue = true;
 
-        for (let index = indexStart; index < indexEnd + 1; index++) {
+        if (indexEnd >= indexStart) for (let index = indexStart; index <= indexEnd; index++) {
+
+            flagContinue = false;
+
+            for (const func of funcsRange) {
+
+                func(index, changeFlagContinue, changeFlagBreak);
+
+                if (flagBreak || flagContinue) break;
+
+            };
+
+            if (flagBreak) break;
+
+        } else if (indexEnd < indexStart) for (let index = indexStart; index >= 0; index--) {
 
             flagContinue = false;
 
@@ -706,112 +806,3 @@ export function funcLoopRangeIn(array, ...funcsRangeIn) {
  * @license Apache-2.0
  * @copyright SYLS (Software Y Lib Solutions) 2023
 */
-
-// //#region bypass 0.0.0
-
-// /** ### funcTFbypass
-//  * - Тип `TF`
-//  * - Версия `0.0.0`
-//  * - Модуль `func`
-//  *
-//  * Результирующие параметры функции `bypass`.
-//  *
-//  * @typedef {funcTFUbypass} funcTFbypass
-//  *
-// */
-// /** ### funcTFUbypass
-//  * - Тип `TFU`
-//  * - Версия `0.0.0`
-//  * - Модуль `func`
-//  *
-//  * Уникальные параметры функции `bypass`.
-//  *
-//  * @typedef funcTFUbypass
-//  * @prop {any} value
-//  * @prop {[function, ...any]} functions
-// */
-
-// /** @arg {funcTFbypass} t */
-// function bypassDeceit(t) {
-
-//     try {
-
-//         return bypassVerify(t);
-
-//     } catch (e) {
-
-//         if (config?.strictMode) {
-
-//             throw e;
-
-//         };
-
-//         return undefined;
-
-//     };
-
-// };
-// /** @arg {funcTFbypass} t */
-// function bypassVerify(t) {
-
-
-
-//     return bypassHandle(t);
-
-// };
-// /** @arg {funcTFbypass} t */
-// function bypassHandle(t) {
-
-
-
-//     return bypassComply(t);
-
-// };
-// /** @arg {funcTFbypass} t */
-// function bypassComply(t) {
-
-//     const {
-
-//         value,
-//         functions,
-
-//     } = t;
-
-//     let result = value;
-
-//     for (const func of functions) {
-
-//         result = func[0](result, ...func.slice(1));
-
-//     };
-
-//     return result;
-
-// };
-
-// /**
-//  * ### funcBypass
-//  * - Версия `0.0.0`
-//  * - Цепочка `DVHCa`
-//  * - Модуль `func`
-//  *
-//  * Функция обхода указанных функций.
-//  *
-//  * Для исходного набора функций создается копия.
-//  * Каждая функция последовательно извлекается из копии.
-//  * Для первой функции в качестве аргументов будут переданы `value` (значение) и все указанные к ней аргументы.
-//  * В отличии от первой, остальные функции будут получать в качестве первого аргумента результат вызова предыдущей функции.
-//  * ***
-//  * @arg {any} value `Значение`
-//  * @arg {...[function, ...any]} functions `Функциональная последовательность`
-//  *
-//  * Представлена массивом, где первый элемент всегда является функцией, которая будет вызываться последовательностью.
-//  * Все прочие элементы будут переданы ей как аргументы.
-// */
-// export function funcBypass(value, ...functions) {
-
-//     return bypassDeceit({ value, functions, });
-
-// };
-
-// //#endregion

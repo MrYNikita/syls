@@ -1,5 +1,6 @@
 //#region YI
 
+import { yEqual } from '../../../-module/module.mjs';
 import { configCond as config } from './config.mjs';
 
 //#endregion
@@ -761,6 +762,272 @@ function isJect(args) {
 export function condIsJect(...jects) {
 
     return isJect({ jects, });
+
+};
+
+//#endregion
+//#region isEqualIn
+
+/**
+ * ### isEqualIn
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isEqualInT
+ * @prop {} _
+ * ***
+ * @arg {condT&isEqualInT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isEqualIn(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            collection,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+
+        if ((!condIsArray(collection) && condIsJect(collection))) collection = Object.keys(collection);
+
+        for (const value of values) for (const elem of collection) if (yEqual(value, elem)) return true;
+
+        result = false;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsEqualIn
+ * 
+ * Функция проверки наличия в коллекции элементов эквивалетным указанным.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * @arg {condT['collection']} collection `Коллекция`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsEqualIn(collection, ...values) {
+
+    return isEqualIn({ collection, values, });
+
+};
+
+//#endregion
+//#region isEqualInAll
+
+/**
+ * ### isEqualInAll
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isEqualInAllT
+ * @prop {} _
+ * ***
+ * @arg {condT&isEqualInAllT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isEqualInAll(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            collections,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const collection of collections) if (!condIsEqualIn(collection, ...values)) return false; 
+
+        result = true;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsEqualInAll
+ * 
+ * Функции проверки наличия во всех коллекциях элементов эквивалентным указанным.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * @arg {condT['collections']} collections `Коллекции`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsEqualInAll(collections, ...values) {
+
+    return isEqualInAll({ collections, values, });
+
+};
+
+//#endregion
+//#region isEqualInOnce
+
+/**
+ * ### isEqualInOnce
+ * 
+ * 
+ * 
+ * ***
+ * @typedef isEqualInOnceT
+ * @prop {} _
+ * ***
+ * @arg {condT&isEqualInOnceT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function isEqualInOnce(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            values,
+            collections,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const collection of collections) if (condIsEqualIn(collection, ...values)) return true;
+
+        return false;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### condIsEqualInOnce
+ * 
+ * Функции проверки наличия элементов эквивалентным указанным хотя бы в одной из коллекций.
+ * 
+ * ***
+ * @arg {...condT['value']} values `Значения`
+ * @arg {condT['collections']} collections `Коллекции`
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function condIsEqualInOnce(collections, ...values) {
+
+    return isEqualInOnce({ collections, values, });
 
 };
 

@@ -21,7 +21,6 @@
             "types": "./-module/type.d.ts",
             "import": "./-module/export.mjs"
         },
-
         "./sag": {
             "types": "./-heir/sag/-module/type.d.ts",
             "import": "./-heir/sag/-module/export.mjs"
@@ -30,10 +29,13 @@
             "types": "./-submodule/sag/-submodule/being/-module/type.d.ts",
             "import": "./-submodule/sag/-submodule/being/-module/export.mjs"
         },
-
         "./mafia": {
             "types": "./-heir/mafia/-module/type.d.ts",
             "import": "./-heir/mafia/-module/export.mjs"
+        },
+        "./router": {
+            "types": "./-submodule/router/-module/type.d.ts",
+            "import": "./-submodule/router/-module/export.mjs"
         }
     },
     "scripts": {

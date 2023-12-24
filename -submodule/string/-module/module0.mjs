@@ -5,7 +5,7 @@ import { funcBypass } from '@syls/func';
 import { yGetProp } from '@syls/y';
 import { dateGetMesuares } from '@syls/y/date';
 import { condIsNumberSig, condIsString } from '@syls/y/cond';
-import { argClassify } from '@syls/y/arg';
+// import { argClassify } from '@syls/y/arg';
 // import { arrayGetDevideByCount, arrayJoin } from '@syls/array';
 
 //#endregion
@@ -2881,7 +2881,7 @@ function pasteHandle(t) {
 
     } = t;
 
-    const args = argClassify(t);
+    // const args = argClassify(t);
 
     if (args.arrayNumber.length) {
 
@@ -3382,7 +3382,7 @@ function appendHandle(t) {
 
     } = t;
 
-    const args = argClassify(t);
+    // const args = argClassify(t);
 
     if (args.arrayNumber.length) {
 
@@ -3733,7 +3733,7 @@ function removeHandle(t) {
 
     } = t;
 
-    const args = argClassify(t);
+    // const args = argClassify(t);
 
     if (args.arrayNumber.length) {
 

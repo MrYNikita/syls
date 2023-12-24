@@ -2193,7 +2193,9 @@ function equal(args) {
         //#endregion
         //#region comply
 
-        for (const step of yForDeep(jects.pop())) {
+        const example = jects.pop();
+
+        if (['function', 'object'].includes(typeof example)) for (const step of yForDeep(example)) {
 
             let flag = false;
 
@@ -2205,11 +2207,20 @@ function equal(args) {
 
                 flag = true;
                 result = false;
+                
                 break;
 
             };
 
             if (flag) break;
+
+        } else for (const ject of jects) {
+
+            if (ject === example) continue;
+
+            result = false;
+
+            break;
 
         };
 
@@ -3045,6 +3056,97 @@ function subscribe(args) {
 export function ySubscribe(lead, trap, ...followers) {
 
     return subscribe({ lead, trap, followers, });
+
+};
+
+//#endregion
+//#region supplement
+
+/**
+ * ### supplement
+ * 
+ * 
+ * 
+ * ***
+ * @typedef supplementT
+ * @prop {} _
+ * ***
+ * @arg {yT&supplementT} args `Аргументы`
+ * *** 
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+function supplement(args) {
+    
+    let result;
+    
+    try {
+        
+        let {
+            
+            image,
+            target,
+            
+        } = args;
+        
+        //#region verify
+        
+        
+        
+        //#endregion
+        //#region handle
+        
+        
+        
+        //#endregion
+        //#region comply
+        
+        for (const key in image) target[key] = image[key];
+
+        result = target;
+        
+        //#endregion
+        
+    } catch (err) {
+        
+        if (config.params.strictMode) {
+            
+            throw err;
+            
+        };
+        
+        
+        
+    } finally {
+        
+        
+        
+    };
+    
+    return result;
+    
+};
+
+/**
+ * ### ySupplement
+ * 
+ * Функция дополнения цели свойствами из образа.
+ * 
+ * ***
+ * @arg {Y1} target `Цель`
+ * @arg {Y2} image `Образ`
+ * @returns {Y1&Y2}
+ * @template Y1
+ * @template Y2
+ * ***
+ * @since `1.0.0`
+ * @version `1.0.0`
+ * @function
+*/
+export function ySupplement(target, image) {
+
+    return supplement({ target, image, });
 
 };
 
